@@ -1,0 +1,94 @@
+# weexui
+>  npm
+ 
+    npm install
+	npm run dev
+	npm run build
+	npm run build --report
+
+## css命名介绍
+1、安装依赖
+
+> 全局使用scss
+
+	npm install sass-loader node-sass vue-style-loader --save-dev
+    npm install -g node-sass
+
+> 全局使用jade
+
+    npm install pug pug-loader pug-filters --save-dev
+    npm install jade jade-loader --save-dev
+
+
+2、在webpack.base.config.js中
+	
+	{  
+       test: /\.scss$/,
+       loaders: ["style", "css", "sass"]
+    },
+	{
+      test: /\.jade$/,
+      loader: "jade"
+    },
+    {
+      test: /\.pug$/,
+      loader: 'pug'
+    },
+
+3、.vue中 
+
+	<template lang="jade"></template>
+	<style lang="scss"></style>
+
+----------
+
+	@include Bg();
+	
+	@for $i from 1 through 6 {
+      > li:nth-child(#{$i}){
+        @include Bg("sc_" + $i + ".png", rem2px(160), rem2px(35));
+        background-size: 100%;
+      }
+    }
+
+	单个：
+		@extend %flex;
+	多个：
+		@extend %flex，%aitems;
+1. @extend %flex   		===> display:flex
+2. @extend %aitems 		===> align-items: center;
+3. @extend %jcontent 	===> justify-content: center;
+4. @extend %fdr 		===> flex-direction: row;
+5. @extend %fdc			===> flex-direction: column;
+6. @extend %fr			===> flex-wrap:wrap;
+7. @extend %faj			===> display:flex; align-items:center; justify-content:center;
+
+## vscode 
+# 用户设置 #
+    {
+	  //表示打开新的无标题文档(仅打开一个空工作区)。
+	  "workbench.startupEditor": "newUntitledFile",
+	  // 以像素为单位控制字号。
+	  "editor.fontSize": 16,
+	  // 通过使用鼠标滚轮同时按住 Ctrl 可缩放编辑器的字体
+	  "editor.mouseWheelZoom": true,
+	  // 控制工作台中的树控件是否支持水平滚动。
+	  "workbench.tree.horizontalScrolling": true,
+	  // 指定工作台中使用的颜色主题。
+	  "workbench.colorTheme": "Default Dark+",
+	  "prettier.tabWidth": 2,
+	  "vetur.format.defaultFormatter.html": "js-beautify-html",
+	  "vsicons.presets.hideFolders": true,
+	  "workbench.iconTheme": "vscode-icons",
+	}
+
+# 插件 #
+1. Auto Close Tag
+2. Auto Rename Tag
+3. Beautify
+4. Color Highlight
+5. Document This
+6. IntelliSense for CSS class name
+7. Vetur
+8. vscode-icons
+

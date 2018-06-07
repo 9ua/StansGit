@@ -1,0 +1,32 @@
+@import "../minix/main.scss";
+html {
+  font-size: 100px;
+}
+
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: #bdc0ba;
+  #id {
+    font-size: 14px;
+  }
+}
+
+p {
+  margin: 0;
+  background: $red;
+}
+
+.ul {
+  @for $i from 1 through 6 {
+    & li:nth-child(#{$i}) {
+      @include iBg('n'+$i+".png", rem2px(34), rem2px(34));
+    }
+  }
+}
