@@ -1,21 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import pageindex from '@/components/page/pageindex'
-const pageindex = r => require.ensure([], () => r(require('@/components/page/pageindex')), 'pageindex')
-const pagedetails = r => require.ensure([], () => r(require('@/components/page/pagedetails')), 'pagedetails')
+const sy = r => require.ensure([], () => r(require('@/components/page/sy.vue')), 'sy')
+const login = r => require.ensure([], () => r(require('@/components/login.vue')), 'login')
+const pop = r => require.ensure([], () => r(require('@/components/public/pop.vue')), 'pop')
 Vue.use(Router)
 export default new Router({
-  mode: 'history',
-  routes: [
-    {
+  mode:'history',
+  routes: [{
       path: '/',
-      name: 'pageindex',
-      component: pageindex
+      name: 'sy',
+      component: sy,
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
-      path: 'pagedetails',
-      name: 'pagedetails',
-      component: pagedetails
+      path: '/login',
+      name: 'login',
+      component: login,
     },
   ]
-})
+});
+
+

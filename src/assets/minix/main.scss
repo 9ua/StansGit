@@ -8,7 +8,9 @@ $desw:750;
   height: $height;
   width: $width;
 }
-
+@mixin loginBg($pic){
+  background: url('../assets/img/login/'+$pic) no-repeat;
+}
 %flex {
   display: -webkit-box;
   display: -webkit-flex;
@@ -81,8 +83,4 @@ $desw:750;
   justify-content: center;
 }
 
-$red:red;
-$bc:#d5d5d5;
-$gr:#858585;
-$color_1:#57411e;
-$color_2:#e4a941;
+

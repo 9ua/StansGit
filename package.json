@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "lib-flexible": "^0.3.2",
-    "muse-ui": "^3.0.0-beta.2",
-    "px2rem-loader": "^0.1.9",
+    "babel-polyfill": "^6.26.0",
+    "import": "0.0.6",
+    "js-md5": "^0.7.3",
+    "muse-ui": "^3.0.0-beta.3",
     "vue": "^2.5.2",
+    "vue-axios": "^2.1.1",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },

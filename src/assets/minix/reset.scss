@@ -1,37 +1,65 @@
-a,
-a:focus,
-a:active,
-a:hover,
-a:visited {
-  border: none;
-  text-decoration: none;
-}
-
+html,
+body,
 #app {
-  font-family: 'Microsoft YaHei' !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
   width: 100%;
   height: 100%;
-  position: relative;
-  margin: 0 auto;
+  overflow: hidden;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  font-size: 12px;
+  font-family: "微软雅黑";
 }
 
 body,
-div,
-html,
-p,
-li {
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
-  padding: 0;
 }
 
-li {
+
+img {
+  vertical-align: bottom;
+  border: none;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
-:root {
-  background-color: #222222;
+strong,
+b,
+th {
+  font-weight: normal;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+input {
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+
+textarea {
+  resize: none;
+  overflow: auto;
 }
