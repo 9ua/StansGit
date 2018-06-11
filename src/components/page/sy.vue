@@ -1,6 +1,8 @@
 <template>
   <div class="sy">
     <button @click="logOut">退出</button>
+    <button @click="alert">alert</button>
+    <button @click="message">message</button>
   </div>
 </template>
 <script>
@@ -16,7 +18,12 @@ export default {
       this.OUT_LOGIN();
       this.$router.push({ name: "login" });
     },
-    
+    alert(){
+      this.$alert("alert");
+    },
+    message(){
+      this.$message("message");
+    },
   }
 };
 </script>

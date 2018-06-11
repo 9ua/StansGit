@@ -77,8 +77,10 @@ export default {
         .post(baseUrl + "/api/user/login", formData, this.$store.state.config)
         .then(res => {
           if (res.data.message === "success") {
+            this.$message("登陆成功！");
             this.$store.state.loginStatus = true;
             localStorage.setItem("loginStatus", this.$store.state.loginStatus);
+            
             this.$router.push({ name: "sy" });
             this.RECORD_USERINFO(this.validateForm);
           }
