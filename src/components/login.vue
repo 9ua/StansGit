@@ -64,7 +64,6 @@ export default {
     getCaptchaCode() {
       this.newDate = new Date().getTime();
       this.captchaCodeImg = baseUrl + "/code.jpg?_=" + this.newDate;
-      console.log(this.captchaCodeImg);
     },
     ...mapMutations(["RECORD_USERINFO"]),
     tosubmit() {
@@ -80,8 +79,9 @@ export default {
             this.$message("登陆成功！");
             this.$store.state.loginStatus = true;
             localStorage.setItem("loginStatus", this.$store.state.loginStatus);
-            
-            this.$router.push({ name: "sy" });
+            setTimeout(() => {
+              this.$router.push({ name: "sy" });
+            },1000);
             this.RECORD_USERINFO(this.validateForm);
           }
           if (res.data.data.errCount >= 3) {

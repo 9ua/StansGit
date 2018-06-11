@@ -1,13 +1,22 @@
 <template>
   <div class="sy">
-    <button @click="logOut">退出</button>
+    <div class="hfBox">
+      <div>top</div>
+      <div>nav</div>
+    </div>
+    <!-- <button @click="logOut">退出</button>
     <button @click="alert">alert</button>
     <button @click="message">message</button>
+    <div class="haaa">
+      <mu-ripple class="mu-ripple-demo" color="red" :opacity="0.1">
+        Click Me
+      </mu-ripple>
+    </div> -->
   </div>
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
-import {setCookie,getCookie,clearCookie} from '../../assets/js/utils';
+import { setCookie, getCookie, clearCookie } from "../../assets/js/utils";
 export default {
   data() {
     return {};
@@ -18,12 +27,15 @@ export default {
       this.OUT_LOGIN();
       this.$router.push({ name: "login" });
     },
-    alert(){
+    alert() {
       this.$alert("alert");
     },
-    message(){
+    message() {
       this.$message("message");
-    },
+    }
   }
 };
 </script>
+<style lang="scss" scoped>
+@import "../../assets/scss/sy.scss";
+</style>
