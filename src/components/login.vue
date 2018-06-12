@@ -11,12 +11,17 @@
             <mu-form-item prop="password" :rules="passwordRules">
               <mu-text-field icon="locked" :type="visibility ? 'text' : 'password'" :action-icon="visibility ? 'visibility_off' : 'visibility'" :action-click="() => (visibility = !visibility)" v-model="validateForm.password" prop="password"></mu-text-field>
             </mu-form-item>
-            <mu-form-item prop="captcha_code" :rules="captcha_codeRules" v-show='errorcode'>
+            <mu-form-item prop="captcha_code" :rules="captcha_codeRules" v-show='true'>
               <mu-text-field labelWidth="100%" icon="account_circle" v-model="validateForm.captcha_code" prop="captcha_code"></mu-text-field>
               <img :src="captchaCodeImg" @click='getCaptchaCode'>
             </mu-form-item>
             <mu-form-item prop="isAgree" style="padding-left:18px;">
               <mu-checkbox label="记住密码" v-model="validateForm.isAgree"></mu-checkbox>
+              <div class="isAgreeGo">
+                <span @click="openSimpleDialog">立即注册</span>
+                <b>|</b>
+                <span>忘记密码？</span>
+              </div>
             </mu-form-item>
             <mu-form-item>
               <mu-button color="primary" labelWidth="100%" @click="submit">提交</mu-button>
@@ -25,6 +30,12 @@
         </mu-container>
       </div>
     </div>
+    <mu-container>
+      <mu-dialog width="460" :open.sync="openSimple">
+        <div>ss</div>
+        <mu-button slot="actions" color="primary" labelWidth="100%" @click="closeSimpleDialog">提交</mu-button>
+      </mu-dialog>
+    </mu-container>
   </div>
 </template>
 <script>
@@ -34,10 +45,11 @@ import { baseUrl } from "../assets/js/env";
 export default {
   data() {
     return {
+      openSimple: false,
       visibility: false,
       captchaCodeImg: "",
-      newDate: null,//时间戳
-      errorcode:false,//判断账号密码错误次数
+      newDate: null, //时间戳
+      errorcode: false, //判断账号密码错误次数
       usernameRules: [
         { validate: val => !!val, message: "用户名不能为空！" },
         { validate: val => val.length >= 6, message: "用户名长度大于6" }
@@ -61,6 +73,12 @@ export default {
     };
   },
   methods: {
+    openSimpleDialog() {
+      this.openSimple = true;
+    },
+    closeSimpleDialog() {
+      this.openSimple = false;
+    },
     getCaptchaCode() {
       this.newDate = new Date().getTime();
       this.captchaCodeImg = baseUrl + "/code.jpg?_=" + this.newDate;
@@ -80,7 +98,7 @@ export default {
             this.$message("登陆成功！");
             this.$store.state.loginStatus = true;
             localStorage.setItem("loginStatus", this.$store.state.loginStatus);
-            
+
             this.$router.push({ name: "sy" });
             this.RECORD_USERINFO(this.validateForm);
           }

@@ -23,9 +23,7 @@
         }
     }
 }
-.mu-form-item-content{
-    position: relative;
-}
+
 .mu-form-item-content img{
     position: absolute;
     top:0px;
@@ -38,4 +36,18 @@
 }
 .mu-form-item .mu-button{
     width: 100%;
+}
+.isAgreeGo{
+    position: absolute;
+    right: 0px;
+    font-size: 14px;
+    & b{
+        margin:0px 10px;
+    }
+    & span{
+        cursor:pointer;
+    }
+    & span:nth-child(1){
+        color: #AF3A31;
+    }
 }
