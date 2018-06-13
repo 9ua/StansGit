@@ -4,14 +4,16 @@
       <div>top</div>
       <div>nav</div>
     </div>
-    <!-- <button @click="logOut">退出</button>
+    <button @click="logOut">退出</button>
     <button @click="alert">alert</button>
     <button @click="message">message</button>
-    <div class="haaa">
+    <!-- <div class="haaa">
       <mu-ripple class="mu-ripple-demo" color="red" :opacity="0.1">
         Click Me
       </mu-ripple>
     </div> -->
+    <yd-backtop></yd-backtop>
+    <p style="text-align:justify;width:300px;">只够哈哈中中中中中中<i style="display:inline-block;width:100%;"></i></p>
   </div>
 </template>
 <script>
@@ -25,7 +27,7 @@ export default {
     ...mapMutations(["OUT_LOGIN"]),
     logOut() {
       this.OUT_LOGIN();
-      this.$router.push({ name: "login" });
+      this.$router.push({ name: "login",query:{id:'ashore'} });
     },
     alert() {
       this.$alert("alert");

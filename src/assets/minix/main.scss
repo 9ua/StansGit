@@ -9,7 +9,7 @@ $desw:750;
   width: $width;
 }
 @mixin loginBg($pic){
-  background: url('../assets/img/login/'+$pic) no-repeat;
+  background: url('../../assets/img/login/'+$pic) no-repeat;
 }
 %flex {
   display: -webkit-box;
