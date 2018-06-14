@@ -1,0 +1,13 @@
+@import '@/assets/minix/main.scss';
+.haaa {
+  @extend %flex;
+  height: 40px;
+  & .mu-ripple-demo {
+    @extend %flex;
+    height: 40px;
+    & .mu-ripple-wrapper{
+      @extend %flex;
+      height: 40px !important;
+    }
+  }
+}
