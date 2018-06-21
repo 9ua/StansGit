@@ -85,14 +85,21 @@
         & li:hover {
           background: #ED635D;
         }
-        .router-link-exact-active.router-link-active{
+        .router-link-exact-active.router-link-active {
           background: #ED635D;
         }
       }
     }
   }
+  .content {
+    margin-top: 15px;
+    & .center {
+      width: 1000px;
+      margin: 0 auto;
+      min-height: 462px;
+    }
+  }
 }
-
 
 .footer {
   width: 100%;
@@ -143,7 +150,7 @@
           color: #666874;
           margin: 0px 4px;
         }
-        & .el-progress{
+        & .el-progress {
           min-width: 160px;
           margin-left: 10px;
         }
