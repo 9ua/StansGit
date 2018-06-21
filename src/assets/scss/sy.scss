@@ -1,13 +1,178 @@
 @import '@/assets/minix/main.scss';
-.haaa {
-  @extend %flex;
-  height: 40px;
-  & .mu-ripple-demo {
+#app {
+  background: #FFF;
+}
+
+.header-box {
+  width: 1000px;
+  margin: 0 auto;
+  .header-top {
+    height: 32px;
     @extend %flex;
-    height: 40px;
-    & .mu-ripple-wrapper{
+    @extend %aitems;
+    @extend %sbetween;
+    & ul {
+      height: 100%;
       @extend %flex;
-      height: 40px !important;
+      @extend %aitems;
+      & li {
+        @extend %flex;
+        @extend %aitems;
+      }
+    }
+    & .header-top-nologin {
+      @extend %flex;
+      & li {
+        margin-left: 10px;
+        & a:hover {
+          color: #FE7A12;
+        }
+      }
+    }
+    & .header-top-login {
+      @extend %flex;
+      & li {
+        margin-left: 10px;
+        & img {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          margin-right: 6px;
+          cursor: pointer;
+        }
+        & a:hover {
+          color: #FE7A12;
+        }
+      }
+    }
+  }
+}
+
+.content-box {
+  .navs-box {
+    width: 100%;
+    height: 60px;
+    background: rgb(175, 58, 49);
+    & .navs {
+      width: 1000px;
+      height: 60px;
+      margin: 0 auto;
+      @extend %flex;
+      @extend %aitems;
+      @extend %sbetween;
+      & .login {
+        @extend %flex;
+        @extend %aitems;
+        height: 60px;
+        & a {
+          width: 133px;
+          height: 48px;
+        }
+      }
+      & ul {
+        height: 100%;
+        @extend %flex;
+        @extend %aitems;
+        & li {
+          @extend %flex;
+          @extend %aitems;
+          height: 100%;
+          font-size: 14px;
+          color: #FFF;
+          padding: 0px 28px;
+          cursor: pointer;
+        }
+        & li:hover {
+          background: #ED635D;
+        }
+        .router-link-exact-active.router-link-active{
+          background: #ED635D;
+        }
+      }
+    }
+  }
+}
+
+
+.footer {
+  width: 100%;
+  height: 158px;
+  border-top: 1px solid #DCE1E5;
+  border-bottom: 1px solid #DCE1E5;
+  background: #F8F8F8;
+  & .footer-maxwidth {
+    width: 1000px;
+    height: 158px;
+    margin: 0 auto;
+    @extend %flex;
+    @extend %aitems;
+    @extend %sbetween;
+    & .title {
+      color: #666666;
+      font-size: 22px;
+      margin-bottom: 24px;
+      font-weight: 700;
+      & span {
+        color: #B8B8BA;
+        margin-left: 12px;
+        font-size: 16px;
+        font-weight: 400;
+      }
+    }
+    & .footer-left {
+      & .footer-left-content {
+        @extend %flex;
+        @extend %aitems;
+        @extend %sbetween;
+        & p {
+          @include homeBg("yun.jpg", 90px, 56px);
+        }
+        & div {
+          @extend %faj;
+          @extend %fdc;
+          font-size: 16px;
+          margin-left: 10px;
+        }
+      }
+    }
+    & .footer-middle {
+      & .footer-middle-content {
+        & b {
+          font-size: 20px;
+          font-weight: 700;
+          color: #666874;
+          margin: 0px 4px;
+        }
+        & .el-progress{
+          min-width: 160px;
+          margin-left: 10px;
+        }
+        & .footer-middle-content1 {
+          @extend %flex;
+          @extend %aitems;
+          @extend %sbetween;
+          color: #666666;
+        }
+        & .footer-middle-content2 {
+          @extend %flex;
+          @extend %aitems;
+          @extend %sbetween;
+          color: #666666;
+        }
+      }
+    }
+    & .footer-right {
+      & .footer-right-content {
+        @extend %flex;
+        @extend %aitems;
+        @extend %sbetween;
+        @for $i from 1 through 3 {
+          >span:nth-child(#{$i}) {
+            @include homeBg("L" + $i + ".png", 73px, 44px);
+            background-size: 100% 100%;
+          }
+        }
+      }
     }
   }
 }
