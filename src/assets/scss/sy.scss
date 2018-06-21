@@ -2,7 +2,9 @@
 #app {
   background: #FFF;
 }
-
+.sy{
+  background: #FFF;
+}
 .header-box {
   width: 1000px;
   margin: 0 auto;
@@ -92,10 +94,9 @@
     }
   }
   .content {
-    margin-top: 15px;
+    width: 100%;
+    height: 100%;
     & .center {
-      width: 1000px;
-      margin: 0 auto;
       min-height: 462px;
     }
   }
@@ -181,5 +182,30 @@
         }
       }
     }
+  }
+}
+
+.mainWidth-buttom {
+  @extend %faj;
+  @extend %fdc;
+  height: 104px;
+  & ul {
+    @extend %flex;
+    @extend %aitems;
+    height: 34px;
+    & li{
+      font-size: 14px;
+      & span{
+        color: #99B5D7;
+        margin: 0px 10px;
+      }
+    }
+    & li a:hover{
+      color: #FE7A12;
+    }
+  }
+  & p {
+    font-size: 16px;
+    color: #999999;
   }
 }

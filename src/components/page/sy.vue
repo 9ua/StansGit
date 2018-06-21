@@ -5,9 +5,15 @@
         <div class="header-top">
           <p>Hi,欢迎来到宏發娛樂！</p>
           <ul class="header-top-nologin" v-show="!loginStatus">
-            <router-link to="" tag="li"><a href="javascript:;">亲，请登陆</a></router-link>
-            <router-link to="" tag="li"><a href="javascript:;">用户注册</a></router-link>
-            <router-link to="" tag="li"><a href="javascript:;">在线客服</a></router-link>
+            <router-link to="" tag="li">
+              <a href="javascript:;">亲，请登陆</a>
+            </router-link>
+            <router-link to="" tag="li">
+              <a href="javascript:;">用户注册</a>
+            </router-link>
+            <router-link to="" tag="li">
+              <a href="javascript:;">在线客服</a>
+            </router-link>
           </ul>
           <ul class="header-top-login" v-show="loginStatus">
             <router-link to="" tag="li"><img src="../../assets/img/header/1.jpg" alt="">
@@ -50,7 +56,6 @@
         <div class="center">
           <router-view></router-view>
         </div>
-        
       </div>
     </div>
     <footer-bar></footer-bar>
@@ -70,10 +75,10 @@ export default {
         { title: "手机购彩", path: "/appdown" },
         { title: "帮助指南", path: "/helpcenter" }
       ],
-      loginStatus:false
+      loginStatus: false
     };
   },
-  mounted(){
+  mounted() {
     this.loginSt();
   },
   methods: {
@@ -82,9 +87,8 @@ export default {
       this.OUT_LOGIN();
       this.$router.push({ name: "login", query: { id: "ashore" } });
     },
-    loginSt(){
-
-      this.loginStatus = localStorage.getItem('loginStatus');
+    loginSt() {
+      this.loginStatus = localStorage.getItem("loginStatus");
     }
   },
   components: {

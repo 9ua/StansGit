@@ -8,6 +8,26 @@ $desw:750;
   height: $height;
   width: $width;
 }
+@mixin lottBg($pic, $width, $height) {
+  background: url('../../assets/img/lott/'+$pic) no-repeat;
+  height: $height;
+  width: $width;
+}
+@mixin activityBg($pic, $width, $height) {
+  background: url('../../assets/img/activity/'+$pic) no-repeat;
+  height: $height;
+  width: $width;
+}
+@mixin appdownBg($pic, $width, $height) {
+  background: url('../../assets/img/appdown/'+$pic) no-repeat;
+  height: $height;
+  width: $width;
+}
+@mixin helpcenterBg($pic, $width, $height) {
+  background: url('../../assets/img/helpcenter/'+$pic) no-repeat;
+  height: $height;
+  width: $width;
+}
 @mixin loginBg($pic){
   background: url('../../assets/img/login/'+$pic) no-repeat;
 }
