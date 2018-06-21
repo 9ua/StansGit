@@ -10,4 +10,7 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/minix/reset.scss";
+.mu-raised-button .mu-button-wrapper{
+  color: #eee;
+}
 </style>

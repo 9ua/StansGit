@@ -3,13 +3,13 @@ $desw:750;
   @return $px*320/$desw/20+rem;
 }
 
-@mixin iBg($pic, $width, $height) {
-  background: url('assets/img/'+$pic) no-repeat;
+@mixin homeBg($pic, $width, $height) {
+  background: url('../../assets/img/home/'+$pic) no-repeat;
   height: $height;
   width: $width;
 }
 @mixin loginBg($pic){
-  background: url('../assets/img/login/'+$pic) no-repeat;
+  background: url('../../assets/img/login/'+$pic) no-repeat;
 }
 %flex {
   display: -webkit-box;

@@ -12,7 +12,10 @@ import theme from 'muse-ui/lib/theme';
 import md5 from 'js-md5';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import YDUI from 'vue-ydui';
+import 'vue-ydui/dist/ydui.px.css';
 
+Vue.use(YDUI);
 Vue.use(ElementUI);
 Vue.use(MuseUI);
 Vue.config.productionTip = false;

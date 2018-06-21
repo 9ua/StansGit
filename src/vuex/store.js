@@ -15,7 +15,7 @@ const state = {
   },
   loginStatus: false, //是否登录
   userInfo: null, //用户信息
-  imgPath:null,//头像地址
+  imgPath: null, //头像地址
 };
 
 export default new Vuex.Store({
