@@ -1,4 +1,96 @@
 @import '@/assets/minix/main.scss';
 .lott {
-  margin-top: 15px;
+  background: #E6E6E6;
+  padding: 15px;
+  min-height: 462px;
+  & .lottBox {
+    width: 1000px;
+    margin: 0 auto;
+    & .lotteryLine {
+      width: 100%;
+      height: 15px;
+      background: -webkit-linear-gradient(180deg, #7a7a7a 0, #c3c4c3);
+    }
+    & .fix::before {
+      content: "";
+      display: table;
+    }
+  }
+}
+
+.lotteBox-top {
+  @extend %flex;
+}
+
+.lotteList {
+  background: #FFF;
+  & .lotteList-top {
+    height: 40px;
+    background: #455467;
+    & ul {
+      @extend %flex;
+      padding-left: 15px;
+      & li {
+        @extend %faj;
+        height: 40px;
+        color: #FFF;
+        width: 100px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      & li.active {
+        background: #FFF;
+        border-radius: 5px 5px 0px 0px;
+        margin-top: 3px;
+        height: 37px;
+        color: #455467;
+      }
+    }
+  }
+  & .lotteList-bott {
+    padding: 10px;
+    & ul {
+      @extend %flex;
+      @extend %fr;
+      & li {
+        @extend %faj;
+        margin: 10px;
+        width: 223px;
+        height: 100px;
+        border: 1px solid #e3e3e3;
+        position: relative;
+        box-shadow: 1px 1px 1px #8a8a8a;
+        & .Nopop {
+          @extend %flex;
+          @extend %aitems;
+          width: 100%;
+          color: #516073;
+          & img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0px 20px;
+          }
+          & div {
+            font-size: 16px;
+          }
+        }
+        & .pop {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 223px;
+          height: 100px;
+          @extend %faj;
+          background: #455467;
+          & span {
+            border: 1px solid #dfdfdf;
+            color: #dfdfdf;
+            padding: 10px 26px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
 }

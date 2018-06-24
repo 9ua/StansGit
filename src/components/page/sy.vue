@@ -70,7 +70,7 @@ export default {
     return {
       navs: [
         { title: "首页", path: "/home" },
-        { title: "彩票大厅", path: "/lott" },
+        { title: "彩票大厅", path: "/lott/lottery/index" },
         { title: "活动中心", path: "/activity" },
         { title: "手机购彩", path: "/appdown" },
         { title: "帮助指南", path: "/helpcenter" }

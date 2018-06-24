@@ -1,0 +1,71 @@
+@import '@/assets/minix/main.scss';
+.lott {
+  margin-top: 15px;
+  & .lott-center {
+    width: 1000px;
+    margin: 0 auto;
+    border: 1px solid #e6e6e6;
+    padding: 14px;
+  }
+}
+
+.lott-top {
+  background: #F5F5F5;
+  height: 110px;
+  border-radius: 10px;
+  padding: 20px 0px;
+  @extend %flex;
+  & .lott-top-left {
+    @extend %faj;
+    width: 272px;
+    & img {
+      width: 66px;
+      height: 66px;
+    }
+    & span {
+      color: #404040;
+      font-weight: 700;
+      font-size: 26px;
+      margin-left: 10px;
+    }
+  }
+  & .lott-top-middle {
+    width: 300px;
+    border: 1px solid rgba(190, 71, 81, .3);
+    border-top: 0px solid rgba(190, 71, 81, .3);
+    border-bottom: 0px solid rgba(190, 71, 81, .3);
+    & p {
+      @extend %faj;
+      font-size: 14px;
+    }
+    & div {
+      @extend %faj;
+      font-size: 36px;
+      font-weight: 700;
+    }
+  }
+  & .lott-top-right {
+    width: 400px;
+    & p {
+      @extend %faj;
+      font-size: 14px;
+    }
+    & div {
+      @extend %faj;
+      font-size: 36px;
+      font-weight: 700;
+    }
+  }
+}
+
+.lottBox {
+  @extend %flex;
+  margin-top: 10px;
+  .lott-left {
+    width: 728px;
+  }
+  .lott-right {
+    width: 240px;
+    border: 1px solid #e6e6e6;
+  }
+}

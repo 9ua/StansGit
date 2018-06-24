@@ -1,10 +1,14 @@
 @import '@/assets/minix/main.scss';
 #app {
   background: #FFF;
+  overflow: scroll;
+  overflow-x: hidden;
 }
-.sy{
+
+.sy {
   background: #FFF;
 }
+
 .header-box {
   width: 1000px;
   margin: 0 auto;
@@ -193,14 +197,14 @@
     @extend %flex;
     @extend %aitems;
     height: 34px;
-    & li{
+    & li {
       font-size: 14px;
-      & span{
+      & span {
         color: #99B5D7;
         margin: 0px 10px;
       }
     }
-    & li a:hover{
+    & li a:hover {
       color: #FE7A12;
     }
   }
