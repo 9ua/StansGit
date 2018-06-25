@@ -3,8 +3,28 @@ $desw:750;
   @return $px*320/$desw/20+rem;
 }
 
-@mixin iBg($pic, $width, $height) {
-  background: url('assets/img/'+$pic) no-repeat;
+@mixin homeBg($pic, $width, $height) {
+  background: url('../../assets/img/home/'+$pic) no-repeat;
+  height: $height;
+  width: $width;
+}
+@mixin lottBg($pic, $width, $height) {
+  background: url('../../assets/img/lott/'+$pic) no-repeat;
+  height: $height;
+  width: $width;
+}
+@mixin activityBg($pic, $width, $height) {
+  background: url('../../assets/img/activity/'+$pic) no-repeat;
+  height: $height;
+  width: $width;
+}
+@mixin appdownBg($pic, $width, $height) {
+  background: url('../../assets/img/appdown/'+$pic) no-repeat;
+  height: $height;
+  width: $width;
+}
+@mixin helpcenterBg($pic, $width, $height) {
+  background: url('../../assets/img/helpcenter/'+$pic) no-repeat;
   height: $height;
   width: $width;
 }

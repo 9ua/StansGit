@@ -117,7 +117,23 @@
 	getCookie("key")
 	clearCookie("key")
 
+<<<<<<< HEAD
 	.list {margin-top: calc(60px / 3 - 5px);}
 	li:nth-child(3n+2){
       margin: 0px 10px;
+=======
+# 二维码 #
+
+	npm install qrcodejs2 --save 
+	import QRCode from "qrcodejs2";
+
+	<div id="ios"></div>
+
+	qrcode() {
+      let qrcode2 = new QRCode("ios", {
+        width: 106,
+        height: 106, // 高度
+        text: "https://www.pgyer.com/mjn2" // 二维码内容
+      });
+>>>>>>> a8665f7f87e18a43aa861e4c65ffc5eb8077c54e
     }
