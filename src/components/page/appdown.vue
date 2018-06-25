@@ -1,16 +1,12 @@
-<template>
-  <div class="appdown">
-    <div class="appdown-center">
-      <p>m.{{isherf}}</p>
-      <div id="android"></div>
-      <div id="ios"></div>
-      <div class="appDownloadTitle">
-        <span>Android</span>
-        <span>IOS</span>
-      </div>
-    </div>
-
-  </div>
+<template lang="jade">
+.appdown
+  .appdown-center
+    p m.{{isherf}}
+    #android
+    #ios
+    .appDownloadTitle
+      span Android
+      span IOS
 </template>
 <script>
 import QRCode from "qrcodejs2";

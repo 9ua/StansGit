@@ -1,43 +1,36 @@
-<template>
-  <div class="login" onselectstart="return false;">
-    <div class="loginFrom">
-      <div class="loginLog"></div>
-      <div class="loginGo">
-        <p class="loginGoTitle" ref="loginGoTitle">用户登陆</p>
-        <ul class="loginGoUl" v-show="!tologin">
-          <li>
-            <mu-icon class="iconLeft" value="account_circle"></mu-icon>
-            <div><input type="text" v-model="validateForm.username" placeholder="请输入用户名"></div>
-          </li>
-          <li>
-            <mu-icon class="iconLeft" value="lock"></mu-icon>
-            <div>
-              <input :type="checked ? 'text' : 'password'" v-model="validateForm.password" placeholder="请输入密码码">
-              <mu-icon class="iconRight ishwo" value="visibility" v-show="!checked" @click="checkeds"></mu-icon>
-              <mu-icon class="iconRight ishide" value="visibility_off" v-show="checked" @click="checkeds"></mu-icon>
-            </div>
-          </li>
-          <li v-show="errorcode">
-            <mu-icon class="iconLeft" value="account_circle"></mu-icon>
-            <div><input type="text" v-model="validateForm.captcha_code" placeholder="请输入验证码"><img :src="captchaCodeImg" @click="getCaptchaCode"></div>
-          </li>
-        </ul>
-        <div class="registerBtn" v-show="!tologin">
-          <p>
-            <span></span>
-            <span>
-              <i class="toRegister" @click="toRegister">立即注册</i>
-              <i>
-                <mu-icon class="call" value="call"></mu-icon>联系客服</i>
-              <i class="color">忘记密码？</i>
-            </span>
-          </p>
-          <mu-button class="registerGo" color="error" @click="tosubmit">立即登陆</mu-button>
-        </div>
-        <loginr v-show="tologin"></loginr>
-      </div>
-    </div>
-  </div>
+<template lang="jade">
+.login(onselectstart='return false;')
+  .loginFrom
+    .loginLog
+    .loginGo
+      p.loginGoTitle(ref='loginGoTitle') 用户登陆
+      ul.loginGoUl(v-show='!tologin')
+        li
+          mu-icon.iconLeft(value='account_circle')
+          div
+            input(type='text', v-model='validateForm.username', placeholder='请输入用户名')
+        li
+          mu-icon.iconLeft(value='lock')
+          div
+            input(:type="checked ? 'text' : 'password'", v-model='validateForm.password', placeholder='请输入密码码')
+            mu-icon.iconRight.ishwo(value='visibility', v-show='!checked', @click='checkeds')
+            mu-icon.iconRight.ishide(value='visibility_off', v-show='checked', @click='checkeds')
+        li(v-show='errorcode')
+          mu-icon.iconLeft(value='account_circle')
+          div
+            input(type='text', v-model='validateForm.captcha_code', placeholder='请输入验证码')
+            img(:src='captchaCodeImg', @click='getCaptchaCode')
+      .registerBtn(v-show='!tologin')
+        p
+          span
+          span
+            i.toRegister(@click='toRegister') 立即注册
+            i
+              mu-icon.call(value='call')
+              | 联系客服
+            i.color 忘记密码？
+        mu-button.registerGo(color='error', @click='tosubmit') 立即登陆
+      loginr(v-show='tologin')
 </template>
 <script>
 import md5 from "js-md5";

@@ -1,5 +1,5 @@
-<template>
-  <div class="activity">activity</div>
+<template lang="jade">
+.activity activity
 </template>
 <script>
 export default {

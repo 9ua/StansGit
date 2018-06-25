@@ -1,5 +1,5 @@
-<template>
-  <div class="helpcenter">helpcenter</div>
+<template lang="jade">
+.helpcenter helpcenter
 </template>
 <script>
 export default {

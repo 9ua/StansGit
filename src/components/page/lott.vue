@@ -1,38 +1,25 @@
-<template>
-  <div class="lott">
-    <div class="lottBox">
-      <div class="lotteBox-top">
-        <div class="lotteBox-top-banner">
-          <img src="http://hf68.com/res/home/images/banner1.png" alt="">
-        </div>
-        <div class="lotteBox-top-right">1</div>
-      </div>
-      <div class="lotteryLine fix"></div>
-      <div class="lotteList">
-        <div class="lotteList-top">
-          <ul>
-            <li :class="{'active': index === navNum}" v-for="(nav,index) in listnav" :key="index" @click="navTo($event,index,nav)">{{nav.name}}</li>
-          </ul>
-        </div>
-        <div class="lotteList-bott">
-          <ul>
-            <li v-for="(item,index) in lotteryList" :key="index" @mouseover="selectStyle(item)" @mouseout="outStyle(item)">
-              <div class="Nopop">
-                <img :src='"@/assets/img/lott/"+item.groupId+".png"' alt="">
-                <div>
-                  <p>{{item.name}}</p>
-                  <span>1分钟1期</span>
-                </div>
-              </div>
-              <div class="pop" v-show="item.showPop">
-                <span @click="toLottery(item)">立即投注</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang="jade">
+.lott
+  .lottBox
+    .lotteBox-top
+      .lotteBox-top-banner
+        img(src='http://hf68.com/res/home/images/banner1.png', alt='')
+      .lotteBox-top-right 1
+    .lotteryLine.fix
+    .lotteList
+      .lotteList-top
+        ul
+          li(:class="{'active': index === navNum}", v-for='(nav,index) in listnav', :key='index', @click='navTo($event,index,nav)') {{nav.name}}
+      .lotteList-bott
+        ul
+          li(v-for='(item,index) in lotteryList', :key='index', @mouseover='selectStyle(item)', @mouseout='outStyle(item)')
+            .Nopop
+              img(:src='"@/assets/img/lott/"+item.groupId+".png"', alt='')
+              div
+                p {{item.name}}
+                span 1分钟1期
+            .pop(v-show='item.showPop')
+              span(@click='toLottery(item)') 立即投注
 </template>
 <script>
 import { baseUrl } from "../../assets/js/env";
@@ -69,9 +56,9 @@ export default {
     outStyle(item) {
       this.$set(item, "showPop", false);
     },
-    toLottery(item){
-      console.log(item.id)
-      this.$router.push("/lott/"+item.id+"/index")
+    toLottery(item) {
+      console.log(item.id);
+      this.$router.push("/lott/" + item.id + "/index");
     },
     navTo(e, index, navs) {
       this.navNum = index;

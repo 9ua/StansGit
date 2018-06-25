@@ -1,61 +1,58 @@
-<template>
-  <div class="footer-box">
-    <div class="footer">
-      <div class="footer-maxwidth">
-        <div class="footer-left">
-          <p class="title">技术支持
-            <span>Technical support</span>
-          </p>
-          <div class="footer-left-content">
-            <p></p>
-            <div>
-              <span>宏發云系统</span>
-              <span>专业的彩票系统平台</span>
-            </div>
-          </div>
-        </div>
-        <div class="footer-middle">
-          <p class="title">服务体验
-            <span>Service experience</span>
-          </p>
-          <div class="footer-middle-content">
-            <div class="footer-middle-content1">
-              <p>昨日充值平均时间</p>
-              <el-progress :text-inside="false" :stroke-width="20" :percentage="a" color="#ED635D" :show-text="false"></el-progress>
-              <p>
-                <b>0'58</b>秒</p>
-            </div>
-            <div class="footer-middle-content2">
-              <p>昨日充值平均时间</p>
-              <el-progress :text-inside="false" :stroke-width="20" :percentage="b" color="#409EFF" :show-text="false"></el-progress>
-              <p>
-                <b>2'02</b>秒</p>
-            </div>
-          </div>
-        </div>
-        <div class="footer-right">
-          <p class="title">充值方式
-            <span>Recharge method</span>
-          </p>
-          <div class="footer-right-content">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mainWidth-buttom">
-      <ul>
-        <li><a href="javascript:;">关于我们</a><span>|</span></li>
-        <li><a href="javascript:;">联系我们</a><span>|</span></li>
-        <li><a href="javascript:;">商务合作</a><span>|</span></li>
-        <li><a href="javascript:;">法律声明</a><span>|</span></li>
-        <li><a href="javascript:;">隐私声明</a></li>
-      </ul>
-      <p>Copyright © 宏發娛樂 Reserved | 18+</p>
-    </div>
-  </div>
+<template lang="jade">
+.footer-box
+  .footer
+    .footer-maxwidth
+      .footer-left
+        p.title
+          | 技术支持
+          span Technical support
+        .footer-left-content
+          p
+          div
+            span 宏發云系统
+            span 专业的彩票系统平台
+      .footer-middle
+        p.title
+          | 服务体验
+          span Service experience
+        .footer-middle-content
+          .footer-middle-content1
+            p 昨日充值平均时间
+            el-progress(:text-inside='false', :stroke-width='20', :percentage='a', color='#ED635D', :show-text='false')
+            p
+              b 0'58
+              | 秒
+          .footer-middle-content2
+            p 昨日充值平均时间
+            el-progress(:text-inside='false', :stroke-width='20', :percentage='b', color='#409EFF', :show-text='false')
+            p
+              b 2'02
+              | 秒
+      .footer-right
+        p.title
+          | 充值方式
+          span Recharge method
+        .footer-right-content
+          span
+          span
+          span
+  .mainWidth-buttom
+    ul
+      li
+        a(href='javascript:;') 关于我们
+        span |
+      li
+        a(href='javascript:;') 联系我们
+        span |
+      li
+        a(href='javascript:;') 商务合作
+        span |
+      li
+        a(href='javascript:;') 法律声明
+        span |
+      li
+        a(href='javascript:;') 隐私声明
+    p Copyright © 宏發娛樂 Reserved | 18+
 </template>
 <script>
 export default {

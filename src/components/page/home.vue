@@ -1,7 +1,5 @@
-<template>
-  <div class="home">
-    home
-  </div>
+<template lang="jade">
+.home home
 </template>
 <script>
 export default {

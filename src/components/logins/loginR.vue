@@ -1,31 +1,28 @@
-<template>
-  <div class="loginRightBox">
-    <ul class="loginRightUl">
-      <li>
-        <mu-icon class="iconLeft" value="info"></mu-icon>
-        <div><input type="text" v-model="userinfo.inviteCode" placeholder="请输入邀请码"></div>
-      </li>
-      <li>
-        <mu-icon class="iconLeft" value="account_circle"></mu-icon>
-        <div><input type="text" v-model="userinfo.username" placeholder="请输入用户名"></div>
-      </li>
-      <li>
-        <mu-icon class="iconLeft" value="account_circle"></mu-icon>
-        <div><input type="text" v-model="userinfo.captcha_code" placeholder="请输入验证码"><img :src="captchaCodeImg" @click="getCaptchaCode"></div>
-      </li>
-    </ul>
-    <div class="registerBtn">
-      <p>
-        <span>默认密码：
-          <i>aa123456</i>
-        </span>
-        <span>已有账号？
-          <i class="color" @click="toLogin">立即登陆</i>
-        </span>
-      </p>
-      <mu-button class="registerGo" color="error" @click="registerGo">确认注册</mu-button>
-    </div>
-  </div>
+<template lang="jade">
+.loginRightBox
+  ul.loginRightUl
+    li
+      mu-icon.iconLeft(value='info')
+      div
+        input(type='text', v-model='userinfo.inviteCode', placeholder='请输入邀请码')
+    li
+      mu-icon.iconLeft(value='account_circle')
+      div
+        input(type='text', v-model='userinfo.username', placeholder='请输入用户名')
+    li
+      mu-icon.iconLeft(value='account_circle')
+      div
+        input(type='text', v-model='userinfo.captcha_code', placeholder='请输入验证码')
+        img(:src='captchaCodeImg', @click='getCaptchaCode')
+  .registerBtn
+    p
+      span
+        | 默认密码：
+        i aa123456
+      span
+        | 已有账号？
+        i.color(@click='toLogin') 立即登陆
+    mu-button.registerGo(color='error', @click='registerGo') 确认注册
 </template>
 <script>
 import md5 from "js-md5";
