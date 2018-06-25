@@ -116,3 +116,8 @@
 	setCookie("key","val",time)
 	getCookie("key")
 	clearCookie("key")
+
+	.list {margin-top: calc(60px / 3 - 5px);}
+	li:nth-child(3n+2){
+      margin: 0px 10px;
+    }
