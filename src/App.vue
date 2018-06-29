@@ -1,7 +1,6 @@
-<template>
-  <div id="app">
-      <router-view/>
-  </div>
+<template lang="jade">
+#app
+  router-view
 </template>
 <script>
 export default {
@@ -10,7 +9,7 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/minix/reset.scss";
-.mu-raised-button .mu-button-wrapper{
+.mu-raised-button .mu-button-wrapper {
   color: #eee;
 }
 </style>

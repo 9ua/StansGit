@@ -25,7 +25,7 @@ export default new Router({
           component: home,
         },
         {
-          path: '/lott',
+          path: '/lott/lottery/index',
           name: 'lott',
           component: lott,
         },

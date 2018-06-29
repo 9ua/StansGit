@@ -1,7 +1,5 @@
-<template>
-  <div class="home">
-    home
-  </div>
+<template lang="jade">
+.home home
 </template>
 <script>
 export default {
@@ -10,4 +8,6 @@ export default {
   }
 };
 </script>
-
+<style lang="scss" scoped>
+@import "../../assets/scss/home.scss";
+</style>

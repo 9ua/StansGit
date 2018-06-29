@@ -1,5 +1,5 @@
-<template>
-  <div class="helpcenter">helpcenter</div>
+<template lang="jade">
+.helpcenter helpcenter
 </template>
 <script>
 export default {
@@ -8,4 +8,6 @@ export default {
   }
 };
 </script>
-
+<style lang="scss" scoped>
+@import "../../assets/scss/helpcenter.scss";
+</style>

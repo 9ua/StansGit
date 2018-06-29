@@ -1,0 +1,62 @@
+@import '@/assets/minix/main.scss';
+.appdown {
+  @include appdownBg("appbg.jpg", 100%, 655px);
+  min-width: 1000px;
+  min-height: 655px;
+  background-position: 50%;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: hidden;
+  position: relative;
+  & .appdown-center {
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    & p {
+      font-size: 34px;
+      font-weight: 700;
+      height: 40px;
+      line-height: 40px;
+      color: #FD5757;
+      user-select: text;
+      position: absolute;
+      top: 246px;
+      left: 22px;
+      z-index: 10;
+    }
+    & #android,
+    & #ios {
+      width: 120px;
+      height: 120px;
+      padding: 7px;
+      background: #fff;
+      position: absolute;
+    }
+    & #android {
+      top: 363px;
+      left: 17px;
+    }
+    & #ios {
+      top: 363px;
+      left: 208px;
+    }
+  }
+  & .appDownloadTitle{
+    width: 100%;
+    position: absolute;
+    top: 500px;
+    font-size: 24px;
+    color: #FFF;
+    & span:nth-child(1){
+      margin-left: 30px;
+    }
+    & span:nth-child(2){
+      margin-left: 120px;
+    }
+  }
+}
