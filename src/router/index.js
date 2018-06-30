@@ -17,32 +17,47 @@ export default new Router({
       redirect: "home",
       component: sy,
       meta: {
-        requiresAuth: true,
+        requiresAuth: true
       },
       children: [{
           path: '/home',
           name: 'home',
           component: home,
+          meta:{
+            title:"宏發娱乐-首页"
+          }
         },
         {
           path: '/lott/lottery/index',
           name: 'lott',
           component: lott,
+          meta:{
+            title:"宏發娱乐-彩票大厅"
+          }
         },
         {
           path: '/activity',
           name: 'activity',
           component: activity,
+          meta:{
+            title:"宏發娱乐-活动中心"
+          }
         },
         {
           path: '/appdown',
           name: 'appdown',
           component: appdown,
+          meta:{
+            title:"宏發娱乐-手机购彩"
+          }
         },
         {
           path: '/helpcenter',
           name: 'helpcenter',
           component: helpcenter,
+          meta:{
+            title:"宏發娱乐-帮助指南"
+          }
         }
       ]
     },

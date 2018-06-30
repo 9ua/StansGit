@@ -36,6 +36,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+  //设置<title>
+  if(to.meta.title){
+    document.title = to.meta.title;
+  }else{
+    next();
+  }
 });
 /* eslint-disable no-new */
 new Vue({

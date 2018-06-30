@@ -9,17 +9,131 @@
     & .lotteryLine {
       width: 100%;
       height: 15px;
-      background: -webkit-linear-gradient(180deg, #7a7a7a 0, #c3c4c3);
+      background: -webkit-linear-gradient(180deg, #c3c4c3 0, #c3c4c3);
     }
-    & .fix::before {
-      content: "";
-      display: table;
+    & .lotteryLine {
+      @extend %flex;
+      @extend %aitems;
+      @extend %sbetween;
+      & i {
+        display: block;
+        border-right: 20px solid transparent;
+        border-top: 15px solid #e6e6e6;
+      }
+      & em {
+        display: inline-block;
+        border-left: 20px solid transparent;
+        border-top: 15px solid #e6e6e6;
+      }
     }
   }
 }
 
 .lotteBox-top {
   @extend %flex;
+  & .lotteBox-top-banner {
+    width: 800px;
+  }
+  & .lotteBox-top-right {
+    width: 200px;
+    height: 240px;
+    // overflow: hidden;
+    background: #515860;
+    & div {
+      height: 100%;
+      & .title {
+        @extend %faj;
+        height: 46px;
+        color: #FFF;
+        font-size: 20px;
+        border-bottom: 1px solid #777d84;
+      }
+      & .nwwest-roll {
+        height: 193px;
+        overflow: hidden;
+        transition: all 0.3s;
+        position: relative;
+        & ul {
+          @extend %flex;
+          @extend %fdc;
+          width: 200px;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          & li {
+            height: 54px;
+            @extend %flex;
+            @extend %aitems;
+            width: 200px;
+            & img {
+              width: 38px;
+              height: 38px;
+              border-radius: 50%;
+              margin: 0 10px;
+            }
+            & .right-box {
+              @extend %flex;
+              @extend %fdc;
+              width: 142px;
+              & p {
+                @extend %flex;
+                height: 27px;
+                line-height: 27px;
+                & span {
+                  color: #fff;
+                  & i {
+                    color: #f63745;
+                  }
+                }
+              }
+            }
+          }
+          & .anim{
+            transition: all 0.3s;
+          }
+        }
+      }
+      & ul {
+        @extend %flex;
+        @extend %fdc;
+        width: 200px;
+        & li {
+          height: 54px;
+          @extend %flex;
+          @extend %aitems;
+          width: 200px;
+          & img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            margin: 0 10px;
+          }
+          & .right-box {
+            @extend %flex;
+            @extend %fdc;
+            width: 142px;
+            & p {
+              @extend %flex;
+              height: 27px;
+              line-height: 27px;
+              & span {
+                color: #fff;
+                & i {
+                  color: #f63745;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    & .yd-slider {
+      height: 240px !important;
+    }
+    & .yd-slider-item {
+      height: 30px !important;
+    }
+  }
 }
 
 .lotteList {

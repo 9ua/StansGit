@@ -12,7 +12,7 @@
         li
           mu-icon.iconLeft(value='lock')
           div
-            input(:type="checked ? 'text' : 'password'", v-model='validateForm.password', placeholder='请输入密码码')
+            input(:type="checked ? 'text' : 'password'", v-model='validateForm.password', placeholder='请输入密码码',@keyup.enter='tosubmit')
             mu-icon.iconRight.ishwo(value='visibility', v-show='!checked', @click='checkeds')
             mu-icon.iconRight.ishide(value='visibility_off', v-show='checked', @click='checkeds')
         li(v-show='errorcode')
