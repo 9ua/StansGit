@@ -23,9 +23,9 @@ Vue.prototype.$axios = axios;
 // 登陆拦截
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    if (localStorage.getItem("loginStatus")) {
+    if (localStorage.getItem("loginStatus") === true) {
       next();
-    } else {
+    } else if (localStorage.getItem("loginStatus") === false) {
       next({
         path: '/login',
         query: {

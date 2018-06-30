@@ -10,8 +10,8 @@
 }
 
 .lott-top {
-  background: #F5F5F5;
-  height: 110px;
+  background:url(http://imagess-google.com/system/pc/k3/betBg.png);
+  height: 116px;
   border-radius: 10px;
   padding: 20px 0px;
   @extend %flex;
@@ -37,6 +37,9 @@
     & p {
       @extend %faj;
       font-size: 14px;
+      & span{
+        color: red;
+      }
     }
     & div {
       @extend %faj;
@@ -49,11 +52,15 @@
     & p {
       @extend %faj;
       font-size: 14px;
+      & span{
+        color:red;
+      }
     }
     & div {
       @extend %faj;
       font-size: 36px;
       font-weight: 700;
+      height: 70px;
     }
   }
 }

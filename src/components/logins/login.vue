@@ -8,11 +8,11 @@
         li
           mu-icon.iconLeft(value='account_circle')
           div
-            input(type='text', v-model='validateForm.username', placeholder='请输入用户名')
+            input(type='text', v-model='validateForm.username', v-focus='',onfocus='this.select()', placeholder='请输入用户名')
         li
           mu-icon.iconLeft(value='lock')
           div
-            input(:type="checked ? 'text' : 'password'", v-model='validateForm.password', placeholder='请输入密码码',@keyup.enter='tosubmit')
+            input(:type="checked ? 'text' : 'password'", v-model='validateForm.password',onfocus='this.select()', placeholder='请输入密码码',@keyup.enter='tosubmit')
             mu-icon.iconRight.ishwo(value='visibility', v-show='!checked', @click='checkeds')
             mu-icon.iconRight.ishide(value='visibility_off', v-show='checked', @click='checkeds')
         li(v-show='errorcode')
@@ -91,9 +91,10 @@ export default {
           }
           if (res.data.message === "success") {
             this.$store.state.loginStatus = true;
-            localStorage.setItem("loginStatus", this.$store.state.loginStatus);
+            localStorage.setItem("loginStatus",Boolean(this.$store.state.loginStatus));
             this.$router.push({ name: "sy" });
             this.RECORD_USERINFO(this.validateForm);
+            console.log("getItem:"+localStorage.getItem("loginStatus"),"store:"+this.$store.state.loginStatus)
           }
           if (res.data.data.errCount >= 3) {
             this.errorcode = true;
@@ -111,6 +112,13 @@ export default {
   },
   components: {
     loginr
+  },
+  directives: {
+    focus: {
+      inserted: function(el) {
+        el.focus();
+      }
+    }
   }
 };
 </script>

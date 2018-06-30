@@ -339,12 +339,10 @@ export default {
   },
   methods: {
     scroll() {
-      this.$refs.rollul[0].style.marginTop="54px";
       this.animate = !this.animate;
       setTimeout(() => {
         this.winpool.push(this.winpool[0]);
         this.winpool.shift();
-        this.$refs.rollul[0].style.marginTop="0px";
         this.animate = !this.animate;
       }, 0);
     },
@@ -357,7 +355,7 @@ export default {
       this.$set(item, "showPop", false);
     },
     toLottery(item) {
-      this.$router.push("/lott/" + item.id + "/index");
+      this.$router.push("/lottlist");
     },
     navTo(e, index, navs) {
       this.navNum = index;

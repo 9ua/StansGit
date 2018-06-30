@@ -16,6 +16,9 @@ export default {
   //退出登陆
   [OUT_LOGIN](state) {
     state.userInfo = {};
-    state.loginStatus = false;
+    state.loginStatus = fasle;
+    localStorage.setItem("loginStatus", false);
+    console.log("mutations:"+localStorage.getItem("loginStatus"));
+    console.log("state:"+state.loginStatus);
   },
 }

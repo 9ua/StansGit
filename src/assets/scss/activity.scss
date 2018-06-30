@@ -1,4 +1,11 @@
 @import '@/assets/minix/main.scss';
 .activity {
-  margin-top: 15px;
+  background:#EEE;
+  height: 100%;
+  min-height: 462px;
+  & .activityBox{
+    width: 1000px;
+    margin: 0 auto;
+    padding-top: 16px;
+  }
 }
