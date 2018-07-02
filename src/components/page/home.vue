@@ -12,7 +12,7 @@
     .homeSideCenter
       .banner
         .bannerBox
-          a(:href='"#"') 
+          a(@click='toActive') 
             img(src='http://chinahuiji.com/res/upload/98488f66967c44a0877728544b620a2f.jpg', alt='')
       .autoTab
         ul
@@ -21,13 +21,27 @@
         .paste-lott-text
     .homeSideRight
       .userNameBox
-        button(v-show='loginStatus' @click='login') 登录
-        button(v-show='loginStatus' @click='signin') 注册
+        .nologin(v-show="!$store.state.loginStatus")
+          button(@click='login') 登录
+          button(@click='signin') 注册
+        .login(v-show="$store.state.loginStatus")
+          .userName 账户： {{userName}}
       .yestDayIncom
-        .top-text
+        h3 昨日盈利榜
         .yestDayIncomItem
+          ul
+            li(v-for='(item,index) in winList',:key='index') 
+              .champion 
+                img(:src='"@/assets/img/header/"+item.img+".jpg"', alt='') 
+                p 
+                  span 账户昵称 ：
+                    i.nickname {{item.account | mask}}
+                  span 昨日盈利 ：
+                    i.gain {{item.bonus}} 
+                    i 元
+              p.index {{index+1}}
       .winMsg
-        .top-text
+        h3 中奖信息
         .winMsgScroll
           .winMsgItem
 </template>
@@ -37,8 +51,10 @@ export default {
   data() {
     return {
       navNum: 0,
-      loginStatus:this.$store.state.loginStatus,
+      userName: localStorage.getItem("username"),
+      isLogin: this.$store.state.loginStatus,
       lotteryList: null,
+      winList: null,
       listnav: [
         { name: "江苏快3", lotteryId: "jsk3" },
         { name: "重庆时时彩", lotteryId: "cqssc" },
@@ -47,16 +63,26 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$store.state.loginStatus);
     this.getPastOp("jsk3");
     this.lotteryAll();
+    this.getLastDayWinList();
+  },
+  filters: {
+    mask(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0)+"***"+value.charAt(value.length-1);
+    }
   },
   methods: {
     login() {
-      this.$router.push({path:'/login?id=ashore'});
+      this.$router.push({ path: "/login?id=ashore" });
     },
     signin() {
-      this.$router.push({path:'/login?id=register'});
+      this.$router.push({ path: "/login?id=register" });
+    },
+    toActive() {
+      this.$router.push({ path: "/activity" });
     },
     navTo(e, index, navs) {
       this.navNum = index;
@@ -66,7 +92,7 @@ export default {
     getPastOp(lotteryId) {
       this.$axios
         .get(baseUrl + "/api/lottery/getPastOpen", {
-          params: { lotteryId: lotteryId, count: 1,_:new Date().getTime()}
+          params: { lotteryId: lotteryId, count: 1, _: new Date().getTime() }
         })
         .then(res => {
           this.getPastO = res.data.data;
@@ -97,6 +123,17 @@ export default {
         })
         .catch(error => {
           console.log("getLotteryListNo");
+        });
+    },
+    // 获取昨日盈利榜单
+    getLastDayWinList() {
+      this.$axios
+        .get(baseUrl + "/api/lottery/getLastDayWinList")
+        .then(res => {
+          this.winList = res.data.data.slice(0, 3);
+        })
+        .catch(error => {
+          console.log("getLastDayWinList no");
         });
     }
   }

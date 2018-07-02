@@ -92,6 +92,7 @@ export default {
           if (res.data.message === "success") {
             this.$store.state.loginStatus = true;
             localStorage.setItem("loginStatus",Boolean(this.$store.state.loginStatus));
+            localStorage.setItem("username",res.data.data.account);
             this.$router.push({ name: "sy" });
             this.RECORD_USERINFO(this.validateForm);
             console.log("getItem:"+localStorage.getItem("loginStatus"),"store:"+this.$store.state.loginStatus)

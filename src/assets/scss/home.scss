@@ -66,6 +66,9 @@
           height: 251px;
           min-height: 251px;
           position: relative;
+          a {
+            cursor: pointer;
+          }
           & img {
             width: 100%;
             height: 251px;
@@ -86,7 +89,6 @@
             @extend %jcontent;
             width: 100%;
             height: 30px;
-            width: 164px;
             text-align: center;
             line-height: 30px;
             background: #EDF7FF;
@@ -112,7 +114,7 @@
         height: 43px;
         border-radius: 2px;
         margin-bottom: 13px;
-        & button:nth-child(1){
+        & button:nth-child(1) {
           margin-right: 10px;
         }
         & button {
@@ -125,6 +127,79 @@
           border-radius: 4px;
           cursor: pointer;
           outline: none;
+        }
+      }
+      & .yestDayIncom {
+        margin-bottom: 13px;
+        border: 1px solid #DCE1E5;
+        height: 191px;
+        h3 {
+          @extend %flex;
+          @extend %aitems;
+          border-bottom: 1px solid #EEEEEE;
+          height: 30px;
+          padding-left: 8px;
+        }
+        & ul {
+          @extend %flex;
+          @extend %sbetween;
+          @extend %fdc;
+          height: 160px;
+          & li {
+            @extend %flex;
+            @extend %aitems;
+            @extend %sbetween;
+            padding-left: 8px;
+            border-bottom: 1px dashed #DCE1E5;
+            height: 33%;
+            & .champion {
+              @extend %flex;
+              @extend %aitems;
+              & p {
+                @extend %flex;
+                @extend %fdc;
+                & .nickname,
+                & .gain {
+                  color: #F63745;
+                  font-style: normal;
+                }
+              }
+              & img {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                margin-right: 10px;
+              }
+            }
+            &:nth-child(1) > p{
+              background: #C44F52;              
+            }
+            &:nth-child(2) > p{
+              background: #3A94DF;              
+            }
+            &:nth-child(3) > p{
+              background: #DB8C4A;              
+            }
+            & p.index {
+              width: 24px;
+              height: 24px;
+              border-radius: 50%;
+              color: #FFFFFF;
+              @extend %flex;
+              @extend %faj;
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+      & .winMsg{
+        border: 1px solid #DCE1E5;
+        height: 194px;
+        h3 {
+          @extend %flex,%aitems;
+          border-bottom: 1px solid #EEEEEE;
+          height: 30px;
+          padding-left: 8px;
         }
       }
     }
