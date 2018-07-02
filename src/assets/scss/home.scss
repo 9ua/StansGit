@@ -1,4 +1,132 @@
 @import '@/assets/minix/main.scss';
 .home {
+  width: 100%;
   margin-top: 15px;
+  margin-bottom: 10px;
+  .homeBox {
+    width: 1000px;
+    margin: 0 auto;
+    @extend %flex;
+    @extend %sbetween;
+    & .homeSideLeft {
+      @extend %sbetween;
+      width: 232px;
+      max-height: 468px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      border-top: 1px solid #E6C9A0;
+      & .lotteList ul {
+        width: 230px;
+        border: 1px solid #E6C9A0;
+        background: #FFFDF3;
+        & li {
+          @extend %flex;
+          @extend %aitems;
+          width: 230px;
+          border-bottom: 1px dashed #DDDDDD;
+          height: 45px;
+          & a {
+            @extend %flex;
+            @extend %aitems;
+            width: 230px;
+            height: 45px;
+            & img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              margin-right: 8px;
+              margin-left: 15px;
+            }
+            & span {
+              color: #B7B7B3;
+              font-size: 10px;
+              margin-left: 8px;
+            }
+          }
+        }
+      }
+    }
+    & .homeSideCenter {
+      @extend %flex;
+      @extend %sbetween;
+      @extend %fdc;
+      -webkit-box-orient: vertical;
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      margin: 0px 13px;
+      width: 500px;
+      & .banner {
+        width: 495px;
+        height: 251px;
+        overflow: hidden;
+        margin-bottom: 13px;
+        & .bannerBox {
+          background-color: #f1f1f1;
+          width: 100%;
+          height: 251px;
+          min-height: 251px;
+          position: relative;
+          & img {
+            width: 100%;
+            height: 251px;
+          }
+        }
+      }
+      & .autoTab {
+        border: 1px solid #D7E2F7;
+        border-top: 0px solid #D7E2F7;
+        height: 196px;
+        & ul {
+          width: 495Px;
+          height: 30px;
+          @extend %flex;
+          & li {
+            @extend %flex;
+            @extend %aitems;
+            @extend %jcontent;
+            width: 100%;
+            height: 30px;
+            width: 164px;
+            text-align: center;
+            line-height: 30px;
+            background: #EDF7FF;
+            border: 1px solid #D7E2F7;
+          }
+          & li.active {
+            border: 0px solid #D7E2F7;
+            border-top: 2px solid #E96A1A;
+            background: #FFFFFF;
+            height: 29px;
+          }
+        }
+      }
+    }
+    & .homeSideRight {
+      width: 252px;
+      & .userNameBox {
+        @extend %flex;
+        @extend %aitems;
+        @extend %jcontent;
+        border: 1px solid #EBD4B3;
+        background: #FFF9DD;
+        height: 43px;
+        border-radius: 2px;
+        margin-bottom: 13px;
+        & button:nth-child(1){
+          margin-right: 10px;
+        }
+        & button {
+          width: 88px;
+          height: 28px;
+          background: #AF3A31;
+          border: 1px solid #AF3A31;
+          color: #FFFFFF;
+          padding: 0px 10px;
+          border-radius: 4px;
+          cursor: pointer;
+          outline: none;
+        }
+      }
+    }
+  }
 }
