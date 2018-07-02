@@ -45,11 +45,14 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+// 超时时间
+axios.defaults.timeout = 5000
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
+  render: h => h(App),
   components: {
     App
   },

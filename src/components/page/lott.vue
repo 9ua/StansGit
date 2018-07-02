@@ -391,7 +391,6 @@ export default {
           this.lotteryListK3 = res.data.data.k3;
           this.lotteryListSsc = res.data.data.ssc;
           this.lotteryListPk10 = res.data.data.pk10;
-          console.log(this.lotteryList)
         })
         .catch(error => {
           console.log("getLotteryListNo");
