@@ -25,6 +25,7 @@ export default {
     activity() {
       this.$axios.get(baseUrl + "/api/activity/getList")
         .then(res => {
+          console.log("loginStatus:"+localStorage.getItem("loginStatus"))
           this.activitys = res.data.data;
           console.log(this.activitys)
         })

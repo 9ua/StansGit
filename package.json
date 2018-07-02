@@ -20,6 +20,7 @@
     "qrcodejs2": "0.0.2",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.1",
+    "vue-gemini-scrollbar": "^2.0.0",
     "vue-router": "^3.0.1",
     "vue-ydui": "^1.2.2",
     "vuex": "^3.0.1"

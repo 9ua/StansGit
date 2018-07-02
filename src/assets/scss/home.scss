@@ -8,7 +8,7 @@
     margin: 0 auto;
     @extend %flex;
     @extend %sbetween;
-    & .homeSideLeft {
+    & .my-scroll-bar {
       @extend %sbetween;
       width: 232px;
       max-height: 468px;

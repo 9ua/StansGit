@@ -18,7 +18,6 @@ export default {
     state.userInfo = {};
     state.loginStatus = fasle;
     localStorage.setItem("loginStatus", false);
-    console.log("mutations:"+localStorage.getItem("loginStatus"));
-    console.log("state:"+state.loginStatus);
+    localStorage.clear();
   },
 }

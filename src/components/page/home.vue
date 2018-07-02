@@ -1,7 +1,7 @@
 <template lang="jade">
 .home
   .homeBox
-    .homeSideLeft
+    GeminiScrollbar.my-scroll-bar(style="height:468px;width:232px;")
       .lotteList
         ul
           li(:class="{'active': index === navNum}", v-for='(nav,index) in lotteryList', :key='index') 
@@ -20,9 +20,11 @@
         .paste-lott
         .paste-lott-text
     .homeSideRight
-      .userNameBox
-        button(v-show='loginStatus' @click='login') 登录
-        button(v-show='loginStatus' @click='signin') 注册
+      .userNameBox(v-show='!this.$store.state.loginStatus')
+        button(@click='login') 登录
+        button(@click='signin') 注册
+      .userNameBox(v-show='this.$store.state.loginStatus')
+        p 账号：{{Globalusername}}
       .yestDayIncom
         .top-text
         .yestDayIncomItem
@@ -37,7 +39,7 @@ export default {
   data() {
     return {
       navNum: 0,
-      loginStatus:this.$store.state.loginStatus,
+      Globalusername:this.$store.state.Globalusername,
       lotteryList: null,
       listnav: [
         { name: "江苏快3", lotteryId: "jsk3" },
@@ -47,7 +49,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$store.state.loginStatus);
     this.getPastOp("jsk3");
     this.lotteryAll();
   },
@@ -66,27 +67,15 @@ export default {
     getPastOp(lotteryId) {
       this.$axios
         .get(baseUrl + "/api/lottery/getPastOpen", {
-          params: { lotteryId: lotteryId, count: 1,_:new Date().getTime()}
+          params: { lotteryId: lotteryId, count: 1}
         })
         .then(res => {
           this.getPastO = res.data.data;
-          console.log(res.data.data);
-          if (
-            res.data.data[0].seasonId !== this.seasonId3 &&
-            res.data.data[0].seasonId - this.seasonId3 <= 2
-          ) {
-            this.reGetPastOp();
-          }
+          console.log(res,"---------");
         })
         .catch(error => {
           console.log("获取过去开奖号码No");
         });
-    },
-    reGetPastOp() {
-      clearTimeout(this.timer2);
-      this.timer2 = setTimeout(() => {
-        this.getPastOp();
-      }, 10000);
     },
     // 获取彩种
     lotteryAll() {

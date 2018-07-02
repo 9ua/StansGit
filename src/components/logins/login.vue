@@ -79,22 +79,33 @@ export default {
     //立即登陆
     tosubmit() {
       let pwd = md5(this.validateForm.password);
+      let config = {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        withCredentials: true
+      };
       let formData = new FormData();
       formData.append("account", this.validateForm.username);
       formData.append("password", pwd);
       formData.append("code", this.validateForm.captcha_code);
       this.$axios
-        .post(baseUrl + "/api/user/login", formData, this.$store.state.config)
+        .post(baseUrl + "/api/user/login", formData, config)
         .then(res => {
           if (res.data.pup === true) {
             this.$message(res.data.data);
           }
           if (res.data.message === "success") {
+            this.$store.state.JSESSIONICookie = res.data.data.sessionId;
+            this.$store.state.userType = res.data.data.userType;
+            this.$store.state.Globalusername = res.data.data.account;
+            this.$store.state.balance = res.data.data.balance;
+            localStorage.setItem("JSESSIONICookie", this.$store.state.JSESSIONICookie);
+            localStorage.setItem("userType", this.$store.state.userType);
+            localStorage.setItem("username", this.$store.state.Globalusername);
+            localStorage.setItem("balance", this.$store.state.balance);
             this.$store.state.loginStatus = true;
             localStorage.setItem("loginStatus",Boolean(this.$store.state.loginStatus));
             this.$router.push({ name: "sy" });
             this.RECORD_USERINFO(this.validateForm);
-            console.log("getItem:"+localStorage.getItem("loginStatus"),"store:"+this.$store.state.loginStatus)
           }
           if (res.data.data.errCount >= 3) {
             this.errorcode = true;
