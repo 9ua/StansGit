@@ -355,10 +355,8 @@ export default {
       this.$set(item, "showPop", false);
     },
     toLottery(item) {
-      console.log(item)
-      console.log(item.groupId)
+      // console.log(item)
       this.$router.push({path:"/lotts/"+item.groupId});
-      // this.$router.push({path:item.groupId,query:{id:item.id,name:item.name}});
     },
     navTo(e, index, navs) {
       this.navNum = index;

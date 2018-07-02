@@ -5,15 +5,15 @@
     width: 1000px;
     margin: 0 auto;
     border: 1px solid #e6e6e6;
-    padding: 14px;
   }
 }
 
 .lott-top {
-  background:url(http://imagess-google.com/system/pc/k3/betBg.png);
+  background: url(http://imagess-google.com/system/pc/k3/betBg.png);
   height: 116px;
   border-radius: 10px;
   padding: 20px 0px;
+  margin: 14px;
   @extend %flex;
   & .lott-top-left {
     @extend %faj;
@@ -37,7 +37,7 @@
     & p {
       @extend %faj;
       font-size: 14px;
-      & span{
+      & span {
         color: red;
       }
     }
@@ -52,8 +52,8 @@
     & p {
       @extend %faj;
       font-size: 14px;
-      & span{
-        color:red;
+      & span {
+        color: red;
       }
     }
     & div {
@@ -68,11 +68,105 @@
 .lottBox {
   @extend %flex;
   margin-top: 10px;
+  border-top: 1px solid #ddd;
   .lott-left {
-    width: 728px;
+    width: 740px;
+    min-height: 500px;
   }
   .lott-right {
-    width: 240px;
-    border: 1px solid #e6e6e6;
+    width: 258px;
+    min-height: 500px;
+    border-left: 1px solid #ddd;
+    & .lott-right-top1 {
+      @extend %flex;
+      @extend %aitems;
+      @extend %sbetween;
+      height: 38px;
+      padding: 0px 8px;
+      & button {
+        @extend %flex;
+        @extend %aitems;
+        background: #455467;
+        height: 26px;
+        border: none;
+        border-radius: 4px;
+        color: #FFF;
+        font-size: 12px;
+        padding: 0 10px;
+        cursor: pointer;
+      }
+      & p {
+        @extend %flex;
+        color: #555;
+        & i {
+          @extend %flex;
+          padding: 0px 6px;
+        }
+        & span:hover {
+          color: #ff9600;
+          cursor: pointer;
+        }
+      }
+    }
+    & .lott-right-top2 {
+      & p.lott-right-top2-title {
+        @extend %flex;
+        @extend %aitems;
+        border-bottom: 1px solid #ddd;
+        height: 28px;
+        font-size: 12px;
+        background: #f2f4f7;
+        & span {
+          @extend %faj;
+        }
+      }
+      & ul{
+        & li{
+          @extend %flex;
+          height: 26px;
+          border-bottom: 1px dashed #ebebeb;
+          & span{
+            border-right: 1px dotted #ebebeb;
+          }
+        }
+      }
+    }
+  }
+}
+
+.lott-right-top2-span1 {
+  @extend %faj;
+  width: 108px;
+}
+
+.lott-right-top2-span2 {
+  @extend %faj;
+  width: 50px;
+  & i{
+    color: #ff9600;
+  }
+}
+
+.lott-right-top2-span3 {
+  @extend %faj;
+  width: 33px;
+}
+
+.lott-right-top2-span4 {
+  @extend %faj;
+  width: 66px;
+  & i{
+    @extend %faj;
+    margin: 0px 6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    color: #FFF;
+  }
+  & .yellow{
+    background: #ff9600;
+  }
+  & .blue{
+    background: #5691d7;
   }
 }

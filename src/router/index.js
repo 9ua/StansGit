@@ -43,7 +43,7 @@ export default new Router({
           name: 'k3',
           component: k3,
           meta:{
-            title:"宏發娱乐-彩票大厅"
+            title:"宏發娱乐-彩票大厅-快3"
           }
         },
         {
@@ -51,7 +51,7 @@ export default new Router({
           name: 'ssc',
           component: ssc,
           meta:{
-            title:"宏發娱乐-彩票大厅"
+            title:"宏發娱乐-彩票大厅-时时彩"
           }
         },
         {
@@ -59,7 +59,7 @@ export default new Router({
           name: 'pk10',
           component: pk10,
           meta:{
-            title:"宏發娱乐-彩票大厅"
+            title:"宏發娱乐-彩票大厅-北京赛车"
           }
         },
         {

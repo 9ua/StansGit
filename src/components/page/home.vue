@@ -5,14 +5,14 @@
       .lotteList
         ul
           li(:class="{'active': index === navNum}", v-for='(nav,index) in lotteryList', :key='index') 
-            a(:href='"#"') 
+            router-link(:to='"/lotts/"+nav.groupId') 
               img(:src='"@/assets/img/lott/"+nav.groupId+".png"', alt='') 
               {{nav.name}}
               span 1分钟1期
     .homeSideCenter
       .banner
         .bannerBox
-          a(:href='"#"') 
+          router-link(to='')
             img(src='http://chinahuiji.com/res/upload/98488f66967c44a0877728544b620a2f.jpg', alt='')
       .autoTab
         ul
