@@ -3,7 +3,7 @@ import Router from 'vue-router'
 const sy = r => require.ensure([], () => r(require('@/components/page/sy.vue')), 'sy')
 const home = r => require.ensure([], () => r(require('@/components/page/home.vue')), 'home')
 const lott = r => require.ensure([], () => r(require('@/components/page/lott.vue')), 'lott')
-const lottlist = r => require.ensure([], () => r(require('@/components/page/lotts/lottlist.vue')), 'lott')
+const lottList = r => require.ensure([], () => r(require('@/components/page/lotts/lottlist.vue')), 'lott')
 const activity = r => require.ensure([], () => r(require('@/components/page/activity.vue')), 'activity')
 const appdown = r => require.ensure([], () => r(require('@/components/page/appdown.vue')), 'appdown')
 const helpcenter = r => require.ensure([], () => r(require('@/components/page/helpcenter.vue')), 'helpcenter')
@@ -37,9 +37,9 @@ export default new Router({
           }
         },
         {
-          path: '/lottlist',
-          name: 'lottlist',
-          component: lottlist,
+          path: '/lottList',
+          name: 'lottList',
+          component: lottList,
           meta:{
             title:"宏發娱乐-彩票大厅"
           }

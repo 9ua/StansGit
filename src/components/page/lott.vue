@@ -16,7 +16,7 @@
             <p class="title">风云榜</p>
             <div class="nwwest-roll">
               <ul>
-                <li :class="{anim:animate==true}" v-for="(item,index) in winpool" :key="index" ref="rollul">
+                <li :class="{anim:animate==true}" v-for="(item,index) in winpool" :key="index">
                   <img :src='item.paths' alt="">
                   <div class="right-box">
                     <p>
@@ -355,7 +355,7 @@ export default {
       this.$set(item, "showPop", false);
     },
     toLottery(item) {
-      this.$router.push("/lottlist");
+      this.$router.push({path:"/lottList",query:{id:item.id,name:item.name}});
     },
     navTo(e, index, navs) {
       this.navNum = index;
@@ -391,6 +391,7 @@ export default {
           this.lotteryListK3 = res.data.data.k3;
           this.lotteryListSsc = res.data.data.ssc;
           this.lotteryListPk10 = res.data.data.pk10;
+          console.log(this.lotteryList)
         })
         .catch(error => {
           console.log("getLotteryListNo");
