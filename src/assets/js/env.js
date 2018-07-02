@@ -4,7 +4,7 @@
 
 let baseUrl = '';
 if (process.env.NODE_ENV == 'development') {
-  baseUrl = 'http://115.144.238.217';
+  baseUrl = 'http://edu0370.com';
 } else if (process.env.NODE_ENV == 'production') {
   baseUrl = 'http://chinahuiji.com';
 }
