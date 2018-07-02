@@ -23,11 +23,9 @@ export default {
   },
   methods: {
     activity() {
-      this.$axios.get(baseUrl + "/api/activity/getList")
+      this.$axios.get(baseUrl + "/api/activity/getList", this.$store.state.config)
         .then(res => {
-          console.log("loginStatus:"+localStorage.getItem("loginStatus"))
           this.activitys = res.data.data;
-          console.log(this.activitys)
         })
         .catch(error => {
           console.log("getListNo");

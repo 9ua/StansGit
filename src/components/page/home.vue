@@ -1,7 +1,7 @@
 <template lang="jade">
 .home
   .homeBox
-    GeminiScrollbar.my-scroll-bar(style="height:468px;width:232px;")
+    GeminiScrollbar.my-scroll-bar(style="height:462px;width:232px;")
       .lotteList
         ul
           li(:class="{'active': index === navNum}", v-for='(nav,index) in lotteryList', :key='index') 
@@ -66,12 +66,11 @@ export default {
     //获取过去开奖号码1个
     getPastOp(lotteryId) {
       this.$axios
-        .get(baseUrl + "/api/lottery/getPastOpen", {
+        .get(baseUrl + "/api/lottery/getPastOpen", this.$store.state.config,{
           params: { lotteryId: lotteryId, count: 1}
         })
         .then(res => {
           this.getPastO = res.data.data;
-          console.log(res,"---------");
         })
         .catch(error => {
           console.log("获取过去开奖号码No");
