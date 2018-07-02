@@ -1,4 +1,66 @@
 @import '@/assets/minix/main.scss';
 .helpcenter {
-  margin-top: 15px;
+  padding-top: 15px;
+  background: #eee;
+  & .helpcenterBox{
+    width: 1000px;
+    margin: 0 auto;
+    @extend %flex;
+  }
+}
+.help-left{
+  width: 200px;
+  min-height: 500px;
+  background: #FFF;
+  & h2{
+    height: 40px;
+    @extend %faj;
+    font-weight: 100;
+    font-size: 18px;
+    color: #FFF;
+    background: #af3a31;
+  }
+  & ul{
+    & li{
+      @extend %flex;
+      @extend %aitems;
+      padding-left:25px; 
+      height: 36px;
+      border-bottom: 1px solid #eff0f1;
+      color:#666;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    & li.active{
+      padding-left:22px; 
+      color: #ED635D;
+      border-left: 3px solid #ED635D;
+    }
+  }
+}
+.help-right{
+  width: 780px;
+  margin-left: 20px;
+  padding: 30px;
+  background: #FFF;
+  & .help-right-content{
+    & h2{
+      border-bottom: 1px solid #fce1e6;
+      font-size: 18px;
+      height: 40px;
+    }
+    & div{
+      margin-top: 5px;
+      & p{
+        @extend %flex;
+        @extend %aitems;
+        line-height: 24px;
+        font-size: 14px;
+        color: #666;
+      }
+      & h3{
+        margin-top: 20px;
+      }
+    }
+  }
 }

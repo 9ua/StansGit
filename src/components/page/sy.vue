@@ -80,7 +80,6 @@ export default {
     };
   },
   mounted() {
-    this.haa();
     this.getTopUserData();
   },
   methods: {
@@ -88,7 +87,7 @@ export default {
     //获取用户信息
     getTopUserData(){
       this.$axios.get(baseUrl + "/api/userCenter/getTopUserData").then(res => {
-        console.log(res,"获取用户信息")
+        // console.log(res,"获取用户信息")
       });
     },
     logOut() {
@@ -105,10 +104,6 @@ export default {
           console.log("logOutNo");
         });
     },
-    haa() {
-      console.log("store:" + this.$store.state.loginStatus);
-      console.log("getItem:" + Boolean(localStorage.getItem("loginStatus")));
-    }
   },
   components: {
     footerBar
