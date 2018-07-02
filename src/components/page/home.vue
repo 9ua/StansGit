@@ -12,11 +12,7 @@
     .homeSideCenter
       .banner
         .bannerBox
-<<<<<<< HEAD
-          a(@click='toActive') 
-=======
-          router-link(to='')
->>>>>>> 31f51d7f222ba9bbe5714434adfe1c60563cfe77
+          router-link(to='/activity')
             img(src='http://chinahuiji.com/res/upload/98488f66967c44a0877728544b620a2f.jpg', alt='')
       .autoTab
         ul.tab
