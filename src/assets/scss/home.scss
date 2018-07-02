@@ -8,7 +8,7 @@
     margin: 0 auto;
     @extend %flex;
     @extend %sbetween;
-    & .homeSideLeft {
+    & .my-scroll-bar {
       @extend %sbetween;
       width: 232px;
       max-height: 468px;
@@ -146,18 +146,15 @@
           @extend %fdc;
           height: 160px;
           & li {
-            @extend %flex;
-            @extend %aitems;
-            @extend %sbetween;
+            @extend %flex,%aitems,%sbetween;
             padding-left: 8px;
             border-bottom: 1px dashed #DCE1E5;
             height: 33%;
             & .champion {
-              @extend %flex;
-              @extend %aitems;
+              @extend %flex,%aitems;
               & p {
-                @extend %flex;
-                @extend %fdc;
+                
+                @extend %flex,%fdc;
                 & .nickname,
                 & .gain {
                   color: #F63745;
@@ -185,7 +182,6 @@
               height: 24px;
               border-radius: 50%;
               color: #FFFFFF;
-              @extend %flex;
               @extend %faj;
               margin-right: 8px;
             }

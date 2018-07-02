@@ -135,3 +135,16 @@
         text: "https://www.pgyer.com/mjn2" // 二维码内容
       });
 	}
+
+# 全局滚动条 #
+
+	npm i vue-gemini-scrollbar --save
+
+	import Vue from 'vue'
+	import GeminiScrollbar from 'vue-gemini-scrollbar'
+ 
+	Vue.use(GeminiScrollbar)
+
+	<GeminiScrollbar class="my-scroll-bar" style="height:100px;width:100px;">
+		content...
+	</GeminiScrollbar>

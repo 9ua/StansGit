@@ -14,7 +14,9 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import YDUI from 'vue-ydui';
 import 'vue-ydui/dist/ydui.px.css';
-
+import GeminiScrollbar from 'vue-gemini-scrollbar'
+ 
+Vue.use(GeminiScrollbar)
 Vue.use(YDUI);
 Vue.use(ElementUI);
 Vue.use(MuseUI);
