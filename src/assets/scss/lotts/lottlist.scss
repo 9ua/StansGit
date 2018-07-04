@@ -72,6 +72,255 @@
   .lott-left {
     width: 740px;
     min-height: 500px;
+    & .lott-left-nav {
+      @extend %flex,
+      %aitems,
+      %sbetween;
+      height: 39px;
+      border-bottom: 1px solid #ddd;
+      & button {
+        @extend %faj;
+        border: none;
+        width: 5.2%;
+        height: 38px;
+        background: linear-gradient(#fff 2%, #ececec);
+        cursor: pointer;
+        & span {
+          @extend %faj;
+          border: 1px solid #666;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          & i {
+            font-size: 14px;
+            color: #666;
+          }
+        }
+      }
+      & button:nth-child(1) {
+        border-right: 1px solid #ddd;
+      }
+      & button:nth-child(3) {
+        border-left: 1px solid #ddd;
+      }
+      & .lott-left-navBox {
+        width: 89.6%;
+        height: 38px;
+        overflow: hidden;
+        position: relative;
+        & ul {
+          @extend %flex,
+          %aitems;
+          position: absolute;
+          top: 0;
+          left: 0px;
+          height: 38px;
+          width: auto;
+          & li {
+            @extend %faj;
+            height: 38px;
+            width: 100px;
+            font-size: 14px;
+            border-right: 1px solid #ddd;
+            cursor: pointer;
+          }
+          & li.active{
+            background:#f37036;
+            color: #FFF;
+          }
+        }
+      }
+    }
+    & .getPlayTree {
+      @extend %flex,%aitems;
+      background: #f2f4f7;
+      border-bottom: 1px solid #ddd;
+      & ul {
+        @extend %flex,%fr;
+        padding-left: 14px;
+        & li {
+          @extend %faj;
+          height: 38px;
+          padding: 0px 20px;
+          cursor: pointer;
+        }
+        & li:hover {
+          color: red;
+        }
+        & li.active {
+          height: 41px;
+          color: red;
+          border-bottom: 3px solid red;
+        }
+      }
+    }
+    & .getPlayTreeBox {
+      @extend %flex,
+      %aitems;
+      height: 38px;
+      background: #E6E6E6;
+      padding-left: 14px;
+      & ul {
+        & li {
+          @extend %flex;
+          & p {
+            @extend %faj;
+            height: 38px;
+            padding: 0px 20px;
+            cursor: pointer;
+          }
+          & p.active {
+            color: red;
+          }
+        }
+      }
+    }
+    & .conterButBox {
+      padding: 14px 14px;
+      & .conterButTitle {
+        margin-bottom: 16px;
+        & i {
+          color: red;
+        }
+        & i:nth-child(1) {
+          margin-right: 6px;
+        }
+      }
+      & .conterBut {
+        @extend %faj;
+        background: url(http://imagess-google.com/system/pc/k3/betBg.png);
+        border-radius: 10px;
+        min-height: 200px;
+      }
+      & .zhu {
+        @extend %faj,
+        %fdc;
+        font-size: 16px;
+        margin-top: 24px;
+        & p {
+          @extend %faj;
+          width: 100%;
+          padding: 0px 0px 20px;
+          & i {
+            color: #f37036;
+            margin: 0px 6px;
+          }
+        }
+        & .butBox {
+          @extend %flex,
+          %aitems;
+          justify-content: flex-end;
+          width: 100%;
+          height: 40px;
+          & button {
+            font-size: 20px;
+            width: 150px;
+            height: 40px;
+            background: #f37036;
+            color: #FFF;
+            border: none;
+            border-radius: 4px;
+            font-family: Microsoft YaHei;
+            cursor: pointer;
+            margin-left: 14px;
+          }
+          & button.add{
+            background: #5f52a0;
+          }
+          & .numSum {
+            @extend %flex,
+            %aitems;
+            width: 224px;
+            height: 40px;
+            & .trim {
+              margin-right: 10px;
+            }
+            & .yd-spinner {
+              width: 150px !important;
+              height: 30px !important;
+              border-radius: 15px !important;
+              background: #ece2e2 !important;
+              & a{
+                width: 30px !important;
+                height: 30px !important;
+                border-radius: 50% !important;
+              }
+            }
+          }
+        }
+      }
+      & .hurdle{
+        width: 100%;
+        height: 160px;
+        border: 1px solid #ddd;
+        margin-top: 20px;
+        & .hurdleTitle{
+          @extend %flex,%aitems;
+          background: #e8eaef;
+          & li{
+            @extend %faj;
+            height: 30px;
+          }
+          & li:nth-child(1){
+            width: 120px;
+          }
+          & li:nth-child(2){
+            width: 270px;
+          }
+          & li:nth-child(3),li:nth-child(4),li:nth-child(5),li:nth-child(6),li:nth-child(7){
+            width: 64px;
+          }
+          & li:nth-child(7){
+            color: #f37036;
+          }
+        }
+        & .addList{
+          @extend %flex,%aitems;
+          & li{
+            @extend %faj;
+            height: 30px;
+          }
+          & li:nth-child(1){
+            width: 120px;
+          }
+          & li:nth-child(2){
+            width: 270px;
+          }
+          & li:nth-child(3),li:nth-child(4),li:nth-child(5),li:nth-child(6),li:nth-child(7){
+            width: 64px;
+          }
+          & li:nth-child(7){
+            color: #f37036;
+            font-size: 16px;
+            cursor: pointer;
+          }
+        }
+      }
+      & .affirm{
+        @extend %flex,%sbetween;
+        margin-top: 10px;
+        height: 40px;
+        & p{
+          @extend %faj;
+          font-size: 14px;
+          & span{
+            margin-right: 6px;
+          }
+        }
+        & button {
+          font-size: 20px;
+          width: 150px;
+          height: 40px;
+          background: #f37036;
+          color: #FFF;
+          border: none;
+          border-radius: 4px;
+          font-family: Microsoft YaHei;
+          cursor: pointer;
+          margin-left: 14px;
+        }
+      }
+    }
   }
   .lott-right {
     width: 258px;
@@ -125,7 +374,8 @@
       }
       & ul {
         & li {
-          @extend %flex,%aitems;
+          @extend %flex,
+          %aitems;
           height: 26px;
           border-bottom: 1px dashed #ebebeb;
           & span {
@@ -137,9 +387,9 @@
   }
 }
 
-.lott-right-top4-but{
+.lott-right-top4-but {
   height: 30px !important;
-  padding-right:15px; 
+  padding-right: 15px;
   @extend %flex;
   align-items: flex-end;
   justify-content: flex-end;
@@ -147,9 +397,11 @@
   font-size: 14px;
   cursor: pointer;
 }
-.lott-right-top4-but:hover{
+
+.lott-right-top4-but:hover {
   color: red;
 }
+
 .lott-right-top2-span1 {
   @extend %faj;
   width: 108px;
@@ -202,6 +454,14 @@
   width: 74.5px;
   & i {
     color: red;
+  }
+}
+
+.lott-right-top4-span3.status {
+  @extend %faj;
+  width: 74.5px;
+  & i {
+    color: #666;
   }
 }
 
@@ -258,7 +518,7 @@ p.lott-right-top5-title,
         border-radius: 50%;
         margin-right: 10px;
       }
-      & i{
+      & i {
         color: #F63745;
       }
     }

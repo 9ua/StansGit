@@ -2,8 +2,8 @@
   <div class="lott">
     <div class="lott-center">
       <div class="lott-top">
-        <div class="lott-top-left"><img src="http://hf68.com/res/home/images/lottTypes/cz_sj1fc-theme-black.png" alt="" />
-          <span>宏发k3</span>
+        <div class="lott-top-left"><img src="../../../assets/img/lott/k3.png" alt="" />
+          <span>{{lottName}}</span>
         </div>
         <div class="lott-top-middle">
           <p>第
@@ -26,7 +26,68 @@
         </div>
       </div>
       <div class="lottBox">
-        <div class="lott-left">left</div>
+        <div class="lott-left">
+          <div class="lott-left-nav">
+            <button><span><i class="el-icon-caret-left"></i></span></button>
+            <div class="lott-left-navBox">
+              <ul>
+                <li :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
+              </ul>
+            </div>
+            <button><span><i class="el-icon-caret-right"></i></span></button>
+          </div>
+          <div class="getPlayTree">
+            <ul>
+              <li :class="{'active': index === navTo}" v-for="(item,index) in playGroups" :key="index" @click="playGroupBut(item,index)">{{item.title}}</li>
+            </ul>
+          </div>
+          <div class="getPlayTreeBox">
+            <ul>
+              <li v-for="(item,indexs) in sgroups2" :key="indexs" v-show="indexs === navTo">
+                <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)">{{play.title}}</p>
+              </li>
+            </ul>
+          </div>
+          <div class="conterButBox">
+            <div class="conterButTitle"><i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金<i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
+            <div class="conterBut">
+              cfdsafasdf
+            </div>
+            <div class="zhu">
+              <p>您选择了 <i>{{zhu}}</i> 注</p>
+              <div class="butBox">
+                <div class="numSum">
+                  <span class="trim">投注金额</span><yd-spinner v-model="spinner3"></yd-spinner>
+                </div>
+                <button class="add">添加号码栏</button><button>立即投注</button>
+              </div>
+            </div>
+            <div class="hurdle">
+              <ul class="hurdleTitle">
+                <li>玩法</li>
+                <li>号码</li>
+                <li>模式</li>
+                <li>注数</li>
+                <li>倍数</li>
+                <li>金额</li>
+                <li>清空</li>
+              </ul>
+              <ul class="addList">
+                <li>【单挑一骰】</li>
+                <li>2,3,4</li>
+                <li>元</li>
+                <li>{{zhu}}</li>
+                <li>{{spinner3}}</li>
+                <li>￥{{zhu*spinner3}}</li>
+                <li><i class="el-icon-close"></i></li>
+              </ul>
+            </div>
+            <div class="affirm">
+              <p><span>总注数：{{zhu}}, </span><span>总金额：{{zhu*spinner3}}, </span><span>余额：{{$store.state.balance}}</span></p>
+              <button>确认投注</button>
+            </div>
+          </div>
+        </div>
         <div class="lott-right">
           <div class="lott-right-top1">
             <button>今日开奖</button>
@@ -68,12 +129,13 @@
               <span class="lott-right-top4-span3">奖金</span>
             </p>
             <ul>
-              <li v-for="item in 2" :key="item.id">
-                <span class="lott-right-top4-span1">20180702064</span>
+              <li v-for="(item,index) in orderList" :key="index" v-if="index < 4">
+                <span class="lott-right-top4-span1">{{item.seasonId}}</span>
                 <span class="lott-right-top4-span2">
-                  <i>10000.00</i>
+                  <i>{{item.amount}}.00</i>
                 </span>
-                <span class="lott-right-top4-span3"><i>10000.00</i></span>
+                <span class="lott-right-top4-span3" :class="{'status': item.win === 0}" v-if="item.win === 0"><i>{{item.statusName}}</i></span>
+                <span class="lott-right-top4-span3" v-if="item.win !== 0"><i>{{item.win}}</i></span>
               </li>
               <li class="lott-right-top4-but">更多>></li>
             </ul>
@@ -121,10 +183,28 @@ export default {
   data() {
     return {
       sum: 10,
+      navTo:2,
+      playNum:0,
+      zhu:10,
+      spinner3:0,
       butClass1:true,
       butClass2:false,
       animate:true,
+      orderList:null,
+      lottName:'宏發k3',//彩种名
+      lottNameIndex:0,//默认彩种
       winList: null, //中奖列表
+      lotteryList:null,
+      playGroups:null,//玩法树
+      playBonus: "", //玩法树
+      playBonusId: "ssc_star5", //点击选中后获取此玩法ID
+      current_player: {}, //當前玩法
+      current_player_bonus: {}, //當前玩法
+      splayGroups: [],
+      sgroups: [], 
+      sgroups2: [], 
+      splayers: [], 
+      snumView: [], 
       winpool: [
         {
           name: "william",
@@ -374,12 +454,82 @@ export default {
   },
   mounted(){
     this.getLastDayWinList();
+    this.getbetOrderList();
+    this.lotteryAll();
+    this.getPlayTree();
   },
   methods:{
+    playGroupBut(item,index){
+      this.navTo = index;
+      this.playNum = 0;
+    },
+    playersBut(play,indexff){
+      this.playNum = indexff;
+    },
+    //玩法术
+    getPlayTree(){
+      this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId=dfk3",this.$store.state.config).then(res =>{
+        this.playGroups = res.data.data.playGroups;
+        this.playBonus = res.data.data.playBonus;
+        this.setupPlayTree();
+      }).catch(error =>{
+        console.log("玩法术,No");
+      })
+    },
+    setupPlayTree() {
+      this.current_player = this.playGroups[0].groups[0].players[0];
+      this.current_player_bonus = this.current_player;
+      for (let i = 0; i < this.playGroups.length; i++) {
+        this.splayGroups.push(this.playGroups[i]);
+      }
+      for (let j = 0; j < this.splayGroups.length; j++) {
+        this.sgroups.push(this.splayGroups[j].groups);
+      }
+      for (let k = 0; k < this.sgroups.length; k++) {
+        for (let j = 0; j < this.sgroups[k].length; j++) {
+          this.sgroups2.push(this.sgroups[k][j]);
+        }
+      }
+      for (let i = 0; i < this.sgroups2.length; i++) {
+        this.splayers.push(this.sgroups2[i].players);
+      }
+      for (let h = 0; h < this.splayers.length; h++) {
+        for (let i = 0; i < this.splayers[h].length; i++) {
+          this.snumView.push(this.splayers[h][i].numView);
+        }
+      }
+      this.displayBonus = this.splayers[0][0].displayBonus;
+    },
+    //导航点击
+    lottListNav(item,index){
+      this.lottName = item.name;
+      this.lottNameIndex = index;
+    },
+    // 获取彩种
+    lotteryAll() {
+      this.$axios
+        .get(baseUrl + "/api/lottery/getLotteryList")
+        .then(res => {
+          this.lotteryList = res.data.data.k3;
+        })
+        .catch(error => {
+          console.log("获取全部快3,No");
+        });
+    },
+    //我的投注
+    getbetOrderList(){
+      this.$axios.get(baseUrl + "/api/proxy/getbetOrderList?include=0&status=100&betweenType=3&start=0&limit=4&account="+this.$store.state.Globalusername,this.$store.state.config).then(res =>{
+        this.orderList = res.data.data.list
+      }).catch(error =>{
+        console.log("获取投注记录失败");
+      })
+    },
+    //中奖信息
     butClass1C(){
       this.butClass2 = false;
       this.butClass1 = true;
     },
+    //昨日盈利
     butClass2C(){
       this.butClass1 = false;
       this.butClass2 = true;
@@ -393,6 +543,7 @@ export default {
         console.log("getLastDayWinListNo");
       });
     },
+    //滚动动画
     scroll() {
       this.animate = !this.animate;
       setTimeout(() => {
@@ -411,10 +562,23 @@ export default {
     keepTwoNum(value) {
       value = Number(value);
       return value.toFixed(2);
+    },
+    keepThreeNum(value) {
+      value = parseInt(value * 1000) / 1000;
+      return value;
+    }
+  },
+  //focus
+  directives: {
+    focus: {
+      inserted: function(el) {
+        el.focus();
+      }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 @import "../../../assets/scss/lotts/lottlist.scss";
+@import "../../../assets/scss/lotts/k3.scss";
 </style>
