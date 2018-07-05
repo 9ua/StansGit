@@ -12,7 +12,7 @@
         ul.personalInfo
           li
             span 账号:
-            ins {{usreData.account}}
+            ins {{this.$store.state.Globalusername}}
           li
             span 等级:
             ins 测试组

@@ -13,7 +13,7 @@
           li
             em 账
             号 ：
-            span {{usreData.account}}
+            span {{this.$store.state.Globalusername}}
           li 
             em 等
             级 ：
