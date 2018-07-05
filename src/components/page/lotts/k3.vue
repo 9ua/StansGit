@@ -49,9 +49,18 @@
             </ul>
           </div>
           <div class="conterButBox">
+            <!-- <div class="conterButTitle" v-for="(item,index) in playGroups" :key="index">
+              <div v-for="(itema,indexa) in item.groups" :key="indexa">
+                <div v-for="(itemb,indexb) in itema.players" :key="indexb" v-show="indexb === navTo">
+                  <i class="el-icon-info"></i>{{navTo}}{{itemb.remark}}。单注最高奖金<i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍
+                </div>
+              </div>
+            </div> -->
             <div class="conterButTitle"><i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金<i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
-            <div class="conterBut">
-              cfdsafasdf
+            <div class="conterBut" :class="'conterBut'+className">
+              <div :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
+                <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha)" ><span v-if="className !== 'k3_star3_and'"></span><span v-else>{{item.ball}}</span></p>
+              </div>
             </div>
             <div class="zhu">
               <p>您选择了 <i>{{zhu}}</i> 注</p>
@@ -183,7 +192,7 @@ export default {
   data() {
     return {
       sum: 10,
-      navTo:2,
+      navTo:0,
       playNum:0,
       zhu:10,
       spinner3:0,
@@ -191,6 +200,7 @@ export default {
       butClass2:false,
       animate:true,
       orderList:null,
+      className:'k3_star1',//玩法ID
       lottName:'宏發k3',//彩种名
       lottNameIndex:0,//默认彩种
       winList: null, //中奖列表
@@ -459,14 +469,22 @@ export default {
     this.getPlayTree();
   },
   methods:{
+    curBalls(item,index){
+      item.choose = !item.choose;
+    },
     playGroupBut(item,index){
       this.navTo = index;
       this.playNum = 0;
-      console.log(item,"----")
+      this.current_player = item;
+      this.current_player_bonus = item.groups[0].players[0];
+      this.className = this.current_player_bonus.id;
+      console.log("上:"+this.className)
     },
     playersBut(play,indexff){
       this.playNum = indexff;
       this.current_player_bonus = play;
+      this.className = play.id;
+      console.log("下:"+this.className)
     },
     //玩法术
     getPlayTree(){
