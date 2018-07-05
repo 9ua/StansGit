@@ -1,0 +1,25 @@
+@import '@/assets/minix/main.scss';
+.viewBox {
+  & .userRight {
+    float: left;
+    width: 840px;
+    box-sizing: border-box;
+    margin-left: 10px;
+    & .userTitle {
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      line-height: 32px;
+      font-weight: 700;
+      font-size: 14px;
+      padding-left: 10px;
+      color: #050505;
+      background: #fbfbfb;
+    }
+    & .userMain {
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      min-height: 675px;
+      background: #fff;
+    }
+  }
+}

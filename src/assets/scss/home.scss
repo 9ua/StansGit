@@ -87,7 +87,7 @@
             @extend %flex;
             @extend %aitems;
             @extend %jcontent;
-            width: 100%;
+            width: calc(495px/3);
             height: 30px;
             text-align: center;
             line-height: 30px;
@@ -209,10 +209,13 @@
               & p {
                 @extend %flex,
                 %fdc;
-                & .nickname,
-                & .gain {
-                  color: #F63745;
-                  font-style: normal;
+                & span {
+                  @extend %flex;
+                  & .nickname,
+                  & .gain {
+                    color: #F63745;
+                    font-style: normal;
+                  }
                 }
               }
               & img {
@@ -260,7 +263,7 @@
           & ul {
             @extend %flex;
             @extend %fdc;
-            width: 200px;
+            width: 100%;
             position: absolute;
             top: 0px;
             left: 0px;
@@ -268,7 +271,8 @@
               height: 54px;
               @extend %flex;
               @extend %aitems;
-              width: 200px;
+              width: 100%;
+              border-bottom: 1px dashed #DCE1E5;
               & img {
                 width: 38px;
                 height: 38px;

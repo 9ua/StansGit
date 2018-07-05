@@ -27,7 +27,7 @@
               img(:src='"@/assets/img/lott/k3n"+pastOpen.n3+".png"' , alt='')
               span =
               b {{pastOpen.n1+pastOpen.n2+pastOpen.n3}}
-              button(@click='') 立即投注
+              button(@click='gotBet') 立即投注
             li 
               span 当前：第
                 em {{pastOpen.seasonId}} 期
@@ -42,7 +42,7 @@
               span.number {{pastOpen.n3}}
               span.number {{pastOpen.n4}}
               span.number {{pastOpen.n5}}
-              button(@click='') 立即投注
+              button(@click='gotBet') 立即投注
             li 
               span 当前：第
                 em {{pastOpen.seasonId}} 期
@@ -94,7 +94,7 @@ export default {
       lotteryList: null,
       lotteryId: "jsk3", //默认上期开奖结果（江苏快3）
       winList: null, //中奖列表
-      pastOpen: { n1: 1, n2: 2, n3: 3, seasonId: 123456 }, //上期开奖结果
+      pastOpen: { n1: 1, n2: 2, n3: 3, n4: 4,n5:5, seasonId: 123456 }, //上期开奖结果
       listnav: [
         { name: "江苏快3", lotteryId: "jsk3" },
         { name: "重庆时时彩", lotteryId: "cqssc" },
@@ -387,6 +387,13 @@ export default {
       this.lotteryId = navs.lotteryId;
       this.getPastOp();
     },
+    gotBet() {
+      if (this.lotteryId != "cqssc") {
+        this.$router.push({ path: "/lotts/k3" });
+      } else {
+        this.$router.push({ path: "/lotts/ssc" });
+      }
+    },
     //获取过去开奖号码1个
     getPastOp() {
       this.$axios
@@ -398,8 +405,8 @@ export default {
           this.$store.state.config
         )
         .then(res => {
-          this.pastOpen = res.data.data[0];
-          this.lotteryId = lotteryId;
+          this.pastOpen = res.data.data[0];        
+          this.lotteryId = this.pastOpen.lotteryId;
         })
         .catch(error => {
           console.log("获取过去开奖号码No");

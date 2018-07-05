@@ -1,0 +1,50 @@
+@import '@/assets/minix/main.scss';
+.rechargeBox {
+  width: 1000px;
+  margin: 0 auto;
+  padding-top: 15px;
+  min-height: 750px;
+  & .leftListArea {
+    width: 150px;
+    float: left;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    padding: 20px 10px;
+    background: #fbfbfb;
+    & ul.sildeSession {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 5px;
+      border-bottom: 1px dotted #ddd;
+      & h3 {
+        display: block;
+        height: 32px;
+        margin: 0;
+        line-height: 32px;
+        font-size: 14px;
+        color: #253647;
+        font-weight: 700;
+        margin-bottom: 8px;
+        & .icon {
+          font-family: iconfont;
+          font-size: 16px !important;
+          font-style: normal;
+          padding: 10px;
+          color: #2e4158;
+        }
+      }
+      & li {
+        line-height: 28px;
+        & a {
+          padding-left: 36px;
+          line-height: 25px;
+          &:hover {
+            color: #e4393c !important;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

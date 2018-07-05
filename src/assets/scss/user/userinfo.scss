@@ -1,0 +1,133 @@
+@import '@/assets/scss/user/comm.scss';
+.newTab {
+  border-bottom: 1px solid #ddd;
+  margin-top: 15px;
+  padding-left: 10px;
+  & a {
+    font-size: 14px;
+    background: #f8f8f8;
+    border: 1px solid #cecece;
+    margin: 0 5px;
+    padding: 0 10px;
+    border-radius: 4px 4px 0 0;
+    line-height: 28px;
+    display: inline-block;
+    margin-bottom: -1px;
+  }
+  & a.active {
+    border-bottom: 1px solid #fff;
+    background: #fff;
+    color: #e4393c;
+  }
+}
+
+.fix {
+  box-sizing: inherit;
+  & .selectHeadImg {
+    display: inline-block;
+    position: relative;
+    float: left;
+    margin: 30px;
+    margin-right: 0;
+    width: 100px;
+    & img {
+      vertical-align: top;
+      width: 100px;
+      height: 100px;
+      border-radius: 3px;
+    }
+    & a {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      text-align: center;
+      display: inline-block;
+      width: 100%;
+      background: rgba(0, 0, 0, .16);
+      line-height: 25px;
+      color: #fff;
+      &:hover {
+        background: rgba(0, 0, 0, .5);
+      }
+    }
+  }
+  & ul.personalInfo {
+    margin: 30px 20px;
+    margin-bottom: 0;
+    float: left;
+    width: 670px;
+    margin-left: -11px;
+    & li {
+      color: #000;
+      line-height: 36px;
+      margin-bottom: 4px;
+      & a{
+        margin-left: 8px;
+        color: #e4393c;
+      }
+      & span {
+        color: #666;
+        display: inline-block;
+        width: 144px;
+        text-align: right;
+        padding-right: 15px;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      & ins {
+        text-decoration: none;
+      }
+      & input {
+        vertical-align: middle;
+        font-size: 12px;
+      }
+      & .usreinput {
+        height: 30px;
+        line-height: 20px;
+        padding: 5px;
+        border: 1px solid #cecece;
+        width: 233px;
+        color: #666;
+        margin: 10px 0;
+      }
+      & .usreinput[disabled] {
+        background: #f8f8f8;
+        color: #aaa;
+      }
+      & b.radio_box {
+        margin-right: 20px;
+        & i {
+          background: #ddd;
+          width: 10px;
+          height: 10px;
+          border-radius: 100%;
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+      }
+      & b.checked {
+        & i {
+          background: #4aa9db;
+        }
+        color: #4aa9db;
+      }
+      & button.submitBtn {
+        display: inline-block;
+        line-height: 30px;
+        color: #fff;
+        border:0;
+        height: 30px;
+        padding: 0 15px;
+        border-radius: 3px;
+        font-size: 14px;
+        margin-right: 10px;
+        min-width: 55px;
+        text-align: center;
+        cursor: pointer;
+        background: #2e4158;
+        margin: 10px 0;
+      }
+    }
+  }
+}

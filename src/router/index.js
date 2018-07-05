@@ -11,6 +11,24 @@ const appdown = r => require.ensure([], () => r(require('@/components/page/appdo
 const helpcenter = r => require.ensure([], () => r(require('@/components/page/helpcenter.vue')), 'helpcenter')
 const login = r => require.ensure([], () => r(require('@/components/logins/login.vue')), 'login')
 const pop = r => require.ensure([], () => r(require('@/components/public/pop.vue')), 'pop')
+const user = r => require.ensure([], () => r(require('@/components/page/user.vue')), 'user')
+const userinfo = r => require.ensure([], () => r(require('@/components/page/user/userinfo.vue')), 'userinfo')
+const securityCenter = r => require.ensure([], () => r(require('@/components/page/user/securityCenter.vue')), 'securityCenter')
+const manageBankcard = r => require.ensure([], () => r(require('@/components/page/user/manageBankcard.vue')), 'manageBankcard')
+const betRecord = r => require.ensure([], () => r(require('@/components/page/user/betRecord.vue')), 'betRecord')
+const seekOrder = r => require.ensure([], () => r(require('@/components/page/user/seekOrder.vue')), 'seekOrder')
+const billRecord = r => require.ensure([], () => r(require('@/components/page/user/billRecord.vue')), 'billRecord')
+const PLstatement = r => require.ensure([], () => r(require('@/components/page/user/PLstatement.vue')), 'PLstatement')
+const agentIntro = r => require.ensure([], () => r(require('@/components/page/user/agentIntro.vue')), 'agentIntro')
+const agentReport = r => require.ensure([], () => r(require('@/components/page/user/agentReport.vue')), 'agentReport')
+const lowerReport = r => require.ensure([], () => r(require('@/components/page/user/lowerReport.vue')), 'lowerReport')
+const manageInvite = r => require.ensure([], () => r(require('@/components/page/user/manageInvite.vue')), 'manageInvite')
+const agentMember = r => require.ensure([], () => r(require('@/components/page/user/agentMember.vue')), 'agentMember')
+const agentBetRecord = r => require.ensure([], () => r(require('@/components/page/user/agentBetRecord.vue')), 'agentBetRecord')
+const agentBillRecord = r => require.ensure([], () => r(require('@/components/page/user/agentBillRecord.vue')), 'agentBillRecord')
+const letter = r => require.ensure([], () => r(require('@/components/page/user/letter.vue')), 'letter')
+const notice = r => require.ensure([], () => r(require('@/components/page/user/notice.vue')), 'notice')
+const personalLevel = r => require.ensure([], () => r(require('@/components/page/user/personalLevel.vue')), 'personalLevel')
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -26,65 +44,191 @@ export default new Router({
           path: '/home',
           name: 'home',
           component: home,
-          meta:{
-            title:"宏發娱乐-首页"
+          meta: {
+            title: "宏發娱乐-首页"
           }
         },
         {
           path: '/lott',
           name: 'lott',
           component: lott,
-          meta:{
-            title:"宏發娱乐-彩票大厅"
+          meta: {
+            title: "宏發娱乐-彩票大厅"
           }
         },
         {
           path: '/lotts/k3',
           name: 'k3',
           component: k3,
-          meta:{
-            title:"宏發娱乐-彩票大厅-快3"
+          meta: {
+            title: "宏發娱乐-彩票大厅-快3"
           }
         },
         {
           path: '/lotts/ssc',
           name: 'ssc',
           component: ssc,
-          meta:{
-            title:"宏發娱乐-彩票大厅-时时彩"
+          meta: {
+            title: "宏發娱乐-彩票大厅-时时彩"
           }
         },
         {
           path: '/lotts/pk10',
           name: 'pk10',
           component: pk10,
-          meta:{
-            title:"宏發娱乐-彩票大厅-北京赛车"
+          meta: {
+            title: "宏發娱乐-彩票大厅-北京赛车"
           }
         },
         {
           path: '/activity',
           name: 'activity',
           component: activity,
-          meta:{
-            title:"宏發娱乐-活动中心"
+          meta: {
+            title: "宏發娱乐-活动中心"
           }
         },
         {
           path: '/appdown',
           name: 'appdown',
           component: appdown,
-          meta:{
-            title:"宏發娱乐-手机购彩"
+          meta: {
+            title: "宏發娱乐-手机购彩"
           }
         },
         {
           path: '/helpcenter',
           name: 'helpcenter',
           component: helpcenter,
-          meta:{
-            title:"宏發娱乐-帮助指南"
+          meta: {
+            title: "宏發娱乐-帮助指南"
           }
+        },
+        {
+          path: '/user',
+          name: 'user',
+          redirect: "/user/userinfo",
+          component: user,
+          children: [{
+              path: '/user/userinfo',
+              component: userinfo,
+              meta: {
+                title: "宏發娱乐-个人信息"
+              }
+            },
+            {
+              path: '/user/securityCenter',
+              component: securityCenter,
+              meta: {
+                title: "宏發娱乐-安全中心"
+              }
+            },
+            {
+              path: '/user/manageBankcard',
+              component: manageBankcard,
+              meta: {
+                title: "宏發娱乐-银行卡管理"
+              }
+            },
+            {
+              path: '/user/betRecord',
+              component: betRecord,
+              meta: {
+                title: "宏發娱乐-投注记录"
+              }
+            },
+            {
+              path: '/user/seekOrder',
+              component: seekOrder,
+              meta: {
+                title: "宏發娱乐-追号记录"
+              }
+            },
+            {
+              path: '/user/billRecord',
+              component: billRecord,
+              meta: {
+                title: "宏發娱乐-交易记录"
+              }
+            },
+            {
+              path: '/user/PLstatement',
+              component: PLstatement,
+              meta: {
+                title: "宏發娱乐-今日盈亏"
+              }
+            },
+            {
+              path: '/user/agentIntro',
+              component: agentIntro,
+              meta: {
+                title: "宏發娱乐-代理说明"
+              }
+            },
+            {
+              path: '/user/agentReport',
+              component: agentReport,
+              meta: {
+                title: "宏發娱乐-代理报表"
+              }
+            },
+            {
+              path: '/user/lowerReport',
+              component: lowerReport,
+              meta: {
+                title: "宏發娱乐-下级报表"
+              }
+            },
+            {
+              path: '/user/manageInvite',
+              component: manageInvite,
+              meta: {
+                title: "宏發娱乐-下级开户"
+              }
+            },
+            {
+              path: '/user/agentMember',
+              component: agentMember,
+              meta: {
+                title: "宏發娱乐-会员管理"
+              }
+            },
+            {
+              path: '/user/agentBetRecord',
+              component: agentBetRecord,
+              meta: {
+                title: "宏發娱乐-投注明细"
+              }
+            },
+            {
+              path: '/user/agentBillRecord',
+              component: agentBillRecord,
+              meta: {
+                title: "宏發娱乐-交易明细"
+              }
+            },
+            {
+              path: '/user/letter',
+              component: letter,
+              meta: {
+                title: "宏發娱乐-站内信"
+              }
+            },
+            {
+              path: '/user/notice',
+              component: notice,
+              meta: {
+                title: "宏發娱乐-网站公告"
+              }
+            },
+            {
+              path: '/user/personalLevel',
+              component: personalLevel,
+              meta: {
+                title: "宏發娱乐-等级头衔"
+              }
+            },
+          ],
         }
       ]
     },
