@@ -462,9 +462,11 @@ export default {
     playGroupBut(item,index){
       this.navTo = index;
       this.playNum = 0;
+      console.log(item,"----")
     },
     playersBut(play,indexff){
       this.playNum = indexff;
+      this.current_player_bonus = play;
     },
     //玩法术
     getPlayTree(){
