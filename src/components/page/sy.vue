@@ -16,7 +16,7 @@
             </router-link>
           </ul>
           <ul class="header-top-login" v-show="$store.state.loginStatus">
-            <router-link to="" tag="li"><img src="../../assets/img/header/1.jpg" alt="" />
+            <router-link to="/user" tag="li"><img src="../../assets/img/header/1.jpg" alt="" />
               <span>{{this.$store.state.Globalusername}}</span>
             </router-link>
             <router-link to="" tag="li">

@@ -51,4 +51,60 @@
       }
     }
   }
+  & ul.evCallInfo {
+    float: left;
+    margin: 25px 30px;
+    line-height: 22px;
+    margin-bottom: 30px;
+    & em{
+      letter-spacing:12px;
+    }
+  }
+  & .levelBar {
+    margin: 10px 30px;
+    width: 80%;
+    height: 48px;
+    clear: both;
+    position: relative;
+    & .levelBarInfo {
+      position: relative;
+      margin: 2px 0;
+      & em {
+        position: absolute;
+        top: 6px;
+        line-height: 15px;
+        text-align: center;
+        font-size: 14px;
+      }
+      & p {
+        text-align: center;
+      }
+      & i {
+        position: absolute;
+        top: 6px;
+        line-height: 15px;
+        text-align: center;
+        font-size: 14px;
+        right: 0;
+      }
+    }
+  }
+  & h6 {
+    margin: 0 30px
+  }
+  & table {
+    table-layout: fixed;
+    margin: 0 30px;
+    text-align: center;
+    margin-bottom: 30px;
+    border-collapse: collapse;
+    & th {
+      background-color: #f2f7ff;
+    }
+    & th,
+    & td {
+      border: 1px solid #e6e6e6;
+      height: 32px;
+    }
+  }
 }

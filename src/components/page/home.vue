@@ -20,34 +20,34 @@
         .autoTabContent
           ul.contentK3(v-if='lotteryId==="jsk3"||lotteryId==="dfk3"')
             li
-              img(:src='"@/assets/img/lott/k3n"+pastOpen.n1+".png"' , alt='')
+              img(:src='"@/assets/img/lott/k3n"+pastOpenK3.n1+".png"' , alt='')
               span +
-              img(:src='"@/assets/img/lott/k3n"+pastOpen.n2+".png"' , alt='')
+              img(:src='"@/assets/img/lott/k3n"+pastOpenK3.n2+".png"' , alt='')
               span +
-              img(:src='"@/assets/img/lott/k3n"+pastOpen.n3+".png"' , alt='')
+              img(:src='"@/assets/img/lott/k3n"+pastOpenK3.n3+".png"' , alt='')
               span =
-              b {{pastOpen.n1+pastOpen.n2+pastOpen.n3}}
+              b {{pastOpenK3.n1+pastOpenK3.n2+pastOpenK3.n3}}
               button(@click='gotBet') 立即投注
             li 
               span 当前：第
-                em {{pastOpen.seasonId}} 期
+                em {{pastOpenK3.seasonId}} 期
               span 开奖号码
-                em {{pastOpen.n1}},{{pastOpen.n2}},{{pastOpen.n3}}
+                em {{pastOpenK3.n1}},{{pastOpenK3.n2}},{{pastOpenK3.n3}}
               span 和值
-                em {{pastOpen.n1+pastOpen.n2+pastOpen.n3}}
+                em {{pastOpenK3.n1+pastOpenK3.n2+pastOpenK3.n3}}
           ul.contentSSC(v-if='lotteryId==="cqssc"')
             li
-              span.number {{pastOpen.n1}}
-              span.number {{pastOpen.n2}}
-              span.number {{pastOpen.n3}}
-              span.number {{pastOpen.n4}}
-              span.number {{pastOpen.n5}}
+              span.number {{pastOpenSSC.n1}}
+              span.number {{pastOpenSSC.n2}}
+              span.number {{pastOpenSSC.n3}}
+              span.number {{pastOpenSSC.n4}}
+              span.number {{pastOpenSSC.n5}}
               button(@click='gotBet') 立即投注
             li 
               span 当前：第
-                em {{pastOpen.seasonId}} 期
+                em {{pastOpenSSC.seasonId}} 期
               span 开奖号码
-                em {{pastOpen.n1}},{{pastOpen.n2}},{{pastOpen.n3}},{{pastOpen.n4}},{{pastOpen.n5}}
+                em {{pastOpenSSC.n1}},{{pastOpenSSC.n2}},{{pastOpenSSC.n3}},{{pastOpenSSC.n4}},{{pastOpenSSC.n5}}
     .homeSideRight
       .userNameBox(v-show='!this.$store.state.loginStatus')
         button(@click='login') 登录
@@ -95,7 +95,8 @@ export default {
       lotteryList: null,
       lotteryId: "jsk3", //默认上期开奖结果（江苏快3）
       winList: null, //中奖列表
-      pastOpen: { n1: 1, n2: 2, n3: 3, n4: 4,n5:5, seasonId: 123456 }, //上期开奖结果
+      pastOpenK3: { n1: 1, n2: 2, n3: 3, seasonId: 123456 }, //上期k3开奖结果
+      pastOpenSSC: { n1: 1, n2: 2, n3: 3, n4: 4,n5:5, seasonId: 123456 }, //上期ssc开奖结果
       listnav: [
         { name: "江苏快3", lotteryId: "jsk3" },
         { name: "重庆时时彩", lotteryId: "cqssc" },
@@ -414,8 +415,14 @@ export default {
           this.$store.state.config
         )
         .then(res => {
-          this.pastOpen = res.data.data[0];        
-          this.lotteryId = this.pastOpen.lotteryId;
+          if(this.lotteryId!="cqssc"){
+            this.pastOpenK3 = res.data.data[0]; 
+            this.lotteryId = this.pastOpenK3.lotteryId;
+          }else{
+            this.pastOpenSSC = res.data.data[0]; 
+            this.lotteryId = this.pastOpenSSC.lotteryId;
+          }      
+          
         })
         .catch(error => {
           console.log("获取过去开奖号码No");
