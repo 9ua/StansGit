@@ -29,6 +29,7 @@ const agentBillRecord = r => require.ensure([], () => r(require('@/components/pa
 const letter = r => require.ensure([], () => r(require('@/components/page/user/letter.vue')), 'letter')
 const notice = r => require.ensure([], () => r(require('@/components/page/user/notice.vue')), 'notice')
 const personalLevel = r => require.ensure([], () => r(require('@/components/page/user/personalLevel.vue')), 'personalLevel')
+const setMobile = r => require.ensure([], () => r(require('@/components/page/user/setMobile.vue')), 'setMobile')
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -226,6 +227,13 @@ export default new Router({
               component: personalLevel,
               meta: {
                 title: "宏發娱乐-等级头衔"
+              }
+            },
+            {
+              path: '/user/setMobile',
+              component: setMobile,
+              meta: {
+                title: "宏發娱乐-设置密保手机"
               }
             },
           ],

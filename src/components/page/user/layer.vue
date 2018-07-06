@@ -16,12 +16,13 @@
         img(:src='"../../../assets/img/header/"+img+".jpg"', alt='')
         h5(style='color: rgb(83, 168, 241);margin-top:10px;') {{itemName}}
         .button
-          span.submitBtn 保存头像
+          span.submitBtn(@click='saveHeadImg') 保存头像
           span.submitBtn.cancel(@click='close') 取消
     .point
       p(:class="{'curr': index === pageNum}",v-for='(img,index) in imgs',@click='pageNum=index')
 </template>
 <script>
+import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
@@ -75,11 +76,29 @@ export default {
     choose(e, index, item) {
       this.imgIndex = index;
       this.img = item.img;
-      this.itemName=item.title;
+      this.itemName = item.title;
     },
-    close(){
-        this.toggle=false;
-        this.$emit('close');
+    close() {
+      this.toggle = false;
+      this.$emit("close");
+    },
+    saveHeadImg() {
+      let params = new URLSearchParams();
+      params.append("image", this.img);
+      this.$axios
+        .post(
+          baseUrl + "/api/userCenter/saveUserData",
+          params,
+          this.$store.state.config
+        )
+        .then(res => {
+          this.$store.state.img = this.img;
+          localStorage.setItem("img",this.img);          
+          this.close();
+        })
+        .catch(error => {
+          console.log("用户信息保存失败");
+        });
     }
   }
 };

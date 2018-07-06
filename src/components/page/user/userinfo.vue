@@ -21,10 +21,10 @@
             ins 测试组
           li
             span 昵称:
-            input.usreinput(placeholder='昵称为1-5位汉字，设置后不能修改')
+            input.usreinput(placeholder='昵称为1-5位汉字，设置后不能修改',v-model='nickName',:input="nickName")
           li
             span 手机:
-            input.usreinput(disabled='disabled')
+            input(class='usreinput',disabled='disabled')
             router-link(to='setMobile',v-show='! isBindMobile') 绑定
           li
             span 邮箱:
@@ -37,28 +37,30 @@
               {{item.sex}}
           li
             span 生日:
-            el-date-picker(v-model="value1",type='date', placeholder='选择日期')
+            el-date-picker(v-model="birthday",type="date" ,value-format="yyyy/MM/dd" ,@change="(value) => toBirthday(value)", format="yyyy/MM/dd" ,:editable="false", placeholder="选择日期")
           li
             span
-            button.submitBtn 保存
+            button.submitBtn(@click='setUserData',@keyup.enter="setUserData") 保存
   layer(v-if='setHeadImg',@close="close",toggle="true")
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
-import  layer  from "./layer";
+import layer from "./layer";
 export default {
-  components:{
+  components: {
     layer
   },
   data() {
     return {
       navNum: 0,
-      setHeadImg:false,//头像更改标识
-      value1: "2018-6-8",
+      setHeadImg: false, //头像更改标识
       isBindMobile: false,
       isBindEmail: false,
       sex: 2,
-      usreData: "",
+      birthday: "",
+      mobile: "",
+      email: "",
+      nickName: "",
       listsex: [
         { sex: "男", flag: 1 },
         { sex: "女", flag: 2 },
@@ -74,20 +76,59 @@ export default {
     this.getUserData();
   },
   methods: {
-    close(){
-      this.setHeadImg=false;
+    close() {
+      this.setHeadImg = false;
     },
     sexRadio(e, item, index) {
       this.sex = index;
     },
+    //生日选择
+    toBirthday(value) {
+      this.birthday = value;
+    },
+    // 获取用户信息
     getUserData() {
       this.$axios
         .get(baseUrl + "/api/userCenter/getUserData", this.$store.state.config)
         .then(res => {
-          this.usreData = res.data.data;
+          this.nickName = res.data.data.nickName;
+          this.birthday = res.data.data.birthday;
+          this.sex = res.data.data.sex;
+          if (res.data.data.email) {
+            this.isBindEmail = true;
+          }
+          if (res.data.data.mobile) {
+            this.isBindMobile = true;
+          }
         })
         .catch(error => {
           console.log("getUserData no");
+        });
+    },
+    //设置用户信息
+    setUserData() {
+      let params = new URLSearchParams();
+      params.append("image", this.$store.state.img);
+      params.append("nickName", this.nickName);
+      params.append("birthday", this.birthday);
+      params.append("sex", this.sex);
+      this.$axios
+        .post(
+          baseUrl + "/api/userCenter/saveUserData",
+          params,
+          this.$store.state.config
+        )
+        .then(res => {
+          this.$message({
+            message: "保存成功！",
+            type: "success",
+            center: true,
+            showClose: true,
+          });
+        })
+        .catch(error => {
+          this.$message.error({
+            message: "用户信息保存失败！",center: true,showClose: true,});
         });
     }
   }
