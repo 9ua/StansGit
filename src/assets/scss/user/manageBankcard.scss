@@ -9,20 +9,32 @@
     font-size: 14px;
     color: #4aa9db;
   }
-  & .cardItem:hover{
+  & .cardItem:hover {
     border-radius: 5px;
     border: 1px solid #c9c9c9;
   }
-}
-.cardItem {
-    float: left;
-    border-radius: 5px;
-    border: 1px solid #e4e4e4;
-    box-shadow: 0 1px 1px #c9c9c9;
-    box-sizing: border-box;
-    width: 249px;
-    height: 140px;
-    position: relative;
-    margin-right: 13px;
-    margin-bottom: 13px;
+  & .userTip {
+    clear: both;
+    border: 1px solid #f8e2b9;
+    background: #fffdeb;
+    color: #f46e00;
+    padding: 0 10px;
+    line-height: 24px;
+    & p {
+      margin: 10px !important;
+    }
   }
+}
+
+.cardItem {
+  float: left;
+  border-radius: 5px;
+  border: 1px solid #e4e4e4;
+  box-shadow: 0 1px 1px #c9c9c9;
+  box-sizing: border-box;
+  width: 249px;
+  height: 140px;
+  position: relative;
+  margin-right: 13px;
+  margin-bottom: 13px;
+}

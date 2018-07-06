@@ -16,7 +16,7 @@
             </router-link>
           </ul>
           <ul class="header-top-login" v-show="$store.state.loginStatus">
-            <router-link to="/user" tag="li"><img src="../../assets/img/header/1.jpg" alt="" />
+            <router-link to="/user" tag="li"><img :src='"../../assets/img/header/"+img+".jpg"' alt="" />
               <span>{{this.$store.state.Globalusername}}</span>
             </router-link>
             <router-link to="" tag="li">
@@ -69,7 +69,7 @@ import { setCookie, getCookie, clearCookie } from "../../assets/js/utils";
 export default {
   data() {
     return {
-      img:0,
+      img:this.$store.state.img,
       navs: [
         { title: "首页", path: "/home" },
         { title: "彩票大厅", path: "/lott" },
@@ -86,8 +86,10 @@ export default {
     ...mapMutations(["OUT_LOGIN"]),
     //获取用户信息
     getTopUserData(){
-      this.$axios.get(baseUrl + "/api/userCenter/getTopUserData").then(res => {
+      this.$axios.get(baseUrl + "/api/userCenter/getTopUserData",this.$store.state.config).then(res => {
         // console.log(res,"获取用户信息")
+        this.$store.state.img = res.data.data.image;
+            localStorage.setItem("img", this.$store.state.img);
       });
     },
     logOut() {
