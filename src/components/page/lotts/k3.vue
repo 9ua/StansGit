@@ -44,7 +44,8 @@
           <div class="getPlayTreeBox">
             <ul>
               <li v-for="(item,indexs) in sgroups2" :key="indexs" v-show="indexs === navTo">
-                <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)">{{play.title}}</p>
+                <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)" v-if="lotteryId !== 'dfk3' && play.title !== '三同号'">{{play.title}}</p>
+                <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)" v-if="lotteryId === 'dfk3'">{{play.title}}</p>
               </li>
             </ul>
           </div>
@@ -59,7 +60,17 @@
             <div class="conterButTitle"><i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金<i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
             <div class="conterBut" :class="'conterBut'+className">
               <div :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
-                <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha)" ><span v-if="className !== 'k3_star3_and'"></span><span v-else>{{item.ball}}</span></p>
+                <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha)" v-if="lotteryId !== 'dfk3' && item.ball !== '03' && item.ball !== '18'">
+                  <span v-if="className !== 'k3_star3_and'"></span>
+                  <span v-else><i>{{item.ball}}</i><i>赔160.00</i></span>
+                </p>
+                <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha)" v-if="lotteryId === 'dfk3'">
+                  <!-- <h2 v-for="(haa,indexhaa) in arrpeilvc" :key="indexhaa" v-show="indexhaa === indexha"> -->
+                    <span v-if="className !== 'k3_star3_and'"></span>
+                    <span v-else><i>{{item.ball}}</i><i>赔60.00</i></span>
+                  <!-- </h2> -->
+                </p>
+                <div :class="className+'All'" v-if="className === 'k3_star2_same'"><span></span></div>
               </div>
             </div>
             <div class="zhu">
@@ -201,12 +212,14 @@ export default {
       animate:true,
       orderList:null,
       className:'k3_star1',//玩法ID
-      lottName:'宏發k3',//彩种名
+      lottName:'宏發快3',//彩种名
+      lotteryId:'dfk3',//彩种id
       lottNameIndex:0,//默认彩种
       winList: null, //中奖列表
       lotteryList:null,
       playGroups:null,//玩法树
       playBonus: "", //玩法树
+      bonusArray:[],//和值赔率
       playBonusId: "ssc_star5", //点击选中后获取此玩法ID
       current_player: {}, //當前玩法
       current_player_bonus: {}, //當前玩法
@@ -215,6 +228,9 @@ export default {
       sgroups2: [], 
       splayers: [], 
       snumView: [], 
+      arrpeilva:[],
+      arrpeilvb:[],
+      arrpeilvc:[],
       winpool: [
         {
           name: "william",
@@ -472,23 +488,23 @@ export default {
     curBalls(item,index){
       item.choose = !item.choose;
     },
+    //菜单选择项1
     playGroupBut(item,index){
       this.navTo = index;
       this.playNum = 0;
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
-      console.log("上:"+this.className)
     },
+    //菜单选择项2
     playersBut(play,indexff){
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
-      console.log("下:"+this.className)
     },
     //玩法术
     getPlayTree(){
-      this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId=dfk3",this.$store.state.config).then(res =>{
+      this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId,this.$store.state.config).then(res =>{
         this.playGroups = res.data.data.playGroups;
         this.playBonus = res.data.data.playBonus;
         this.setupPlayTree();
@@ -497,6 +513,46 @@ export default {
       })
     },
     setupPlayTree() {
+      let arr1 = [];
+      let arr2 = [];
+      let arrpeilv1 = JSON.parse(JSON.stringify(this.playBonus[3].bonusArray))
+      let arrpeilv2 = JSON.parse(JSON.stringify(this.playBonus[4].bonusArray))
+      if (this.lotteryId === 'dfk3'){
+        for (let i in arrpeilv1) {
+          this.arrpeilva.push(arrpeilv1[i]);
+        }
+        this.arrpeilva.shift();
+        this.arrpeilva.pop();
+        for(let i=0; i<this.arrpeilva.length/2;i++){
+          arr1.push(this.arrpeilva[i]);
+        }
+        for(let i=this.arrpeilva.length/2; i<this.arrpeilva.length;i++){
+          arr2.push(this.arrpeilva[i]);
+        }
+        for (let i in arrpeilv2) {
+          this.arrpeilvb.push(arrpeilv2[i]);
+        }
+        this.arrpeilvc.push(arr1);
+        this.arrpeilvc.push(arr2);
+        this.arrpeilvc.push(this.arrpeilvb);
+        console.log("arrpeilv1::::",this.arrpeilvc)
+      }else if (this.lotteryId !== 'dfk3'){
+        this.arrpeilva = [];
+        this.arrpeilvb = [];
+        for (let i in arrpeilv1) {
+          this.arrpeilva.push(arrpeilv1[i]);
+        }
+        for(let i=0; i<this.arrpeilva.length/2;i++){
+          arr1.push(this.arrpeilva[i]);
+        }
+        for(let i=this.arrpeilva.length/2; i<this.arrpeilva.length;i++){
+          arr2.push(this.arrpeilva[i]);
+        }
+        for (let i in arrpeilv2) {
+          this.arrpeilvb.push(arrpeilv2[i]);
+        }
+        console.log("arrpeilv2::::",this.arrpeilva,this.arrpeilvb,"-----",arr1,arr2)
+      }
       this.current_player = this.playGroups[0].groups[0].players[0];
       this.current_player_bonus = this.current_player;
       for (let i = 0; i < this.playGroups.length; i++) {
@@ -524,6 +580,8 @@ export default {
     lottListNav(item,index){
       this.lottName = item.name;
       this.lottNameIndex = index;
+      this.lotteryId = item.id;
+      this.getPlayTree();
     },
     // 获取彩种
     lotteryAll() {
