@@ -90,7 +90,6 @@ export default {
       this.$axios
         .post(baseUrl + "/api/user/login", formData, config)
         .then(res => {
-          console.log(res,"大网");
           if (res.data.pup === true) {
             this.$message(res.data.data);
           }
