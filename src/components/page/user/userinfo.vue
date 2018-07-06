@@ -7,8 +7,8 @@
         router-link(:to="nav.to", v-for='(nav,index) in listnav',:class="{'active': index === navNum}",:key='index') {{nav.title}}
       .fix
         .selectHeadImg
-          img(src="../../../assets/img/header/1.jpg")
-          router-link(to='') 修改头像
+          img(:src='"../../../assets/img/header/"+this.$store.state.img+".jpg"')
+          p(@click='setHeadImg=true') 修改头像
         ul.personalInfo
           li
             span 账号:
@@ -41,13 +41,19 @@
           li
             span
             button.submitBtn 保存
+  layer(v-if='setHeadImg',@close="close",toggle="true")
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
+import  layer  from "./layer";
 export default {
+  components:{
+    layer
+  },
   data() {
     return {
       navNum: 0,
+      setHeadImg:false,//头像更改标识
       value1: "2018-6-8",
       isBindMobile: false,
       isBindEmail: false,
@@ -68,6 +74,9 @@ export default {
     this.getUserData();
   },
   methods: {
+    close(){
+      this.setHeadImg=false;
+    },
     sexRadio(e, item, index) {
       this.sex = index;
     },

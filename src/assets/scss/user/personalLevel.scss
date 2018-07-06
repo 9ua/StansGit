@@ -36,8 +36,9 @@
       height: 100px;
       border-radius: 3px;
     }
-    & a {
+    & p {
       position: absolute;
+      cursor: pointer;
       bottom: 0;
       left: 0;
       text-align: center;

@@ -7,8 +7,8 @@
         router-link(:to="nav.to", v-for='(nav,index) in listnav',:class="{'active': index === navNum}",:key='index') {{nav.title}}
       .fix
         .selectHeadImg
-          img(src="../../../assets/img/header/1.jpg")
-          router-link(to='') 修改头像
+          img(:src='"../../../assets/img/header/"+this.$store.state.img+".jpg"')
+          p(@click='setHeadImg=true') 修改头像
         ul.evCallInfo
           li
             em 账
@@ -57,13 +57,19 @@
               td(v-for="item in tbArr.vip8") {{item}}
             tr
               td(v-for="item in tbArr.vip9") {{item}}
+  layer(v-if='setHeadImg',@close="close")
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
+import layer from "./layer";
 export default {
+  components:{
+    layer
+  },
   data() {
     return {
       navNum: 1,
+      setHeadImg:false,//头像更改标识
       sex: 2,
       usreData: "",
       tbArr: {
@@ -88,6 +94,9 @@ export default {
     this.getUserData();
   },
   methods: {
+    close(){
+      this.setHeadImg=false;
+    },
     getUserData() {
       this.$axios
         .get(baseUrl + "/api/userCenter/getUserData", this.$store.state.config)
