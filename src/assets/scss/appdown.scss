@@ -1,6 +1,7 @@
 @import '@/assets/minix/main.scss';
 .appdown {
-  @include appdownBg("appbg.jpg", 100%, 655px);
+  background: url('../../assets/img/appdown/appbg.jpg');
+  // @include appdownBg("appbg.jpg", 100%, 655px);
   min-width: 1000px;
   min-height: 655px;
   background-position: 50%;

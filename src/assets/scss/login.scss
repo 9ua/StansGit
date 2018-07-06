@@ -2,7 +2,9 @@
 .login {
   width: 100%;
   height: 100%;
-  @include loginBg("loginBg.jpg");
+  // @include loginBg("loginBg.jpg");
+  background: url('../../assets/img/login/loginBg.jpg') no-repeat;
+  background-size: 100% 100%;
   box-shadow: 7px 11px 58px rgba(0, 0, 0, .4);
   padding-top: 220px;
   & .loginFrom {

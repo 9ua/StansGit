@@ -2,7 +2,7 @@
   <div class="lott">
     <div class="lott-center">
       <div class="lott-top">
-        <div class="lott-top-left"><img src="../../../assets/img/lott/k3.png" alt="" />
+        <div class="lott-top-left"><img src="@/assets/img/lott/k3.png" alt="" />
           <span>{{lottName}}</span>
         </div>
         <div class="lott-top-middle">
@@ -14,14 +14,14 @@
           <p>第
             <span>201806240751</span>期 开奖结果</p>
           <div>
-            <img src="../../../assets/img/lott/open_num.gif" alt="">
-            <img src="../../../assets/img/lott/open_num.gif" alt="">
-            <img src="../../../assets/img/lott/open_num.gif" alt="">
+            <img src="@/assets/img/lott/open_num.gif" alt="">
+            <img src="@/assets/img/lott/open_num.gif" alt="">
+            <img src="@/assets/img/lott/open_num.gif" alt="">
           </div>
           <div v-show="false">
-            <img src="../../../assets/img/lott/k3n1.jpg" alt="">
-            <img src="../../../assets/img/lott/k3n2.jpg" alt="">
-            <img src="../../../assets/img/lott/k3n3.jpg" alt="">
+            <img src="@/assets/img/lott/k3n1.jpg" alt="">
+            <img src="@/assets/img/lott/k3n2.jpg" alt="">
+            <img src="@/assets/img/lott/k3n3.jpg" alt="">
           </div>
         </div>
       </div>
