@@ -69,7 +69,7 @@ import { setCookie, getCookie, clearCookie } from "../../assets/js/utils";
 export default {
   data() {
     return {
-      img:this.$store.state.img,
+      img: 0,
       navs: [
         { title: "首页", path: "/home" },
         { title: "彩票大厅", path: "/lott" },
@@ -85,12 +85,19 @@ export default {
   methods: {
     ...mapMutations(["OUT_LOGIN"]),
     //获取用户信息
-    getTopUserData(){
-      this.$axios.get(baseUrl + "/api/userCenter/getTopUserData",this.$store.state.config).then(res => {
-        // console.log(res,"获取用户信息")
-        this.$store.state.img = res.data.data.image;
-            localStorage.setItem("img", this.$store.state.img);
-      });
+    getTopUserData() {
+      this.$axios
+        .get(
+          baseUrl + "/api/userCenter/getTopUserData",
+          this.$store.state.config
+        )
+        .then(res => {
+          this.$store.state.img = res.data.data.image;
+          localStorage.setItem("img", this.$store.state.img);
+        })
+        .catch(error => {
+          this.$store.state.img = 0;
+        });
     },
     logOut() {
       this.$axios
@@ -105,7 +112,7 @@ export default {
         .catch(error => {
           console.log("logOutNo");
         });
-    },
+    }
   },
   components: {
     footerBar
