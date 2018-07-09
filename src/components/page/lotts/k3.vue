@@ -5,12 +5,12 @@
         <div class="lott-top-left"><img src="@/assets/img/lott/k3.png" alt="" />
           <span>{{lottName}}</span>
         </div>
-        <div class="lott-top-middle">
+        <div class="lott-top-middle k3">
           <p>第
             <span>201806240751</span>期 剩余投注时间</p>
           <div>00:00:00</div>
         </div>
-        <div class="lott-top-right">
+        <div class="lott-top-right k3">
           <p>第
             <span>201806240751</span>期 开奖结果</p>
           <div>
@@ -28,13 +28,13 @@
       <div class="lottBox">
         <div class="lott-left">
           <div class="lott-left-nav">
-            <button><span><i class="el-icon-caret-left"></i></span></button>
-            <div class="lott-left-navBox">
-              <ul>
-                <li :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
+            <button @click="lottnavleft"><span><i class="el-icon-caret-left"></i></span></button>
+            <div class="lott-left-navBox" ref="lottnavbox">
+              <ul ref="lottnavUl" :style="{left:left+'px'}">
+                <li ref="lottnavLi" :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
               </ul>
             </div>
-            <button><span><i class="el-icon-caret-right"></i></span></button>
+            <button @click="lottnavright"><span><i class="el-icon-caret-right"></i></span></button>
           </div>
           <div class="getPlayTree">
             <ul>
@@ -50,13 +50,6 @@
             </ul>
           </div>
           <div class="conterButBox">
-            <!-- <div class="conterButTitle" v-for="(item,index) in playGroups" :key="index">
-              <div v-for="(itema,indexa) in item.groups" :key="indexa">
-                <div v-for="(itemb,indexb) in itema.players" :key="indexb" v-show="indexb === navTo">
-                  <i class="el-icon-info"></i>{{navTo}}{{itemb.remark}}。单注最高奖金<i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍
-                </div>
-              </div>
-            </div> -->
             <div class="conterButTitle"><i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金<i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
             <div class="conterBut" :class="'conterBut'+className">
               <div :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
@@ -65,10 +58,8 @@
                   <span v-else><i>{{item.ball}}</i><i>赔160.00</i></span>
                 </p>
                 <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha)" v-if="lotteryId === 'dfk3'">
-                  <!-- <h2 v-for="(haa,indexhaa) in arrpeilvc" :key="indexhaa" v-show="indexhaa === indexha"> -->
-                    <span v-if="className !== 'k3_star3_and'"></span>
-                    <span v-else><i>{{item.ball}}</i><i>赔60.00</i></span>
-                  <!-- </h2> -->
+                  <span v-if="className !== 'k3_star3_and'"></span>
+                  <span v-else><i>{{item.ball}}</i><i>赔60.00</i></span>
                 </p>
                 <div :class="className+'All'" v-if="className === 'k3_star2_same'"><span></span></div>
               </div>
@@ -79,7 +70,7 @@
                 <div class="numSum">
                   <span class="trim">投注金额</span><yd-spinner v-model="spinner3"></yd-spinner>
                 </div>
-                <button class="add">添加号码栏</button><button>立即投注</button>
+                <button class="add" @click="addNum">添加号码栏</button><button>立即投注</button>
               </div>
             </div>
             <div class="hurdle">
@@ -92,15 +83,19 @@
                 <li>金额</li>
                 <li>清空</li>
               </ul>
-              <ul class="addList">
-                <li>【单挑一骰】</li>
-                <li>2,3,4</li>
-                <li>元</li>
-                <li>{{zhu}}</li>
-                <li>{{spinner3}}</li>
-                <li>￥{{zhu*spinner3}}</li>
-                <li><i class="el-icon-close"></i></li>
-              </ul>
+              <div class="addListBox">
+                <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index">
+                  <li>【{{item.addTitle}}】</li>
+                  <li>{{item.addCon}}</li>
+                  <li>{{item.addPattern}}</li>
+                  <li>{{item.addzhu}}</li>
+                  <li>{{item.addMoney}}</li>
+                  <li>￥{{item.addzhu*item.addMoney}}</li>
+                  <li @click="deleList(item,index)">
+                    <i class="el-icon-close"></i>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="affirm">
               <p><span>总注数：{{zhu}}, </span><span>总金额：{{zhu*spinner3}}, </span><span>余额：{{$store.state.balance}}</span></p>
@@ -202,10 +197,35 @@ import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      sum: 10,
+      num:0,
+      left:0,
+      sum: 0,
       navTo:0,
       playNum:0,
       zhu:10,
+      productList: [
+        {
+          addTitle: "龙虎",
+          addCon: "1,2,3",
+          addPattern: "元",
+          addzhu: 1,
+          addMoney: 1
+        },
+        {
+          addTitle: "龙虎",
+          addCon: "1,2,3",
+          addPattern: "元",
+          addzhu: 2,
+          addMoney: 1
+        },
+        {
+          addTitle: "龙虎",
+          addCon: "1,2,3",
+          addPattern: "元",
+          addzhu: 3,
+          addMoney: 1
+        },
+      ],
       spinner3:0,
       butClass1:true,
       butClass2:false,
@@ -485,6 +505,16 @@ export default {
     this.getPlayTree();
   },
   methods:{
+    
+    //添加号码栏
+    addNum() {
+      this.iscreat();
+      console.log(this.arr,this.productList)
+    },
+    //删除指定行
+    deleList(item,index) {
+      this.productList.splice(index,1);
+    },
     curBalls(item,index){
       item.choose = !item.choose;
     },
@@ -495,12 +525,14 @@ export default {
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
+      this.iscreat();
     },
     //菜单选择项2
     playersBut(play,indexff){
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
+      this.iscreat();
     },
     //玩法术
     getPlayTree(){
@@ -535,7 +567,6 @@ export default {
         this.arrpeilvc.push(arr1);
         this.arrpeilvc.push(arr2);
         this.arrpeilvc.push(this.arrpeilvb);
-        console.log("arrpeilv1::::",this.arrpeilvc)
       }else if (this.lotteryId !== 'dfk3'){
         this.arrpeilva = [];
         this.arrpeilvb = [];
@@ -551,7 +582,6 @@ export default {
         for (let i in arrpeilv2) {
           this.arrpeilvb.push(arrpeilv2[i]);
         }
-        console.log("arrpeilv2::::",this.arrpeilva,this.arrpeilvb,"-----",arr1,arr2)
       }
       this.current_player = this.playGroups[0].groups[0].players[0];
       this.current_player_bonus = this.current_player;
@@ -582,6 +612,19 @@ export default {
       this.lottNameIndex = index;
       this.lotteryId = item.id;
       this.getPlayTree();
+    },
+    //清空
+    iscreat() {
+      this.zhu = 0;
+      for (let h = 0; h < this.snumView.length; h++) {
+        if (null != this.snumView[h]) {
+          for (let j = 0; j < this.snumView[h].length; j++) {
+            for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
+              this.snumView[h][j].nums[k].choose = false;
+            }
+          }
+        }
+      }
     },
     // 获取彩种
     lotteryAll() {
@@ -629,6 +672,34 @@ export default {
         this.winpool.shift();
         this.animate = !this.animate;
       }, 0);
+    },
+    //导航左边点击
+    lottnavleft(){
+      let box = this.$refs.lottnavbox.offsetWidth;
+      let ul = this.$refs.lottnavUl.offsetWidth;
+      let li = this.$refs.lottnavLi[0].offsetWidth;
+      if((this.num*li +box) < ul){
+        this.num ++;
+        if(ul > box){
+          this.left = -(this.num * li)
+        }
+      }else if((this.num*li +box) > ul){
+        this.num = this.num;
+      }
+    },
+    //导航右边点击
+    lottnavright(){
+      let box = this.$refs.lottnavbox.offsetWidth;
+      let ul = this.$refs.lottnavUl.offsetWidth;
+      let li = this.$refs.lottnavLi[0].offsetWidth;
+      if(this.num > 0){
+        this.num --;
+        if(ul > box){
+          this.left = -(this.num * li)
+        }
+      }else if((this.num*li +box) > ul){
+        this.num = 0;
+      }
     },
   },
   filters: {
