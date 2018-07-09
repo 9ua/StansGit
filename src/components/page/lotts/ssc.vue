@@ -2,39 +2,35 @@
   <div class="lott">
     <div class="lott-center">
       <div class="lott-top">
-        <div class="lott-top-left"><img src="../../../assets/img/lott/ssc.png" alt="" />
-          <span>宏發分分彩</span>
+        <div class="lott-top-left"><img src="@/assets/img/lott/ssc.png" alt="" />
+          <span>{{lottName}}</span>
         </div>
-        <div class="lott-top-middle">
+        <div class="lott-top-middle ssc">
           <p>第
             <span>201806240751</span>期 剩余投注时间</p>
           <div>00:00:00</div>
         </div>
-        <div class="lott-top-right">
+        <div class="lott-top-right ssc">
           <p>第
             <span>201806240751</span>期 开奖结果</p>
-          <div>
-            <img src="../../../assets/img/lott/open_num.gif" alt="">
-            <img src="../../../assets/img/lott/open_num.gif" alt="">
-            <img src="../../../assets/img/lott/open_num.gif" alt="">
+          <div class="showName" v-show="false">
+            <span v-for="(item,index) in 5" :key="index">{{item}}</span>
           </div>
-          <div v-show="false">
-            <img src="../../../assets/img/lott/k3n1.jpg" alt="">
-            <img src="../../../assets/img/lott/k3n2.jpg" alt="">
-            <img src="../../../assets/img/lott/k3n3.jpg" alt="">
+          <div class="showGif">
+            <span v-for="(item,index) in 5" :key="index"></span>
           </div>
         </div>
       </div>
       <div class="lottBox">
         <div class="lott-left">
           <div class="lott-left-nav">
-            <button><span><i class="el-icon-caret-left"></i></span></button>
-            <div class="lott-left-navBox">
-              <ul>
-                <li :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
+            <button @click="lottnavleft"><span><i class="el-icon-caret-left"></i></span></button>
+            <div class="lott-left-navBox" ref="lottnavbox">
+              <ul ref="lottnavUl" :style="{left:left+'px'}">
+                <li ref="lottnavLi" :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
               </ul>
             </div>
-            <button><span><i class="el-icon-caret-right"></i></span></button>
+            <button @click="lottnavright"><span><i class="el-icon-caret-right"></i></span></button>
           </div>
           <div class="getPlayTree">
             <ul>
@@ -43,15 +39,32 @@
           </div>
           <div class="getPlayTreeBox">
             <ul>
-              <li v-for="(item,indexs) in sgroups2" :key="indexs" v-show="indexs === navTo">
-                <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)">{{play.title}}</p>
+              <li v-for="(item,indexs) in playGroups" :key="indexs" v-show="indexs === navTo">
+                <!-- <sscnav :items="item"></sscnav> -->
+                <div v-for='(group,indexabc) in item.groups' :key='indexabc'>
+                  <span class="groupTitle">{{group.title}}</span>
+                  <span class="groupTitleList"  :class="{'active': indexbcd === playNum}" v-for='(player,indexbcd) in group.players' :key='indexbcd' @click="playersBut(player,indexbcd)">{{player.title}}</span>
+                </div>
               </li>
             </ul>
           </div>
           <div class="conterButBox">
-            <div class="conterButTitle"><i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金<i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
-            <div class="conterBut">
-              cfdsafasdf
+            <div class="conterButTitle">
+              <i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金
+              <i v-show='Number(current_player_bonus.displayBonus)'>{{current_player_bonus.displayBonus | keepTwoNum}}</i>
+              <i v-show='isNaN(current_player_bonus.displayBonus)'>{{displayBonus1 | keepTwoNum}}—{{displayBonus2 | keepTwoNum}}</i>倍</div>
+            <div class="conterBut" :class="'conterBut'+className">
+              <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
+                <div class="both">
+                  <span class="carTitle">{{numViews.title}}</span>
+                  <div class="carBox">
+                    <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha)">
+                      <span><i>{{item.ball}}</i></span>
+                    </p>
+                  </div>
+                </div>
+                <tool class="changes" v-if="className !== 'ssc_side_lhh' && className !== 'ssc_dxds'" :item="numViews"></tool>
+              </div>
             </div>
             <div class="zhu">
               <p>您选择了 <i>{{zhu}}</i> 注</p>
@@ -59,7 +72,7 @@
                 <div class="numSum">
                   <span class="trim">投注金额</span><yd-spinner v-model="spinner3"></yd-spinner>
                 </div>
-                <button class="add">添加号码栏</button><button>立即投注</button>
+                <button class="add" @click="addNum">添加号码栏</button><button>立即投注</button>
               </div>
             </div>
             <div class="hurdle">
@@ -72,15 +85,19 @@
                 <li>金额</li>
                 <li>清空</li>
               </ul>
-              <ul class="addList">
-                <li>【单挑一骰】</li>
-                <li>2,3,4</li>
-                <li>元</li>
-                <li>{{zhu}}</li>
-                <li>{{spinner3}}</li>
-                <li>￥{{zhu*spinner3}}</li>
-                <li><i class="el-icon-close"></i></li>
-              </ul>
+              <div class="addListBox">
+                <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index">
+                  <li>【{{item.addTitle}}】</li>
+                  <li>{{item.addCon}}</li>
+                  <li>{{item.addPattern}}</li>
+                  <li>{{item.addzhu}}</li>
+                  <li>{{item.addMoney}}</li>
+                  <li>￥{{item.addzhu*item.addMoney}}</li>
+                  <li @click="deleList(item,index)">
+                    <i class="el-icon-close"></i>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="affirm">
               <p><span>总注数：{{zhu}}, </span><span>总金额：{{zhu*spinner3}}, </span><span>余额：{{$store.state.balance}}</span></p>
@@ -178,33 +195,70 @@
   </div>
 </template>
 <script>
+import sscnav from "@/components/page/lotts/sscnav.vue"
+import tool from "@/components/page/lotts/tool.vue"
 import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      sum: 10,
+      num:0,
+      left:0,
+      sum: 0,
       navTo:0,
       playNum:0,
-      zhu:10,
+      zhu:0,
+      productList: [
+        {
+          addTitle: "龙虎",
+          addCon: "1,2,3",
+          addPattern: "元",
+          addzhu: 1,
+          addMoney: 1
+        },
+        {
+          addTitle: "龙虎",
+          addCon: "1,2,3",
+          addPattern: "元",
+          addzhu: 2,
+          addMoney: 1
+        },
+        {
+          addTitle: "龙虎",
+          addCon: "1,2,3",
+          addPattern: "元",
+          addzhu: 3,
+          addMoney: 1
+        },
+      ],
       spinner3:0,
       butClass1:true,
       butClass2:false,
       animate:true,
       orderList:null,
+      className:'ssc_star5',//玩法ID
       lottName:'宏发时时彩',//彩种名
-      lottNameIndex:1,//默认彩种
+      lotteryId:'sj1fc',//彩种id
+      lottNameIndex:0,//默认彩种
       winList: null, //中奖列表
       lotteryList:null,
       playGroups:null,//玩法树
       playBonus: "", //玩法树
+      bonusArray:[],//和值赔率
       playBonusId: "ssc_star5", //点击选中后获取此玩法ID
       current_player: {}, //當前玩法
       current_player_bonus: {}, //當前玩法
+      displayBonus: 0,
+      displayBonus1: 0,
+      displayBonus2: 0,
+      displayBonus3: "",
       splayGroups: [],
       sgroups: [], 
       sgroups2: [], 
       splayers: [], 
       snumView: [], 
+      arrpeilva:[],
+      arrpeilvb:[],
+      arrpeilvc:[],
       winpool: [
         {
           name: "william",
@@ -459,16 +513,44 @@ export default {
     this.getPlayTree();
   },
   methods:{
+    //添加号码栏
+    addNum() {
+      this.iscreat();
+      console.log(this.productList)
+    },
+    //删除指定行
+    deleList(item,index) {
+      this.productList.splice(index,1);
+    },
+    //菜单选择项1
     playGroupBut(item,index){
       this.navTo = index;
       this.playNum = 0;
+      this.current_player = item;
+      this.current_player_bonus = item.groups[0].players[0];
+      this.className = this.current_player_bonus.id;
+      this.iscreat();
+      console.log("菜单选择项1",this.className)
     },
+    //菜单选择项2
     playersBut(play,indexff){
       this.playNum = indexff;
+      this.current_player_bonus = play;
+      this.className = play.id;
+      this.displayBonus = play.displayBonus;
+      if (isNaN(this.displayBonus)) {
+        let ar = [];
+        ar = this.displayBonus.split("-");
+        this.displayBonus1 = Number(ar[0]);
+        this.displayBonus2 = Number(ar[1]);
+        this.displayBonus3 = this.displayBonus1 + "-" + this.displayBonus2;
+      }
+      this.iscreat();
+      console.log("菜单选择项2",this.className,play,indexff)
     },
     //玩法术
     getPlayTree(){
-      this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId=sj1fc",this.$store.state.config).then(res =>{
+      this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId,this.$store.state.config).then(res =>{
         this.playGroups = res.data.data.playGroups;
         this.playBonus = res.data.data.playBonus;
         this.setupPlayTree();
@@ -504,6 +586,31 @@ export default {
     lottListNav(item,index){
       this.lottName = item.name;
       this.lottNameIndex = index;
+      this.lotteryId = item.id;
+      this.getPlayTree();
+    },
+    //清空
+    iscreat() {
+      this.zhu = 0;
+      for (let h = 0; h < this.snumView.length; h++) {
+        if (null != this.snumView[h]) {
+          for (let j = 0; j < this.snumView[h].length; j++) {
+            for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
+              this.snumView[h][j].nums[k].choose = false;
+            }
+          }
+        }
+      }
+    },
+    // 如果只能选择一个球
+    curBalls(item, list) {
+      if (list.chooseOne) {
+        list.balls.map(b => {
+          b.choose = false;
+        });
+      }
+      item.choose = !item.choose;
+      this.zhu++;
     },
     // 获取彩种
     lotteryAll() {
@@ -552,6 +659,37 @@ export default {
         this.animate = !this.animate;
       }, 0);
     },
+    //导航左边点击
+    lottnavleft(){
+      let box = this.$refs.lottnavbox.offsetWidth;
+      let ul = this.$refs.lottnavUl.offsetWidth;
+      let li = this.$refs.lottnavLi[0].offsetWidth;
+      if((this.num*li +box) < ul){
+        this.num ++;
+        if(ul > box){
+          this.left = -(this.num * li)
+        }
+      }else if((this.num*li +box) > ul){
+        this.num = this.num;
+      }
+    },
+    //导航右边点击
+    lottnavright(){
+      let box = this.$refs.lottnavbox.offsetWidth;
+      let ul = this.$refs.lottnavUl.offsetWidth;
+      let li = this.$refs.lottnavLi[0].offsetWidth;
+      if(this.num > 0){
+        this.num --;
+        if(ul > box){
+          this.left = -(this.num * li)
+        }
+      }else if((this.num*li +box) > ul){
+        this.num = 0;
+      }
+    },
+  },
+  components:{
+    sscnav,tool
   },
   filters: {
     mask(value) {

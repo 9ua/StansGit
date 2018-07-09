@@ -2,39 +2,43 @@
   <div class="lott">
     <div class="lott-center">
       <div class="lott-top">
-        <div class="lott-top-left"><img src="../../../assets/img/lott/pk10.png" alt="" />
-          <span>宏發pk10</span>
+        <div class="lott-top-left"><img src="@/assets/img/lott/pk10.png" alt="" />
+          <span>{{lottName}}</span>
         </div>
-        <div class="lott-top-middle">
+        <div class="lott-top-middle pk10">
           <p>第
             <span>201806240751</span>期 剩余投注时间</p>
           <div>00:00:00</div>
         </div>
-        <div class="lott-top-right">
+        <div class="lott-top-right pk10">
           <p>第
             <span>201806240751</span>期 开奖结果</p>
-          <div>
-            <img src="../../../assets/img/lott/open_num.gif" alt="">
-            <img src="../../../assets/img/lott/open_num.gif" alt="">
-            <img src="../../../assets/img/lott/open_num.gif" alt="">
+          <div class="showName" v-show="false">
+            <span v-for="(item,index) in 10" :key="index">{{item}}</span>
           </div>
-          <div v-show="false">
-            <img src="../../../assets/img/lott/k3n1.jpg" alt="">
-            <img src="../../../assets/img/lott/k3n2.jpg" alt="">
-            <img src="../../../assets/img/lott/k3n3.jpg" alt="">
+          <div class="showGif">
+            <span v-for="(item,index) in 10" :key="index"></span>
           </div>
         </div>
       </div>
       <div class="lottBox">
         <div class="lott-left">
           <div class="lott-left-nav">
-            <button><span><i class="el-icon-caret-left"></i></span></button>
-            <div class="lott-left-navBox">
-              <ul>
-                <li :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
+            <button @click="lottnavleft">
+              <span>
+                <i class="el-icon-caret-left"></i>
+              </span>
+            </button>
+            <div class="lott-left-navBox" ref="lottnavbox">
+              <ul ref="lottnavUl" :style="{left:left+'px'}">
+                <li ref="lottnavLi" :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
               </ul>
             </div>
-            <button><span><i class="el-icon-caret-right"></i></span></button>
+            <button @click="lottnavright">
+              <span>
+                <i class="el-icon-caret-right"></i>
+              </span>
+            </button>
           </div>
           <div class="getPlayTree">
             <ul>
@@ -49,17 +53,37 @@
             </ul>
           </div>
           <div class="conterButBox">
-            <div class="conterButTitle"><i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金<i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
-            <div class="conterBut">
-              cfdsafasdf
+            <div class="conterButTitle">
+              <i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金
+              <i v-show='Number(current_player_bonus.displayBonus)'>{{current_player_bonus.displayBonus | keepTwoNum}}</i>
+              <i v-show='isNaN(current_player_bonus.displayBonus)'>{{displayBonus1 | keepTwoNum}}—{{displayBonus2 | keepTwoNum}}</i>倍</div>
+            <div class="conterBut" :class="'conterBut'+className">
+              <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
+                <div class="both">
+                  <span class="carTitle">{{numViews.title}}</span>
+                  <div class="carBox">
+                    <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,numViews)">
+                      <i>{{item.ball}}</i>
+                      <b></b>
+                    </p>
+                  </div>
+                </div>
+                <tool class="changes" v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'" :item="numViews"></tool>
+                <!-- <div class="changes" v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'">
+                  <span :class="{'active':tools.choose}" v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,numViews)">{{tools.name}}</span>
+                </div> -->
+              </div>
             </div>
             <div class="zhu">
-              <p>您选择了 <i>{{zhu}}</i> 注</p>
+              <p>您选择了
+                <i>{{zhu}}</i> 注</p>
               <div class="butBox">
                 <div class="numSum">
-                  <span class="trim">投注金额</span><yd-spinner v-model="spinner3"></yd-spinner>
+                  <span class="trim">投注金额</span>
+                  <yd-spinner v-model="money"></yd-spinner>
                 </div>
-                <button class="add">添加号码栏</button><button>立即投注</button>
+                <button class="add" @click="addNum">添加号码栏</button>
+                <button>立即投注</button>
               </div>
             </div>
             <div class="hurdle">
@@ -72,18 +96,26 @@
                 <li>金额</li>
                 <li>清空</li>
               </ul>
-              <ul class="addList">
-                <li>【单挑一骰】</li>
-                <li>2,3,4</li>
-                <li>元</li>
-                <li>{{zhu}}</li>
-                <li>{{spinner3}}</li>
-                <li>￥{{zhu*spinner3}}</li>
-                <li><i class="el-icon-close"></i></li>
-              </ul>
+              <div class="addListBox">
+                <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index">
+                  <li>【{{item.addTitle}}】</li>
+                  <li>{{item.addCon}}</li>
+                  <li>{{item.addPattern}}</li>
+                  <li>{{item.addzhu}}</li>
+                  <li>{{item.addMoney}}</li>
+                  <li>￥{{item.addzhu*item.addMoney}}</li>
+                  <li @click="deleList(item,index)">
+                    <i class="el-icon-close"></i>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="affirm">
-              <p><span>总注数：{{zhu}}, </span><span>总金额：{{zhu*spinner3}}, </span><span>余额：{{$store.state.balance}}</span></p>
+              <p>
+                <span>总注数：{{zhu}}, </span>
+                <span>总金额：{{zhu*money}}, </span>
+                <span>余额：{{$store.state.balance}}</span>
+              </p>
               <button>确认投注</button>
             </div>
           </div>
@@ -112,8 +144,9 @@
                 </span>
                 <span class="lott-right-top2-span3">10</span>
                 <span class="lott-right-top2-span4">
-                  <i :class="sum < 11 ? 'yellow' : 'blue'">{{sum < 11 ? "小" : "大"}}</i>
-                  <i :class="sum % 2 ===0 ? 'yellow' : 'blue'">{{sum % 2 ===0 ? "双" : "单"}}</i>
+                  <i :class="sum < 11 ? 'yellow' : 'blue'">{{sum
+                    < 11 ? "小" : "大"}}</i>
+                      <i :class="sum % 2 ===0 ? 'yellow' : 'blue'">{{sum % 2 ===0 ? "双" : "单"}}</i>
                 </span>
               </li>
             </ul>
@@ -134,8 +167,12 @@
                 <span class="lott-right-top4-span2">
                   <i>{{item.amount}}.00</i>
                 </span>
-                <span class="lott-right-top4-span3" :class="{'status': item.win === 0}" v-if="item.win === 0"><i>{{item.statusName}}</i></span>
-                <span class="lott-right-top4-span3" v-if="item.win !== 0"><i>{{item.win}}</i></span>
+                <span class="lott-right-top4-span3" :class="{'status': item.win === 0}" v-if="item.win === 0">
+                  <i>{{item.statusName}}</i>
+                </span>
+                <span class="lott-right-top4-span3" v-if="item.win !== 0">
+                  <i>{{item.win}}</i>
+                </span>
               </li>
               <li class="lott-right-top4-but">更多>></li>
             </ul>
@@ -150,10 +187,18 @@
             </p>
             <ul>
               <li :class="{anim:animate==true}" v-for="(item,index) in winpool" :key="index">
-                <img :src="item.paths" alt=""/>
+                <img :src="item.paths" alt="" />
                 <div class="rightBox">
-                  <p><span>{{item.name | mask}} </span><span> &nbsp;在{{item.lotterylist}}</span></p>
-                  <p><span>喜中：</span><span>￥<i>{{item.money | keepTwoNum}}</i></span></p>
+                  <p>
+                    <span>{{item.name | mask}} </span>
+                    <span> &nbsp;在{{item.lotterylist}}</span>
+                  </p>
+                  <p>
+                    <span>喜中：</span>
+                    <span>￥
+                      <i>{{item.money | keepTwoNum}}</i>
+                    </span>
+                  </p>
                 </div>
               </li>
             </ul>
@@ -165,8 +210,16 @@
             <ul>
               <li v-for="(item,index) in winList" :key="index">
                 <div class="champion">
-                  <img :src='"@/assets/img/header/"+item.img+".jpg"' alt=""/>
-                  <p><span>账号昵称 ：<i class="nickname">{{item.account | mask}}</i></span><span>昨日盈利 ：<i class="gain">{{item.bonus}}</i><i>元</i></span></p>
+                  <img :src='"@/assets/img/header/"+item.img+".jpg"' alt="" />
+                  <p>
+                    <span>账号昵称 ：
+                      <i class="nickname">{{item.account | mask}}</i>
+                    </span>
+                    <span>昨日盈利 ：
+                      <i class="gain">{{item.bonus}}</i>
+                      <i>元</i>
+                    </span>
+                  </p>
                 </div>
                 <p class="index">{{index+1}}</p>
               </li>
@@ -178,33 +231,84 @@
   </div>
 </template>
 <script>
+import tool from "@/components/page/lotts/tool.vue"
 import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      sum: 10,
-      navTo:0,
-      playNum:1,
-      zhu:10,
-      spinner3:0,
-      butClass1:true,
-      butClass2:false,
-      animate:true,
-      orderList:null,
-      lottName:'北京赛车',//彩种名
-      lottNameIndex:0,//默认彩种
+      num:0,
+      left:0,
+      sum: 0,
+      navTo: 0,
+      playNum: 0,
+      zhu: 0,
+      money: 1,
+      con: null,
+      addTitle: "旱",
+      addCon: "1,2,3",
+      addPattern: "元",
+      addzhu: 0,
+      addMoney: 1,
+      productList: [
+        {
+          addTitle: "龙虎",
+          addCon: "1,2,3",
+          addPattern: "元",
+          addzhu: 1,
+          addMoney: 1
+        },
+        {
+          addTitle: "龙虎",
+          addCon: "1,2,3",
+          addPattern: "元",
+          addzhu: 2,
+          addMoney: 1
+        },
+        {
+          addTitle: "龙虎",
+          addCon: "1,2,3",
+          addPattern: "元",
+          addzhu: 3,
+          addMoney: 1
+        },
+      ],
+      arr:[],
+      butClass1: true,
+      butClass2: false,
+      animate: true,
+      orderList: null,
+      className: "pk10_side_lh", //玩法ID
+      lottName: "北京赛车", //彩种名
+      lotteryId: "pk10", //彩种id
+      lottNameIndex: 0, //默认彩种
       winList: null, //中奖列表
-      lotteryList:null,
-      playGroups:null,//玩法树
+      lotteryList: null,
+      playGroups: null, //玩法树
       playBonus: "", //玩法树
-      playBonusId: "ssc_star5", //点击选中后获取此玩法ID
+      bonusArray: [], //和值赔率
+      playBonusId: "pk10_side_lh", //点击选中后获取此玩法ID
       current_player: {}, //當前玩法
       current_player_bonus: {}, //當前玩法
+      displayBonus: 0,
+      displayBonus1: 0,
+      displayBonus2: 0,
+      displayBonus3: "",
       splayGroups: [],
-      sgroups: [], 
-      sgroups2: [], 
-      splayers: [], 
-      snumView: [], 
+      sgroups: [],
+      sgroups2: [],
+      splayers: [],
+      snumView: [],
+      arrpeilva: [],
+      arrpeilvb: [],
+      arrpeilvc: [],
+      ballTools: [
+        { fncode: "full", name: "全", choose: false },
+        { fncode: "big", name: "大", choose: false },
+        { fncode: "small", name: "小", choose: false },
+        { fncode: "single", name: "单", choose: false },
+        { fncode: "double", name: "双", choose: false },
+        { fncode: "empty", name: "清", choose: false }
+      ],
       winpool: [
         {
           name: "william",
@@ -446,35 +550,83 @@ export default {
           lotterylist: "广西快3",
           paths: require("@/assets/img/header/8.jpg")
         }
-      ],
+      ]
     };
   },
   created() {
     setInterval(this.scroll, 1400);
   },
-  mounted(){
+  mounted() {
     this.getLastDayWinList();
     this.getbetOrderList();
     this.lotteryAll();
     this.getPlayTree();
   },
-  methods:{
-    playGroupBut(item,index){
+  methods: {
+    //大小单双全清
+    toolsCur(tools, item) {
+      if (Object.is(tools.fncode, "full")) {
+        this.full({ ball: item.nums });
+      } else if (Object.is(tools.fncode, "big")) {
+        this.big({ ball: item.nums });
+      } else if (Object.is(tools.fncode, "small")) {
+        this.small({ ball: item.nums });
+      } else if (Object.is(tools.fncode, "single")) {
+        this.single({ ball: item.nums });
+      } else if (Object.is(tools.fncode, "double")) {
+        this.double({ ball: item.nums });
+      } else {
+        this.empty({ ball: item.nums });
+      }
+    },
+    //添加号码栏
+    addNum() {
+      this.iscreat();
+      console.log(this.arr,this.productList)
+    },
+    //删除指定行
+    deleList(item,index) {
+      this.productList.splice(index,1);
+    },
+    //菜单选择项1
+    playGroupBut(item, index) {
       this.navTo = index;
       this.playNum = 0;
+      this.current_player = item;
+      this.current_player_bonus = item.groups[0].players[0];
+      this.className = this.current_player_bonus.id;
+      this.iscreat();
     },
-    playersBut(play,indexff){
+    //菜单选择项2
+    playersBut(play, indexff) {
       this.playNum = indexff;
+      this.current_player_bonus = play;
+      this.className = play.id;
+      this.displayBonus = play.displayBonus;
+      if (isNaN(this.displayBonus)) {
+        let ar = [];
+        ar = this.displayBonus.split("-");
+        this.displayBonus1 = Number(ar[0]);
+        this.displayBonus2 = Number(ar[1]);
+        this.displayBonus3 = this.displayBonus1 + "-" + this.displayBonus2;
+      }
+      this.iscreat();
     },
     //玩法术
-    getPlayTree(){
-      this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId=pk10",this.$store.state.config).then(res =>{
-        this.playGroups = res.data.data.playGroups;
-        this.playBonus = res.data.data.playBonus;
-        this.setupPlayTree();
-      }).catch(error =>{
-        console.log("玩法术,No");
-      })
+    getPlayTree() {
+      this.$axios
+        .get(
+          baseUrl + "/api/lottery/getPlayTree?lotteryId=" + this.lotteryId,
+          this.$store.state.config
+        )
+        .then(res => {
+          this.playGroups = res.data.data.playGroups;
+          this.playBonus = res.data.data.playBonus;
+          this.setupPlayTree();
+        })
+        .catch(error => {
+          console.log("玩法术,No");
+        });
     },
     setupPlayTree() {
       this.current_player = this.playGroups[0].groups[0].players[0];
@@ -501,9 +653,85 @@ export default {
       this.displayBonus = this.splayers[0][0].displayBonus;
     },
     //导航点击
-    lottListNav(item,index){
+    lottListNav(item, index) {
       this.lottName = item.name;
       this.lottNameIndex = index;
+      this.lotteryId = item.id;
+      this.getPlayTree();
+    },
+    //清空
+    iscreat() {
+      this.zhu = 0;
+      for (let h = 0; h < this.snumView.length; h++) {
+        if (null != this.snumView[h]) {
+          for (let j = 0; j < this.snumView[h].length; j++) {
+            for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
+              this.snumView[h][j].nums[k].choose = false;
+            }
+          }
+        }
+      }
+    },
+    // 如果只能选择一个球
+    curBalls(item, list) {
+      if (list.chooseOne) {
+        list.balls.map(b => {
+          b.choose = false;
+        });
+      }
+      item.choose = !item.choose;
+      this.zhu++;
+    },
+    //全
+    full({ ball }) {
+      this.empty({ ball });
+      ball.filter(list => {
+        list.choose = true;
+      });
+    },
+    //大
+    big({ ball }) {
+      this.empty({ ball });
+      let len = Math.ceil(ball.length / 2);
+      ball.filter((list, idx) => {
+        if (idx >= len) {
+          list.choose = true;
+        }
+      });
+    },
+    //小
+    small({ ball }) {
+      this.empty({ ball });
+      let len = Math.ceil(ball.length / 2);
+      ball.filter((list, idx) => {
+        if (idx < len) {
+          list.choose = true;
+        }
+      });
+    },
+    //单
+    single({ ball }) {
+      this.empty({ ball });
+      ball.filter(list => {
+        if (list.ball % 2 === 0) {
+          list.choose = true;
+        }
+      });
+    },
+    //双
+    double({ ball }) {
+      this.empty({ ball });
+      ball.filter(list => {
+        if (list.ball % 2 === 1) {
+          list.choose = true;
+        }
+      });
+    },
+    //清
+    empty({ ball }) {
+      ball.filter(list => {
+        list.choose = false;
+      });
     },
     // 获取彩种
     lotteryAll() {
@@ -517,31 +745,41 @@ export default {
         });
     },
     //我的投注
-    getbetOrderList(){
-      this.$axios.get(baseUrl + "/api/proxy/getbetOrderList?include=0&status=100&betweenType=3&start=0&limit=4&account="+this.$store.state.Globalusername,this.$store.state.config).then(res =>{
-        this.orderList = res.data.data.list;
-      }).catch(error =>{
-        console.log("获取投注记录失败");
-      })
+    getbetOrderList() {
+      this.$axios
+        .get(
+          baseUrl +
+            "/api/proxy/getbetOrderList?include=0&status=100&betweenType=3&start=0&limit=4&account=" +
+            this.$store.state.Globalusername,
+          this.$store.state.config
+        )
+        .then(res => {
+          this.orderList = res.data.data.list;
+        })
+        .catch(error => {
+          console.log("获取投注记录失败");
+        });
     },
     //中奖信息
-    butClass1C(){
+    butClass1C() {
       this.butClass2 = false;
       this.butClass1 = true;
     },
     //昨日盈利
-    butClass2C(){
+    butClass2C() {
       this.butClass1 = false;
       this.butClass2 = true;
     },
     // 获取昨日盈利榜单
     getLastDayWinList() {
-      this.$axios.get(baseUrl + "/api/lottery/getLastDayWinList").then(res => {
-        this.winList = res.data.data;
-      })
-      .catch(error => {
-        console.log("getLastDayWinListNo");
-      });
+      this.$axios
+        .get(baseUrl + "/api/lottery/getLastDayWinList")
+        .then(res => {
+          this.winList = res.data.data;
+        })
+        .catch(error => {
+          console.log("getLastDayWinListNo");
+        });
     },
     //滚动动画
     scroll() {
@@ -552,6 +790,37 @@ export default {
         this.animate = !this.animate;
       }, 0);
     },
+    //导航左边点击
+    lottnavleft(){
+      let box = this.$refs.lottnavbox.offsetWidth;
+      let ul = this.$refs.lottnavUl.offsetWidth;
+      let li = this.$refs.lottnavLi[0].offsetWidth;
+      if((this.num*li +box) < ul){
+        this.num ++;
+        if(ul > box){
+          this.left = -(this.num * li)
+        }
+      }else if((this.num*li +box) > ul){
+        this.num = this.num;
+      }
+    },
+    //导航右边点击
+    lottnavright(){
+      let box = this.$refs.lottnavbox.offsetWidth;
+      let ul = this.$refs.lottnavUl.offsetWidth;
+      let li = this.$refs.lottnavLi[0].offsetWidth;
+      if(this.num > 0){
+        this.num --;
+        if(ul > box){
+          this.left = -(this.num * li)
+        }
+      }else if((this.num*li +box) > ul){
+        this.num = 0;
+      }
+    },
+  },
+  components:{
+    tool
   },
   filters: {
     mask(value) {

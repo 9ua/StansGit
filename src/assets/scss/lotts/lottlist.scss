@@ -30,7 +30,6 @@
     }
   }
   & .lott-top-middle {
-    width: 300px;
     border: 1px solid rgba(190, 71, 81, .3);
     border-top: 0px solid rgba(190, 71, 81, .3);
     border-bottom: 0px solid rgba(190, 71, 81, .3);
@@ -47,7 +46,13 @@
       font-weight: 700;
     }
   }
-  & .lott-top-right {
+  & .lott-top-middle.k3,& .lott-top-middle.ssc{
+    width: 300px;
+  }
+  & .lott-top-middle.pk10{
+    width: 260px;
+  }
+  & .lott-top-right.k3 {
     width: 400px;
     & p {
       @extend %faj;
@@ -61,6 +66,74 @@
       font-size: 36px;
       font-weight: 700;
       height: 70px;
+    }
+  }
+  & .lott-top-right.ssc {
+    width: 400px;
+    & p {
+      @extend %faj;
+      font-size: 14px;
+      & span {
+        color: red;
+      }
+    }
+    & div {
+      @extend %faj;
+      font-size: 36px;
+      font-weight: 700;
+      height: 70px;
+    }
+    & .showName {
+      @extend %faj;
+      font-size: 20px;
+      font-weight: 400;
+      height: 70px;
+      & span{
+        @extend %flex,%jcontent;
+        @include lottBg("ballOpenBg.png", 42px, 48px);
+        padding-top: 4px;
+        color: #a12836;
+      }
+    }
+    & .showGif{
+      @extend %faj;
+      font-size: 20px;
+      font-weight: 400;
+      height: 70px;
+      & span{
+        @include lottBg("ballOpening.gif", 42px, 48px);
+      }
+    }
+  }
+  & .lott-top-right.pk10 {
+    width: 440px;
+    & p {
+      @extend %faj;
+      font-size: 14px;
+      & span {
+        color: red;
+      }
+    }
+    & .showName {
+      @extend %faj;
+      font-size: 20px;
+      font-weight: 400;
+      height: 70px;
+      & span{
+        @extend %flex,%jcontent;
+        @include lottBg("ballOpenBg.png", 42px, 48px);
+        padding-top: 4px;
+        color: #a12836;
+      }
+    }
+    & .showGif{
+      @extend %faj;
+      font-size: 20px;
+      font-weight: 400;
+      height: 70px;
+      & span{
+        @include lottBg("ballOpening.gif", 42px, 48px);
+      }
     }
   }
 }
@@ -112,8 +185,6 @@
           @extend %flex,
           %aitems;
           position: absolute;
-          top: 0;
-          left: 0px;
           height: 38px;
           width: auto;
           & li {
@@ -157,7 +228,7 @@
     & .getPlayTreeBox {
       @extend %flex,
       %aitems;
-      height: 38px;
+      min-height: 38px;
       background: #E6E6E6;
       padding-left: 14px;
       & ul {
@@ -170,6 +241,9 @@
             cursor: pointer;
           }
           & p.active {
+            color: red;
+          }
+          & .aaaa.active{
             color: red;
           }
         }
@@ -250,7 +324,7 @@
       }
       & .hurdle{
         width: 100%;
-        height: 160px;
+        min-height: 160px;
         border: 1px solid #ddd;
         margin-top: 20px;
         & .hurdleTitle{
