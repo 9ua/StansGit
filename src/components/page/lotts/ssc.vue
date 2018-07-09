@@ -40,7 +40,6 @@
           <div class="getPlayTreeBox">
             <ul>
               <li v-for="(item,indexs) in playGroups" :key="indexs" v-show="indexs === navTo">
-                <!-- <sscnav :items="item"></sscnav> -->
                 <div v-for='(group,indexabc) in item.groups' :key='indexabc'>
                   <span class="groupTitle">{{group.title}}</span>
                   <span class="groupTitleList"  :class="{'active': indexbcd === playNum}" v-for='(player,indexbcd) in group.players' :key='indexbcd' @click="playersBut(player,indexbcd)">{{player.title}}</span>
@@ -195,7 +194,6 @@
   </div>
 </template>
 <script>
-import sscnav from "@/components/page/lotts/sscnav.vue"
 import tool from "@/components/page/lotts/tool.vue"
 import { baseUrl } from "../../../assets/js/env";
 export default {
@@ -689,7 +687,7 @@ export default {
     },
   },
   components:{
-    sscnav,tool
+    tool
   },
   filters: {
     mask(value) {
