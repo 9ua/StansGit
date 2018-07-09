@@ -1,19 +1,19 @@
 <template lang='jade'>
 .viewBox
   .userRight
-    .userTitle 绑定密保手机
+    .userTitle 绑定密保邮箱
     .userMain
       el-steps(:active='active', finish-status='success',align-center,class='queue')
-        el-step(title='绑定新手机')
+        el-step(title='绑定新邮箱')
         el-step(title='完成')
       ul.submitContent.mglr30.mgt15(v-show='active===1')
         li 
-          span 手机号：
-          input(placeholder='请输入您要绑定的手机号码',class='userInput',v-model="mobile",@blur='checkMobile',type='number')
-          em.verifyWrong(v-show='!mobileRight&&!isMobileFirst') 
+          span 邮箱：
+          input(placeholder='请输入您要绑定的邮箱',class='userInput',v-model="email",@blur='checkEmail',type='email')
+          em.verifyWrong(v-show='!emailRight&&!isEmailFirst') 
             mu-icon(value="cancel",size="14")
-            {{mobile_tip}}
-          em.verifyRight(v-show='mobileRight') 
+            {{email_tip}}
+          em.verifyRight(v-show='emailRight') 
             mu-icon(value="check_circle",size="14")
         li(style="position: relative;") 
           span 验证码：
@@ -39,7 +39,7 @@
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
-import md5 from 'js-md5';
+import md5 from "js-md5";
 export default {
   data() {
     return {
@@ -47,12 +47,12 @@ export default {
       flag: true, //发送验证码激活失效标识
       timer: "",
       second: 60,
-      isMobileFirst: true, //首次点击输入手机号
+      isEmailFirst: true, //首次点击输入邮箱
       isCodeFirst: true, //首次点击输入验证码
       isPwdFirst: true, //首次点击输入安全密码
-      mobile: "", //手机号
-      mobile_tip: "", //手机号提示
-      mobileRight: false,
+      email: "", //邮箱
+      email_tip: "", //邮箱提示
+      emailRight: false,
       text: "发送验证码",
       validCode: "", //验证码
       code_tip: "", //验证码提示
@@ -63,19 +63,19 @@ export default {
     };
   },
   methods: {
-    //验证手机
-    checkMobile() {
-      const mobile_yz = /^[1][3,4,5,7,8][0-9]{9}$/;
-      let yzmobile = mobile_yz.test(this.mobile);
-      this.isMobileFirst = false;
-      if (!this.mobile) {
-        this.mobileRight = false;
-        this.mobile_tip = "手机号码不能为空！";
-      } else if (yzmobile) {
-        this.mobileRight = true;
+    //验证邮箱
+    checkEmail() {
+      const email_yz = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
+      let yzemail = email_yz.test(this.email);
+      this.isEmailFirst = false;
+      if (!this.email) {
+        this.emailRight = false;
+        this.email_tip = "邮箱号码不能为空！";
+      } else if (yzemail) {
+        this.emailRight = true;
       } else {
-        this.mobileRight = false;
-        this.mobile_tip = "手机号码格式不正确！";
+        this.emailRight = false;
+        this.email_tip = "邮箱号码格式不正确！";
       }
     },
     // 验证验证码
@@ -106,13 +106,13 @@ export default {
     },
     //取验证码
     sendMobilCode() {
-      if (this.mobileRight) {
+      if (this.emailRight) {
         this.flag = false;
         let params = new URLSearchParams();
-        params.append("mobil", Number(this.mobile));
+        params.append("email", this.email);
         this.$axios
           .post(
-            baseUrl + "/api/userCenter/sendMobilCode",
+            baseUrl + "/api/userCenter/sendEmailCode",
             params,
             this.$store.state.config
           )
@@ -133,22 +133,22 @@ export default {
           });
       } else {
         this.$message.error({
-          message: "手机号格式错误！",
+          message: "邮箱号格式错误！",
           center: true,
           showClose: true
         });
       }
     },
-    //绑定手机号码
+    //绑定邮箱号码
     submit() {
       let securityCode = md5(this.securityCode);
       let formData = new FormData();
-      formData.append("mobil", Number(this.mobile));
+      formData.append("email", Number(this.email));
       formData.append("validCode", this.validCode);
       formData.append("securityCode", securityCode);
       this.$axios
         .post(
-          baseUrl + "/api/userCenter/saveBindPhone",
+          baseUrl + "/api/userCenter/saveBindEmail",
           formData,
           this.$store.state.config
         )
@@ -170,7 +170,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log("绑定手机号No");
+          console.log("绑定邮箱号No");
         });
     },
     showTimer() {
@@ -189,6 +189,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/assets/scss/user/comm.scss";
 @import "@/assets/scss/user/setComm.scss";
 </style>
 

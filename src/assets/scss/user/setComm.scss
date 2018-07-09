@@ -1,0 +1,69 @@
+@import "@/assets/scss/user/comm.scss";
+.queue {
+  padding: 35px 45px;
+}
+.userInput {
+  border-radius: 2px;
+  height: 30px;
+  line-height: 20px;
+  padding: 5px;
+  border: 1px solid #cecece;
+  width: 233px;
+  color: #666;
+  margin: 10px 0;
+}
+.verifyWrong,
+.verifyRight {
+  font-style: inherit;
+  margin-left: 8px;
+  line-height: 35px;
+  font-size: 14px;
+}
+.verifyWrong {
+  color: red;
+}
+.verifyRight {
+  color: green;
+}
+.submitContent {
+  & li {
+    color: #000;
+    line-height: 36px;
+    margin-bottom: 4px;
+    > span {
+      color: #666;
+      display: inline-block;
+      width: 144px;
+      text-align: right;
+      padding-right: 15px;
+      font-size: 12px;
+      margin-top: 8px;
+      & input {
+        vertical-align: middle;
+        font-size: 12px;
+      }
+    }
+  }
+  & .btn {
+    width: 85px;
+    background: #eee;
+    vertical-align: middle;
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    left: 292px;
+    top: 12px;
+    margin: 0;
+    height: 28px;
+    line-height: 30px;
+    text-align: center;
+    & a {
+      height: 28px;
+      line-height: 30px;
+      text-align: center;
+      display: inline-block;
+      width: 100%;
+      vertical-align: super;
+    }
+  }
+}

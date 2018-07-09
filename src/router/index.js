@@ -30,6 +30,9 @@ const letter = r => require.ensure([], () => r(require('@/components/page/user/l
 const notice = r => require.ensure([], () => r(require('@/components/page/user/notice.vue')), 'notice')
 const personalLevel = r => require.ensure([], () => r(require('@/components/page/user/personalLevel.vue')), 'personalLevel')
 const setMobile = r => require.ensure([], () => r(require('@/components/page/user/setMobile.vue')), 'setMobile')
+const setMail = r => require.ensure([], () => r(require('@/components/page/user/setMail.vue')), 'setMail')
+const setSafePwd = r => require.ensure([], () => r(require('@/components/page/user/setSafePwd.vue')), 'setSafePwd')
+const verifyPwd = r => require.ensure([], () => r(require('@/components/page/user/verifyPwd.vue')), 'verifyPwd')
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -234,6 +237,27 @@ export default new Router({
               component: setMobile,
               meta: {
                 title: "宏發娱乐-设置密保手机"
+              }
+            },
+            {
+              path: '/user/setMail',
+              component: setMail,
+              meta: {
+                title: "宏發娱乐-设置邮箱"
+              }
+            },
+            {
+              path: '/user/setSafePwd',
+              component: setSafePwd,
+              meta: {
+                title: "宏發娱乐-设置安全密码"
+              }
+            },
+            {
+              path: '/user/verifyPwd',
+              component: verifyPwd,
+              meta: {
+                title: "宏發娱乐-修改密码"
               }
             },
           ],

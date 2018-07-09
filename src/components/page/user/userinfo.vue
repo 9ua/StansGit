@@ -29,7 +29,7 @@
           li
             span 邮箱:
             input.usreinput(disabled='disabled')
-            router-link(to='setMobile',v-show='! isBindEmail') 绑定
+            router-link(to='setMail',v-show='! isBindEmail') 绑定
           li
             span 性别:
             b.radio_box(v-for='(item,index) in listsex',:class="{'checked': index === sex}",:key='index' @click='sexRadio($event,item,index)') 

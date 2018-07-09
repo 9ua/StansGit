@@ -23,21 +23,44 @@
     }
   }
 }
-ins{
+
+.resetForm,
+.submitBtn {
+  display: inline-block;
+  line-height: 30px;
+  color: #fff;
+  height: 30px;
+  padding: 0 15px;
+  border-radius: 3px;
+  font-size: 14px;
+  margin-right: 10px;
+  min-width: 55px;
+  text-align: center;
+  cursor: pointer;
+  background: #2e4158;
+  margin: 10px 0;
+}
+
+ins {
   text-decoration: none;
 }
-.mg30{
+
+.mg30 {
   margin: 30px;
 }
-.mg10{
+
+.mg10 {
   margin: 10px;
 }
-.mgb10{
+
+.mgb10 {
   margin-bottom: 10px;
 }
-.mgt15{
-  margin-top: 15px!important;
+
+.mgt15 {
+  margin-top: 15px !important;
 }
-.mglr30{
+
+.mglr30 {
   margin: 0 30px;
 }
