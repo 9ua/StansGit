@@ -27,7 +27,7 @@
             mu-icon(value="check_circle",size="14")
         li 
           span 安全密码：
-          input(placeholder='请输入您的安全密码',class='userInput',v-model="securityCode",@blur='checkPwd',type='password')
+          input(placeholder='请输入您的安全密码',class='userInput',v-model="securityCode",@blur='checkPwd',type='password',@keyup.enter="submit")
           em.verifyWrong(v-show='!pwdRight&&!isPwdFirst') 
             mu-icon(value="cancel",size="14")
             {{pwd_tip}}
@@ -39,7 +39,7 @@
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
-import md5 from 'js-md5';
+import md5 from "js-md5";
 export default {
   data() {
     return {
@@ -153,7 +153,7 @@ export default {
           this.$store.state.config
         )
         .then(res => {
-          if (res.data.code===1) {
+          if (res.data.code === 1) {
             this.$message({
               message: "绑定成功！",
               type: "success",
@@ -161,6 +161,10 @@ export default {
               showClose: true
             });
             this.active = 2;
+            setTimeout(() => {
+              this.$router.go(-1);
+            }, 2000);
+            localStorage.removeItem("centerStatus");
           } else {
             this.$message.error({
               message: res.data.data.message,

@@ -30,7 +30,7 @@
             mu-icon(value="check_circle",size="14")
         li 
           span 确认密码：
-          input(placeholder='请再次输入安全密码',class='userInput',v-model="newPwdAgian",@blur='checkPwdAgain',type='password')
+          input(placeholder='请再次输入安全密码',class='userInput',v-model="newPwdAgian",@blur='checkPwdAgain',type='password',@keyup.enter="submit")
           em.verifyWrong(v-show='!pwdRightAgain&&!isFirst') 
             mu-icon(value="cancel",size="14")
             {{pwd_tip}}
@@ -151,6 +151,7 @@ export default {
               setTimeout(() => {
                 this.$router.go(-1);
               }, 2000);
+              localStorage.removeItem("centerStatus");
             } else {
               this.$message.error({
                 message: res.data.data.message,

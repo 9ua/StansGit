@@ -27,7 +27,7 @@
             mu-icon(value="check_circle",size="14")
         li 
           span 安全密码：
-          input(placeholder='请输入您的安全密码',class='userInput',v-model="securityCode",@blur='checkPwd',type='password')
+          input(placeholder='请输入您的安全密码',class='userInput',v-model="securityCode",@blur='checkPwd',type='password',@keyup.enter="submit")
           em.verifyWrong(v-show='!pwdRight&&!isPwdFirst') 
             mu-icon(value="cancel",size="14")
             {{pwd_tip}}
@@ -63,7 +63,7 @@ export default {
     };
   },
   methods: {
-    //验证邮箱
+    //验证邮箱格式
     checkEmail() {
       const email_yz = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
       let yzemail = email_yz.test(this.email);
@@ -78,7 +78,7 @@ export default {
         this.email_tip = "邮箱号码格式不正确！";
       }
     },
-    // 验证验证码
+    // 验证验证码格式
     checkCode() {
       this.isCodeFirst = false;
       if (this.validCode.length != 6) {
@@ -91,7 +91,7 @@ export default {
         this.codeRight = true;
       }
     },
-    // 验证安全密码
+    // 验证安全密码格式
     checkPwd() {
       this.isPwdFirst = false;
       if (!this.securityCode) {
@@ -104,7 +104,7 @@ export default {
         this.pwdRight = true;
       }
     },
-    //取验证码
+    //取验证码格式
     sendMobilCode() {
       if (this.emailRight) {
         this.flag = false;
@@ -143,7 +143,7 @@ export default {
     submit() {
       let securityCode = md5(this.securityCode);
       let formData = new FormData();
-      formData.append("email", Number(this.email));
+      formData.append("email", this.email);
       formData.append("validCode", this.validCode);
       formData.append("securityCode", securityCode);
       this.$axios
@@ -153,14 +153,18 @@ export default {
           this.$store.state.config
         )
         .then(res => {
-          if (res.data.code===1) {
+          if (res.data.code === 1) {
             this.$message({
-              message: "绑定成功！",
+              message: res.data.data.message,
               type: "success",
               center: true,
               showClose: true
             });
             this.active = 2;
+            localStorage.removeItem("centerStatus");
+            setTimeout(() => {
+              this.$router.push("/user");
+            }, 2000);
           } else {
             this.$message.error({
               message: res.data.data.message,
