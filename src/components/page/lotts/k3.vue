@@ -13,12 +13,10 @@
         <div class="lott-top-right k3">
           <p>第
             <span>201806240751</span>期 开奖结果</p>
-          <div>
-            <img src="../../../../static/images/lott/open_num.gif" alt="">
-            <img src="../../../../static/images/lott/open_num.gif" alt="">
-            <img src="../../../../static/images/lott/open_num.gif" alt="">
+          <div class="showGif">
+            <span v-for="(item,index) in 3" :key="index"></span>
           </div>
-          <div v-show="false">
+          <div class="showName" v-show="false">
             <img src="@/assets/img/lott/k3n1.jpg" alt="">
             <img src="@/assets/img/lott/k3n2.jpg" alt="">
             <img src="@/assets/img/lott/k3n3.jpg" alt="">

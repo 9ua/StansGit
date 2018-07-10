@@ -13,7 +13,7 @@
       .banner
         .bannerBox
           router-link(to='/activity')
-            img(src='http://chinahuiji.com/res/upload/98488f66967c44a0877728544b620a2f.jpg', alt='')
+            img(src='../../../static/images/lott/sy1.jpg', alt='')
       .autoTab
         ul.tab
           li(:class="{'active': index === navNum}", v-for='(nav,index) in listnav', :key='index', @click='navTo($event,index,nav)') {{nav.name}}
