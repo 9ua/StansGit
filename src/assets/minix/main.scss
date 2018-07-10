@@ -13,13 +13,18 @@ $desw:750;
   height: $height;
   width: $width;
 }
+@mixin lottSt($pic, $width, $height) {
+  background: url('../../../../static/images/lott/'+$pic) no-repeat;
+  height: $height;
+  width: $width;
+}
 @mixin activityBg($pic, $width, $height) {
   background: url('../../assets/img/activity/'+$pic) no-repeat;
   height: $height;
   width: $width;
 }
 @mixin appdownBg($pic, $width, $height) {
-  background: url('../../assets/img/appdown/'+$pic) no-repeat;
+  background: url('../../../static/images/lott/'+$pic) no-repeat;
   height: $height;
   width: $width;
 }
@@ -29,7 +34,7 @@ $desw:750;
   width: $width;
 }
 @mixin loginBg($pic){
-  background: url('../../assets/img/login/'+$pic) no-repeat;
+  background: url('../../../static/images/lott/'+$pic) no-repeat;
 }
 %flex {
   display: -webkit-box;

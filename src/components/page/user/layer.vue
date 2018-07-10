@@ -9,11 +9,11 @@
         .slider-con.fix(:class='"pageNum"+pageNum')
           .item-page.fix(v-for='img in imgs')
             p(:class="{'curr': index === imgIndex}",:title='item.title',v-for='(item,index) in img',@click='choose($event,index,item)',:key='index')
-              img(:src='"../../../assets/img/header/"+item.img+".jpg"', alt='',class='headImg')
+              img(:src='"/static/images/"+item.img+".jpg"', alt='',class='headImg')
       .headImgView
         h5 预览
         p 100x100
-        img(:src='"../../../assets/img/header/"+img+".jpg"', alt='')
+        img(:src='"/static/images/"+img+".jpg"', alt='')
         h5(style='color: rgb(83, 168, 241);margin-top:10px;') {{itemName}}
         .button
           span.submitBtn(@click='saveHeadImg') 保存头像

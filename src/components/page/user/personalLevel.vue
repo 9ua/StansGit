@@ -7,7 +7,7 @@
         router-link(:to="nav.to", v-for='(nav,index) in listnav',:class="{'active': index === navNum}",:key='index') {{nav.title}}
       .fix
         .selectHeadImg
-          img(:src='"../../../assets/img/header/"+this.$store.state.img+".jpg"')
+          img(:src='"/static/images/"+this.$store.state.img+".jpg"')
           p(@click='setHeadImg=true') 修改头像
         ul.evCallInfo
           li

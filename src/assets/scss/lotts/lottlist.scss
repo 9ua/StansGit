@@ -67,6 +67,15 @@
       font-weight: 700;
       height: 70px;
     }
+    & .showGif{
+      @extend %faj;
+      font-size: 20px;
+      font-weight: 400;
+      height: 70px;
+      & span{
+        @include lottSt("open_num.gif", 61px, 71px);
+      }
+    }
   }
   & .lott-top-right.ssc {
     width: 400px;
