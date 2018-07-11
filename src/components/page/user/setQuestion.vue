@@ -90,6 +90,7 @@ export default {
                 showClose: true
               });
               this.active = 2;
+              localStorage.removeItem("centerStatus");
               setTimeout(() => {
                 this.$router.push({ path: "/user" });
               }, 2000);

@@ -46,8 +46,8 @@
               strong {{question === 0 ? '未设置密保问题' : '已设置密保问题'}}
               p 密保问题可以增加账户安全性，快速找回帐号密码。
             span.btn
-              router-link(to="/user/setQuestion",v-show='! securityCoe') 设置密保问题
-              router-link(to="/user/verifyQuestion",v-show='securityCoe') 修改密保问题
+              router-link(to="/user/setQuestion",v-show='! question') 设置密保问题
+              router-link(to="/user/verifyQuestion",v-show='question') 修改密保问题
           li(:class='{noSet:!email}')
             mu-icon(value='email',class='icon')
             span.text
@@ -87,24 +87,25 @@ export default {
         this.question = centerStatus.question;
         this.email = centerStatus.email;
         this.lastLoginTime = centerStatus.lastLoginTime;
+      } else {
+        this.$axios
+          .get(
+            baseUrl + "/api/userCenter/getSecurityCenterStatus",
+            this.$store.state.config
+          )
+          .then(res => {
+            this.password = res.data.data.password;
+            this.securityCoe = res.data.data.securityCoe;
+            this.mobile = res.data.data.mobile;
+            this.question = res.data.data.question;
+            this.email = res.data.data.email;
+            this.lastLoginTime = res.data.data.lastLoginTime;
+            localStorage.setItem("centerStatus", JSON.stringify(res.data.data));
+          })
+          .catch(error => {
+            console.log("取安全中心状态No");
+          });
       }
-      this.$axios
-        .get(
-          baseUrl + "/api/userCenter/getSecurityCenterStatus",
-          this.$store.state.config
-        )
-        .then(res => {
-          this.password = res.data.data.password;
-          this.securityCoe = res.data.data.securityCoe;
-          this.mobile = res.data.data.mobile;
-          this.question = res.data.data.question;
-          this.email = res.data.data.email;
-          this.lastLoginTime = res.data.data.lastLoginTime;
-          localStorage.setItem("centerStatus", JSON.stringify(res.data.data));
-        })
-        .catch(error => {
-          console.log("取安全中心状态No");
-        });
       if (this.securityCoe === 1) {
         this.value5 += 1;
       }

@@ -17,7 +17,7 @@
             mu-icon(value="check_circle",size="14")
         li 
           span 确认密码：
-          input(placeholder='请再次输入安全密码',class='userInput',v-model="safePwdAgian",@blur='checkPwdAgain',type='password')
+          input(placeholder='请再次输入安全密码',class='userInput',v-model="safePwdAgian",@blur='checkPwdAgain',type='password',@keyup.enter="submit")
           em.verifyWrong(v-show='!pwdRightAgain&&!isFirst') 
             mu-icon(value="cancel",size="14")
             {{pwd_tip}}
@@ -89,14 +89,14 @@ export default {
           .then(res => {
             if (res.data.code === 1) {
               this.$message({
-                message: "绑定成功！",
+                message: res.data.data.message,
                 type: "success",
                 center: true,
                 showClose: true
               });
               this.active = 2;
               setTimeout(() => {
-                this.$router.go(-1);
+                this.$router.push("/user/securityCenter");
               }, 2000);
               localStorage.removeItem("centerStatus");
             } else {

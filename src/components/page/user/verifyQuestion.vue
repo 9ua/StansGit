@@ -55,7 +55,7 @@ export default {
     this.getUserSafeData();
   },
   methods: {
-    //获取密保问题
+    //取密保问题
     getUserSafeData() {
       this.$axios
         .get(
@@ -73,12 +73,12 @@ export default {
         });
     },
     //验证密保问题
-    setQuestion() {
+    submit() {
       let md5answer1 = md5(this.answer1);
       let md5answer2 = md5(this.answer2);
       if (md5answer1 === this.answer3) {
         if (md5answer2 === this.answer4) {
-          this.$router.push({ path: "/setQuestion" });
+          this.$router.push({ path: "/user/setQuestion" });
         }
       } else {
         this.$message.error({

@@ -96,7 +96,7 @@ export default {
       lotteryId: "jsk3", //默认上期开奖结果（江苏快3）
       winList: null, //中奖列表
       pastOpenK3: { n1: 1, n2: 2, n3: 3, seasonId: 123456 }, //上期k3开奖结果
-      pastOpenSSC: { n1: 1, n2: 2, n3: 3, n4: 4,n5:5, seasonId: 123456 }, //上期ssc开奖结果
+      pastOpenSSC: { n1: 1, n2: 2, n3: 3, n4: 4, n5: 5, seasonId: 123456 }, //上期ssc开奖结果
       listnav: [
         { name: "江苏快3", lotteryId: "jsk3" },
         { name: "重庆时时彩", lotteryId: "cqssc" },
@@ -367,12 +367,12 @@ export default {
     }
   },
   methods: {
-    selectStyle(item){
+    selectStyle(item) {
       this.$nextTick(() => {
         this.$set(item, "toF5money", true);
       });
     },
-    outStyle(item){
+    outStyle(item) {
       this.$set(item, "toF5money", false);
     },
     login() {
@@ -404,29 +404,57 @@ export default {
         this.$router.push({ path: "/lotts/ssc" });
       }
     },
+    //过期判断
+    isExperid() {
+      let item = localStorage.getItem(this.lotteryId);
+      if (item) {
+        item = JSON.parse(item);
+        let lastTime = item.lastTime;
+        let now = Date.parse(new Date()) / 1000;
+        let restSeconds = item.restSeconds;
+        if (now - lastTime >= restSeconds) {
+          return true;
+        } else {
+          return false;
+        }
+      }else{
+        return true;
+      }
+    },
+
     //获取过去开奖号码1个
     getPastOp() {
-      this.$axios
-        .get(
-          baseUrl +
-            "/api/lottery/getPastOpen?lotteryId=" +
-            this.lotteryId +
-            "&count=1",
-          this.$store.state.config
-        )
-        .then(res => {
-          if(this.lotteryId!="cqssc"){
-            this.pastOpenK3 = res.data.data[0]; 
-            this.lotteryId = this.pastOpenK3.lotteryId;
-          }else{
-            this.pastOpenSSC = res.data.data[0]; 
-            this.lotteryId = this.pastOpenSSC.lotteryId;
-          }      
-          
-        })
-        .catch(error => {
-          console.log("获取过去开奖号码No");
-        });
+      if (this.isExperid()) {
+        this.$axios
+          .get(
+            baseUrl +
+              "/api/lottery/getPastOpen?lotteryId=" +
+              this.lotteryId +
+              "&count=1",
+          )
+          .then(res => {
+            let storage = res.data.data[0];
+            storage.lastTime = Date.parse(new Date()) / 1000;
+            localStorage.setItem(this.lotteryId, JSON.stringify(storage));
+            if (this.lotteryId != "cqssc") {
+              this.pastOpenK3 = res.data.data[0];
+              this.lotteryId = this.pastOpenK3.lotteryId;
+            } else {
+              this.pastOpenSSC = res.data.data[0];
+              this.lotteryId = this.pastOpenSSC.lotteryId;
+            }
+          })
+          .catch(error => {
+            console.log("获取过去开奖号码No");
+          });
+      } else {
+        let item = JSON.parse(localStorage.getItem(this.lotteryId));
+        if (this.lotteryId != "cqssc") {
+          this.pastOpenK3 = item;
+        } else {
+          this.pastOpenSSC = item;
+        }
+      }
     },
     // 获取彩种
     lotteryAll() {

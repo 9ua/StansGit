@@ -148,3 +148,5 @@
 	<GeminiScrollbar class="my-scroll-bar" style="height:100px;width:100px;">
 		content...
 	</GeminiScrollbar>
+# 全局Loading #
+	请求拦截器自动加入loading，同时加入config配置项，接口调用不用调取config配置头信息

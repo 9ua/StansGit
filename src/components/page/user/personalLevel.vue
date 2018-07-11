@@ -17,11 +17,11 @@
           li 
             em 等
             级 ：
-            span 测试组
+            span VIP1
           li 
             em 头
             衔 ：
-            span 测试组
+            span 农民
           li 
             成长值 ：
             span 0
@@ -29,11 +29,11 @@
         .levelBar
           el-progress(:text-inside='true', :stroke-width='18', :percentage='0')
           .levelBarInfo
-            em 测试组
+            em VIP1
             p
               span(style='color: rgb(241, 66, 65);') 0
               /0  距离下一级还要0分
-            i 测试组
+            i VIP2
         h6 等级机制
         table(width='80%')
           tbody

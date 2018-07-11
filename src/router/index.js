@@ -36,6 +36,8 @@ const verifyPwd = r => require.ensure([], () => r(require('@/components/page/use
 const verifyMail = r => require.ensure([], () => r(require('@/components/page/user/verifyMail.vue')), 'verifyMail')
 const setQuestion = r => require.ensure([], () => r(require('@/components/page/user/setQuestion.vue')), 'setQuestion')
 const verifyQuestion = r => require.ensure([], () => r(require('@/components/page/user/verifyQuestion.vue')), 'verifyQuestion')
+const verifySafePwd = r => require.ensure([], () => r(require('@/components/page/user/verifySafePwd.vue')), 'verifySafePwd')
+const resetWay = r => require.ensure([], () => r(require('@/components/page/user/resetWay.vue')), 'resetWay')
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -282,6 +284,20 @@ export default new Router({
               component: verifyQuestion,
               meta: {
                 title: "宏發娱乐-设置密保问题"
+              }
+            },
+            {
+              path: '/user/verifySafePwd',
+              component: verifySafePwd,
+              meta: {
+                title: "宏發娱乐-验证安全密码"
+              }
+            },
+            {
+              path: '/user/resetWay',
+              component: resetWay,
+              meta: {
+                title: "宏發娱乐-找回安全密码"
               }
             },
           ],

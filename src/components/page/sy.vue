@@ -86,18 +86,23 @@ export default {
     ...mapMutations(["OUT_LOGIN"]),
     //获取用户信息
     getTopUserData() {
-      this.$axios
-        .get(
-          baseUrl + "/api/userCenter/getTopUserData",
-          this.$store.state.config
-        )
-        .then(res => {
-          this.$store.state.img = res.data.data.image;
-          localStorage.setItem("img", this.$store.state.img);
-        })
-        .catch(error => {
-          this.$store.state.img = 0;
-        });
+      if (localStorage.getItem("topUserData")) {
+        let topUserData=JSON.parse(localStorage.getItem("topUserData"));
+        this.$store.state.img = topUserData.image;
+      } else {
+        this.$axios
+          .get(
+            baseUrl + "/api/userCenter/getTopUserData",
+            this.$store.state.config
+          )
+          .then(res => {
+            this.$store.state.img = res.data.data.image;
+            localStorage.setItem("topUserData", JSON.stringify(res.data.data));
+          })
+          .catch(error => {
+            this.$store.state.img = 0;
+          });
+      }
     },
     logOut() {
       this.$axios

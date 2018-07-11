@@ -15,13 +15,13 @@
             ins {{this.$store.state.Globalusername}}
           li
             span 等级:
-            ins 测试组
+            ins VIP1
           li
             span 头衔:
-            ins 测试组
+            ins 农民
           li
             span 昵称:
-            input.usreinput(placeholder='昵称为1-5位汉字，设置后不能修改',v-model='nickName',:input="nickName",@keyup.enter="setUserData")
+            input.usreinput(placeholder='昵称为1-5位汉字，设置后不能修改',v-model='nickName',:input="nickName")
           li
             span 手机:
             input(class='usreinput',disabled='disabled',v-model='mobile')
@@ -43,7 +43,7 @@
           li
             span
             button.submitBtn(@click='setUserData') 保存
-  layer(v-if='setHeadImg',@close="close",toggle="true")
+  layer(v-if='setHeadImg',@close="close",toggle="true",:birthday='birthday',:sex='sex',:mobile='mobile',:email='email',:nickName='nickName')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -55,6 +55,7 @@ export default {
   data() {
     return {
       navNum: 0,
+      img:this.$store.state.img,
       setHeadImg: false, //头像更改标识
       isBindMobile: false,
       isBindEmail: false,
@@ -91,7 +92,7 @@ export default {
     // 获取用户信息
     getUserData() {
       this.$axios
-        .get(baseUrl + "/api/userCenter/getUserData", this.$store.state.config)
+        .get(baseUrl + "/api/userCenter/getUserData")
         .then(res => {
           this.nickName = res.data.data.nickName;
           this.birthday = res.data.data.birthday;
@@ -112,7 +113,7 @@ export default {
     //设置用户信息
     setUserData() {
       let params = new URLSearchParams();
-      params.append("image", this.$store.state.img);
+      params.append("image", this.img);
       params.append("nickName", this.nickName);
       params.append("birthday", this.birthday);
       params.append("sex", this.sex);
@@ -123,16 +124,21 @@ export default {
           this.$store.state.config
         )
         .then(res => {
+          this.$store.state.img = this.img;
+          localStorage.setItem("img", this.img);
           this.$message({
             message: "保存成功！",
             type: "success",
             center: true,
-            showClose: true,
+            showClose: true
           });
         })
         .catch(error => {
           this.$message.error({
-            message: "用户信息保存失败！",center: true,showClose: true,});
+            message: "用户信息保存失败！",
+            center: true,
+            showClose: true
+          });
         });
     }
   }

@@ -24,6 +24,7 @@
 <script>
 import { baseUrl } from "../../../assets/js/env";
 export default {
+  props: ["sex", "birthday", "mobile", "email", "nickName"],
   data() {
     return {
       toggle: true,
@@ -84,7 +85,10 @@ export default {
     },
     saveHeadImg() {
       let params = new URLSearchParams();
-      params.append("image", this.img);
+      params.append("image", Number(this.img));
+      params.append("nickName", this.nickName);
+      params.append("birthday", this.birthday);
+      params.append("sex", this.sex);
       this.$axios
         .post(
           baseUrl + "/api/userCenter/saveUserData",
@@ -92,8 +96,11 @@ export default {
           this.$store.state.config
         )
         .then(res => {
+          let userData=JSON.parse(localStorage.getItem("topUserData"));
+          userData.image=this.img;
+          localStorage.setItem("topUserData",JSON.stringify(userData));
           this.$store.state.img = this.img;
-          localStorage.setItem("img",this.img);          
+          localStorage.setItem("img", this.img);
           this.close();
         })
         .catch(error => {
