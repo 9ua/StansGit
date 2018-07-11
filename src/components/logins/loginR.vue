@@ -73,7 +73,7 @@ export default {
             this.getCaptchaCode();
           }
           if (res.data.data === "注册成功!") {
-            this.$alert(res.data.data);
+            this.$message(res.data.data);
             setTimeout(() => {
               let pwd1 = md5(this.userinfo.password);
               let formData1 = new FormData();

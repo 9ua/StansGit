@@ -28,7 +28,7 @@
           <div class="lott-left-nav">
             <button @click="lottnavleft"><span><i class="el-icon-caret-left"></i></span></button>
             <div class="lott-left-navBox" ref="lottnavbox">
-              <ul ref="lottnavUl" :style="{left:left+'px'}">
+              <ul ref="lottnavUl" :style="{transform: 'translateX(' + left + 'px)'}">
                 <li ref="lottnavLi" :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
               </ul>
             </div>
@@ -503,7 +503,6 @@ export default {
     this.getPlayTree();
   },
   methods:{
-    
     //添加号码栏
     addNum() {
       this.iscreat();
@@ -672,7 +671,7 @@ export default {
       }, 0);
     },
     //导航左边点击
-    lottnavleft(){
+    lottnavright(){
       let box = this.$refs.lottnavbox.offsetWidth;
       let ul = this.$refs.lottnavUl.offsetWidth;
       let li = this.$refs.lottnavLi[0].offsetWidth;
@@ -686,7 +685,7 @@ export default {
       }
     },
     //导航右边点击
-    lottnavright(){
+    lottnavleft(){
       let box = this.$refs.lottnavbox.offsetWidth;
       let ul = this.$refs.lottnavUl.offsetWidth;
       let li = this.$refs.lottnavLi[0].offsetWidth;

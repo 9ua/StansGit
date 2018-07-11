@@ -30,7 +30,7 @@
               </span>
             </button>
             <div class="lott-left-navBox" ref="lottnavbox">
-              <ul ref="lottnavUl" :style="{left:left+'px'}">
+              <ul ref="lottnavUl" :style="{transform: 'translateX(' + left + 'px)'}">
                 <li ref="lottnavLi" :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
               </ul>
             </div>
