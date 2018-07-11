@@ -196,6 +196,7 @@
           position: absolute;
           height: 38px;
           width: auto;
+          transition: 1.2s;
           & li {
             @extend %faj;
             height: 38px;
