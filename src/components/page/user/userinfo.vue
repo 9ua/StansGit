@@ -21,15 +21,17 @@
             ins 测试组
           li
             span 昵称:
-            input.usreinput(placeholder='昵称为1-5位汉字，设置后不能修改',v-model='nickName',:input="nickName")
+            input.usreinput(placeholder='昵称为1-5位汉字，设置后不能修改',v-model='nickName',:input="nickName",@keyup.enter="setUserData")
           li
             span 手机:
-            input(class='usreinput',disabled='disabled')
+            input(class='usreinput',disabled='disabled',v-model='mobile')
             router-link(to='setMobile',v-show='! isBindMobile') 绑定
+            router-link(to='verifyMobile',v-show='isBindMobile') 修改
           li
             span 邮箱:
-            input.usreinput(disabled='disabled')
+            input.usreinput(disabled='disabled',v-model='email')
             router-link(to='setMail',v-show='! isBindEmail') 绑定
+            router-link(to='verifyMail',v-show='isBindEmail') 修改
           li
             span 性别:
             b.radio_box(v-for='(item,index) in listsex',:class="{'checked': index === sex}",:key='index' @click='sexRadio($event,item,index)') 
@@ -40,7 +42,7 @@
             el-date-picker(v-model="birthday",type="date" ,value-format="yyyy/MM/dd" ,@change="(value) => toBirthday(value)", format="yyyy/MM/dd" ,:editable="false", placeholder="选择日期")
           li
             span
-            button.submitBtn(@click='setUserData',@keyup.enter="setUserData") 保存
+            button.submitBtn(@click='setUserData') 保存
   layer(v-if='setHeadImg',@close="close",toggle="true")
 </template>
 <script>
@@ -72,7 +74,7 @@ export default {
       ]
     };
   },
-  mounted() {
+  created() {
     this.getUserData();
   },
   methods: {
@@ -96,9 +98,11 @@ export default {
           this.sex = res.data.data.sex;
           if (res.data.data.email) {
             this.isBindEmail = true;
+            this.email = res.data.data.email;
           }
           if (res.data.data.mobile) {
             this.isBindMobile = true;
+            this.mobile = res.data.data.mobile;
           }
         })
         .catch(error => {

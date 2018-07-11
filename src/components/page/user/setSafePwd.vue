@@ -95,6 +95,10 @@ export default {
                 showClose: true
               });
               this.active = 2;
+              setTimeout(() => {
+                this.$router.go(-1);
+              }, 2000);
+              localStorage.removeItem("centerStatus");
             } else {
               this.$message.error({
                 message: res.data.data.message,

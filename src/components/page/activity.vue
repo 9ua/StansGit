@@ -49,11 +49,13 @@ export default {
         });
     },
     activi(e, actives, index) {
-      this.activesremarks = false;
-      this.num = index;
       if (this.num === index) {
         this.activesremarks = !this.activesremarks;
+      }else{
+        this.activesremarks = true;
+        this.num = index; 
       }
+      // this.num = index;      
     }
   }
 };
