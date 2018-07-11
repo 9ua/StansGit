@@ -35,6 +35,7 @@ const setSafePwd = r => require.ensure([], () => r(require('@/components/page/us
 const verifyPwd = r => require.ensure([], () => r(require('@/components/page/user/verifyPwd.vue')), 'verifyPwd')
 const verifyMail = r => require.ensure([], () => r(require('@/components/page/user/verifyMail.vue')), 'verifyMail')
 const setQuestion = r => require.ensure([], () => r(require('@/components/page/user/setQuestion.vue')), 'setQuestion')
+const verifyQuestion = r => require.ensure([], () => r(require('@/components/page/user/verifyQuestion.vue')), 'verifyQuestion')
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -272,6 +273,13 @@ export default new Router({
             {
               path: '/user/setQuestion',
               component: setQuestion,
+              meta: {
+                title: "宏發娱乐-设置密保问题"
+              }
+            },
+            {
+              path: '/user/verifyQuestion',
+              component: verifyQuestion,
               meta: {
                 title: "宏發娱乐-设置密保问题"
               }

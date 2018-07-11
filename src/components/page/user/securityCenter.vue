@@ -38,7 +38,8 @@
               strong {{mobile === 0 ? '未绑定密保手机:' : '已绑定密保手机:'}}
               p 密保手机可以增加账户安全性，快速找回帐号密码。
             span.btn
-              router-link(to="/user/setMobile") 绑定密保手机
+              router-link(to="/user/setMobile",v-show='! mobile') 绑定密保手机
+              router-link(to="/user/verifyMobile",v-show='mobile') 修改密保手机
           li(:class='{noSet:!question}')
             mu-icon(value='security',class='icon')
             span.text
@@ -46,7 +47,7 @@
               p 密保问题可以增加账户安全性，快速找回帐号密码。
             span.btn
               router-link(to="/user/setQuestion",v-show='! securityCoe') 设置密保问题
-              router-link(to="/user/setQuestion",v-show='securityCoe') 设置密保问题
+              router-link(to="/user/verifyQuestion",v-show='securityCoe') 修改密保问题
           li(:class='{noSet:!email}')
             mu-icon(value='email',class='icon')
             span.text
