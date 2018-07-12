@@ -32,7 +32,7 @@ export default {
       active: 1,
       flag: true,
       email: "",
-      second:60,
+      second: 60,
       validCode: "", //安全码
       code_tip: "", //验证码提示
       codeRight: false,
@@ -85,17 +85,26 @@ export default {
     //     });
     // },
     //服务端验证安全码
-    validSecurityCode(){
+    validSecurityCode() {
       let validCode = md5(this.validCode);
       let formData = new FormData();
-      formData.append('oldPassword', validCode);
-      this.$axios.post(baseUrl+'/api/userCenter/validSecurityCode', formData,this.$store.state.config).then((res) => {
-          if(res.data.code===1){
-              this.$router.push("/user/setMail");
+      formData.append("oldPassword", validCode);
+      this.$axios
+        .post(baseUrl + "/api/userCenter/validSecurityCode", formData)
+        .then(res => {
+          if (res.data.code === 1) {
+            this.$router.push("/user/setMail");
+          } else {
+            this.$message.error({
+              message: res.data.data.message,
+              center: true,
+              showClose: true
+            });
           }
-      }).catch((error) => {
-          console.log("No")
-      })
+        })
+        .catch(error => {
+          console.log("No");
+        });
     },
     showTimer() {
       this.timer = setInterval(() => {
@@ -112,7 +121,7 @@ export default {
     //获取已经绑定的邮箱号码
     getBindEmail() {
       this.$axios
-        .get(baseUrl + "/api/userCenter/getBindEmail", this.$store.state.config)
+        .get(baseUrl + "/api/userCenter/getBindEmail")
         .then(res => {
           this.email = res.data.data.email;
         })

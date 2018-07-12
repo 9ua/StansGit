@@ -146,36 +146,44 @@ export default {
       formData.append("mobil", Number(this.mobile));
       formData.append("validCode", this.validCode);
       formData.append("securityCode", securityCode);
-      this.$axios
-        .post(
-          baseUrl + "/api/userCenter/saveBindPhone",
-          formData,
-          this.$store.state.config
-        )
-        .then(res => {
-          if (res.data.code === 1) {
-            this.$message({
-              message: "绑定成功！",
-              type: "success",
-              center: true,
-              showClose: true
-            });
-            this.active = 2;
-            setTimeout(() => {
-              this.$router.go(-1);
-            }, 2000);
-            localStorage.removeItem("centerStatus");
-          } else {
-            this.$message.error({
-              message: res.data.data.message,
-              center: true,
-              showClose: true
-            });
-          }
-        })
-        .catch(error => {
-          console.log("绑定手机号No");
+      if (this.mobileRight && this.codeRight && this.pwdRight) {
+        this.$axios
+          .post(
+            baseUrl + "/api/userCenter/saveBindPhone",
+            formData,
+            this.$store.state.config
+          )
+          .then(res => {
+            if (res.data.code === 1) {
+              this.$message({
+                message: "绑定成功！",
+                type: "success",
+                center: true,
+                showClose: true
+              });
+              this.active = 2;
+              setTimeout(() => {
+                this.$router.go(-1);
+              }, 2000);
+              localStorage.removeItem("centerStatus");
+            } else {
+              this.$message.error({
+                message: res.data.data.message,
+                center: true,
+                showClose: true
+              });
+            }
+          })
+          .catch(error => {
+            console.log("绑定手机号No");
+          });
+      } else {
+        this.$message.error({
+          message: "请填写正确内容",
+          center: true,
+          showClose: true
         });
+      }
     },
     showTimer() {
       this.timer = setInterval(() => {
