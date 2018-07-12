@@ -40,12 +40,12 @@
   overflow: auto;
 }
 .layermbox2 .layermcont i:first-child{
-    background-color: #f40;
+    background-color: #f20;
 }
 .layermbox2 .layermcont i:nth-child(2){
-    background-color: #f60;
+    background-color: #f50;
 }
 .layermbox2 .layermcont i:nth-child(3){
-    background-color: #f90;
+    background-color: #f80;
 }
 </style>

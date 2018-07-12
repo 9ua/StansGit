@@ -1,5 +1,4 @@
 import LoadingComponent from "./Loading.vue";
-// 避免重复install，设立flag
 export default {
   install: function (Vue) {
     Vue.component("loading", LoadingComponent);

@@ -5,7 +5,23 @@
     .userMain
       .bindCard
         .fix
-          .cardEmpty.cardItem.ClickShade 立即添加银行卡
+          .cardItem(v-for="(item,index) in bankUserList")
+            .bankName
+              i
+              {{item.title}}
+            .bankNum
+              尾号：{{item.card|lastFive}}
+            .cardInfo.fix
+              .cardStyle.cardPink
+                储蓄卡
+                em
+              .cardOperation
+               span._islock 未锁定
+               router-link(to='setBankcard',class="_set_bankcard") 修改
+            .cardTxt
+              span 绑卡日期：2018-07-12
+              em {{item.niceName|name}}
+          router-link(to="",class="cardEmpty cardItem ClickShade",@click.native="goCreate") 立即添加银行卡
         .userTip.mgt15
           p  {{content}}
 </template>
@@ -16,55 +32,23 @@ export default {
   data() {
     return {
       content: "",
-      securityCoe: "",
-      securityCode: "",
-      loading: false,
-      dateFlag: 0,
-      bankUserList: [],
-      timeline: "今天",
-      show1: false,
-      show2: false,
-      show3: false,
-      show5: false,
-      show6: false,
-      usertype: 2,
-      selected: [],
-      bankUserList: [],
-      showFlag: true,
-
-      id: "",
-      bankNameId: "",
-      payway: [],
-      selectBank: "",
-      address: "",
-      niceName: "",
-      card: "",
-      card2: "",
-      securityCode: "",
-      content2: ""
+      bankUserList: []
     };
   },
   created() {
     this.getBankUserList();
-    this.getBankNameList();
   },
   methods: {
-    select(a) {
-      this.id = a.id;
-      this.selectBank = a.title;
-      this.address = a.address;
-      this.niceName = a.niceName;
-      this.card = a.card;
-      this.show3 = !this.show3;
-    },
     goCreate() {
       this.$axios
         .get(baseUrl + "/api/userCenter/getSecurityCenterStatus")
         .then(res => {
           this.securityCoe = res.data.data.securityCoe;
           if (this.securityCoe !== 1) {
-            Message.error({
-              message: "请先绑定安全密码!"
+            this.$message.error({
+              message: "请先设置安全密码！",
+              center: true,
+              showClose: true
             });
             setTimeout(() => {
               this.$router.push({ path: "/user/setSafePwd" });
@@ -75,29 +59,6 @@ export default {
         })
         .catch(error => {
           console.log("取安全中心状态No111");
-        });
-    },
-    onClick(item) {
-      this.selectBank = item.name;
-      this.bankNameId = item.id;
-      this.show1 = !this.show1;
-    },
-    getBankNameList() {
-      this.$axios
-        .get(baseUrl + "/api/proxy/getBankNameList")
-        .then(res => {
-          for (let i = 0; i < res.data.data.length; i++) {
-            if (i >= 3) {
-              this.payway.push({
-                name: res.data.data[i].title,
-                id: res.data.data[i].id,
-                callback: this.onClick
-              });
-            }
-          }
-        })
-        .catch(error => {
-          console.log("获取列表Error");
         });
     },
     getBankUserList() {
@@ -117,39 +78,16 @@ export default {
         .catch(error => {
           console.log("获取列表Error");
         });
-    },
-
-    sendReq() {
-      let formData = new FormData();
-      formData.append("id", this.id);
-      formData.append("bankNameId", this.bankNameId);
-      formData.append("card", this.card);
-      formData.append("card2", this.card2);
-      formData.append("address", this.address);
-      formData.append("niceName", this.niceName);
-      formData.append("securityCode", md5(this.securityCode));
-      this.$axios
-        .post(baseUrl + "/api/proxy/setBankUser", formData)
-        .then(res => {
-          if (res.data.code === 1) {
-            this.content2 = res.data.data.message;
-            this.show5 = true;
-            this.show3 = false;
-          } else {
-            this.content2 = res.data.data.message;
-            this.show6 = true;
-          }
-          this.getBankUserList();
-        })
-        .catch(error => {
-          console.log("No");
-        });
     }
   },
   filters: {
     lastFive(value) {
       let end = value.slice(-5);
       return `*********${end}`;
+    },
+    name(value) {
+      let star = value.slice(0, 1);
+      return `${star}**`;
     }
   }
 };
