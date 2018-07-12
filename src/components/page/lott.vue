@@ -73,6 +73,7 @@ export default {
       navNum: 0,
       lottery: "hot",
       showPop: false,
+      lotterys:null,
       lotteryList: null,
       lotteryListHot: null,
       lotteryListAll: null,
@@ -355,7 +356,6 @@ export default {
       this.$set(item, "showPop", false);
     },
     toLottery(item) {
-      // console.log(item)
       this.$router.push({path:"/lotts/"+item.groupId});
     },
     navTo(e, index, navs) {
@@ -383,19 +383,51 @@ export default {
       this.showPop = !this.showPop;
     },
     lotteryAll() {
-      this.$axios
-        .get(baseUrl + "/api/lottery/getLotteryList")
-        .then(res => {
-          this.lotteryList = res.data.data.hot;
-          this.lotteryListHot = res.data.data.hot;
-          this.lotteryListAll = res.data.data.all;
-          this.lotteryListK3 = res.data.data.k3;
-          this.lotteryListSsc = res.data.data.ssc;
-          this.lotteryListPk10 = res.data.data.pk10;
+      var now = new Date().getTime();
+      if(localStorage.getItem("getLotteryList") !== null){
+        var setupTime = localStorage.getItem("data_getLotteryList");
+        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+          localStorage.removeItem("getLotteryList");
+          localStorage.removeItem("data_getLotteryList");
+          this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
+            localStorage.setItem("getLotteryList",JSON.stringify(res.data.data));
+            this.lotterys = JSON.parse(localStorage.getItem("getLotteryList"));
+            localStorage.setItem("data_getLotteryList",now);
+            this.lotteryList = this.lotterys.hot;
+            this.lotteryListHot = this.lotterys.hot;
+            this.lotteryListAll = this.lotterys.all;
+            this.lotteryListK3 = this.lotterys.k3;
+            this.lotteryListSsc = this.lotterys.ssc;
+            this.lotteryListPk10 = this.lotterys.pk10;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }else{
+          this.lotterys = JSON.parse(localStorage.getItem("getLotteryList"));
+          this.lotteryList = this.lotterys.hot;
+          this.lotteryListHot = this.lotterys.hot;
+          this.lotteryListAll = this.lotterys.all;
+          this.lotteryListK3 = this.lotterys.k3;
+          this.lotteryListSsc = this.lotterys.ssc;
+          this.lotteryListPk10 = this.lotterys.pk10;
+        }
+      }else{
+        this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
+          localStorage.setItem("getLotteryList",JSON.stringify(res.data.data));
+          this.lotterys = JSON.parse(localStorage.getItem("getLotteryList"));
+          localStorage.setItem("data_getLotteryList",now);
+          this.lotteryList = this.lotterys.hot;
+          this.lotteryListHot = this.lotterys.hot;
+          this.lotteryListAll = this.lotterys.all;
+          this.lotteryListK3 = this.lotterys.k3;
+          this.lotteryListSsc = this.lotterys.ssc;
+          this.lotteryListPk10 = this.lotterys.pk10;
         })
         .catch(error => {
-          console.log("getLotteryListNo");
+          console.log(error);
         });
+      }
     }
   },
   filters: {

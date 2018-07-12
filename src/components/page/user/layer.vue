@@ -214,7 +214,7 @@ export default {
 }
 .slider-con {
   width: 1680px;
-  transition: 0.3s;
+  transition: .8s;
 }
 .headImgView {
   float: left;

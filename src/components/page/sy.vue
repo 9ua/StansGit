@@ -111,7 +111,7 @@ export default {
           if (res.data.data === "已登出") {
             this.$store.state.loginStatus = false;
             localStorage.setItem("loginStatus", false);
-            localStorage.clear();
+            // localStorage.clear();
           }
         })
         .catch(error => {

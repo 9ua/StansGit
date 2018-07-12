@@ -614,19 +614,40 @@ export default {
     },
     //玩法术
     getPlayTree() {
-      this.$axios
-        .get(
-          baseUrl + "/api/lottery/getPlayTree?lotteryId=" + this.lotteryId,
-          this.$store.state.config
-        )
-        .then(res => {
-          this.playGroups = res.data.data.playGroups;
-          this.playBonus = res.data.data.playBonus;
+      var now = new Date().getTime();
+      if(localStorage.getItem("getPlayTree_playGroups_ssc") !== null ){
+        var setupTime = localStorage.getItem("data_getPlayTree_ssc");
+        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+          localStorage.removeItem("getPlayTree_playGroups_ssc");
+          localStorage.removeItem("getPlayTree_playBonus_ssc");
+          localStorage.removeItem("data_getPlayTree_ssc");
+          this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId).then(res =>{
+          localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(res.data.data.playGroups));
+          localStorage.setItem("getPlayTree_playBonus_ssc",JSON.stringify(res.data.data.playBonus));
+          localStorage.setItem("data_getPlayTree_ssc",now);
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
+          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
           this.setupPlayTree();
-        })
-        .catch(error => {
+        }).catch(error =>{
           console.log("玩法术,No");
         });
+        }else{
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
+          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
+          this.setupPlayTree();
+        }
+      }else{
+        this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId).then(res =>{
+          localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(res.data.data.playGroups));
+          localStorage.setItem("getPlayTree_playBonus_ssc",JSON.stringify(res.data.data.playBonus));
+          localStorage.setItem("data_getPlayTree_ssc",now);
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
+          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
+          this.setupPlayTree();
+        }).catch(error =>{
+          console.log("玩法术,No");
+        });
+      }
     },
     setupPlayTree() {
       this.current_player = this.playGroups[0].groups[0].players[0];
@@ -735,14 +756,33 @@ export default {
     },
     // 获取彩种
     lotteryAll() {
-      this.$axios
-        .get(baseUrl + "/api/lottery/getLotteryList")
-        .then(res => {
-          this.lotteryList = res.data.data.pk10;
+      var now = new Date().getTime();
+      if(localStorage.getItem("lotteryAll_pk10") !== null){
+        var setupTime = localStorage.getItem("data_lotteryAll_pk10");
+        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+          localStorage.removeItem("lotteryAll_pk10");
+          localStorage.removeItem("data_lotteryAll_pk10");
+          this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
+            localStorage.setItem("lotteryAll_pk10",JSON.stringify(res.data.data.pk10));
+            this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_pk10"));
+            localStorage.setItem("data_lotteryAll_pk10",now);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }else{
+          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_pk10"));
+        }
+      }else{
+        this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
+          localStorage.setItem("lotteryAll_pk10",JSON.stringify(res.data.data.pk10));
+          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_pk10"));
+          localStorage.setItem("data_lotteryAll_pk10",now);
         })
         .catch(error => {
-          console.log("获取全部快3,No");
+          console.log(error);
         });
+      }
     },
     //我的投注
     getbetOrderList() {
@@ -772,14 +812,33 @@ export default {
     },
     // 获取昨日盈利榜单
     getLastDayWinList() {
-      this.$axios
-        .get(baseUrl + "/api/lottery/getLastDayWinList")
-        .then(res => {
-          this.winList = res.data.data;
+      var now = new Date().getTime();
+      if(localStorage.getItem("getLastDayWinList") !== null){
+        var setupTime = localStorage.getItem("data_getLastDayWinList");
+        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+          localStorage.removeItem("getLastDayWinList");
+          localStorage.removeItem("data_getLastDayWinList");
+          this.$axios.get(baseUrl + "/api/lottery/getLastDayWinList").then(res => {
+            localStorage.setItem("getLastDayWinList",JSON.stringify(res.data.data));
+            this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
+            localStorage.setItem("data_getLastDayWinList",now);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }else{
+          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
+        }
+      }else{
+        this.$axios.get(baseUrl + "/api/lottery/getLastDayWinList").then(res => {
+          localStorage.setItem("getLastDayWinList",JSON.stringify(res.data.data));
+          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
+          localStorage.setItem("data_getLastDayWinList",now);
         })
         .catch(error => {
-          console.log("getLastDayWinListNo");
+          console.log(error);
         });
+      }
     },
     //滚动动画
     scroll() {

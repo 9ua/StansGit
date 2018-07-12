@@ -58,7 +58,7 @@
         h3 昨日盈利榜
         .yestDayIncomItem
           ul
-            li(v-for='(item,index) in winList',:key='index') 
+            li(v-for='(item,index) in winList',:key='index' v-if='index < 3') 
               .champion 
                 img(:src='"/static/images/"+item.img+".jpg"', alt='') 
                 p 
@@ -344,7 +344,7 @@ export default {
           paths: require("../../../static/images/8.jpg")
         }
       ],
-      animate: true
+      animate: true,
     };
   },
   created() {
@@ -354,17 +354,6 @@ export default {
     this.getPastOp();
     this.lotteryAll();
     this.getLastDayWinList();
-  },
-  filters: {
-    mask(value) {
-      if (!value) return "";
-      value = value.toString();
-      return value.charAt(0) + "***" + value.charAt(value.length - 1);
-    },
-    keepTwoNum(value) {
-      value = Number(value);
-      return value.toFixed(2);
-    }
   },
   methods: {
     selectStyle(item) {
@@ -417,11 +406,10 @@ export default {
         } else {
           return false;
         }
-      }else{
+      } else {
         return true;
       }
     },
-
     //获取过去开奖号码1个
     getPastOp() {
       if (this.isExperid()) {
@@ -430,7 +418,7 @@ export default {
             baseUrl +
               "/api/lottery/getPastOpen?lotteryId=" +
               this.lotteryId +
-              "&count=1",
+              "&count=1"
           )
           .then(res => {
             let storage = res.data.data[0];
@@ -458,25 +446,74 @@ export default {
     },
     // 获取彩种
     lotteryAll() {
-      this.$axios
-        .get(baseUrl + "/api/lottery/getLotteryList")
-        .then(res => {
-          this.lotteryList = res.data.data.hot;
+      var now = new Date().getTime();
+      if(localStorage.getItem("lotteryAll_hot") !== null){
+        var setupTime = localStorage.getItem("data_lotteryAll_hot");
+        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+          localStorage.removeItem("lotteryAll_hot");
+          localStorage.removeItem("data_lotteryAll_hot");
+          this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
+            localStorage.setItem("lotteryAll_hot",JSON.stringify(res.data.data.hot));
+            this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_hot"));
+            localStorage.setItem("data_lotteryAll_hot",now);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }else{
+          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_hot"));
+        }
+      }else{
+        this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
+          localStorage.setItem("lotteryAll_hot",JSON.stringify(res.data.data.hot));
+          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_hot"));
+          localStorage.setItem("data_lotteryAll_hot",now);
         })
         .catch(error => {
-          console.log("getLotteryListNo");
+          console.log(error);
         });
+      }
     },
     // 获取昨日盈利榜单
     getLastDayWinList() {
-      this.$axios
-        .get(baseUrl + "/api/lottery/getLastDayWinList")
-        .then(res => {
-          this.winList = res.data.data.slice(0, 3);
+      var now = new Date().getTime();
+      if(localStorage.getItem("getLastDayWinList") !== null){
+        var setupTime = localStorage.getItem("data_getLastDayWinList");
+        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+          localStorage.removeItem("getLastDayWinList");
+          localStorage.removeItem("data_getLastDayWinList");
+          this.$axios.get(baseUrl + "/api/lottery/getLastDayWinList").then(res => {
+            localStorage.setItem("getLastDayWinList",JSON.stringify(res.data.data));
+            this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
+            localStorage.setItem("data_getLastDayWinList",now);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }else{
+          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
+        }
+      }else{
+        this.$axios.get(baseUrl + "/api/lottery/getLastDayWinList").then(res => {
+          localStorage.setItem("getLastDayWinList",JSON.stringify(res.data.data));
+          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
+          localStorage.setItem("data_getLastDayWinList",now);
         })
         .catch(error => {
-          console.log("getLastDayWinList no");
+          console.log(error);
         });
+      }
+    }
+  },
+  filters: {
+    mask(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0) + "***" + value.charAt(value.length - 1);
+    },
+    keepTwoNum(value) {
+      value = Number(value);
+      return value.toFixed(2);
     }
   }
 };
