@@ -39,14 +39,33 @@ export default {
   },
   methods: {
     activity() {
-      this.$axios
-        .get(baseUrl + "/api/activity/getList", this.$store.state.config)
-        .then(res => {
-          this.activitys = res.data.data;
+      var now = new Date().getTime();
+      if(localStorage.getItem("activity") !== null){
+        var setupTime = localStorage.getItem("data_activity");
+        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+          localStorage.removeItem("activity");
+          localStorage.removeItem("data_activity");
+          this.$axios.get(baseUrl + "/api/activity/getList").then(res => {
+            localStorage.setItem("activity",JSON.stringify(res.data.data));
+            this.activitys = JSON.parse(localStorage.getItem("activity"));
+            localStorage.setItem("data_activity",now);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }else{
+          this.activitys = JSON.parse(localStorage.getItem("activity"));
+        }
+      }else{
+        this.$axios.get(baseUrl + "/api/activity/getList").then(res => {
+          localStorage.setItem("activity",JSON.stringify(res.data.data));
+          this.activitys = JSON.parse(localStorage.getItem("activity"));
+          localStorage.setItem("data_activity",now);
         })
         .catch(error => {
-          console.log("getListNo");
+          console.log(error);
         });
+      }
     },
     activi(e, actives, index) {
       if (this.num === index) {
@@ -55,7 +74,6 @@ export default {
         this.activesremarks = true;
         this.num = index; 
       }
-      // this.num = index;      
     }
   }
 };

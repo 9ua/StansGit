@@ -18,6 +18,6 @@ export default {
     state.userInfo = {};
     state.loginStatus = fasle;
     localStorage.setItem("loginStatus", false);
-    localStorage.clear();
+    // localStorage.clear();
   },
 }
