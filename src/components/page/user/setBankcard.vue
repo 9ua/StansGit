@@ -14,9 +14,9 @@
             el-form-item(label='开户人姓名：')
               el-input(v-model='niceName', placeholder='请输入银行卡的姓名',style="width:210px;",type='text')
             el-form-item(label='银行卡号：')
-              el-input(v-model='card', placeholder='请输入银行卡的卡号',style="width:210px;",type='password')
+              el-input(v-model='card', placeholder='请输入银行卡的卡号',style="width:210px;",type='number')
             el-form-item(label='确认卡号：')
-              el-input(v-model='card2', placeholder='请再次输入银行卡号',style="width:210px;",type='password')
+              el-input(v-model='card2', placeholder='请再次输入银行卡号',style="width:210px;",type='number')
             el-form-item(label='安全密码：')
               el-input(v-model='securityCode',placeholder='请输入您的安全密码',style="width:210px;",type='password',@keyup.enter="submit")
         li
@@ -29,9 +29,10 @@ import md5 from "js-md5";
 export default {
   data() {
     return {
+      id: "",
       bankNameList: [],
       bankNameId: "",
-      card: "", //卡号1
+      card: "", //卡号
       card2: "", //卡号重复
       address: "",
       niceName: "",
@@ -40,8 +41,21 @@ export default {
   },
   created() {
     this.getBankNameList();
+    this.parser();
   },
   methods: {
+    parser() {
+      if (this.$route.query.Q) {
+        let Q = JSON.parse(this.$route.query.Q);
+        this.card = Q.card;
+        this.bankNameId = Q.bankNameId;
+        this.address = Q.address;
+        this.niceName = Q.niceName;
+        this.id = Q.id;
+      } else {
+        return;
+      }
+    },
     getBankNameList() {
       this.$axios
         .get(baseUrl + "/api/proxy/getBankNameList")
@@ -77,6 +91,7 @@ export default {
         return;
       } else {
         let formData = new FormData();
+        formData.append("id", this.id);
         formData.append("bankNameId", this.bankNameId);
         formData.append("card", this.card);
         formData.append("card2", this.card2);
@@ -94,7 +109,7 @@ export default {
                 showClose: true
               });
               setTimeout(() => {
-                this.$router.go(-1);
+                this.$router.push("/user/manageBankcard");
               }, 2000);
             } else {
               this.$message.error({

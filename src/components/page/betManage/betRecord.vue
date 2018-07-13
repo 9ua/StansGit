@@ -1,8 +1,19 @@
 <template lang='jade'>
 .viewBox
   .userRight
-    .userTitle 追号记录
+    .userTitle 投注记录
     .userMain
+      ul.todayView.mgb10
+        li 今日概况
+        li 
+          投注金额：
+          span {{betMoney|addY}}
+        li 
+          中奖金额：
+          span {{betMoney|addY}}
+        li 
+          盈利：
+          span {{betMoney|addY}}
       ul.searchFirst
         //- li
         //-   span 彩种：
@@ -61,13 +72,13 @@ export default {
       status: 100,
       tradelist: [],
       th: [
-        "流水号",
-        "彩种",        
-        "起始期号",
-        "已追/总期数",
-        "已投/总金额",
-        "奖金状态",
-        "追号时间",
+        "彩种",
+        "期号",
+        "投注内容",
+        "投注金额",
+        "开奖号码",
+        "派送奖金",
+        "投注时间",
         "操作项"
       ],
       times: [
@@ -77,9 +88,9 @@ export default {
       ],
       types: [
         { title: "全部", value: 100 },
-        { title: "未开始", value: 1 },
-        { title: "已开始", value: 2 },
-        { title: "已结束", value: 6 }
+        { title: "已中奖", value: 1 },
+        { title: "未中奖", value: 2 },
+        { title: "等待开奖", value: 6 }
       ]
     };
   },

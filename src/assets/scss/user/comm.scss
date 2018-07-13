@@ -1,4 +1,27 @@
 @import '@/assets/minix/main.scss';
+.banner .hd ul:after,
+.bonusTable ul:after,
+.fix:after,
+.safeList li:after,
+.winnerList li:after {
+  clear: both;
+  overflow: hidden;
+}
+
+.banner .hd ul:after,
+.banner .hd ul:before,
+.bonusTable ul:after,
+.bonusTable ul:before,
+.fix:after,
+.fix:before,
+.safeList li:after,
+.safeList li:before,
+.winnerList li:after,
+.winnerList li:before {
+  content: "";
+  display: table;
+}
+
 .viewBox {
   & .userRight {
     float: left;

@@ -15,10 +15,8 @@ const user = r => require.ensure([], () => r(require('@/components/page/user.vue
 const userinfo = r => require.ensure([], () => r(require('@/components/page/user/userinfo.vue')), 'userinfo')
 const securityCenter = r => require.ensure([], () => r(require('@/components/page/user/securityCenter.vue')), 'securityCenter')
 const manageBankcard = r => require.ensure([], () => r(require('@/components/page/user/manageBankcard.vue')), 'manageBankcard')
-const betRecord = r => require.ensure([], () => r(require('@/components/page/user/betRecord.vue')), 'betRecord')
 const seekOrder = r => require.ensure([], () => r(require('@/components/page/user/seekOrder.vue')), 'seekOrder')
 const billRecord = r => require.ensure([], () => r(require('@/components/page/user/billRecord.vue')), 'billRecord')
-const PLstatement = r => require.ensure([], () => r(require('@/components/page/user/PLstatement.vue')), 'PLstatement')
 const agentIntro = r => require.ensure([], () => r(require('@/components/page/user/agentIntro.vue')), 'agentIntro')
 const agentReport = r => require.ensure([], () => r(require('@/components/page/user/agentReport.vue')), 'agentReport')
 const lowerReport = r => require.ensure([], () => r(require('@/components/page/user/lowerReport.vue')), 'lowerReport')
@@ -39,6 +37,8 @@ const verifyQuestion = r => require.ensure([], () => r(require('@/components/pag
 const verifySafePwd = r => require.ensure([], () => r(require('@/components/page/user/verifySafePwd.vue')), 'verifySafePwd')
 const resetWay = r => require.ensure([], () => r(require('@/components/page/user/resetWay.vue')), 'resetWay')
 const setBankcard = r => require.ensure([], () => r(require('@/components/page/user/setBankcard.vue')), 'setBankcard')
+const betRecord = r => require.ensure([], () => r(require('@/components/page/betManage/betRecord.vue')), 'betRecord')
+const PLstatement = r => require.ensure([], () => r(require('@/components/page/betManage/PLstatement.vue')), 'PLstatement')
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -141,14 +141,14 @@ export default new Router({
               }
             },
             {
-              path: '/user/betRecord',
+              path: '/betManage/betRecord',
               component: betRecord,
               meta: {
                 title: "宏發娱乐-投注记录"
               }
             },
             {
-              path: '/user/seekOrder',
+              path: '/betManage/seekOrder',
               component: seekOrder,
               meta: {
                 title: "宏發娱乐-追号记录"

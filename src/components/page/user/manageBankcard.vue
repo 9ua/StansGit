@@ -17,7 +17,7 @@
                 em
               .cardOperation
                span._islock 未锁定
-               router-link(to='setBankcard',class="_set_bankcard") 修改
+               router-link(:to="'setBankcard?Q='+JSON.stringify(item)",class="_set_bankcard") 修改
             .cardTxt
               span 绑卡日期：2018-07-12
               em {{item.niceName|name}}
@@ -40,6 +40,14 @@ export default {
   },
   methods: {
     goCreate() {
+      if (this.bankUserList.length > 5) {
+        this.$message.error({
+          message: "最多只能绑定5张卡，您已到达上限！",
+          center: true,
+          showClose: true
+        });
+        return;
+      }
       this.$axios
         .get(baseUrl + "/api/userCenter/getSecurityCenterStatus")
         .then(res => {
@@ -88,6 +96,9 @@ export default {
     name(value) {
       let star = value.slice(0, 1);
       return `${star}**`;
+    },
+    stringify(value) {
+      return JSON.stringify(value);
     }
   }
 };

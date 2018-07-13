@@ -27,8 +27,8 @@ export default {
           item: "投注管理",
           icon: "discount",
           son: [
-            { name: "投注记录", to: "/user/betRecord" },
-            { name: "追号记录", to: "/user/seekOrder" }
+            { name: "投注记录", to: "/betManage/betRecord" },
+            { name: "追号记录", to: "/betManage/seekOrder" }
           ]
         },
         {
