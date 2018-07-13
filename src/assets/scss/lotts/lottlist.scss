@@ -345,7 +345,7 @@
             height: 30px;
           }
           & li:nth-child(1){
-            width: 120px;
+            width: 102px;
           }
           & li:nth-child(2){
             width: 270px;
@@ -354,8 +354,15 @@
             width: 64px;
           }
           & li:nth-child(7){
+            cursor: pointer;
             color: #f37036;
           }
+        }
+        & .addListBox{
+          min-height: 130px;
+          max-height: 390px;
+          overflow: scroll;
+          overflow-x: hidden;
         }
         & .addList{
           @extend %flex,%aitems;
@@ -364,7 +371,7 @@
             height: 30px;
           }
           & li:nth-child(1){
-            width: 120px;
+            width: 102px;
           }
           & li:nth-child(2){
             width: 270px;

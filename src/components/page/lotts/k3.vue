@@ -26,13 +26,21 @@
       <div class="lottBox">
         <div class="lott-left">
           <div class="lott-left-nav">
-            <button @click="lottnavleft"><span><i class="el-icon-caret-left"></i></span></button>
+            <button @click="lottnavleft">
+              <span>
+                <i class="el-icon-caret-left"></i>
+              </span>
+            </button>
             <div class="lott-left-navBox" ref="lottnavbox">
               <ul ref="lottnavUl" :style="{transform: 'translateX(' + left + 'px)'}">
                 <li ref="lottnavLi" :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
               </ul>
             </div>
-            <button @click="lottnavright"><span><i class="el-icon-caret-right"></i></span></button>
+            <button @click="lottnavright">
+              <span>
+                <i class="el-icon-caret-right"></i>
+              </span>
+            </button>
           </div>
           <div class="getPlayTree">
             <ul>
@@ -48,27 +56,40 @@
             </ul>
           </div>
           <div class="conterButBox">
-            <div class="conterButTitle"><i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金<i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
+            <div class="conterButTitle">
+              <i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金
+              <i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
             <div class="conterBut" :class="'conterBut'+className">
               <div :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
-                <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha)" v-if="lotteryId !== 'dfk3' && item.ball !== '03' && item.ball !== '18'">
+                <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews)" v-if="lotteryId !== 'dfk3' && item.ball !== '03' && item.ball !== '18'">
                   <span v-if="className !== 'k3_star3_and'"></span>
-                  <span v-else><i>{{item.ball}}</i><i>赔160.00</i></span>
+                  <span v-else>
+                    <i>{{item.ball}}</i>
+                    <i>赔160.00</i>
+                  </span>
                 </p>
-                <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha)" v-if="lotteryId === 'dfk3'">
+                <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews)" v-if="lotteryId === 'dfk3'">
                   <span v-if="className !== 'k3_star3_and'"></span>
-                  <span v-else><i>{{item.ball}}</i><i>赔60.00</i></span>
+                  <span v-else>
+                    <i>{{item.ball}}</i>
+                    <i>赔60.00</i>
+                  </span>
                 </p>
-                <div :class="className+'All'" v-if="className === 'k3_star2_same'"><span></span></div>
+                <div :class="className+'All'" v-if="className === 'k3_star2_same'">
+                  <span></span>
+                </div>
               </div>
             </div>
             <div class="zhu">
-              <p>您选择了 <i>{{zhu}}</i> 注</p>
+              <p>您选择了
+                <i>{{zhu}}</i> 注</p>
               <div class="butBox">
                 <div class="numSum">
-                  <span class="trim">投注金额</span><yd-spinner v-model="spinner3"></yd-spinner>
+                  <span class="trim">投注金额</span>
+                  <yd-spinner v-model="spinner3"></yd-spinner>
                 </div>
-                <button class="add" @click="addNum">添加号码栏</button><button>立即投注</button>
+                <button class="add" @click="addNum">添加号码栏</button>
+                <button>立即投注</button>
               </div>
             </div>
             <div class="hurdle">
@@ -79,10 +100,10 @@
                 <li>注数</li>
                 <li>倍数</li>
                 <li>金额</li>
-                <li>清空</li>
+                <li @click="exit">清空</li>
               </ul>
               <div class="addListBox">
-                <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index">
+                <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index" v-if="item.addCon !== null">
                   <li>【{{item.addTitle}}】</li>
                   <li>{{item.addCon}}</li>
                   <li>{{item.addPattern}}</li>
@@ -96,7 +117,11 @@
               </div>
             </div>
             <div class="affirm">
-              <p><span>总注数：{{zhu}}, </span><span>总金额：{{zhu*spinner3}}, </span><span>余额：{{$store.state.balance}}</span></p>
+              <p>
+                <span>总注数：{{zhu}}, </span>
+                <span>总金额：{{zhu*spinner3}}, </span>
+                <span>余额：{{$store.state.balance}}</span>
+              </p>
               <button>确认投注</button>
             </div>
           </div>
@@ -118,15 +143,15 @@
               <span class="lott-right-top2-span4">形态</span>
             </p>
             <ul>
-              <li v-for="item in 10" :key="item.id">
-                <span class="lott-right-top2-span1">20180702064</span>
+              <li v-for="(item,index) in getPastOpens" :key="index">
+                <span class="lott-right-top2-span1">{{item.seasonId}}</span>
                 <span class="lott-right-top2-span2">
-                  <i>2,2,2</i>
+                  <i>{{item.n1}}</i><i>{{item.n2}}</i><i>{{item.n3}}</i>
                 </span>
-                <span class="lott-right-top2-span3">10</span>
+                <span class="lott-right-top2-span3">{{item.n1+item.n2+item.n3}}</span>
                 <span class="lott-right-top2-span4">
-                  <i :class="sum < 11 ? 'yellow' : 'blue'">{{sum < 11 ? "小" : "大"}}</i>
-                  <i :class="sum % 2 ===0 ? 'yellow' : 'blue'">{{sum % 2 ===0 ? "双" : "单"}}</i>
+                  <i :class="(item.n1+item.n2+item.n3) < 11 ? 'yellow' : 'blue'">{{(item.n1+item.n2+item.n3) < 11 ? "小" : "大"}}</i>
+                  <i :class="(item.n1+item.n2+item.n3) % 2 ===0 ? 'yellow' : 'blue'">{{(item.n1+item.n2+item.n3) % 2 ===0 ? "双" : "单"}}</i>
                 </span>
               </li>
             </ul>
@@ -147,8 +172,12 @@
                 <span class="lott-right-top4-span2">
                   <i>{{item.amount}}.00</i>
                 </span>
-                <span class="lott-right-top4-span3" :class="{'status': item.win === 0}" v-if="item.win === 0"><i>{{item.statusName}}</i></span>
-                <span class="lott-right-top4-span3" v-if="item.win !== 0"><i>{{item.win}}</i></span>
+                <span class="lott-right-top4-span3" :class="{'status': item.win === 0}" v-if="item.win === 0">
+                  <i>{{item.statusName}}</i>
+                </span>
+                <span class="lott-right-top4-span3" v-if="item.win !== 0">
+                  <i>{{item.win}}</i>
+                </span>
               </li>
               <li class="lott-right-top4-but">更多>></li>
             </ul>
@@ -163,10 +192,18 @@
             </p>
             <ul>
               <li :class="{anim:animate==true}" v-for="(item,index) in winpool" :key="index">
-                <img :src="item.paths" alt=""/>
+                <img :src="item.paths" alt="" />
                 <div class="rightBox">
-                  <p><span>{{item.name | mask}} </span><span> &nbsp;在{{item.lotterylist}}</span></p>
-                  <p><span>喜中：</span><span>￥<i>{{item.money | keepTwoNum}}</i></span></p>
+                  <p>
+                    <span>{{item.name | mask}} </span>
+                    <span> &nbsp;在{{item.lotterylist}}</span>
+                  </p>
+                  <p>
+                    <span>喜中：</span>
+                    <span>￥
+                      <i>{{item.money | keepTwoNum}}</i>
+                    </span>
+                  </p>
                 </div>
               </li>
             </ul>
@@ -178,8 +215,16 @@
             <ul>
               <li v-for="(item,index) in winList" :key="index">
                 <div class="champion">
-                  <img :src='"../../../../static/images/"+item.img+".jpg"' alt=""/>
-                  <p><span>账号昵称 ：<i class="nickname">{{item.account | mask}}</i></span><span>昨日盈利 ：<i class="gain">{{item.bonus}}</i><i>元</i></span></p>
+                  <img :src='"../../../../static/images/"+item.img+".jpg"' alt="" />
+                  <p>
+                    <span>账号昵称 ：
+                      <i class="nickname">{{item.account | mask}}</i>
+                    </span>
+                    <span>昨日盈利 ：
+                      <i class="gain">{{item.bonus}}</i>
+                      <i>元</i>
+                    </span>
+                  </p>
                 </div>
                 <p class="index">{{index+1}}</p>
               </li>
@@ -195,60 +240,49 @@ import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      num:0,
-      left:0,
+      num: 0,
+      left: 0,
       sum: 0,
-      navTo:0,
-      playNum:0,
-      zhu:10,
-      productList: [
-        {
-          addTitle: "龙虎",
-          addCon: "1,2,3",
-          addPattern: "元",
-          addzhu: 1,
-          addMoney: 1
-        },
-        {
-          addTitle: "龙虎",
-          addCon: "1,2,3",
-          addPattern: "元",
-          addzhu: 2,
-          addMoney: 1
-        },
-        {
-          addTitle: "龙虎",
-          addCon: "1,2,3",
-          addPattern: "元",
-          addzhu: 3,
-          addMoney: 1
-        },
-      ],
-      spinner3:0,
-      butClass1:true,
-      butClass2:false,
-      animate:true,
-      orderList:null,
-      className:'k3_star1',//玩法ID
-      lottName:'宏發快3',//彩种名
-      lotteryId:'dfk3',//彩种id
-      lottNameIndex:0,//默认彩种
+      navTo: 0,
+      playNum: 0,
+      zhu: 0,
+      productList: [],
+      pd: {
+        addTitle: '单挑一骰',
+        addCon: null,
+        addPattern: '元',
+        addzhu: null,
+        addMoney: null
+      },
+      addTitle: '单挑一骰',
+      d: [], //选中的号码的下标
+      dd: [], //选中的号码的下标
+      spinner3: 0,
+      butClass1: true,
+      butClass2: false,
+      animate: true,
+      orderList: null,
+      className: "k3_star1", //玩法ID
+      lottName: "宏發快3", //彩种名
+      lotteryId: "dfk3", //彩种id
+      lottNameIndex: 0, //默认彩种
       winList: null, //中奖列表
-      lotteryList:null,
-      playGroups:null,//玩法树
+      lotteryList: null,
+      getPastOpens:null,
+      playGroups: null, //玩法树
       playBonus: "", //玩法树
-      bonusArray:[],//和值赔率
+      bonusArray: [], //和值赔率
       playBonusId: "ssc_star5", //点击选中后获取此玩法ID
       current_player: {}, //當前玩法
       current_player_bonus: {}, //當前玩法
       splayGroups: [],
-      sgroups: [], 
-      sgroups2: [], 
-      splayers: [], 
-      snumView: [], 
-      arrpeilva:[],
-      arrpeilvb:[],
-      arrpeilvc:[],
+      sgroups: [],
+      sgroups2: [],
+      splayers: [],
+      snumView: [],
+      arrpeilva: [],
+      arrpeilvb: [],
+      arrpeilvc: [],
       winpool: [
         {
           name: "william",
@@ -490,33 +524,60 @@ export default {
           lotterylist: "广西快3",
           paths: require("../../../../static/images/8.jpg")
         }
-      ],
+      ]
     };
   },
   created() {
     setInterval(this.scroll, 1400);
   },
-  mounted(){
+  mounted() {
     this.getLastDayWinList();
     this.getbetOrderList();
     this.lotteryAll();
     this.getPlayTree();
+    this.getPastOp();
   },
-  methods:{
+  methods: {
+    //清空
+    exit(){
+      this.productList= [];
+    },
     //添加号码栏
     addNum() {
+      this.productList.unshift(this.pd);
+      this.pd = {};
+      this.d = []
       this.iscreat();
-      console.log(this.arr,this.productList)
     },
     //删除指定行
-    deleList(item,index) {
-      this.productList.splice(index,1);
+    deleList(item, index) {
+      this.productList.splice(index, 1);
     },
-    curBalls(item,index){
+    //中间->投注选号
+    curBalls(item, index, numViews) {
       item.choose = !item.choose;
+      if (item.choose === true) {
+        this.d[index] = item.ball;
+        this.dd = this.d.filter(function(n) {
+          return n;
+        });
+        this.zhu ++;
+        this.pd.addTitle = this.addTitle;
+        this.pd.addCon = this.dd.join(",");
+        this.pd.addPattern = '元';
+        this.pd.addzhu = this.zhu;
+        this.pd.addMoney = this.spinner3;
+      }else{
+        this.d.splice(index, 1, "");
+        this.dd = this.d.filter(function(n) {
+          return n;
+        });
+        this.pd.addCon = this.dd.join(",");
+      }
+      console.log(this.dd)
     },
     //菜单选择项1
-    playGroupBut(item,index){
+    playGroupBut(item, index) {
       this.navTo = index;
       this.playNum = 0;
       this.current_player = item;
@@ -525,64 +586,105 @@ export default {
       this.iscreat();
     },
     //菜单选择项2
-    playersBut(play,indexff){
+    playersBut(play, indexff) {
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
+      this.addTitle = play.title;
       this.iscreat();
+      console.log(play.title)
     },
     //玩法术
-    getPlayTree(){
+    getPlayTree() {
       var now = new Date().getTime();
-      if(localStorage.getItem("getPlayTree_playGroups_k3") !== null ){
+      if (localStorage.getItem("getPlayTree_playGroups_k3") !== null) {
         var setupTime = localStorage.getItem("data_getPlayTree_k3");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+        if (
+          setupTime === null ||
+          now - setupTime > this.$store.state.cacheTime
+        ) {
           localStorage.removeItem("getPlayTree_playGroups_k3");
           localStorage.removeItem("getPlayTree_playBonus_k3");
           localStorage.removeItem("data_getPlayTree_k3");
-          this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId).then(res =>{
-          localStorage.setItem("getPlayTree_playGroups_k3",JSON.stringify(res.data.data.playGroups));
-          localStorage.setItem("getPlayTree_playBonus_k3",JSON.stringify(res.data.data.playBonus));
-          localStorage.setItem("data_getPlayTree_k3",now);
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_k3"));
-          this.setupPlayTree();
-        }).catch(error =>{
-          console.log("玩法术,No");
-        });
-        }else{
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_k3"));
+          this.$axios
+            .get(
+              baseUrl + "/api/lottery/getPlayTree?lotteryId=" + this.lotteryId
+            )
+            .then(res => {
+              localStorage.setItem(
+                "getPlayTree_playGroups_k3",
+                JSON.stringify(res.data.data.playGroups)
+              );
+              localStorage.setItem(
+                "getPlayTree_playBonus_k3",
+                JSON.stringify(res.data.data.playBonus)
+              );
+              localStorage.setItem("data_getPlayTree_k3", now);
+              this.playGroups = JSON.parse(
+                localStorage.getItem("getPlayTree_playGroups_k3")
+              );
+              this.playBonus = JSON.parse(
+                localStorage.getItem("getPlayTree_playBonus_k3")
+              );
+              this.setupPlayTree();
+            })
+            .catch(error => {
+              console.log("玩法术,No");
+            });
+        } else {
+          this.playGroups = JSON.parse(
+            localStorage.getItem("getPlayTree_playGroups_k3")
+          );
+          this.playBonus = JSON.parse(
+            localStorage.getItem("getPlayTree_playBonus_k3")
+          );
           this.setupPlayTree();
         }
-      }else{
-        this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId).then(res =>{
-          localStorage.setItem("getPlayTree_playGroups_k3",JSON.stringify(res.data.data.playGroups));
-          localStorage.setItem("getPlayTree_playBonus_k3",JSON.stringify(res.data.data.playBonus));
-          localStorage.setItem("data_getPlayTree_k3",now);
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_k3"));
-          this.setupPlayTree();
-        }).catch(error =>{
-          console.log("玩法术,No");
-        });
+      } else {
+        this.$axios
+          .get(baseUrl + "/api/lottery/getPlayTree?lotteryId=" + this.lotteryId)
+          .then(res => {
+            localStorage.setItem(
+              "getPlayTree_playGroups_k3",
+              JSON.stringify(res.data.data.playGroups)
+            );
+            localStorage.setItem(
+              "getPlayTree_playBonus_k3",
+              JSON.stringify(res.data.data.playBonus)
+            );
+            localStorage.setItem("data_getPlayTree_k3", now);
+            this.playGroups = JSON.parse(
+              localStorage.getItem("getPlayTree_playGroups_k3")
+            );
+            this.playBonus = JSON.parse(
+              localStorage.getItem("getPlayTree_playBonus_k3")
+            );
+            this.setupPlayTree();
+          })
+          .catch(error => {
+            console.log("玩法术,No");
+          });
       }
     },
     setupPlayTree() {
       let arr1 = [];
       let arr2 = [];
-      let arrpeilv1 = JSON.parse(JSON.stringify(this.playBonus[3].bonusArray))
-      let arrpeilv2 = JSON.parse(JSON.stringify(this.playBonus[4].bonusArray))
-      if (this.lotteryId === 'dfk3'){
+      let arrpeilv1 = JSON.parse(JSON.stringify(this.playBonus[3].bonusArray));
+      let arrpeilv2 = JSON.parse(JSON.stringify(this.playBonus[4].bonusArray));
+      if (this.lotteryId === "dfk3") {
         for (let i in arrpeilv1) {
           this.arrpeilva.push(arrpeilv1[i]);
         }
         this.arrpeilva.shift();
         this.arrpeilva.pop();
-        for(let i=0; i<this.arrpeilva.length/2;i++){
+        for (let i = 0; i < this.arrpeilva.length / 2; i++) {
           arr1.push(this.arrpeilva[i]);
         }
-        for(let i=this.arrpeilva.length/2; i<this.arrpeilva.length;i++){
+        for (
+          let i = this.arrpeilva.length / 2;
+          i < this.arrpeilva.length;
+          i++
+        ) {
           arr2.push(this.arrpeilva[i]);
         }
         for (let i in arrpeilv2) {
@@ -591,16 +693,20 @@ export default {
         this.arrpeilvc.push(arr1);
         this.arrpeilvc.push(arr2);
         this.arrpeilvc.push(this.arrpeilvb);
-      }else if (this.lotteryId !== 'dfk3'){
+      } else if (this.lotteryId !== "dfk3") {
         this.arrpeilva = [];
         this.arrpeilvb = [];
         for (let i in arrpeilv1) {
           this.arrpeilva.push(arrpeilv1[i]);
         }
-        for(let i=0; i<this.arrpeilva.length/2;i++){
+        for (let i = 0; i < this.arrpeilva.length / 2; i++) {
           arr1.push(this.arrpeilva[i]);
         }
-        for(let i=this.arrpeilva.length/2; i<this.arrpeilva.length;i++){
+        for (
+          let i = this.arrpeilva.length / 2;
+          i < this.arrpeilva.length;
+          i++
+        ) {
           arr2.push(this.arrpeilva[i]);
         }
         for (let i in arrpeilv2) {
@@ -631,7 +737,7 @@ export default {
       this.displayBonus = this.splayers[0][0].displayBonus;
     },
     //导航点击
-    lottListNav(item,index){
+    lottListNav(item, index) {
       this.lottName = item.name;
       this.lottNameIndex = index;
       this.lotteryId = item.id;
@@ -653,79 +759,130 @@ export default {
     // 获取彩种
     lotteryAll() {
       var now = new Date().getTime();
-      if(localStorage.getItem("lotteryAll_k3") !== null){
+      if (localStorage.getItem("lotteryAll_k3") !== null) {
         var setupTime = localStorage.getItem("data_lotteryAll_k3");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+        if (
+          setupTime === null ||
+          now - setupTime > this.$store.state.cacheTime
+        ) {
           localStorage.removeItem("lotteryAll_k3");
           localStorage.removeItem("data_lotteryAll_k3");
-          this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-            localStorage.setItem("lotteryAll_k3",JSON.stringify(res.data.data.k3));
-            this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_k3"));
-            localStorage.setItem("data_lotteryAll_k3",now);
+          this.$axios
+            .get(baseUrl + "/api/lottery/getLotteryList")
+            .then(res => {
+              localStorage.setItem(
+                "lotteryAll_k3",
+                JSON.stringify(res.data.data.k3)
+              );
+              this.lotteryList = JSON.parse(
+                localStorage.getItem("lotteryAll_k3")
+              );
+              localStorage.setItem("data_lotteryAll_k3", now);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        } else {
+          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_k3"));
+        }
+      } else {
+        this.$axios
+          .get(baseUrl + "/api/lottery/getLotteryList")
+          .then(res => {
+            localStorage.setItem(
+              "lotteryAll_k3",
+              JSON.stringify(res.data.data.k3)
+            );
+            this.lotteryList = JSON.parse(
+              localStorage.getItem("lotteryAll_k3")
+            );
+            localStorage.setItem("data_lotteryAll_k3", now);
           })
           .catch(error => {
             console.log(error);
           });
-        }else{
-          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_k3"));
-        }
-      }else{
-        this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-          localStorage.setItem("lotteryAll_k3",JSON.stringify(res.data.data.k3));
-          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_k3"));
-          localStorage.setItem("data_lotteryAll_k3",now);
-        })
-        .catch(error => {
-          console.log(error);
-        });
       }
     },
-    //我的投注
-    getbetOrderList(){
-      this.$axios.get(baseUrl + "/api/proxy/getbetOrderList?include=0&status=100&betweenType=3&start=0&limit=4&account="+this.$store.state.Globalusername,this.$store.state.config).then(res =>{
-        this.orderList = res.data.data.list
-      }).catch(error =>{
-        console.log("获取投注记录失败");
+    //获取过去开奖号码10个
+    getPastOp() { 
+      this.$axios.get(baseUrl + "/api/lottery/getPastOpen", {params: { lotteryId: this.lotteryId, count: 10 }}).then(res => {
+        this.getPastOpens = res.data.data;
       })
+      .catch(error => {
+        console.log("获取过去开奖号码No");
+      });
+    },
+    //我的投注
+    getbetOrderList() {
+      this.$axios
+        .get(
+          baseUrl +
+            "/api/proxy/getbetOrderList?include=0&status=100&betweenType=3&start=0&limit=4&account=" +
+            this.$store.state.Globalusername,
+          this.$store.state.config
+        )
+        .then(res => {
+          this.orderList = res.data.data.list;
+        })
+        .catch(error => {
+          console.log("获取投注记录失败");
+        });
     },
     //中奖信息
-    butClass1C(){
+    butClass1C() {
       this.butClass2 = false;
       this.butClass1 = true;
     },
     //昨日盈利
-    butClass2C(){
+    butClass2C() {
       this.butClass1 = false;
       this.butClass2 = true;
     },
     // 获取昨日盈利榜单
     getLastDayWinList() {
       var now = new Date().getTime();
-      if(localStorage.getItem("getLastDayWinList") !== null){
+      if (localStorage.getItem("getLastDayWinList") !== null) {
         var setupTime = localStorage.getItem("data_getLastDayWinList");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+        if (
+          setupTime === null ||
+          now - setupTime > this.$store.state.cacheTime
+        ) {
           localStorage.removeItem("getLastDayWinList");
           localStorage.removeItem("data_getLastDayWinList");
-          this.$axios.get(baseUrl + "/api/lottery/getLastDayWinList").then(res => {
-            localStorage.setItem("getLastDayWinList",JSON.stringify(res.data.data));
-            this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
-            localStorage.setItem("data_getLastDayWinList",now);
+          this.$axios
+            .get(baseUrl + "/api/lottery/getLastDayWinList")
+            .then(res => {
+              localStorage.setItem(
+                "getLastDayWinList",
+                JSON.stringify(res.data.data)
+              );
+              this.winList = JSON.parse(
+                localStorage.getItem("getLastDayWinList")
+              );
+              localStorage.setItem("data_getLastDayWinList", now);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        } else {
+          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
+        }
+      } else {
+        this.$axios
+          .get(baseUrl + "/api/lottery/getLastDayWinList")
+          .then(res => {
+            localStorage.setItem(
+              "getLastDayWinList",
+              JSON.stringify(res.data.data)
+            );
+            this.winList = JSON.parse(
+              localStorage.getItem("getLastDayWinList")
+            );
+            localStorage.setItem("data_getLastDayWinList", now);
           })
           .catch(error => {
             console.log(error);
           });
-        }else{
-          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
-        }
-      }else{
-        this.$axios.get(baseUrl + "/api/lottery/getLastDayWinList").then(res => {
-          localStorage.setItem("getLastDayWinList",JSON.stringify(res.data.data));
-          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
-          localStorage.setItem("data_getLastDayWinList",now);
-        })
-        .catch(error => {
-          console.log(error);
-        });
       }
     },
     //滚动动画
@@ -738,33 +895,33 @@ export default {
       }, 0);
     },
     //导航左边点击
-    lottnavright(){
+    lottnavright() {
       let box = this.$refs.lottnavbox.offsetWidth;
       let ul = this.$refs.lottnavUl.offsetWidth;
       let li = this.$refs.lottnavLi[0].offsetWidth;
-      if((this.num*li +box) < ul){
-        this.num ++;
-        if(ul > box){
-          this.left = -(this.num * li)
+      if (this.num * li + box < ul) {
+        this.num++;
+        if (ul > box) {
+          this.left = -(this.num * li);
         }
-      }else if((this.num*li +box) > ul){
+      } else if (this.num * li + box > ul) {
         this.num = this.num;
       }
     },
     //导航右边点击
-    lottnavleft(){
+    lottnavleft() {
       let box = this.$refs.lottnavbox.offsetWidth;
       let ul = this.$refs.lottnavUl.offsetWidth;
       let li = this.$refs.lottnavLi[0].offsetWidth;
-      if(this.num > 0){
-        this.num --;
-        if(ul > box){
-          this.left = -(this.num * li)
+      if (this.num > 0) {
+        this.num--;
+        if (ul > box) {
+          this.left = -(this.num * li);
         }
-      }else if((this.num*li +box) > ul){
+      } else if (this.num * li + box > ul) {
         this.num = 0;
       }
-    },
+    }
   },
   filters: {
     mask(value) {

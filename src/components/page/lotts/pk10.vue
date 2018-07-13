@@ -137,16 +137,15 @@
               <span class="lott-right-top2-span4">形态</span>
             </p>
             <ul>
-              <li v-for="item in 10" :key="item.id">
-                <span class="lott-right-top2-span1">20180702064</span>
+              <li v-for="(item,index) in getPastOpens" :key="index">
+                <span class="lott-right-top2-span1">{{item.seasonId}}</span>
                 <span class="lott-right-top2-span2">
-                  <i>2,2,2</i>
+                  <i>{{item.n1}}</i><i>{{item.n2}}</i><i>{{item.n3}}</i><i>{{item.n4}}</i><i>{{item.n5}}</i><i>{{item.n6}}</i><i>{{item.n7}}</i><i>{{item.n8}}</i><i>{{item.n9}}</i><i>{{item.n10}}</i>
                 </span>
-                <span class="lott-right-top2-span3">10</span>
+                <span class="lott-right-top2-span3">{{item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10}}</span>
                 <span class="lott-right-top2-span4">
-                  <i :class="sum < 11 ? 'yellow' : 'blue'">{{sum
-                    < 11 ? "小" : "大"}}</i>
-                      <i :class="sum % 2 ===0 ? 'yellow' : 'blue'">{{sum % 2 ===0 ? "双" : "单"}}</i>
+                  <i :class="(item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10) < 11 ? 'yellow' : 'blue'">{{(item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10) < 11 ? "小" : "大"}}</i>
+                  <i :class="(item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10) % 2 ===0 ? 'yellow' : 'blue'">{{(item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10) % 2 ===0 ? "双" : "单"}}</i>
                 </span>
               </li>
             </ul>
@@ -283,6 +282,7 @@ export default {
       lottNameIndex: 0, //默认彩种
       winList: null, //中奖列表
       lotteryList: null,
+      getPastOpens:null,
       playGroups: null, //玩法树
       playBonus: "", //玩法树
       bonusArray: [], //和值赔率
@@ -561,6 +561,7 @@ export default {
     this.getbetOrderList();
     this.lotteryAll();
     this.getPlayTree();
+    this.getPastOp();
   },
   methods: {
     //大小单双全清
@@ -783,6 +784,15 @@ export default {
           console.log(error);
         });
       }
+    },
+    //获取过去开奖号码10个
+    getPastOp() { 
+      this.$axios.get(baseUrl + "/api/lottery/getPastOpen", {params: { lotteryId: this.lotteryId, count: 10 }}).then(res => {
+        this.getPastOpens = res.data.data;
+      })
+      .catch(error => {
+        console.log("获取过去开奖号码No");
+      });
     },
     //我的投注
     getbetOrderList() {

@@ -87,6 +87,7 @@
           width: 495Px;
           height: 30px;
           @extend %flex;
+          cursor: pointer;
           & li {
             @extend %flex;
             @extend %aitems;
