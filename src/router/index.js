@@ -38,6 +38,7 @@ const setQuestion = r => require.ensure([], () => r(require('@/components/page/u
 const verifyQuestion = r => require.ensure([], () => r(require('@/components/page/user/verifyQuestion.vue')), 'verifyQuestion')
 const verifySafePwd = r => require.ensure([], () => r(require('@/components/page/user/verifySafePwd.vue')), 'verifySafePwd')
 const resetWay = r => require.ensure([], () => r(require('@/components/page/user/resetWay.vue')), 'resetWay')
+const setBankcard = r => require.ensure([], () => r(require('@/components/page/user/setBankcard.vue')), 'setBankcard')
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -296,6 +297,13 @@ export default new Router({
             {
               path: '/user/resetWay',
               component: resetWay,
+              meta: {
+                title: "宏發娱乐-找回安全密码"
+              }
+            },
+            {
+              path: '/user/setBankcard',
+              component: setBankcard,
               meta: {
                 title: "宏發娱乐-找回安全密码"
               }

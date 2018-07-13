@@ -92,6 +92,7 @@ axios.interceptors.response.use(
     return response;
   },
   error => {
+    tryHideFullScreenLoading();
     return Promise.reject(error)
   }
 )
