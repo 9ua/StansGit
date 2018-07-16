@@ -43,6 +43,7 @@
       border: 1px solid #ddd;
       min-height: 675px;
       background: #fff;
+      font: 12px/2em Microsoft YaHei, SimSun, Arial;
     }
   }
 }
@@ -62,6 +63,16 @@
   cursor: pointer;
   background: #2e4158;
   margin: 10px 0;
+}
+
+.maintain i,
+.notContent i {
+  background: none !important;
+  font-size: 68px;
+  display: block;
+  margin: 8px;
+  margin-bottom: 18px;
+  color: #999 !important;
 }
 
 ins {

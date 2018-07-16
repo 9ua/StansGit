@@ -23,7 +23,9 @@
           tbody
             tr(style="bottom:0px;",v-if="tradelist.length===0")
               td(colspan="100")
-                .notContent(style="padding: 100px 0px;") 暂无记录
+                .notContent(style="padding: 100px 0px;") 
+                  mu-icon(value='sentiment_dissatisfied',class='icon')
+                  暂无记录
             tr(v-for='item in tradelist')
               td {{tradelist.lotteryName}}
               td 第{{tradelist.seasonId}}期
@@ -84,18 +86,18 @@ export default {
     };
   },
   mounted() {
-    this.getTradeList();
+    // this.getTradeList();
   },
   methods: {
     changeTime(e, time, index) {
       this.navTime = index;
       this.betweenType = time;
-      this.getTradeList();
+      // this.getTradeList();
     },
     changeType(e, value, index) {
       this.navType = index;
       this.status = value;
-      this.getTradeList();
+      // this.getTradeList();
     },
     getTradeList() {
       this.$axios

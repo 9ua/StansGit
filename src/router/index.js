@@ -17,13 +17,13 @@ const securityCenter = r => require.ensure([], () => r(require('@/components/pag
 const manageBankcard = r => require.ensure([], () => r(require('@/components/page/user/manageBankcard.vue')), 'manageBankcard')
 const seekOrder = r => require.ensure([], () => r(require('@/components/page/user/seekOrder.vue')), 'seekOrder')
 const billRecord = r => require.ensure([], () => r(require('@/components/page/user/billRecord.vue')), 'billRecord')
-const agentIntro = r => require.ensure([], () => r(require('@/components/page/user/agentIntro.vue')), 'agentIntro')
-const agentReport = r => require.ensure([], () => r(require('@/components/page/user/agentReport.vue')), 'agentReport')
-const lowerReport = r => require.ensure([], () => r(require('@/components/page/user/lowerReport.vue')), 'lowerReport')
-const manageInvite = r => require.ensure([], () => r(require('@/components/page/user/manageInvite.vue')), 'manageInvite')
-const agentMember = r => require.ensure([], () => r(require('@/components/page/user/agentMember.vue')), 'agentMember')
-const agentBetRecord = r => require.ensure([], () => r(require('@/components/page/user/agentBetRecord.vue')), 'agentBetRecord')
-const agentBillRecord = r => require.ensure([], () => r(require('@/components/page/user/agentBillRecord.vue')), 'agentBillRecord')
+const agentIntro = r => require.ensure([], () => r(require('@/components/page/agent/agentIntro.vue')), 'agentIntro')
+const agentReport = r => require.ensure([], () => r(require('@/components/page/agent/agentReport.vue')), 'agentReport')
+const lowerReport = r => require.ensure([], () => r(require('@/components/page/agent/lowerReport.vue')), 'lowerReport')
+const manageInvite = r => require.ensure([], () => r(require('@/components/page/agent/manageInvite.vue')), 'manageInvite')
+const agentMember = r => require.ensure([], () => r(require('@/components/page/agent/agentMember.vue')), 'agentMember')
+const agentBetRecord = r => require.ensure([], () => r(require('@/components/page/agent/agentBetRecord.vue')), 'agentBetRecord')
+const agentBillRecord = r => require.ensure([], () => r(require('@/components/page/agent/agentBillRecord.vue')), 'agentBillRecord')
 const letter = r => require.ensure([], () => r(require('@/components/page/user/letter.vue')), 'letter')
 const notice = r => require.ensure([], () => r(require('@/components/page/user/notice.vue')), 'notice')
 const personalLevel = r => require.ensure([], () => r(require('@/components/page/user/personalLevel.vue')), 'personalLevel')
@@ -169,49 +169,49 @@ export default new Router({
               }
             },
             {
-              path: '/user/agentIntro',
+              path: '/agent/agentIntro',
               component: agentIntro,
               meta: {
                 title: "宏發娱乐-代理说明"
               }
             },
             {
-              path: '/user/agentReport',
+              path: '/agent/agentReport',
               component: agentReport,
               meta: {
                 title: "宏發娱乐-代理报表"
               }
             },
             {
-              path: '/user/lowerReport',
+              path: '/agent/lowerReport',
               component: lowerReport,
               meta: {
                 title: "宏發娱乐-下级报表"
               }
             },
             {
-              path: '/user/manageInvite',
+              path: '/agent/manageInvite',
               component: manageInvite,
               meta: {
                 title: "宏發娱乐-下级开户"
               }
             },
             {
-              path: '/user/agentMember',
+              path: '/agent/agentMember',
               component: agentMember,
               meta: {
                 title: "宏發娱乐-会员管理"
               }
             },
             {
-              path: '/user/agentBetRecord',
+              path: '/agent/agentBetRecord',
               component: agentBetRecord,
               meta: {
                 title: "宏發娱乐-投注明细"
               }
             },
             {
-              path: '/user/agentBillRecord',
+              path: '/agent/agentBillRecord',
               component: agentBillRecord,
               meta: {
                 title: "宏發娱乐-交易明细"

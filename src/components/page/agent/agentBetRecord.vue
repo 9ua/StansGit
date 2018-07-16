@@ -1,7 +1,7 @@
 <template lang='jade'>
 .viewBox
   .userRight
-    .userTitle 下级开户
+    .userTitle 投注明细
     .userMain
 </template>
 <script>
@@ -10,7 +10,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "../../../assets/scss/user/manageInvite.scss";
+@import "../../../assets/scss/agent/agentBetRecord.scss";
 </style>
 
 

@@ -23,28 +23,29 @@
           tbody
             tr(style="bottom:0px;",v-if="tradelist.length===0")
               td(colspan="100")
-                .notContent(style="padding: 100px 0px;") 暂无记录
+                .notContent(style="padding: 100px 0px;") 
+                  mu-icon(value='sentiment_dissatisfied',class='icon')
+                  暂无记录
             tr(v-for='item in tradelist')
-              td {{tradelist.lotteryName}}
-              td 第{{tradelist.seasonId}}期
-                p {{tradelist.statusName}}
-              td {{tradelist.content}}
-                p 玩法{{tradelist.playName}}
-              td {{tradelist.amount}}                
-              td {{tradelist.openNum}}                          
-              td {{tradelist.createTime}}
+              td {{item.seasonId}}
+              td {{item.changeTime}}
+              td {{item.lotteryName}}
+                p 玩法{{item.playName}}             
+              td {{item.changeAmount}}                
+              td {{item.balance}}                          
+              td {{item.accountChangeTypeName}}
               td 
       .page
-        p 共
+        p 当前页共
           em {{tradelist.length}}
           条记录
         .pageNav
           ul.pagination
             li
-              router-link(to="",@click.native="pre") 上一页
+              router-link(to="",@click.native="pre",v-if='page>1') 上一页
             //- li(v-for="(item,index) in tradelist")
             li
-              router-link(to="",@click.native="next") 下一页
+              router-link(to="",@click.native="next",v-if='tradelist.length>0') 下一页
       .userTip.mgt15
         p ※温馨提示：投注记录最多只保留7天。
 </template>
@@ -58,13 +59,16 @@ export default {
       navType: 0,
       betweenType: 1,
       status: 100,
+      page:1,//页数
+      limit:5,
+      start:0,
       tradelist: [],
       th: [
         "流水号",
         "时间",        
         "摘要",
-        "收入金额",
-        "支出金额",
+        "账户变动",
+        // "支出金额",
         "可用余额",
         "备注",
       ],
@@ -75,8 +79,8 @@ export default {
       ],
       types: [
         { title: "账户明细", value: 100 },
-        { title: "充值记录", value: 1 },
-        { title: "提现记录", value: 2 },
+        { title: "提现记录", value: 1 },
+        { title: "充值记录", value: 2 },        
       ]
     };
   },
@@ -89,6 +93,24 @@ export default {
       this.betweenType = time;
       this.getTradeList();
     },
+    //上一页
+    pre(){
+      if(this.page>1){
+        this.start=this.start-this.limit;
+        this.page--;
+        this.getTradeList();
+      }
+    },
+    //下一页
+    next(){
+      if(this.tradelist.length>0){
+        this.start=this.start+this.limit;
+        this.page++;
+        this.getTradeList();
+      }else{
+        // this.next=false;
+      }
+    },
     changeType(e, value, index) {
       this.navType = index;
       this.status = value;
@@ -96,12 +118,14 @@ export default {
     },
     getTradeList() {
       this.$axios
-        .get(baseUrl + "/api/proxy/getbetOrderList", {
+        .get(baseUrl + "/api/proxy/getTradeList", {
           params: {
             account: this.$store.state.Globalusername,
             include: 0,
-            status: this.status,
-            betweenType: this.betweenType
+            accountChangeType: this.status,
+            betweenType: this.betweenType,
+            start:this.start,
+            limit:this.limit,
           }
         })
         .then(res => {

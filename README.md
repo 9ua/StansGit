@@ -150,3 +150,7 @@
 	</GeminiScrollbar>
 # 全局Loading #
 	请求拦截器自动加入loading，同时加入config配置项，接口调用不用调取config配置头信息
+	手动调用
+		this.$loader.show();
+	手动关闭
+		this.$loader.hide();
