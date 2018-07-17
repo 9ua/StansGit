@@ -39,16 +39,19 @@
       @extend %flex;
       & li {
         margin-left: 10px;
+        cursor: pointer;
         & img {
           width: 24px;
           height: 24px;
           border-radius: 50%;
           margin-right: 6px;
-          cursor: pointer;
         }
         & a:hover {
           color: #FE7A12;
         }
+      }
+      & li:hover{
+        color: #FE7A12;
       }
     }
   }

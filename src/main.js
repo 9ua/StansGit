@@ -97,7 +97,7 @@ axios.interceptors.response.use(
   }
 )
 // 超时时间
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 50000
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

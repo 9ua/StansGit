@@ -356,7 +356,7 @@ export default {
       this.$set(item, "showPop", false);
     },
     toLottery(item) {
-      this.$router.push({path:"/lotts/"+item.groupId});
+      this.$router.push("/lotts/"+item.groupId+"/"+item.id);
     },
     navTo(e, index, navs) {
       this.navNum = index;

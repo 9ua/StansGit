@@ -6,17 +6,16 @@
           <span>{{lottName}}</span>
         </div>
         <div class="lott-top-middle ssc">
-          <p>第
-            <span>201806240751</span>期 剩余投注时间</p>
-          <div>00:00:00</div>
+          <p>第<span>{{seasonId}}</span>期 剩余投注时间</p>
+          <div>{{countDown}}</div>
         </div>
         <div class="lott-top-right ssc">
           <p>第
-            <span>201806240751</span>期 开奖结果</p>
-          <div class="showName" v-show="false">
-            <span v-for="(item,index) in 5" :key="index">{{item}}</span>
+            <span>{{lastSeasonId}}</span>期 开奖结果</p>
+          <div class="showName"  v-show="!isshowGif">
+            <span v-for="(item,index) in nBox" :key="index">{{item}}</span>
           </div>
-          <div class="showGif">
+          <div class="showGif" v-show="isshowGif">
             <span v-for="(item,index) in 5" :key="index"></span>
           </div>
         </div>
@@ -69,7 +68,7 @@
               <p>您选择了 <i>{{zhu}}</i> 注</p>
               <div class="butBox">
                 <div class="numSum">
-                  <span class="trim">投注金额</span><yd-spinner v-model="spinner3"></yd-spinner>
+                  <span class="trim">投注金额</span><yd-spinner v-model="spinner3" min="0"></yd-spinner>
                 </div>
                 <button class="add" @click="addNum">添加号码栏</button><button>立即投注</button>
               </div>
@@ -82,7 +81,7 @@
                 <li>注数</li>
                 <li>倍数</li>
                 <li>金额</li>
-                <li>清空</li>
+                <li @click="exit">清空</li>
               </ul>
               <div class="addListBox">
                 <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index">
@@ -116,21 +115,16 @@
           <div class="lott-right-top2">
             <p class="lott-right-top2-title">
               <span class="lott-right-top2-span1">期号</span>
-              <span class="lott-right-top2-span2">开奖号码</span>
-              <span class="lott-right-top2-span3">和值</span>
-              <span class="lott-right-top2-span4">形态</span>
+              <span class="lott-right-top2-span2 ssc">开奖号码</span>
+              <span class="lott-right-top2-span3 ssc">开奖时间</span>
             </p>
             <ul>
               <li v-for="(item,index) in getPastOpens" :key="index">
                 <span class="lott-right-top2-span1">{{item.seasonId}}</span>
-                <span class="lott-right-top2-span2">
+                <span class="lott-right-top2-span2 ssc">
                   <i>{{item.n1}}</i><i>{{item.n2}}</i><i>{{item.n3}}</i><i>{{item.n4}}</i><i>{{item.n5}}</i>
                 </span>
-                <span class="lott-right-top2-span3">10</span>
-                <span class="lott-right-top2-span4">
-                  <i :class="sum < 11 ? 'yellow' : 'blue'">{{sum < 11 ? "小" : "大"}}</i>
-                  <i :class="sum % 2 ===0 ? 'yellow' : 'blue'">{{sum % 2 ===0 ? "双" : "单"}}</i>
-                </span>
+                <span class="lott-right-top2-span3 ssc">{{item.addTime.substring(11)}}</span>
               </li>
             </ul>
           </div>
@@ -228,6 +222,16 @@ export default {
           addMoney: 1
         },
       ],
+      pd: {
+        addTitle: '单挑一骰',
+        addCon: null,
+        addPattern: '元',
+        addzhu: null,
+        addMoney: null
+      },
+      addTitle: '单挑一骰',
+      d: [], //选中的号码的下标
+      dd: [], //选中的号码的下标
       spinner3:0,
       butClass1:true,
       butClass2:false,
@@ -240,12 +244,21 @@ export default {
       winList: null, //中奖列表
       lotteryList:null,
       getPastOpens:null,
+      getPastOpenB:null,
       playGroups:null,//玩法树
       playBonus: "", //玩法树
       bonusArray:[],//和值赔率
       playBonusId: "ssc_star5", //点击选中后获取此玩法ID
       current_player: {}, //當前玩法
       current_player_bonus: {}, //當前玩法
+      getCurrentSaleTime:null,//获取彩種當前獎期時間
+      today: "",
+      countDown: "",
+      timer: "",
+      lastSeasonId:null,//当前期
+      seasonId:null,//下一期
+      isshowGif:false,
+      nBox:[1,3,5,7,9],
       displayBonus: 0,
       displayBonus1: 0,
       displayBonus2: 0,
@@ -510,75 +523,50 @@ export default {
     this.getbetOrderList();
     this.lotteryAll();
     this.getPlayTree();
-    this.getPastOp();
+    this.geteServerTime();
   },
   methods:{
-    //添加号码栏
-    addNum() {
-      this.iscreat();
-      console.log(this.productList)
-    },
-    //删除指定行
-    deleList(item,index) {
-      this.productList.splice(index,1);
-    },
-    //菜单选择项1
-    playGroupBut(item,index){
-      this.navTo = index;
-      this.playNum = 0;
-      this.current_player = item;
-      this.current_player_bonus = item.groups[0].players[0];
-      this.className = this.current_player_bonus.id;
-      this.iscreat();
-      console.log("菜单选择项1",this.className)
-    },
-    //菜单选择项2
-    playersBut(play,indexff){
-      this.playNum = indexff;
-      this.current_player_bonus = play;
-      this.className = play.id;
-      this.displayBonus = play.displayBonus;
-      if (isNaN(this.displayBonus)) {
-        let ar = [];
-        ar = this.displayBonus.split("-");
-        this.displayBonus1 = Number(ar[0]);
-        this.displayBonus2 = Number(ar[1]);
-        this.displayBonus3 = this.displayBonus1 + "-" + this.displayBonus2;
+    // 中间->投注选号
+    curBalls(item, list) {
+      if (list.chooseOne) {
+        list.balls.map(b => {
+          b.choose = false;
+        });
       }
-      this.iscreat();
-      console.log("菜单选择项2",this.className,play,indexff)
+      item.choose = !item.choose;
+      this.zhu++;
     },
     //玩法术
     getPlayTree(){
       var now = new Date().getTime();
-      if(localStorage.getItem("getPlayTree_playGroups_pk10") !== null ){
-        var setupTime = localStorage.getItem("data_getPlayTree_pk10");
+      if(localStorage.getItem("getPlayTree_playGroups_ssc") !== null ){
+        var setupTime = localStorage.getItem("data_getPlayTree_ssc");
         if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
-          localStorage.removeItem("getPlayTree_playGroups_pk10");
-          localStorage.removeItem("getPlayTree_playBonus_pk10");
-          localStorage.removeItem("data_getPlayTree_pk10");
-          this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId).then(res =>{
-          localStorage.setItem("getPlayTree_playGroups_pk10",JSON.stringify(res.data.data.playGroups));
-          localStorage.setItem("getPlayTree_playBonus_pk10",JSON.stringify(res.data.data.playBonus));
-          localStorage.setItem("data_getPlayTree_pk10",now);
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_pk10"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_pk10"));
+          localStorage.removeItem("getPlayTree_playGroups_ssc");
+          localStorage.removeItem("getPlayTree_playBonus_ssc");
+          localStorage.removeItem("data_getPlayTree_ssc");
+          this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId,this.$store.state.config).then(res =>{
+          localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(res.data.data.playGroups));
+          localStorage.setItem("getPlayTree_playBonus_ssc",JSON.stringify(res.data.data.playBonus));
+          localStorage.setItem("data_getPlayTree_ssc",now);
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
+          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
           this.setupPlayTree();
         }).catch(error =>{
           console.log("玩法术,No");
         });
         }else{
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_pk10"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_pk10"));
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
+          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
           this.setupPlayTree();
         }
       }else{
-        this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId).then(res =>{
-          localStorage.setItem("getPlayTree_playGroups_pk10",JSON.stringify(res.data.data.playGroups));
-          localStorage.setItem("getPlayTree_playBonus_pk10",JSON.stringify(res.data.data.playBonus));
-          localStorage.setItem("data_getPlayTree_pk10",now);
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_pk10"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_pk10"));
+        this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId,this.$store.state.config).then(res =>{
+          localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(res.data.data.playGroups));
+          localStorage.setItem("getPlayTree_playBonus_ssc",JSON.stringify(res.data.data.playBonus));
+          localStorage.setItem("data_getPlayTree_ssc",now);
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
+          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
           this.setupPlayTree();
         }).catch(error =>{
           console.log("玩法术,No");
@@ -618,7 +606,10 @@ export default {
     },
     //清空
     iscreat() {
+      this.con=[];
       this.zhu = 0;
+      this.pd = {};
+      this.d = [];
       for (let h = 0; h < this.snumView.length; h++) {
         if (null != this.snumView[h]) {
           for (let j = 0; j < this.snumView[h].length; j++) {
@@ -628,16 +619,6 @@ export default {
           }
         }
       }
-    },
-    // 如果只能选择一个球
-    curBalls(item, list) {
-      if (list.chooseOne) {
-        list.balls.map(b => {
-          b.choose = false;
-        });
-      }
-      item.choose = !item.choose;
-      this.zhu++;
     },
     // 获取彩种
     lotteryAll() {
@@ -673,10 +654,29 @@ export default {
     getPastOp() { 
       this.$axios.get(baseUrl + "/api/lottery/getPastOpen", {params: { lotteryId: this.lotteryId, count: 10 }}).then(res => {
         this.getPastOpens = res.data.data;
+        this.getPastOpenB = res.data.data;
+        this.nBox[0] = this.getPastOpens[0].n1;
+        this.nBox[1] = this.getPastOpens[0].n2;
+        this.nBox[2] = this.getPastOpens[0].n3;
+        this.nBox[3] = this.getPastOpens[0].n4;
+        this.nBox[4] = this.getPastOpens[0].n5;
+        if (Number(res.data.data[0].seasonId) !== Number(this.lastSeasonId)) {
+          this.isshowGif = true;
+          this.reGetPastOp();
+        } else {
+          clearTimeout(this.timer2);
+          this.isshowGif = false;
+        }
       })
       .catch(error => {
         console.log("获取过去开奖号码No");
       });
+    },
+    reGetPastOp() {
+      clearTimeout(this.timer2);
+      this.timer2 = setTimeout(() => {
+        this.getPastOp();
+      }, 12000);
     },
     //我的投注
     getbetOrderList(){
@@ -685,6 +685,57 @@ export default {
       }).catch(error =>{
         console.log("获取投注记录失败");
       })
+    },
+    //获取彩種當前獎期時間
+    geteServerTime() {
+      clearInterval(this.timer);
+      this.$axios.get(baseUrl + "/api/lottery/getCurrentSaleTime", {params: { lotteryId: this.$route.params.lotteryId }}).then(res => {
+        this.getCurrentSaleTime = res.data.data;
+        this.today = res.data.data.restSeconds;
+        this.lastSeasonId = this.getCurrentSaleTime.lastSeasonId;
+        this.seasonId = this.getCurrentSaleTime.seasonId;
+        this.initSetTimeout();
+        this.getPastOp();
+      })
+    },
+    //倒计时
+    initSetTimeout() {
+      this.timer = setInterval(() => {
+        this.today = this.today - 1;
+        this.setTimeMode();
+        if (this.today < 1) {
+          clearInterval(this.timer);
+          this.timesUp();
+        }
+        if(this.getPastOpenB[0].seasonId !== this.lastSeasonId && this.today === 47){
+          this.getPastOp();
+        }else if(this.getPastOpenB[0].seasonId !== this.lastSeasonId && this.today === 46){
+          this.getPastOp();
+        }else if(this.getPastOpenB[0].seasonId !== this.lastSeasonId && this.today === 45){
+          this.getPastOp();
+        }
+      }, 1000);
+    },
+    //時間格式轉換
+    setTimeMode() {
+      var hours = Math.floor((this.today % (1 * 60 * 60 * 24)) / (1 * 60 * 60));
+      var minutes = Math.floor((this.today % (1 * 60 * 60)) / (1 * 60));
+      var seconds = Math.floor((this.today % (1 * 60)) / 1);
+      if (hours < 10) {
+        hours = "0" + hours;
+      }
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+      this.countDown = hours + ":" + minutes + ":" + seconds;
+    },
+    //時間到彈窗
+    timesUp() {
+      this.isshowGif = true;
+      this.geteServerTime();
     },
     //中奖信息
     butClass1C(){
@@ -735,35 +786,77 @@ export default {
         this.animate = !this.animate;
       }, 0);
     },
+    //菜单选择项1
+    playGroupBut(item,index){
+      this.navTo = index;
+      this.playNum = 0;
+      this.current_player = item;
+      this.current_player_bonus = item.groups[0].players[0];
+      this.className = this.current_player_bonus.id;
+      this.iscreat();
+      console.log("菜单选择项1",this.className)
+    },
+    //菜单选择项2
+    playersBut(play,indexff){
+      this.playNum = indexff;
+      this.current_player_bonus = play;
+      this.className = play.id;
+      this.displayBonus = play.displayBonus;
+      if (isNaN(this.displayBonus)) {
+        let ar = [];
+        ar = this.displayBonus.split("-");
+        this.displayBonus1 = Number(ar[0]);
+        this.displayBonus2 = Number(ar[1]);
+        this.displayBonus3 = this.displayBonus1 + "-" + this.displayBonus2;
+      }
+      this.iscreat();
+      console.log("菜单选择项2",this.className,play,indexff)
+    },
     //导航右边点击
-    lottnavleft(){
+    lottnavright() {
       let box = this.$refs.lottnavbox.offsetWidth;
       let ul = this.$refs.lottnavUl.offsetWidth;
       let li = this.$refs.lottnavLi[0].offsetWidth;
-      if((this.num*li +box) < ul){
-        this.num ++;
-        if(ul > box){
-          this.left = -(this.num * li)
+      if (this.num * li + box < ul) {
+        this.num++;
+        if (ul > box) {
+          this.left = -(this.num * li);
         }
-      }else if((this.num*li +box) > ul){
+      } else if (this.num * li + box > ul) {
         this.num = this.num;
       }
     },
     //导航左边点击
-    lottnavright(){
-      this.$alert("res.data.data");
-      // this.$message("res.data.data");
+    lottnavleft() {
       let box = this.$refs.lottnavbox.offsetWidth;
       let ul = this.$refs.lottnavUl.offsetWidth;
       let li = this.$refs.lottnavLi[0].offsetWidth;
-      if(this.num > 0){
-        this.num --;
-        if(ul > box){
-          this.left = -(this.num * li)
+      if(this.left < 0){
+        this.num = parseInt(this.left /100* -1)
+      }
+      if (this.num > 0) {
+        this.num--;
+        if (ul > box) {
+          this.left = -(this.num * li);
         }
-      }else if((this.num*li +box) > ul){
+      } else if (this.num * li + box > ul) {
         this.num = 0;
       }
+    },
+    //添加号码栏
+    addNum() {
+      this.productList.unshift(this.pd);
+      this.pd = {};
+      this.d = []
+      this.iscreat();
+    },
+    //删除指定行
+    deleList(item, index) {
+      this.productList.splice(index, 1);
+    },
+    //清空
+    exit(){
+      this.productList= [];
     },
   },
   components:{
