@@ -1,0 +1,24 @@
+@import '@/assets/scss/user/comm.scss';
+@import "../../../assets/scss/betManage/betRecord.scss";
+.newTab {
+  border-bottom: 1px solid #ddd;
+  margin-top: 15px;
+  padding-left: 10px;
+  & a {
+    font-size: 14px;
+    background: #f8f8f8;
+    border: 1px solid #cecece;
+    margin: 0 5px;
+    padding: 0 10px;
+    border-radius: 4px 4px 0 0;
+    line-height: 28px;
+    display: inline-block;
+    margin-bottom: -1px;
+  }
+  & .curr {
+    border-bottom: 1px solid #fff;
+    background: #fff;
+    color: #e4393c;
+  }
+}
+

@@ -27,8 +27,8 @@ export default {
           item: "投注管理",
           icon: "discount",
           son: [
-            { name: "投注记录", to: "/user/betRecord" },
-            { name: "追号记录", to: "/user/seekOrder" }
+            { name: "投注记录", to: "/betManage/betRecord" },
+            { name: "追号记录", to: "/betManage/seekOrder" }
           ]
         },
         {
@@ -43,13 +43,13 @@ export default {
           item: "代理中心",
           icon: "phone2",
           son: [
-            { name: "代理说明", to: "/user/agentIntro" },
-            { name: "代理报表", to: "/user/agentReport" },
-            { name: "下级报表", to: "/user/lowerReport" },
-            { name: "下级开户", to: "/user/manageInvite" },
-            { name: "会员管理", to: "/user/agentMember" },
-            { name: "投注明细", to: "/user/agentBetRecord" },
-            { name: "交易明细", to: "/user/agentBillRecord" }
+            { name: "代理说明", to: "/agent/agentIntro" },
+            { name: "代理报表", to: "/agent/agentReport" },
+            { name: "下级报表", to: "/agent/lowerReport" },
+            { name: "下级开户", to: "/agent/manageInvite" },
+            { name: "会员管理", to: "/agent/agentMember" },
+            { name: "投注明细", to: "/agent/agentBetRecord" },
+            { name: "交易明细", to: "/agent/agentBillRecord" }
           ]
         },
         {

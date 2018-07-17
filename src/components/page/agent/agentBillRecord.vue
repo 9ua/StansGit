@@ -1,7 +1,7 @@
 <template lang='jade'>
 .viewBox
   .userRight
-    .userTitle 下级报表
+    .userTitle 交易明细
     .userMain
 </template>
 <script>
@@ -10,7 +10,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "../../../assets/scss/user/lowerReport.scss";
+@import "../../../assets/scss/agent/agentBillRecord.scss";
 </style>
 
 

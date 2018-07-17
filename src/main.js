@@ -69,7 +69,7 @@ axios.interceptors.request.use(
     config.headers = {
       "Content-Type": "application/x-www-form-urlencoded"
     }
-    showFullScreenLoading();
+    // showFullScreenLoading();
     return config;
   },
   error => {
@@ -88,7 +88,7 @@ axios.interceptors.response.use(
         } //从哪个页面跳转
       })
     }
-    tryHideFullScreenLoading();
+    // tryHideFullScreenLoading();
     return response;
   },
   error => {

@@ -1,0 +1,15 @@
+@import '@/assets/scss/user/comm.scss';
+.agentIntro {
+  padding: 10px;
+  & em {
+    color: #333;
+  }
+  & h3 {
+    color: #e4393c;
+    margin-bottom: 0;
+  }
+  & p {
+    color: #666;
+    margin-top: 5px;
+  }
+}
