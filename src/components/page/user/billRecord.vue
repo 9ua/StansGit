@@ -48,7 +48,7 @@
             li
               router-link(to="",@click.native="next",v-if='tradelist.length>0') 下一页
       .userTip.mgt15
-        p ※温馨提示：投注记录最多只保留7天。
+        p ※温馨提示：交易记录最多只保留7天。
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -144,11 +144,6 @@ export default {
         });
     }
   },
-  filters: {
-    addY(value) {
-      return value + "元";
-    }
-  }
 };
 </script>
 <style lang="scss" scoped>

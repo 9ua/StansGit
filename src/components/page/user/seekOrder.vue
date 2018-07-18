@@ -49,7 +49,7 @@
             li
               router-link(to="",@click.native="next") 下一页
       .userTip.mgt15
-        p ※温馨提示：投注记录最多只保留7天。
+        p ※温馨提示：追号记录最多只保留7天。
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
