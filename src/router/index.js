@@ -20,6 +20,7 @@ const agentIntro = r => require.ensure([], () => r(require('@/components/page/ag
 const agentReport = r => require.ensure([], () => r(require('@/components/page/agent/agentReport.vue')), 'agentReport')
 const lowerReport = r => require.ensure([], () => r(require('@/components/page/agent/lowerReport.vue')), 'lowerReport')
 const manageInvite = r => require.ensure([], () => r(require('@/components/page/agent/manageInvite.vue')), 'manageInvite')
+const manageIcode = r => require.ensure([], () => r(require('@/components/page/agent/manageIcode.vue')), 'manageIcode')
 const agentMember = r => require.ensure([], () => r(require('@/components/page/agent/agentMember.vue')), 'agentMember')
 const agentBetRecord = r => require.ensure([], () => r(require('@/components/page/agent/agentBetRecord.vue')), 'agentBetRecord')
 const agentBillRecord = r => require.ensure([], () => r(require('@/components/page/agent/agentBillRecord.vue')), 'agentBillRecord')
@@ -193,6 +194,13 @@ export default new Router({
               component: manageInvite,
               meta: {
                 title: "宏發娱乐-下级开户"
+              }
+            },
+            {
+              path: '/agent/manageIcode',
+              component: manageIcode,
+              meta: {
+                title: "宏發娱乐-邀请码管理"
               }
             },
             {

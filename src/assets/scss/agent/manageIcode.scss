@@ -49,40 +49,24 @@
   outline: 1px solid #4aa9db;
 }
 
-.bonusTable {
-  width: 100%;
-  padding: 10px 50px;
-  border-top: 1px dotted #e8e8e8;
-  border-bottom: 1px dotted #e8e8e8;
-  background: #fff;
-  & input {
-    width: 100px;
-    margin: 0;
-  }
-  & ul:first-of-type {
-    margin-top: 20px;
-  }
-  & ul {
-    line-height: 45px;
-    & li {
-      float: left;
-      vertical-align: middle;
+.invitationCode {
+  margin-top: 6px;
+  & table {
+    text-align: center;
+    border-bottom: 1px dotted #e8e8e8;
+    margin-bottom: 80px;
+    & th {
+      border-bottom: 1px dotted #e8e8e8;
+      padding: 6px 0;
+      font-weight: 800;
     }
-    & li:first-child {
-      width: 130px;
-      font-size: 20px;
-      text-align: left;
-      padding-right: 22px;
+    & td {
+      border-bottom: 1px dotted #e8e8e8;
+      padding: 6px 0;
+      & a{
+        padding: 0 5px;
+        color: #e4393c;
+      }
     }
   }
-}
-
-.userInput {
-  height: 30px;
-  line-height: 20px;
-  padding: 5px;
-  border: 1px solid #cecece;
-  width: 233px;
-  color: #666;
-  margin: 10px 0;
 }

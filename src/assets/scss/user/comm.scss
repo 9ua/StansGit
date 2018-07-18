@@ -48,6 +48,28 @@
   }
 }
 
+.newTab {
+  border-bottom: 1px solid #ddd;
+  margin-top: 15px;
+  padding-left: 10px;
+  & .curr {
+    border-bottom: 1px solid #fff;
+    background: #fff;
+    color: #e4393c;
+  }
+  & a {
+    font-size: 14px;
+    background: #f8f8f8;
+    border: 1px solid #cecece;
+    margin: 0 5px;
+    padding: 0 10px;
+    border-radius: 4px 4px 0 0;
+    line-height: 28px;
+    display: inline-block;
+    margin-bottom: -1px;
+  }
+}
+
 .resetForm,
 .submitBtn {
   display: inline-block;
@@ -75,8 +97,62 @@
   color: #999 !important;
 }
 
+.page {
+  width: 95%;
+  display: table;
+  padding: 10px 2.5%;
+  & p {
+    display: table-cell;
+    & em {
+      font-style: inherit;
+      color: #e4393c;
+      padding: 3px;
+    }
+  }
+}
+
+.pageNav {
+  text-align: right;
+}
+
+.pagination {
+  position: relative;
+  & li {
+    display: inline-block;
+    margin: 0 5px;
+    & a {
+      padding: 0 10px;
+      display: inline-block;
+      border: 1px solid #ddd;
+      background: #fff;
+      color: #666;
+    }
+  }
+}
+
+.userTip {
+  margin: 0 15px;
+  border: 1px solid #f8e2b9;
+  background: #fffdeb;
+  color: #f46e00;
+  padding: 0 10px;
+  line-height: 24px;
+  & p {
+    margin: 10px !important;
+  }
+}
+.userInput {
+  height: 30px;
+  line-height: 20px;
+  padding: 5px;
+  border: 1px solid #cecece;
+  width: 233px;
+  color: #666;
+  margin: 10px 0;
+}
 ins {
   text-decoration: none;
+  margin: 0 4px;
 }
 
 .mg30 {
@@ -98,3 +174,8 @@ ins {
 .mglr30 {
   margin: 0 30px;
 }
+
+.w90 {
+  width: 90px !important;
+}
+

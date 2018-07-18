@@ -6,7 +6,8 @@
       .newTab
         router-link(to="",:class="{'curr': index === navindex}",v-for='(item,index) in nav',@click.native='changeTime($event,item.value,index)',:key='index') {{item.name}}        
       .searchDetail
-        table
+        noContent(v-if='noContent')
+        table(v-if='!noContent')
           tbody
             tr
               th(v-for='item in th') {{item}}
@@ -41,11 +42,16 @@
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
+import noContent from "./noContent";
 export default {
+  components: {
+    noContent
+  },
   data() {
     return {
       navindex: 0,
       dateFlag: 0,
+      noContent: true,
       tradelist: [],
       th: [
         "账户",
@@ -75,6 +81,7 @@ export default {
       this.getUnderLevelReport();
     },
     getUnderLevelReport() {
+      this.noContent = true;
       this.$axios
         .get(baseUrl + "/api/proxy/getUnderLevelReport", {
           params: {
@@ -84,6 +91,7 @@ export default {
         })
         .then(res => {
           this.tradelist = res.data.data;
+          this.noContent = false;
         })
         .catch(error => {
           console.log("获取列表Error");

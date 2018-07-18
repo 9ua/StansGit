@@ -1,0 +1,20 @@
+@import '@/assets/scss/user/comm.scss';
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.userMain table {
+  width: 100%;
+  text-align: center;
+  & tr {
+    line-height: 36px;
+    border-bottom: 1px dotted #e3e3e3;
+  }
+  & th {
+    border-bottom: 1px solid #e3e3e3;
+    font-weight: 800;
+    &:nth-child(3) {
+      width: 170px;
+    }
+  }
+}

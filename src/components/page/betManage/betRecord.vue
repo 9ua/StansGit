@@ -27,7 +27,8 @@
           span 类型：
           router-link.userSearch.time(to="",:class="{'active': index === navType}",v-for='(item,index) in types',@click.native='changeType($event,item.value,index)',:key='index') {{item.title}}
       .searchDetail
-        table
+        noContent(v-if='noContent')
+        table(v-if='!noContent')
           tbody
             tr
               th(v-for='item in th') {{item}}
@@ -64,9 +65,14 @@
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
+import noContent from "../agent/noContent";
 export default {
+  components: {
+    noContent
+  },
   data() {
     return {
+      noContent: true,
       betAmount: 0,
       winAmount: 0,
       activityAndSend: 0,
@@ -88,7 +94,7 @@ export default {
         "投注金额",
         "开奖号码",
         "派送奖金",
-        "投注时间",
+        "投注时间"
         // "操作项"
       ],
       times: [
@@ -153,6 +159,7 @@ export default {
         });
     },
     getTradeList() {
+      this.noContent=true;
       this.$axios
         .get(baseUrl + "/api/proxy/getbetOrderList", {
           params: {
@@ -166,6 +173,7 @@ export default {
         })
         .then(res => {
           this.tradelist = res.data.data.list;
+          this.noContent=false;
         })
         .catch(error => {
           console.log("获取彩種ratio ERROR");
