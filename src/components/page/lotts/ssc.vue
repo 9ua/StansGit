@@ -54,9 +54,10 @@
             <div class="conterBut" :class="'conterBut'+className">
               <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
                 <div class="both">
-                  <span class="carTitle">{{numViews.title}}</span>
+                  <span class="carTitle" v-if="numViews.title !== ''">{{numViews.title}}</span>
+                  <span class="carTitleNo" v-else></span>
                   <div class="carBox">
-                    <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha)">
+                    <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)">
                       <span><i>{{item.ball}}</i></span>
                     </p>
                   </div>
@@ -70,7 +71,7 @@
                 <div class="numSum">
                   <span class="trim">投注金额</span><yd-spinner v-model="spinner3" min="0"></yd-spinner>
                 </div>
-                <button class="add" @click="addNum">添加号码栏</button><button>立即投注</button>
+                <button class="add" @click="addNum">添加号码栏</button><button @click="betGo">立即投注</button>
               </div>
             </div>
             <div class="hurdle">
@@ -144,8 +145,8 @@
                 <span class="lott-right-top4-span2">
                   <i>{{item.amount}}.00</i>
                 </span>
-                <span class="lott-right-top4-span3" :class="{'status': item.win === 0}" v-if="item.win === 0"><i>{{item.statusName}}</i></span>
-                <span class="lott-right-top4-span3" v-if="item.win !== 0"><i>{{item.win}}</i></span>
+                <span class="lott-right-top4-span3" :class="{'status': item.win === 0}" v-if="item.statusName !== '已中奖'"><i>{{item.statusName}}</i></span>
+                <span class="lott-right-top4-span3" v-else><i>{{item.win}}</i></span>
               </li>
               <li class="lott-right-top4-but">更多>></li>
             </ul>
@@ -199,29 +200,31 @@ export default {
       navTo:0,
       playNum:0,
       zhu:0,
-      productList: [
-        {
-          addTitle: "龙虎",
-          addCon: "1,2,3",
-          addPattern: "元",
-          addzhu: 1,
-          addMoney: 1
-        },
-        {
-          addTitle: "龙虎",
-          addCon: "1,2,3",
-          addPattern: "元",
-          addzhu: 2,
-          addMoney: 1
-        },
-        {
-          addTitle: "龙虎",
-          addCon: "1,2,3",
-          addPattern: "元",
-          addzhu: 3,
-          addMoney: 1
-        },
-      ],
+      spinner3: 0,
+      d: [], //选中的号码的下标
+      dd: [], //选中的号码的下标
+      ka: [], //选中的号码的下标
+      kb: [], //选中的号码的下标
+      kc: [], //选中的号码的下标
+      kd: [], //选中的号码的下标
+      ke: [], //选中的号码的下标
+      kf: [], //选中的号码的下标
+      kg: [], //选中的号码的下标
+      kh: [], //选中的号码的下标
+      ki: [], //选中的号码的下标
+      kj: [], //选中的号码的下标
+      an: "",
+      bn: "",
+      cn: "",
+      dn: "",
+      en: "",
+      fn: "",
+      gn: "",
+      hn: "",
+      in: "",
+      jn: "",
+      con: "",
+      productList: [],
       pd: {
         addTitle: '单挑一骰',
         addCon: null,
@@ -232,13 +235,14 @@ export default {
       addTitle: '单挑一骰',
       d: [], //选中的号码的下标
       dd: [], //选中的号码的下标
-      spinner3:0,
       butClass1:true,
       butClass2:false,
       animate:true,
       orderList:null,
       className:'ssc_star5',//玩法ID
       lottName:'宏发时时彩',//彩种名
+      arrLottId: [],
+      arrLottName: [],
       lotteryId:'sj1fc',//彩种id
       lottNameIndex:0,//默认彩种
       winList: null, //中奖列表
@@ -520,21 +524,1052 @@ export default {
   },
   mounted(){
     this.getLastDayWinList();
-    this.getbetOrderList();
     this.lotteryAll();
     this.getPlayTree();
     this.geteServerTime();
   },
   methods:{
     // 中间->投注选号
-    curBalls(item, list) {
+    curBalls(item,index,list,indexf) {
       if (list.chooseOne) {
         list.balls.map(b => {
           b.choose = false;
         });
       }
       item.choose = !item.choose;
-      this.zhu++;
+      if(item.choose === true){
+        this.d[index] = item.ball;
+        this.dd = this.d.filter(function(n) {return n;});
+        this.zhu++;
+        this.pd.addTitle = this.addTitle;
+        this.pd.addCon = this.dd.join(",");
+        this.con = this.dd.join(",");
+        this.pd.addPattern = "元";
+        this.pd.addzhu = this.zhu;
+        this.pd.addMoney = this.spinner3;
+        this.betssc_boxjia(item,index,list,indexf);
+      }else{
+        this.d.splice(index, 1, "");
+        this.dd = this.d.filter(function(n) {return n;});
+        this.zhu--;
+        this.pd.addCon = this.dd.join(",");
+        this.betssc_boxjia(item,index,list,indexf);
+      }
+    },
+    //投注 ++++
+    betssc_boxjia(num,indexg,list,indexff) {
+      //大小单双 +
+      if (this.className === "ssc_dxds") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("+");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("+");
+        }
+        if (indexff === 2) {
+          this.kc[indexg] = num.ball;
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("+");
+        }
+        if (indexff === 3) {
+          this.kd[indexg] = num.ball;
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("+");
+        }
+        if (indexff === 4) {
+          this.ke[indexg] = num.ball;
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("+");
+        }
+        if (this.className === "ssc_dxds") {
+          if (this.an === "") {
+            this.an = "-";
+          }
+          if (this.bn === "") {
+            this.bn = "-";
+          }
+          if (this.cn === "") {
+            this.cn = "-";
+          }
+          if (this.dn === "") {
+            this.dn = "-";
+          }
+          if (this.en === "") {
+            this.en = "-";
+          }
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        }
+      }
+      //五星、四星、三星、二星二码不定位 、前四组选6+
+      if (
+        this.className === "ssc_star4_front_group6" ||
+        this.className === "ssc_star5_none2" ||
+        this.className === "ssc_star4_front_none2" ||
+        this.className === "ssc_star3_front_none2" ||
+        this.className === "ssc_star3_mid_none2" ||
+        this.className === "ssc_star3_last_none2"
+      ) {
+        let ret = this.groupSplit(this.dd, 2);
+        let arr = [];
+        let abc = "";
+        for (var k = 0; k < ret.length; k++) {
+          var cc = ret[k].join("");
+          arr.push(cc);
+        }
+        abc = arr.join(",");
+        this.zhu = arr.length;
+      }
+      //三码不定位、三星组六 +
+      if (
+        this.className === "ssc_star5_none3" ||
+        this.className === "ssc_star3_mid_group6" ||
+        this.className === "ssc_star3_last_group6" ||
+        this.className === "ssc_star3_front_group6"
+      ) {
+        let ret = this.groupSplit(this.dd, 3);
+        let arr = [];
+        let abc = "";
+        for (var k = 0; k < ret.length; k++) {
+          var cc = ret[k].join("");
+          arr.push(cc);
+        }
+        abc = arr.join(",");
+        this.zhu = arr.length;
+      }
+      //复式 +
+      if (
+        this.className === "ssc_star5" ||
+        this.className === "ssc_star4_front" ||
+        this.className === "ssc_star3_front" ||
+        this.className === "ssc_star3_mid" ||
+        this.className === "ssc_star3_last" ||
+        this.className === "ssc_star2_front" ||
+        this.className === "ssc_star2_last" ||
+        this.className === "ssc_star1_dwd"
+      ) {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc[indexg] = num.ball;
+          this.dd = this.kc;
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd[indexg] = num.ball;
+          this.dd = this.kd.filter(function(n) { return n; });
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke[indexg] = num.ball;
+          this.dd = this.ke;
+          this.en = this.dd.join("");
+        }
+        if (this.className === "ssc_star4_front") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.getCount(this.con.split(","), 4);
+          this.pd.addCon = this.con + ",-";
+          this.con = this.con + ",-";
+        }
+        if (this.className === "ssc_star3_front") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.getCount(this.con.split(","), 3);
+          this.pd.addCon = this.con + ",-" + ",-";
+          this.con = this.con + ",-" + ",-";
+        }
+        if (this.className === "ssc_star3_mid") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.getCount(this.con.split(","), 3);
+          this.pd.addCon = "-," + this.con + ",-";
+          this.con = "-," + this.con + ",-";
+        }
+        if (this.className === "ssc_star3_last") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.getCount(this.con.split(","), 3);
+          this.pd.addCon = "-,-," + this.con;
+          this.con = "-,-," + this.con;
+        }
+        if (this.className === "ssc_star2_front") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.getCount(this.con.split(","), 2);
+          this.pd.addCon = this.con + ",-" + ",-" + ",-";
+          this.con = this.con + ",-" + ",-" + ",-";
+        }
+        if (this.className === "ssc_star2_last") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.getCount(this.con.split(","), 2);
+          this.pd.addCon = "-,-,-," + this.con;
+          this.con = "-,-,-," + this.con;
+        }
+        if (this.className === "ssc_star1_dwd") {
+          if (indexff === 0) {
+            this.ka[indexg] = num.ball;
+            this.dd = this.ka;
+            this.an = this.dd.join("");
+          }
+          if (indexff === 1) {
+            this.kb[indexg] = num.ball;
+            this.dd = this.kb;
+            this.bn = this.dd.join("");
+          }
+          if (indexff === 2) {
+            this.kc[indexg] = num.ball;
+            this.dd = this.kc;
+            this.cn = this.dd.join("");
+          }
+          if (indexff === 3) {
+            this.kd[indexg] = num.ball;
+            this.dd = this.kd.filter(function(n) { return n; });
+            this.dn = this.dd.join("");
+          }
+          if (indexff === 4) {
+            this.ke[indexg] = num.ball;
+            this.dd = this.ke;
+            this.en = this.dd.join("");
+          }
+          if (this.className === "ssc_star1_dwd") {
+            if (this.an === "") {
+              this.an = "-";
+            }
+            if (this.bn === "") {
+              this.bn = "-";
+            }
+            if (this.cn === "") {
+              this.cn = "-";
+            }
+            if (this.dn === "") {
+              this.dn = "-";
+            }
+            if (this.en === "") {
+              this.en = "-";
+            }
+          }
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        }
+        if (this.className === "ssc_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.zhu = this.getCount(this.con.split(","), 5);
+        }
+      }
+      //龙虎和 +
+      if (this.className === "ssc_side_lhh") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = "[万千]" + this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = "[万百]" + this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc[indexg] = num.ball;
+          this.dd = this.kc;
+          this.cn = "[万十]" + this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd[indexg] = num.ball;
+          this.dd = this.kd.filter(function(n) { return n; });
+          this.dn = "[万个]" + this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke[indexg] = num.ball;
+          this.dd = this.ke;
+          this.en = "[千百]" + this.dd.join("");
+        }
+        if (indexff === 5) {
+          this.kf[indexg] = num.ball;
+          this.dd = this.kf.filter(function(n) { return n; });
+          this.fn = "[千十]" + this.dd.join("");
+        }
+        if (indexff === 6) {
+          this.kg[indexg] = num.ball;
+          this.dd = this.kg.filter(function(n) { return n; });
+          this.gn = "[千个]" + this.dd.join("");
+        }
+        if (indexff === 7) {
+          this.kh[indexg] = num.ball;
+          this.dd = this.kh.filter(function(n) { return n; });
+          this.hn = "[百十]" + this.dd.join("");
+        }
+        if (indexff === 8) {
+          this.ki[indexg] = num.ball;
+          this.dd = this.ki.filter(function(n) { return n; });
+          this.in = "[百个]" + this.dd.join("");
+        }
+        if (indexff === 9) {
+          this.kj[indexg] = num.ball;
+          this.dd = this.kj.filter(function(n) { return n; });
+          this.jn = "[十个]" + this.dd.join("");
+        }
+        if (this.className === "ssc_side_lhh") {
+          if (this.an === "") {
+            this.an = "-";
+          }
+          if (this.bn === "") {
+            this.bn = "-";
+          }
+          if (this.cn === "") {
+            this.cn = "-";
+          }
+          if (this.dn === "") {
+            this.dn = "-";
+          }
+          if (this.en === "") {
+            this.en = "-";
+          }
+          if (this.fn === "") {
+            this.fn = "-";
+          }
+          if (this.gn === "") {
+            this.gn = "-";
+          }
+          if (this.hn === "") {
+            this.hn = "-";
+          }
+          if (this.in === "") {
+            this.in = "-";
+          }
+          if (this.jn === "") {
+            this.jn = "-";
+          }
+        }
+        this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en + "," + this.fn + "," + this.gn + "," + this.hn + "," + this.in + "," + this.jn;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en + "," + this.fn + "," + this.gn + "," + this.hn + "," + this.in + "," + this.jn;
+        if (this.con.indexOf("和") !== -1) {
+          this.youhezhi = true;
+        } else if (this.con.indexOf("和") === -1) {
+          this.youhezhi = false;
+        }
+      }
+      //三星包胆 +
+      if (
+        this.className === "ssc_star3_front_group_contains" ||
+        this.className === "ssc_star3_mid_group_contains" ||
+        this.className === "ssc_star3_last_group_contains"
+      ) {
+        for (let i = 0; i < numViews.nums.length; i++) {
+          this.zhu = 54;
+          this.pd.addCon = num.ball;
+          this.con = num.ball;
+          numViews.nums[i].choose = false;
+          numViews.nums[indexg].choose = true;
+        }
+      }
+      //二星包胆 +
+      if (
+        this.className === "ssc_star2_front_group_contains" ||
+        this.className === "ssc_star2_last_group_contains"
+      ) {
+        for (let i = 0; i < numViews.nums.length; i++) {
+          this.zhu = 9;
+          this.pd.addCon = num.ball;
+          this.con = num.ball;
+          numViews.nums[i].choose = false;
+          numViews.nums[indexg].choose = true;
+        }
+      }
+      //五星--组选5 +
+      if (this.className === "ssc_star5_group5") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount5(this.con.split(","));
+      }
+      //五星--组选10 +
+      if (this.className === "ssc_star5_group10") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount10(this.con.split(","));
+      }
+      //五星--组选20 +
+      if (this.className === "ssc_star5_group20") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount20(this.con.split(","));
+      }
+      //五星--组选30 +
+      if (this.className === "ssc_star5_group30") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount30(this.con.split(","));
+      }
+      //五星--组选60 +
+      if (this.className === "ssc_star5_group60") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount60(this.con.split(","));
+      }
+      //五星--组选120 +
+      if (this.className === "ssc_star5_group120") {
+        this.dd = this.d.filter(function(n) { return n; });
+        let lengths = this.dd.length;
+        this.zhu = this.getCount120(lengths);
+      }
+      //前四--组选4 +
+      if (this.className === "ssc_star4_front_group4") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount4(this.con.split(","));
+      }
+      //前四--组选12 +
+      if (this.className === "ssc_star4_front_group12") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount12(this.con.split(","));
+      }
+      //前四--组选24 +
+      if (this.className === "ssc_star4_front_group24") {
+        this.dd = this.d.filter(function(n) { return n; });
+        let lengths = this.dd.length;
+        this.zhu = this.getzuCount24(lengths);
+      }
+      //前三、中三、后三组选 -
+      if (
+        this.className === "ssc_star3_front_group3" ||
+        this.className === "ssc_star3_mid_group3" ||
+        this.className === "ssc_star3_last_group3"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        let lengths = this.dd.length;
+        this.zhu = this.getzuCount3(lengths);
+      }
+      //二星组选 复式 +
+      if (
+        this.className === "ssc_star2_front_group" ||
+        this.className === "ssc_star2_last_group"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.erzuxuanfushi(this.dd);
+      }
+      //三星直选和值 +
+      if (
+        this.className === "ssc_star3_front_and" ||
+        this.className === "ssc_star3_mid_and" ||
+        this.className === "ssc_star3_last_and"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.sanzhixuanhezhi(this.dd);
+      }
+      //三星组选和值 +
+      if (
+        this.className === "ssc_star3_front_group_and" ||
+        this.className === "ssc_star3_mid_group_and" ||
+        this.className === "ssc_star3_last_group_and"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.sanzuxuanhezhi(this.dd);
+      }
+      //三星跨度 +
+      if (
+        this.className === "ssc_star3_front_kd" ||
+        this.className === "ssc_star3_mid_kd" ||
+        this.className === "ssc_star3_last_kd"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.sankuadu(this.dd);
+      }
+      //二星直选和值 +
+      if (
+        this.className === "ssc_star2_front_and" ||
+        this.className === "ssc_star2_last_and"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.erzhixuanhezhi(this.dd);
+      }
+      //二星组选和值 +
+      if (
+        this.className === "ssc_star2_front_group_and" ||
+        this.className === "ssc_star2_last_group_and"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.erzuxuanhezhi(this.dd);
+      }
+      //二星跨度 +
+      if (
+        this.className === "ssc_star2_front_kd" ||
+        this.className === "ssc_star2_last_kd"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.erkuadu(this.dd);
+      }
+    },
+    //投注 ----
+    betssc_boxjian(num,indexg,list,indexff) {
+      //大小单双 -
+      if (this.className === "ssc_dxds") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("+");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("+");
+        }
+        if (indexff === 2) {
+          this.kc.splice(indexg, 1, "");
+          this.dd = this.kc;
+          this.cn = this.dd.join("+");
+        }
+        if (indexff === 3) {
+          this.kd.splice(indexg, 1, "");
+          this.dd = this.kd;
+          this.dn = this.dd.join("+");
+        }
+        if (indexff === 4) {
+          this.ke.splice(indexg, 1, "");
+          this.dd = this.ke;
+          this.en = this.dd.join("+");
+        }
+        if (this.className === "ssc_dxds") {
+          if (this.an === "") {
+            this.an = "-";
+          }
+          if (this.bn === "") {
+            this.bn = "-";
+          }
+          if (this.cn === "") {
+            this.cn = "-";
+          }
+          if (this.dn === "") {
+            this.dn = "-";
+          }
+          if (this.en === "") {
+            this.en = "-";
+          }
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        }
+      }
+      //五星、四星、三星、二星二码不定位 、前四组选6 -
+      if (
+        this.className === "ssc_star4_front_group6" ||
+        this.className === "ssc_star5_none2" ||
+        this.className === "ssc_star4_front_none2" ||
+        this.className === "ssc_star3_front_none2" ||
+        this.className === "ssc_star3_mid_none2" ||
+        this.className === "ssc_star3_last_none2"
+      ) {
+        let ret = this.groupSplit(this.dd, 2);
+        let arr = [];
+        let abc = "";
+        for (var k = 0; k < ret.length; k++) {
+          var cc = ret[k].join("");
+          arr.push(cc);
+        }
+        abc = arr.join(",");
+        this.zhu = arr.length;
+      }
+      //三码不定位、前三组六、中三组六、后三组六 -
+      if (
+        this.className === "ssc_star5_none3" ||
+        this.className === "ssc_star3_mid_group6" ||
+        this.className === "ssc_star3_last_group6" ||
+        this.className === "ssc_star3_front_group6" ) {
+        let ret = this.groupSplit(this.dd, 3);
+        let arr = [];
+        let abc = "";
+        for (var k = 0; k < ret.length; k++) {
+          var cc = ret[k].join("");
+          arr.push(cc);
+        }
+        abc = arr.join(",");
+        this.zhu = arr.length;
+      }
+      //复式 -
+      if (
+        this.className === "ssc_star5" ||
+        this.className === "ssc_star4_front" ||
+        this.className === "ssc_star3_front" ||
+        this.className === "ssc_star3_mid" ||
+        this.className === "ssc_star3_last" ||
+        this.className === "ssc_star2_front" ||
+        this.className === "ssc_star2_last" ||
+        this.className === "ssc_star1_dwd" ) {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc.splice(indexg, 1, "");
+          this.dd = this.kc;
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd.splice(indexg, 1, "");
+          this.dd = this.kd.filter(function(n) { return n; });
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke.splice(indexg, 1, "");
+          this.dd = this.ke;
+          this.en = this.dd.join("");
+        }
+        if (this.className === "ssc_star4_front") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.getCount(this.con.split(","), 4);
+        } else if (this.className === "ssc_star3_front") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.getCount(this.con.split(","), 3);
+        } else if (this.className === "ssc_star3_mid") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.getCount(this.con.split(","), 3);
+        } else if (this.className === "ssc_star3_last") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.getCount(this.con.split(","), 3);
+        } else if (this.className === "ssc_star2_front") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.getCount(this.con.split(","), 2);
+        } else if (this.className === "ssc_star2_last") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.getCount(this.con.split(","), 2);
+        } else if (this.className === "ssc_star1_dwd") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        } else if (this.className === "ssc_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.zhu = this.getCount(this.con.split(","), 5);
+        }
+      }
+      //龙虎和 -
+      if (this.className === "ssc_side_lhh") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = "[万千]" + this.dd.join("");
+          if (this.an == "" || this.an == "-" || this.an == "[万千]") {
+            this.an = this.dd.join("");
+          }
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = "[万百]" + this.dd.join("");
+          if (this.bn == "" || this.bn == "-" || this.bn == "[万百]") {
+            this.bn = this.dd.join("");
+          }
+        }
+        if (indexff === 2) {
+          this.kc.splice(indexg, 1, "");
+          this.dd = this.kc;
+          this.cn = "[万十]" + this.dd.join("");
+          if (this.cn == "" || this.cn == "-" || this.cn == "[万十]") {
+            this.cn = this.dd.join("");
+          }
+        }
+        if (indexff === 3) {
+          this.kd.splice(indexg, 1, "");
+          this.dd = this.kd;
+          this.dn = "[万个]" + this.dd.join("");
+          if (this.dn == "" || this.dn == "-" || this.dn == "[万个]") {
+            this.dn = this.dd.join("");
+          }
+        }
+        if (indexff === 4) {
+          this.ke.splice(indexg, 1, "");
+          this.dd = this.ke;
+          this.en = "[千百]" + this.dd.join("");
+          if (this.en == "" || this.en == "-" || this.en == "[千百]") {
+            this.en = this.dd.join("");
+          }
+        }
+        if (indexff === 5) {
+          this.kf.splice(indexg, 1, "");
+          this.dd = this.kf.filter(function(n) { return n; });
+          this.fn = "[千十]" + this.dd.join("");
+          if (this.fn == "" || this.fn == "-" || this.fn == "[千十]") {
+            this.fn = this.dd.join("");
+          }
+        }
+        if (indexff === 6) {
+          this.kg.splice(indexg, 1, "");
+          this.dd = this.kg.filter(function(n) { return n; });
+          this.gn = "[千个]" + this.dd.join("");
+          if (this.gn == "" || this.gn == "-" || this.gn == "[千个]") {
+            this.gn = this.dd.join("");
+          }
+        }
+        if (indexff === 7) {
+          this.kh.splice(indexg, 1, "");
+          this.dd = this.kh.filter(function(n) { return n; });
+          this.hn = "[百十]" + this.dd.join("");
+          if (this.hn == "" || this.hn == "-" || this.hn == "[百十]") {
+            this.hn = this.dd.join("");
+          }
+        }
+        if (indexff === 8) {
+          this.ki.splice(indexg, 1, "");
+          this.dd = this.ki.filter(function(n) { return n; });
+          this.in = "[百个]" + this.dd.join("");
+          if (this.in == "" || this.in == "-" || this.in == "[百个]") {
+            this.in = this.dd.join("");
+          }
+        }
+        if (indexff === 9) {
+          this.kj.splice(indexg, 1, "");
+          this.dd = this.kj.filter(function(n) { return n; });
+          this.jn = "[十个]" + this.dd.join("");
+          if (this.jn == "" || this.jn == "-" || this.jn == "[十个]") {
+            this.jn = this.dd.join("");
+          }
+        }
+        if (this.className === "ssc_side_lhh") {
+          if (this.an === "") {
+            this.an = "-";
+          }
+          if (this.bn === "") {
+            this.bn = "-";
+          }
+          if (this.cn === "") {
+            this.cn = "-";
+          }
+          if (this.dn === "") {
+            this.dn = "-";
+          }
+          if (this.en === "") {
+            this.en = "-";
+          }
+          if (this.fn === "") {
+            this.fn = "-";
+          }
+          if (this.gn === "") {
+            this.gn = "-";
+          }
+          if (this.hn === "") {
+            this.hn = "-";
+          }
+          if (this.in === "") {
+            this.in = "-";
+          }
+          if (this.jn === "") {
+            this.jn = "-";
+          }
+        }
+        this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en + "," + this.fn + "," + this.gn + "," + this.hn + "," + this.in + "," + this.jn;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en + "," + this.fn + "," + this.gn + "," + this.hn + "," + this.in + "," + this.jn;
+        if (this.con.indexOf("和") !== -1) {
+          this.youhezhi = true;
+        } else if (this.con.indexOf("和") === -1) {
+          this.youhezhi = false;
+        }
+      }
+      //三星包胆 -
+      if (
+        this.className === "ssc_star3_front_group_contains" ||
+        this.className === "ssc_star3_mid_group_contains" ||
+        this.className === "ssc_star3_last_group_contains" ) {
+        for (let i = 0; i < numViews.nums.length; i++) {
+          this.zhu = 0;
+          this.pd.addCon = "";
+          this.con = "";
+        }
+      }
+      //二星包胆 -
+      if (
+        this.className === "ssc_star2_front_group_contains" ||
+        this.className === "ssc_star2_last_group_contains" ) {
+        for (let i = 0; i < numViews.nums.length; i++) {
+          this.zhu = 0;
+          this.pd.addCon = "";
+          this.con = "";
+        }
+      }
+      //五星--组选5 -
+      if (this.className === "ssc_star5_group5") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount5(this.con.split(","));
+      }
+      //五星--组选10 -
+      if (this.className === "ssc_star5_group10") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount10(this.con.split(","));
+      }
+      //五星--组选20 -
+      if (this.className === "ssc_star5_group20") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount20(this.con.split(","));
+      }
+      //五星--组选30 -
+      if (this.className === "ssc_star5_group30") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount30(this.con.split(","));
+      }
+      //五星--组选60 -
+      if (this.className === "ssc_star5_group60") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount60(this.con.split(","));
+      }
+      //五星--组选120 -
+      if (this.className === "ssc_star5_group120") {
+        this.dd = this.d.filter(function(n) { return n; });
+        let lengths = this.dd.length;
+        this.zhu = this.getCount120(lengths);
+      }
+      //前四--组选4 -
+      if (this.className === "ssc_star4_front_group4") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount4(this.con.split(","));
+      }
+      //前四--组选12 -
+      if (this.className === "ssc_star4_front_group12") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        this.pd.addCon = this.an + "," + this.bn;
+        this.con = this.an + "," + this.bn;
+        this.zhu = this.getzuCount12(this.con.split(","));
+      }
+      //前四--组选24 -
+      if (this.className === "ssc_star4_front_group24") {
+        this.dd = this.d.filter(function(n) { return n; });
+        let lengths = this.dd.length;
+        this.zhu = this.getzuCount24(lengths);
+      }
+      //前三、中三、后三组选 -
+      if (
+        this.className === "ssc_star3_front_group3" ||
+        this.className === "ssc_star3_mid_group3" ||
+        this.className === "ssc_star3_last_group3" ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        let lengths = this.dd.length;
+        this.zhu = this.getzuCount3(lengths);
+      }
+      //二星组选 复式 -
+      if (
+        this.className === "ssc_star2_front_group" ||
+        this.className === "ssc_star2_last_group" ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.erzuxuanfushi(this.dd);
+      }
+      //三星直选和值 -
+      if (
+        this.className === "ssc_star3_front_and" ||
+        this.className === "ssc_star3_mid_and" ||
+        this.className === "ssc_star3_last_and"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.sanzhixuanhezhi(this.dd);
+      }
+      //三星组选和值 -
+      if (
+        this.className === "ssc_star3_front_group_and" ||
+        this.className === "ssc_star3_mid_group_and" ||
+        this.className === "ssc_star3_last_group_and"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.sanzuxuanhezhi(this.dd);
+      }
+      //三星跨度 -
+      if (
+        this.className === "ssc_star3_front_kd" ||
+        this.className === "ssc_star3_mid_kd" ||
+        this.className === "ssc_star3_last_kd"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.sankuadu(this.dd);
+      }
+      //二星直选和值 -
+      if (
+        this.className === "ssc_star2_front_and" ||
+        this.className === "ssc_star2_last_and"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.erzhixuanhezhi(this.dd);
+      }
+      //二星组选和值 -
+      if (
+        this.className === "ssc_star2_front_group_and" ||
+        this.className === "ssc_star2_last_group_and"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.erzuxuanhezhi(this.dd);
+      }
+      //二星跨度 -
+      if (
+        this.className === "ssc_star2_front_kd" ||
+        this.className === "ssc_star2_last_kd"
+      ) {
+        this.dd = this.d.filter(function(n) { return n; });
+        this.zhu = this.erkuadu(this.dd);
+      }
     },
     //玩法术
     getPlayTree(){
@@ -597,19 +1632,76 @@ export default {
       }
       this.displayBonus = this.splayers[0][0].displayBonus;
     },
+    //立即投注
+    betGo() {
+      let formData = new FormData();
+      formData.append("order[0].content", this.con);
+      formData.append("order[0].betCount", this.zhu);
+      formData.append("order[0].price", this.spinner3);
+      formData.append("order[0].unit", 1);
+      formData.append("order[0].playId", this.className);
+      formData.append("count", this.zhu);
+      formData.append("traceOrders[0].price", this.spinner3);
+      formData.append("traceOrders[0].seasonId", this.seasonId);
+      formData.append("bounsType", 0);
+      formData.append("traceWinStop", 0);
+      formData.append("isTrace", 0);
+      formData.append("lotteryId", this.$route.params.lotteryId);
+      formData.append("amount", this.spinner3 * this.zhu);
+      this.$axios
+        .post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config)
+        .then(res => {
+          if (res.data.message === "success") {
+            this.getbetOrderList();
+            this.iscreat();
+            console.warn("投注成功");
+          } else {
+            this.iscreat();
+            console.warn(res.data.data);
+          }
+        })
+        .catch(error => {
+          console.log("立即投注,No");
+        });
+    },
     //导航点击
     lottListNav(item,index){
+      this.arrLottName.indexOf();
       this.lottName = item.name;
       this.lottNameIndex = index;
-      this.lotteryId = item.id;
+      this.$router.push("/lotts/ssc/" + item.id);
       this.getPlayTree();
+      this.getPastOp();
+      this.geteServerTime();
     },
     //清空
     iscreat() {
-      this.con=[];
+      this.d = [];
+      this.dd = [];
+      this.ka = [];
+      this.kb = [];
+      this.kc = [];
+      this.kd = [];
+      this.ke = [];
+      this.kf = [];
+      this.kg = [];
+      this.kh = [];
+      this.ki = [];
+      this.kj = [];
+      this.an = "";
+      this.bn = "";
+      this.cn = "";
+      this.dn = "";
+      this.en = "";
+      this.fn = "";
+      this.gn = "";
+      this.hn = "";
+      this.in = "";
+      this.jn = "";
+      this.con = [];
       this.zhu = 0;
       this.pd = {};
-      this.d = [];
+      this.spinner3 = 0;
       for (let h = 0; h < this.snumView.length; h++) {
         if (null != this.snumView[h]) {
           for (let j = 0; j < this.snumView[h].length; j++) {
@@ -638,6 +1730,14 @@ export default {
           });
         }else{
           this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_ssc"));
+          this.lotteryList.map(k => {
+            this.arrLottId.push(k.id);
+            this.arrLottName.push(k.name);
+          });
+          this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.lotteryId);
+          if (this.lottNameIndex > 5) {
+            this.left = -200;
+          }
         }
       }else{
         this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
@@ -652,7 +1752,7 @@ export default {
     },
     //获取过去开奖号码10个
     getPastOp() { 
-      this.$axios.get(baseUrl + "/api/lottery/getPastOpen", {params: { lotteryId: this.lotteryId, count: 10 }}).then(res => {
+      this.$axios.get(baseUrl + "/api/lottery/getPastOpen", {params: { lotteryId: this.$route.params.lotteryId, count: 10 }}).then(res => {
         this.getPastOpens = res.data.data;
         this.getPastOpenB = res.data.data;
         this.nBox[0] = this.getPastOpens[0].n1;
@@ -666,6 +1766,7 @@ export default {
         } else {
           clearTimeout(this.timer2);
           this.isshowGif = false;
+          this.getbetOrderList();
         }
       })
       .catch(error => {
@@ -845,6 +1946,7 @@ export default {
     },
     //添加号码栏
     addNum() {
+      this.pd.addMoney = this.spinner3;
       this.productList.unshift(this.pd);
       this.pd = {};
       this.d = []
@@ -853,6 +1955,324 @@ export default {
     //删除指定行
     deleList(item, index) {
       this.productList.splice(index, 1);
+    },
+    //----------公用函数-----------
+    //复式 betContent = [0,0,0,0,0] , count = 5
+    getCount(betContent, stars) {
+      if (betContent.length != stars) {
+        return 0;
+      }
+      let count = 1;
+      for (let i = 0; i < stars; i++) {
+        let n = betContent[i];
+        n = [...new Set(n)];
+        count *= n.length;
+      }
+      return count;
+    },
+    //组选共用函数
+    getCombin(num, len) {
+      if (num < len) {
+        return 0;
+      }
+      let nums = 1;
+      let lens = 1;
+      for (let i = 0; i < len; i++) {
+        nums *= num - i;
+        lens *= len - i;
+      }
+      return nums / lens;
+    },
+    //組選五
+    // bets = ["0,1", "1,2,3"]
+    getzuCount5(bets) {
+      if (bets.length != 2) {
+        return 0;
+      }
+      let n1 = bets[0];
+      let n2 = bets[1];
+      let count = 0;
+      for (let i = 0; i < n1.length; i++) {
+        count += n2.length;
+        if (n2.indexOf(n1[i]) >= 0) {
+          count--;
+        }
+      }
+      return count;
+    },
+    // 組選10
+    // bets = ["0,1,3", "1,2,3"]
+    getzuCount10(bets) {
+      if (bets.length != 2) {
+        return 0;
+      }
+      let n1 = bets[0];
+      let n2 = bets[1];
+      let count = 0;
+      for (let i = 0; i < n1.length; i++) {
+        count += n2.length;
+        if (n2.indexOf(n1[i]) >= 0) {
+          count--;
+        }
+      }
+      return count;
+    },
+    // 組選20
+    // bets = ["0,1,3", "1,2,3"]
+    getzuCount20(bets) {
+      if (bets.length != 2) {
+        return 0;
+      }
+      let n1 = bets[0];
+      let n2 = bets[1];
+      let count = 0;
+      for (let i = 0; i < n1.length; i++) {
+        let nowCount = n2.length;
+        if (n2.indexOf(n1[i]) >= 0) {
+          nowCount--;
+        }
+        count += this.getCombin(nowCount, 2);
+      }
+      return count;
+    },
+    //組選30
+    // bets = ["0,1,3", "1,2,3"]
+    getzuCount30(bets) {
+      if (bets.length != 2) {
+        return 0;
+      }
+      let n1 = bets[0];
+      let n2 = bets[1];
+      let count = 0;
+      for (let i = 0; i < n2.length; i++) {
+        let nowCount = n1.length;
+        if (n1.indexOf(n2[i]) >= 0) {
+          nowCount--;
+        }
+        count += this.getCombin(nowCount, 2);
+      }
+      return count;
+    },
+    //組選60
+    // bets = ["0,1,3", "1,2,3"]
+    getzuCount60(bets) {
+      if (bets.length != 2) {
+        return 0;
+      }
+      let n1 = bets[0];
+      let n2 = bets[1];
+      let count = 0;
+      for (let i = 0; i < n1.length; i++) {
+        let nowCount = n2.length;
+        if (n2.indexOf(n1[i]) >= 0) {
+          nowCount--;
+        }
+        count += this.getCombin(nowCount, 3);
+      }
+      return count;
+    },
+    //組選120
+    // bets = ["0", "1","3","7","9"]
+    getCount120(bets) {
+      return this.getCombin(bets, 5);
+    },
+    //四星-組選4
+    // bets = ["0,1,3", "1,2,3"]
+    getzuCount4(bets) {
+      if (bets.length != 2 || bets[0] === "" || bets[1] === "") {
+        return 0;
+      }
+      let n1 = bets[0];
+      let n2 = bets[1];
+      let count = 0;
+      for (let i = 0; i < n1.length; i++) {
+        count += n2.length;
+        if (n2.indexOf(n1[i])) {
+          count--;
+        }
+      }
+      return count;
+    },
+    //四星-組選12
+    // bets = ["0,1,3", "1,2,3"]
+    getzuCount12(bets) {
+      if (bets.length != 2 || bets[0] === "" || bets[1] === "") {
+        return 0;
+      }
+      let n1 = bets[0];
+      let n2 = bets[1];
+      if (n1.length < 1) {
+        return 0;
+      }
+      if (n2.length < 2) {
+        return 0;
+      }
+      let count = 0;
+      for (let i = 0; i < n1.length; i++) {
+        let a = n2.length;
+        if (n2.indexOf(n1[i]) >= 0) {
+          a--;
+        }
+        count += this.getCombin(a, 2);
+      }
+      return count;
+    },
+    //四星-組選24
+    //bets = ["0", "1","9"]
+    getzuCount24(bets) {
+      return this.getCombin(bets, 4);
+    },
+    //三星-组三
+    //bets = ["0", "1","9"]
+    getzuCount3(bets) {
+      return this.getCombin(bets, 2) * 2;
+    },
+    //三星-跨度
+    sankuadu(bets) {
+      let betCount = [10, 54, 96, 126, 144, 150, 144, 126, 96, 54];
+      let count = 0;
+      for (let i = 0; i < bets.length; i++) {
+        count += betCount[bets[i]];
+      }
+      return count;
+    },
+    //三星-直选和值
+    sanzhixuanhezhi(bets) {
+      let betCount = [
+        1,
+        3,
+        6,
+        10,
+        15,
+        21,
+        28,
+        36,
+        45,
+        55,
+        63,
+        69,
+        73,
+        75,
+        75,
+        73,
+        69,
+        63,
+        55,
+        45,
+        36,
+        28,
+        21,
+        15,
+        10,
+        6,
+        3,
+        1
+      ];
+      let count = 0;
+      for (let i = 0; i < bets.length; i++) {
+        count += betCount[Number(bets[i])];
+      }
+      return count;
+    },
+    //三星-组选和值
+    sanzuxuanhezhi(bets) {
+      let betCount = [
+        1,
+        2,
+        2,
+        4,
+        5,
+        6,
+        8,
+        10,
+        11,
+        13,
+        14,
+        14,
+        15,
+        15,
+        14,
+        14,
+        13,
+        11,
+        10,
+        8,
+        6,
+        5,
+        4,
+        2,
+        2,
+        1
+      ];
+      let count = 0;
+      for (let i = 0; i < bets.length; i++) {
+        count += betCount[Number(bets[i]) - 1];
+      }
+      return count;
+    },
+    // 二星-组选複式
+    //bets = ["6","7"]
+    erzuxuanfushi(bets) {
+      let count = 0;
+      let size = bets.length;
+      count = this.getCombin(size, 2);
+      return count;
+    },
+    //二星-跨度
+    erkuadu(bets) {
+      let betCount = [10, 18, 16, 14, 12, 10, 8, 6, 4, 2];
+      let count = 0;
+      for (let i = 0; i < bets.length; i++) {
+        count += betCount[bets[i]];
+      }
+      return count;
+    },
+    //二星-直选和值
+    erzhixuanhezhi(bets) {
+      let betCount = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+      let count = 0;
+      for (let i = 0; i < bets.length; i++) {
+        count += betCount[bets[i]];
+      }
+      return count;
+    },
+    //二星-组选和值
+    erzuxuanhezhi(bets) {
+      let betCount = [1, 1, 2, 2, 3, 3, 4, 4, 5, 4, 4, 3, 3, 2, 2, 1, 1];
+      let count = 0;
+      for (let i = 0; i < bets.length; i++) {
+        count += betCount[Number(bets[i]) - 1];
+      }
+      return count;
+    },
+    //排列组合
+    groupSplit(arr, size) {
+      let maxSize = arr.length,
+        groupArr = [];
+      if (size >= 1 && size <= maxSize) {
+        getArr(arr, 0, []);
+      }
+
+      function each(arr, index, fn) {
+        for (let i = index; i < maxSize; i++) {
+          fn(arr[i], i, arr);
+        }
+      }
+
+      function getArr(arr, _size, _arr, index) {
+        if (_size === size) {
+          return;
+        }
+        let len = _size + 1;
+        each(arr, index || 0, function(val, i, arr) {
+          _arr.splice(_size, 1, val);
+          if (_size === size - 1) {
+            groupArr.push(_arr.slice());
+          }
+          getArr(arr, len, _arr, i + 1);
+        });
+      }
+      return groupArr;
     },
     //清空
     exit(){

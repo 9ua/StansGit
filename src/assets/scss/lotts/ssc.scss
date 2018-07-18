@@ -26,6 +26,15 @@
     font-size: 16px;
     color: #FFF;
   }
+  & .carTitleNo {
+    @extend %faj;
+    width: 94px;
+    height: 36px;
+    background-position: -202px -45px;
+    padding-right: 10px;
+    font-size: 16px;
+    color: #FFF;
+  }
   & .car {
     @extend %faj;
     width: 38px;

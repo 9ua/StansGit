@@ -58,6 +58,7 @@ export default {
       ball.filter(list => {
         list.choose = true;
       });
+      console.log(this.con)
     },
     //大
     big({ ball }) {
