@@ -90,38 +90,6 @@ table {
   }
 }
 
-.page {
-  width: 95%;
-  display: table;
-  padding: 10px 2.5%;
-  & p {
-    display: table-cell;
-    & em {
-      font-style: inherit;
-      color: #e4393c;
-      padding: 3px;
-    }
-  }
-}
-
-.pageNav {
-  text-align: right;
-}
-
-.pagination {
-  position: relative;
-  & li {
-    display: inline-block;
-    margin: 0 5px;
-    & a {
-      padding: 0 10px;
-      display: inline-block;
-      border: 1px solid #ddd;
-      background: #fff;
-      color: #666;
-    }
-  }
-}
 
 .userTip {
   border: 1px solid #f8e2b9;
