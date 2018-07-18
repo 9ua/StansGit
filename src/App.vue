@@ -21,4 +21,21 @@ export default {
 .gm-scrollbar.-vertical .thumb{
   background-color: #af3a31;
 }
+.el-message-box{
+  border: none;
+  & .el-message-box__header{
+    background: #af3a31;
+    padding:10px 15px 10px;
+    & .el-message-box__title{
+      font-size: 18px;
+      color: #FFF;
+    }
+    & .el-message-box__headerbtn{
+      font-size: 18px;
+      & i{
+        color: #FFF;
+      }
+    }
+  }
+}
 </style>

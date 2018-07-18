@@ -25,27 +25,22 @@
           width: 230px;
           border-bottom: 1px dashed #DDDDDD;
           height: 45px;
-          & a {
-            @extend %flex;
-            @extend %aitems;
-            width: 230px;
-            height: 45px;
-            & img {
-              width: 30px;
-              height: 30px;
-              border-radius: 50%;
-              margin-right: 8px;
-              margin-left: 15px;
-            }
-            & .totransition {
-              transition: All 2s ease-in-out;
-              transform: rotate(3600deg);
-            }
-            & span {
-              color: #B7B7B3;
-              font-size: 10px;
-              margin-left: 8px;
-            }
+          cursor: pointer;
+          & img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+            margin-left: 15px;
+          }
+          & .totransition {
+            transition: All 2s ease-in-out;
+            transform: rotate(3600deg);
+          }
+          & span {
+            color: #B7B7B3;
+            font-size: 10px;
+            margin-left: 8px;
           }
         }
       }

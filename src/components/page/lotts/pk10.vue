@@ -7,16 +7,16 @@
         </div>
         <div class="lott-top-middle pk10">
           <p>第
-            <span>201806240751</span>期 剩余投注时间</p>
-          <div>00:00:00</div>
+            <span>{{seasonId}}</span>期 剩余投注时间</p>
+          <div>{{countDown}}</div>
         </div>
         <div class="lott-top-right pk10">
           <p>第
-            <span>201806240751</span>期 开奖结果</p>
-          <div class="showName" v-show="false">
-            <span v-for="(item,index) in 10" :key="index">{{item}}</span>
+            <span>{{lastSeasonId}}</span>期 开奖结果</p>
+          <div class="showName" v-show="!isshowGif">
+            <span v-for="(item,index) in nBox" :key="index">{{item}}</span>
           </div>
-          <div class="showGif">
+          <div class="showGif" v-show="isshowGif">
             <span v-for="(item,index) in 10" :key="index"></span>
           </div>
         </div>
@@ -62,7 +62,7 @@
                 <div class="both">
                   <span class="carTitle">{{numViews.title}}</span>
                   <div class="carBox">
-                    <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,numViews)">
+                    <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)">
                       <i>{{item.ball}}</i>
                       <b></b>
                     </p>
@@ -80,10 +80,10 @@
               <div class="butBox">
                 <div class="numSum">
                   <span class="trim">投注金额</span>
-                  <yd-spinner v-model="money"></yd-spinner>
+                  <yd-spinner v-model="spinner3" min="0"></yd-spinner>
                 </div>
                 <button class="add" @click="addNum">添加号码栏</button>
-                <button>立即投注</button>
+                <button @click="betGo">立即投注</button>
               </div>
             </div>
             <div class="hurdle">
@@ -94,7 +94,7 @@
                 <li>注数</li>
                 <li>倍数</li>
                 <li>金额</li>
-                <li>清空</li>
+                <li @click="exit">清空</li>
               </ul>
               <div class="addListBox">
                 <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index">
@@ -113,7 +113,7 @@
             <div class="affirm">
               <p>
                 <span>总注数：{{zhu}}, </span>
-                <span>总金额：{{zhu*money}}, </span>
+                <span>总金额：{{zhu*spinner3}}, </span>
                 <span>余额：{{$store.state.balance}}</span>
               </p>
               <button>确认投注</button>
@@ -131,22 +131,27 @@
           </div>
           <div class="lott-right-top2">
             <p class="lott-right-top2-title">
-              <span class="lott-right-top2-span1">期号</span>
-              <span class="lott-right-top2-span2">开奖号码</span>
-              <span class="lott-right-top2-span3">和值</span>
-              <span class="lott-right-top2-span4">形态</span>
+              <span class="lott-right-top2-span1 pk10">期号</span>
+              <span class="lott-right-top2-span2 pk10">开奖号码</span>
+              <span class="lott-right-top2-span3 pk10">开奖时间</span>
             </p>
             <ul>
               <li v-for="(item,index) in getPastOpens" :key="index">
-                <span class="lott-right-top2-span1">{{item.seasonId}}</span>
-                <span class="lott-right-top2-span2">
-                  <i>{{item.n1}}</i><i>{{item.n2}}</i><i>{{item.n3}}</i><i>{{item.n4}}</i><i>{{item.n5}}</i><i>{{item.n6}}</i><i>{{item.n7}}</i><i>{{item.n8}}</i><i>{{item.n9}}</i><i>{{item.n10}}</i>
+                <span class="lott-right-top2-span1 pk10" v-if="$route.params.lotteryId === 'pk10'">{{item.seasonId}}</span>
+                <span class="lott-right-top2-span1 pk10" v-else>{{item.seasonId.substring(5)}}</span>
+                <span class="lott-right-top2-span2 pk10">
+                  <i>{{item.n1}}</i>
+                  <i>{{item.n2}}</i>
+                  <i>{{item.n3}}</i>
+                  <i>{{item.n4}}</i>
+                  <i>{{item.n5}}</i>
+                  <i>{{item.n6}}</i>
+                  <i>{{item.n7}}</i>
+                  <i>{{item.n8}}</i>
+                  <i>{{item.n9}}</i>
+                  <i>{{item.n10}}</i>
                 </span>
-                <span class="lott-right-top2-span3">{{item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10}}</span>
-                <span class="lott-right-top2-span4">
-                  <i :class="(item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10) < 11 ? 'yellow' : 'blue'">{{(item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10) < 11 ? "小" : "大"}}</i>
-                  <i :class="(item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10) % 2 ===0 ? 'yellow' : 'blue'">{{(item.n1+item.n2+item.n3+item.n4+item.n5+item.n6+item.n7+item.n8+item.n9+item.n10) % 2 ===0 ? "双" : "单"}}</i>
-                </span>
+                <span class="lott-right-top2-span3 pk10">{{item.addTime.substring(11)}}</span>
               </li>
             </ul>
           </div>
@@ -166,10 +171,10 @@
                 <span class="lott-right-top4-span2">
                   <i>{{item.amount}}.00</i>
                 </span>
-                <span class="lott-right-top4-span3" :class="{'status': item.win === 0}" v-if="item.win === 0">
+                <span class="lott-right-top4-span3" :class="{'status': item.win === 0}"  v-if="item.statusName !== '已中奖'">
                   <i>{{item.statusName}}</i>
                 </span>
-                <span class="lott-right-top4-span3" v-if="item.win !== 0">
+                <span class="lott-right-top4-span3" v-else>
                   <i>{{item.win}}</i>
                 </span>
               </li>
@@ -230,65 +235,81 @@
   </div>
 </template>
 <script>
-import tool from "@/components/page/lotts/tool.vue"
+import tool from "@/components/page/lotts/tool.vue";
 import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      num:0,
-      left:0,
+      num: 0,
+      left: 0,
       sum: 0,
       navTo: 0,
       playNum: 0,
       zhu: 0,
-      money: 1,
-      con: null,
-      addTitle: "旱",
-      addCon: "1,2,3",
-      addPattern: "元",
-      addzhu: 0,
-      addMoney: 1,
-      productList: [
-        {
-          addTitle: "龙虎",
-          addCon: "1,2,3",
-          addPattern: "元",
-          addzhu: 1,
-          addMoney: 1
-        },
-        {
-          addTitle: "龙虎",
-          addCon: "1,2,3",
-          addPattern: "元",
-          addzhu: 2,
-          addMoney: 1
-        },
-        {
-          addTitle: "龙虎",
-          addCon: "1,2,3",
-          addPattern: "元",
-          addzhu: 3,
-          addMoney: 1
-        },
-      ],
-      arr:[],
+      spinner3: 0,
+      an: "",
+      bn: "",
+      cn: "",
+      dn: "",
+      en: "",
+      fn: "",
+      gn: "",
+      hn: "",
+      in: "",
+      jn: "",
+      con: "",
+      d: [], //选中的号码的下标
+      dd: [], //选中的号码的下标
+      ka: [], //选中的号码的下标
+      kb: [], //选中的号码的下标
+      kc: [], //选中的号码的下标
+      kd: [], //选中的号码的下标
+      ke: [], //选中的号码的下标
+      kf: [], //选中的号码的下标
+      kg: [], //选中的号码的下标
+      kh: [], //选中的号码的下标
+      ki: [], //选中的号码的下标
+      kj: [], //选中的号码的下标
+      productList: [],
+      pd: {
+        addTitle: "单挑一骰",
+        addCon: null,
+        addPattern: "元",
+        addzhu: 0,
+        addMoney: 0
+      },
+      addTitle: "单挑一骰",
+      d: [], //选中的号码的下标
+      dd: [], //选中的号码的下标
+      arr: [],
       butClass1: true,
       butClass2: false,
       animate: true,
       orderList: null,
       className: "pk10_side_lh", //玩法ID
       lottName: "北京赛车", //彩种名
+      arrLottId: [],
+      arrLottName: [],
       lotteryId: "pk10", //彩种id
       lottNameIndex: 0, //默认彩种
       winList: null, //中奖列表
       lotteryList: null,
-      getPastOpens:null,
+      getPastOpens: null,
+      getPastOpenB: null,
       playGroups: null, //玩法树
       playBonus: "", //玩法树
       bonusArray: [], //和值赔率
       playBonusId: "pk10_side_lh", //点击选中后获取此玩法ID
       current_player: {}, //當前玩法
       current_player_bonus: {}, //當前玩法
+      getCurrentSaleTime: null, //获取彩種當前獎期時間
+      today: "",
+      countDown: "",
+      timer: "",
+      lastSeasonId: null, //当前期
+      seasonId: null, //下一期
+      isshowGif: false,
+      nBox: [1, 3, 5, 7, 9, 2, 4, 6, 8, 10],
       displayBonus: 0,
       displayBonus1: 0,
       displayBonus2: 0,
@@ -550,7 +571,7 @@ export default {
           lotterylist: "广西快3",
           paths: require("../../../../static/images/8.jpg")
         }
-      ],
+      ]
     };
   },
   created() {
@@ -558,96 +579,780 @@ export default {
   },
   mounted() {
     this.getLastDayWinList();
-    this.getbetOrderList();
     this.lotteryAll();
     this.getPlayTree();
-    this.getPastOp();
+    this.geteServerTime();
   },
   methods: {
-    //大小单双全清
-    toolsCur(tools, item) {
-      if (Object.is(tools.fncode, "full")) {
-        this.full({ ball: item.nums });
-      } else if (Object.is(tools.fncode, "big")) {
-        this.big({ ball: item.nums });
-      } else if (Object.is(tools.fncode, "small")) {
-        this.small({ ball: item.nums });
-      } else if (Object.is(tools.fncode, "single")) {
-        this.single({ ball: item.nums });
-      } else if (Object.is(tools.fncode, "double")) {
-        this.double({ ball: item.nums });
-      } else {
-        this.empty({ ball: item.nums });
+    // 中间->投注选号
+    curBalls(item,index,list,indexf) {
+      if (list.chooseOne) {
+        list.balls.map(b => {
+          b.choose = false;
+        });
+      }
+      item.choose = !item.choose;
+      if(item.choose === true){
+        this.d[index] = item.ball;
+        this.dd = this.d.filter(function(n) {return n;});
+        this.zhu++;
+        this.pd.addTitle = this.addTitle;
+        this.pd.addCon = this.dd.join(",");
+        this.con = this.dd.join(",");
+        this.pd.addPattern = "元";
+        this.pd.addzhu = this.zhu;
+        this.pd.addMoney = this.spinner3;
+        this.pk10_boxjia(item,index,list,indexf);
+      }else{
+        this.d.splice(index, 1, "");
+        this.dd = this.d.filter(function(n) {return n;});
+        this.zhu--;
+        this.pd.addCon = this.dd.join(",");
+        this.pk10_boxjian(item,index,list,indexf);
+      }
+      
+    },
+    // ++++
+    pk10_boxjia(num,indexg,list,indexff) {
+      //两面盘，龙虎
+      if(this.className === "pk10_side_lh"){
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = "[1V10]" + this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = "[2V9]" + this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc[indexg] = num.ball;
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = "[3V8]" + this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd[indexg] = num.ball;
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = "[4V7]" + this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke[indexg] = num.ball;
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = "[5V6]" + this.dd.join("");
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.pd.addCon = this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+        this.con = this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+      }
+      //两面盘，大小
+      if (this.className === "pk10_side_ds") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc[indexg] = num.ball;
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd[indexg] = num.ball;
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke[indexg] = num.ball;
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (indexff === 5) {
+          this.kf[indexg] = num.ball;
+          this.dd = this.kf.filter(function(n) {return n;});
+          this.fn = this.dd.join("");
+        }
+        if (indexff === 6) {
+          this.kg[indexg] = num.ball;
+          this.dd = this.kg.filter(function(n) {return n;});
+          this.gn = this.dd.join("");
+        }
+        if (indexff === 7) {
+          this.kh[indexg] = num.ball;
+          this.dd = this.kh.filter(function(n) {return n;});
+          this.hn = this.dd.join("");
+        }
+        if (indexff === 8) {
+          this.ki[indexg] = num.ball;
+          this.dd = this.ki.filter(function(n) {return n;});
+          this.in = this.dd.join("");
+        }
+        if (indexff === 9) {
+          this.kj[indexg] = num.ball;
+          this.dd = this.kj.filter(function(n) {return n;});
+          this.jn = this.dd.join("");
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        if (this.fn === "") {
+          this.fn = "-";
+        }
+        if (this.gn === "") {
+          this.gn = "-";
+        }
+        if (this.hn === "") {
+          this.hn = "-";
+        }
+        if (this.in === "") {
+          this.in = "-";
+        }
+        if (this.jn === "") {
+          this.jn = "-";
+        }
+        this.pd.addCon = this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en +"," +this.fn +"," +this.gn +"," +this.hn +"," +this.in +"," +this.jn;
+        this.con = this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en +"," +this.fn +"," +this.gn +"," +this.hn +"," +this.in +"," +this.jn;
+      }
+      //定位胆，前五
+      if (this.className === "pk10_star1_dwd") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc[indexg] = num.ball;
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd[indexg] = num.ball;
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke[indexg] = num.ball;
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+      }
+      //定位胆，后五
+      if (this.className === "pk10_star1_dwd_last") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc[indexg] = num.ball;
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd[indexg] = num.ball;
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke[indexg] = num.ball;
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+      }
+      //前二，冠亚和
+      if (this.className === "pk10_star2_and") {
+        this.dd = this.d.filter(function(n) {return n;});
+        this.zhu = this.qianergyh(this.dd);
+      }
+      //前二、前三、前四、前五，复式
+      if (this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc[indexg] = num.ball;
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd[indexg] = num.ball;
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke[indexg] = num.ball;
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+        }
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc[indexg] = num.ball;
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd[indexg] = num.ball;
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke[indexg] = num.ball;
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.pd.addCon
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+        }
       }
     },
-    //添加号码栏
-    addNum() {
-      this.iscreat();
-      console.log(this.arr,this.productList)
-    },
-    //删除指定行
-    deleList(item,index) {
-      this.productList.splice(index,1);
-    },
-    //菜单选择项1
-    playGroupBut(item, index) {
-      this.navTo = index;
-      this.playNum = 0;
-      this.current_player = item;
-      this.current_player_bonus = item.groups[0].players[0];
-      this.className = this.current_player_bonus.id;
-      this.iscreat();
-    },
-    //菜单选择项2
-    playersBut(play, indexff) {
-      this.playNum = indexff;
-      this.current_player_bonus = play;
-      this.className = play.id;
-      this.displayBonus = play.displayBonus;
-      if (isNaN(this.displayBonus)) {
-        let ar = [];
-        ar = this.displayBonus.split("-");
-        this.displayBonus1 = Number(ar[0]);
-        this.displayBonus2 = Number(ar[1]);
-        this.displayBonus3 = this.displayBonus1 + "-" + this.displayBonus2;
+    // ----
+    pk10_boxjian(num,indexg,list,indexff) {
+      //两面盘，龙虎
+      if (this.className === "pk10_side_lh") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = "[1V10]" + this.dd.join("");
+          if (this.an == "" || this.an == "-" || this.an == "[1V10]") {
+            this.an = this.dd.join("");
+          }
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = "[2V9]" + this.dd.join("");
+          if (this.bn == "" || this.bn == "-" || this.bn == "[2V9]") {
+            this.bn = this.dd.join("");
+          }
+        }
+        if (indexff === 2) {
+          this.kc.splice(indexg, 1, "");
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = "[3V8]" + this.dd.join("");
+          if (this.cn == "" || this.cn == "-" || this.cn == "[3V8]") {
+            this.cn = this.dd.join("");
+          }
+        }
+        if (indexff === 3) {
+          this.kd.splice(indexg, 1, "");
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = "[4V7]" + this.dd.join("");
+          if (this.dn == "" || this.dn == "-" || this.dn == "[4V7]") {
+            this.dn = this.dd.join("");
+          }
+        }
+        if (indexff === 4) {
+          this.ke.splice(indexg, 1, "");
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = "[5V6]" + this.dd.join("");
+          if (this.en == "" || this.en == "-" || this.en == "[5V6]") {
+            this.en = this.dd.join("");
+          }
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
       }
-      this.iscreat();
+      //两面盘，大小
+      if (this.className === "pk10_side_ds") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc.splice(indexg, 1, "");
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd.splice(indexg, 1, "");
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke.splice(indexg, 1, "");
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (indexff === 5) {
+          this.kf.splice(indexg, 1, "");
+          this.dd = this.kf.filter(function(n) {return n;});
+          this.fn = this.dd.join("");
+        }
+        if (indexff === 6) {
+          this.kg.splice(indexg, 1, "");
+          this.dd = this.kg.filter(function(n) {return n;});
+          this.gn = this.dd.join("");
+        }
+        if (indexff === 7) {
+          this.kh.splice(indexg, 1, "");
+          this.dd = this.kh.filter(function(n) {return n;});
+          this.hn = this.dd.join("");
+        }
+        if (indexff === 8) {
+          this.ki.splice(indexg, 1, "");
+          this.dd = this.ki.filter(function(n) {return n;});
+          this.in = this.dd.join("");
+        }
+        if (indexff === 9) {
+          this.kj.splice(indexg, 1, "");
+          this.dd = this.kj.filter(function(n) {return n;});
+          this.jn = this.dd.join("");
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        if (this.fn === "") {
+          this.fn = "-";
+        }
+        if (this.gn === "") {
+          this.gn = "-";
+        }
+        if (this.hn === "") {
+          this.hn = "-";
+        }
+        if (this.in === "") {
+          this.in = "-";
+        }
+        if (this.jn === "") {
+          this.jn = "-";
+        }
+        this.pd.addCon  = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en + "," + this.fn + "," + this.gn + "," + this.hn + "," + this.in + "," + this.jn;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en + "," + this.fn + "," + this.gn + "," + this.hn + "," + this.in + "," + this.jn;
+      }
+      //定位胆，前五
+      if (this.className === "pk10_star1_dwd") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc.splice(indexg, 1, "");
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd.splice(indexg, 1, "");
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke.splice(indexg, 1, "");
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+      }
+      //定位胆，后五
+      if (this.className === "pk10_star1_dwd_last") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc.splice(indexg, 1, "");
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd.splice(indexg, 1, "");
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke.splice(indexg, 1, "");
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+      }
+      //前二，冠亚和
+      if (this.className === "pk10_star2_and") {
+        this.dd = this.d.filter(function(n) {return n;});
+        this.zhu = this.qianergyh(this.dd);
+      }
+      //前二，复式
+      if (
+        this.className === "pk10_star2" ||
+        this.className === "pk10_star3" ||
+        this.className === "pk10_star4" ||
+        this.className === "pk10_star5") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc.splice(indexg, 1, "");
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd.splice(indexg, 1, "");
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke.splice(indexg, 1, "");
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+        }
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (
+        this.className === "pk10_star2_dj" ||
+        this.className === "pk10_star3_dj" ||
+        this.className === "pk10_star4_dj" ||
+        this.className === "pk10_star5_dj") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
+        }
+        if (indexff === 2) {
+          this.kc.splice(indexg, 1, "");
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
+        }
+        if (indexff === 3) {
+          this.kd.splice(indexg, 1, "");
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
+        }
+        if (indexff === 4) {
+          this.ke.splice(indexg, 1, "");
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+        }
+      }
     },
     //玩法术
     getPlayTree() {
       var now = new Date().getTime();
-      if(localStorage.getItem("getPlayTree_playGroups_ssc") !== null ){
-        var setupTime = localStorage.getItem("data_getPlayTree_ssc");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
-          localStorage.removeItem("getPlayTree_playGroups_ssc");
-          localStorage.removeItem("getPlayTree_playBonus_ssc");
-          localStorage.removeItem("data_getPlayTree_ssc");
-          this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId).then(res =>{
-          localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(res.data.data.playGroups));
-          localStorage.setItem("getPlayTree_playBonus_ssc",JSON.stringify(res.data.data.playBonus));
-          localStorage.setItem("data_getPlayTree_ssc",now);
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
-          this.setupPlayTree();
-        }).catch(error =>{
-          console.log("玩法术,No");
-        });
-        }else{
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
+      if (localStorage.getItem("getPlayTree_playGroups_pk10") !== null) {
+        var setupTime = localStorage.getItem("data_getPlayTree_pk10");
+        if (
+          setupTime === null ||
+          now - setupTime > this.$store.state.cacheTime
+        ) {
+          localStorage.removeItem("getPlayTree_playGroups_pk10");
+          localStorage.removeItem("getPlayTree_playBonus_pk10");
+          localStorage.removeItem("data_getPlayTree_pk10");
+          this.$axios
+            .get(
+              baseUrl + "/api/lottery/getPlayTree?lotteryId=" + this.lotteryId
+            )
+            .then(res => {
+              localStorage.setItem(
+                "getPlayTree_playGroups_pk10",
+                JSON.stringify(res.data.data.playGroups)
+              );
+              localStorage.setItem(
+                "getPlayTree_playBonus_pk10",
+                JSON.stringify(res.data.data.playBonus)
+              );
+              localStorage.setItem("data_getPlayTree_pk10", now);
+              this.playGroups = JSON.parse(
+                localStorage.getItem("getPlayTree_playGroups_pk10")
+              );
+              this.playBonus = JSON.parse(
+                localStorage.getItem("getPlayTree_playBonus_pk10")
+              );
+              this.setupPlayTree();
+            })
+            .catch(error => {
+              console.log("玩法术,No");
+            });
+        } else {
+          this.playGroups = JSON.parse(
+            localStorage.getItem("getPlayTree_playGroups_pk10")
+          );
+          this.playBonus = JSON.parse(
+            localStorage.getItem("getPlayTree_playBonus_pk10")
+          );
           this.setupPlayTree();
         }
-      }else{
-        this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId).then(res =>{
-          localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(res.data.data.playGroups));
-          localStorage.setItem("getPlayTree_playBonus_ssc",JSON.stringify(res.data.data.playBonus));
-          localStorage.setItem("data_getPlayTree_ssc",now);
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
-          this.setupPlayTree();
-        }).catch(error =>{
-          console.log("玩法术,No");
-        });
+      } else {
+        this.$axios
+          .get(baseUrl + "/api/lottery/getPlayTree?lotteryId=" + this.lotteryId)
+          .then(res => {
+            localStorage.setItem(
+              "getPlayTree_playGroups_pk10",
+              JSON.stringify(res.data.data.playGroups)
+            );
+            localStorage.setItem(
+              "getPlayTree_playBonus_pk10",
+              JSON.stringify(res.data.data.playBonus)
+            );
+            localStorage.setItem("data_getPlayTree_pk10", now);
+            this.playGroups = JSON.parse(
+              localStorage.getItem("getPlayTree_playGroups_pk10")
+            );
+            this.playBonus = JSON.parse(
+              localStorage.getItem("getPlayTree_playBonus_pk10")
+            );
+            this.setupPlayTree();
+          })
+          .catch(error => {
+            console.log("玩法术,No");
+          });
       }
     },
     setupPlayTree() {
@@ -674,16 +1379,76 @@ export default {
       }
       this.displayBonus = this.splayers[0][0].displayBonus;
     },
+    //立即投注
+    betGo() {
+      let formData = new FormData();
+      formData.append("order[0].content", this.con);
+      formData.append("order[0].betCount", this.zhu);
+      formData.append("order[0].price", this.spinner3);
+      formData.append("order[0].unit", 1);
+      formData.append("order[0].playId", this.className);
+      formData.append("count", this.zhu);
+      formData.append("traceOrders[0].price", this.spinner3);
+      formData.append("traceOrders[0].seasonId", this.seasonId);
+      formData.append("bounsType", 0);
+      formData.append("traceWinStop", 0);
+      formData.append("isTrace", 0);
+      formData.append("lotteryId", this.$route.params.lotteryId);
+      formData.append("amount", this.spinner3 * this.zhu);
+      this.$axios
+        .post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config)
+        .then(res => {
+          if (res.data.message === "success") {
+            this.getbetOrderList();
+            this.iscreat();
+            console.warn("投注成功");
+          } else {
+            this.iscreat();
+            console.warn(res.data.data);
+          }
+        })
+        .catch(error => {
+          console.log("立即投注,No");
+        });
+    },
     //导航点击
     lottListNav(item, index) {
+      this.arrLottName.indexOf();
       this.lottName = item.name;
       this.lottNameIndex = index;
-      this.lotteryId = item.id;
+      this.$router.push("/lotts/pk10/" + item.id);
       this.getPlayTree();
+      this.getPastOp();
+      this.geteServerTime();
     },
     //清空
     iscreat() {
+      this.d = [];
+      this.dd = [];
+      this.ka = [];
+      this.kb = [];
+      this.kc = [];
+      this.kd = [];
+      this.ke = [];
+      this.kf = [];
+      this.kg = [];
+      this.kh = [];
+      this.ki = [];
+      this.kj = [];
+      this.an = "";
+      this.bn = "";
+      this.cn = "";
+      this.dn = "";
+      this.en = "";
+      this.fn = "";
+      this.gn = "";
+      this.hn = "";
+      this.in = "";
+      this.jn = "";
+      this.con = [];
       this.zhu = 0;
+      this.pd = {};
+      this.spinner3 = 0;
       for (let h = 0; h < this.snumView.length; h++) {
         if (null != this.snumView[h]) {
           for (let j = 0; j < this.snumView[h].length; j++) {
@@ -694,105 +1459,100 @@ export default {
         }
       }
     },
-    // 如果只能选择一个球
-    curBalls(item, list) {
-      if (list.chooseOne) {
-        list.balls.map(b => {
-          b.choose = false;
-        });
-      }
-      item.choose = !item.choose;
-      this.zhu++;
-    },
-    //全
-    full({ ball }) {
-      this.empty({ ball });
-      ball.filter(list => {
-        list.choose = true;
-      });
-    },
-    //大
-    big({ ball }) {
-      this.empty({ ball });
-      let len = Math.ceil(ball.length / 2);
-      ball.filter((list, idx) => {
-        if (idx >= len) {
-          list.choose = true;
-        }
-      });
-    },
-    //小
-    small({ ball }) {
-      this.empty({ ball });
-      let len = Math.ceil(ball.length / 2);
-      ball.filter((list, idx) => {
-        if (idx < len) {
-          list.choose = true;
-        }
-      });
-    },
-    //单
-    single({ ball }) {
-      this.empty({ ball });
-      ball.filter(list => {
-        if (list.ball % 2 === 0) {
-          list.choose = true;
-        }
-      });
-    },
-    //双
-    double({ ball }) {
-      this.empty({ ball });
-      ball.filter(list => {
-        if (list.ball % 2 === 1) {
-          list.choose = true;
-        }
-      });
-    },
-    //清
-    empty({ ball }) {
-      ball.filter(list => {
-        list.choose = false;
-      });
-    },
     // 获取彩种
     lotteryAll() {
       var now = new Date().getTime();
-      if(localStorage.getItem("lotteryAll_pk10") !== null){
+      if (localStorage.getItem("lotteryAll_pk10") !== null) {
         var setupTime = localStorage.getItem("data_lotteryAll_pk10");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+        if (
+          setupTime === null ||
+          now - setupTime > this.$store.state.cacheTime
+        ) {
           localStorage.removeItem("lotteryAll_pk10");
           localStorage.removeItem("data_lotteryAll_pk10");
-          this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-            localStorage.setItem("lotteryAll_pk10",JSON.stringify(res.data.data.pk10));
-            this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_pk10"));
-            localStorage.setItem("data_lotteryAll_pk10",now);
+          this.$axios
+            .get(baseUrl + "/api/lottery/getLotteryList")
+            .then(res => {
+              localStorage.setItem(
+                "lotteryAll_pk10",
+                JSON.stringify(res.data.data.pk10)
+              );
+              this.lotteryList = JSON.parse(
+                localStorage.getItem("lotteryAll_pk10")
+              );
+              localStorage.setItem("data_lotteryAll_pk10", now);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        } else {
+          this.lotteryList = JSON.parse(
+            localStorage.getItem("lotteryAll_pk10")
+          );
+          this.lotteryList.map(k => {
+            this.arrLottId.push(k.id);
+            this.arrLottName.push(k.name);
+          });
+          this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.lotteryId);
+          if (this.lottNameIndex > 5) {
+            this.left = -200;
+          }
+        }
+      } else {
+        this.$axios
+          .get(baseUrl + "/api/lottery/getLotteryList")
+          .then(res => {
+            localStorage.setItem(
+              "lotteryAll_pk10",
+              JSON.stringify(res.data.data.pk10)
+            );
+            this.lotteryList = JSON.parse(
+              localStorage.getItem("lotteryAll_pk10")
+            );
+            localStorage.setItem("data_lotteryAll_pk10", now);
           })
           .catch(error => {
             console.log(error);
           });
-        }else{
-          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_pk10"));
-        }
-      }else{
-        this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-          localStorage.setItem("lotteryAll_pk10",JSON.stringify(res.data.data.pk10));
-          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_pk10"));
-          localStorage.setItem("data_lotteryAll_pk10",now);
-        })
-        .catch(error => {
-          console.log(error);
-        });
       }
     },
     //获取过去开奖号码10个
-    getPastOp() { 
-      this.$axios.get(baseUrl + "/api/lottery/getPastOpen", {params: { lotteryId: this.lotteryId, count: 10 }}).then(res => {
-        this.getPastOpens = res.data.data;
-      })
-      .catch(error => {
-        console.log("获取过去开奖号码No");
-      });
+    getPastOp() {
+      this.$axios
+        .get(baseUrl + "/api/lottery/getPastOpen", {
+          params: { lotteryId: this.$route.params.lotteryId, count: 10 }
+        })
+        .then(res => {
+          this.getPastOpens = res.data.data;
+          this.getPastOpenB = res.data.data;
+          this.nBox[0] = this.getPastOpens[0].n1;
+          this.nBox[1] = this.getPastOpens[0].n2;
+          this.nBox[2] = this.getPastOpens[0].n3;
+          this.nBox[3] = this.getPastOpens[0].n4;
+          this.nBox[4] = this.getPastOpens[0].n5;
+          this.nBox[5] = this.getPastOpens[0].n6;
+          this.nBox[6] = this.getPastOpens[0].n7;
+          this.nBox[7] = this.getPastOpens[0].n8;
+          this.nBox[8] = this.getPastOpens[0].n9;
+          this.nBox[9] = this.getPastOpens[0].n10;
+          if (Number(res.data.data[0].seasonId) !== Number(this.lastSeasonId)) {
+            this.isshowGif = true;
+            this.reGetPastOp();
+          } else {
+            clearTimeout(this.timer2);
+            this.isshowGif = false;
+            this.getbetOrderList();
+          }
+        })
+        .catch(error => {
+          console.log("获取过去开奖号码No");
+        });
+    },
+    reGetPastOp() {
+      clearTimeout(this.timer2);
+      this.timer2 = setTimeout(() => {
+        this.getPastOp();
+      }, 12000);
     },
     //我的投注
     getbetOrderList() {
@@ -810,6 +1570,70 @@ export default {
           console.log("获取投注记录失败");
         });
     },
+    //获取彩種當前獎期時間
+    geteServerTime() {
+      clearInterval(this.timer);
+      this.$axios
+        .get(baseUrl + "/api/lottery/getCurrentSaleTime", {
+          params: { lotteryId: this.$route.params.lotteryId }
+        })
+        .then(res => {
+          this.getCurrentSaleTime = res.data.data;
+          this.today = res.data.data.restSeconds;
+          this.lastSeasonId = this.getCurrentSaleTime.lastSeasonId;
+          this.seasonId = this.getCurrentSaleTime.seasonId;
+          this.initSetTimeout();
+          this.getPastOp();
+        });
+    },
+    //倒计时
+    initSetTimeout() {
+      this.timer = setInterval(() => {
+        this.today = this.today - 1;
+        this.setTimeMode();
+        if (this.today < 1) {
+          clearInterval(this.timer);
+          this.timesUp();
+        }
+        if (
+          this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
+          this.today === 47
+        ) {
+          this.getPastOp();
+        } else if (
+          this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
+          this.today === 46
+        ) {
+          this.getPastOp();
+        } else if (
+          this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
+          this.today === 45
+        ) {
+          this.getPastOp();
+        }
+      }, 1000);
+    },
+    //時間格式轉換
+    setTimeMode() {
+      var hours = Math.floor((this.today % (1 * 60 * 60 * 24)) / (1 * 60 * 60));
+      var minutes = Math.floor((this.today % (1 * 60 * 60)) / (1 * 60));
+      var seconds = Math.floor((this.today % (1 * 60)) / 1);
+      if (hours < 10) {
+        hours = "0" + hours;
+      }
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+      this.countDown = hours + ":" + minutes + ":" + seconds;
+    },
+    //時間到彈窗
+    timesUp() {
+      this.isshowGif = true;
+      this.geteServerTime();
+    },
     //中奖信息
     butClass1C() {
       this.butClass2 = false;
@@ -823,31 +1647,48 @@ export default {
     // 获取昨日盈利榜单
     getLastDayWinList() {
       var now = new Date().getTime();
-      if(localStorage.getItem("getLastDayWinList") !== null){
+      if (localStorage.getItem("getLastDayWinList") !== null) {
         var setupTime = localStorage.getItem("data_getLastDayWinList");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+        if (
+          setupTime === null ||
+          now - setupTime > this.$store.state.cacheTime
+        ) {
           localStorage.removeItem("getLastDayWinList");
           localStorage.removeItem("data_getLastDayWinList");
-          this.$axios.get(baseUrl + "/api/lottery/getLastDayWinList").then(res => {
-            localStorage.setItem("getLastDayWinList",JSON.stringify(res.data.data));
-            this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
-            localStorage.setItem("data_getLastDayWinList",now);
+          this.$axios
+            .get(baseUrl + "/api/lottery/getLastDayWinList")
+            .then(res => {
+              localStorage.setItem(
+                "getLastDayWinList",
+                JSON.stringify(res.data.data)
+              );
+              this.winList = JSON.parse(
+                localStorage.getItem("getLastDayWinList")
+              );
+              localStorage.setItem("data_getLastDayWinList", now);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        } else {
+          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
+        }
+      } else {
+        this.$axios
+          .get(baseUrl + "/api/lottery/getLastDayWinList")
+          .then(res => {
+            localStorage.setItem(
+              "getLastDayWinList",
+              JSON.stringify(res.data.data)
+            );
+            this.winList = JSON.parse(
+              localStorage.getItem("getLastDayWinList")
+            );
+            localStorage.setItem("data_getLastDayWinList", now);
           })
           .catch(error => {
             console.log(error);
           });
-        }else{
-          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
-        }
-      }else{
-        this.$axios.get(baseUrl + "/api/lottery/getLastDayWinList").then(res => {
-          localStorage.setItem("getLastDayWinList",JSON.stringify(res.data.data));
-          this.winList = JSON.parse(localStorage.getItem("getLastDayWinList"));
-          localStorage.setItem("data_getLastDayWinList",now);
-        })
-        .catch(error => {
-          console.log(error);
-        });
       }
     },
     //滚动动画
@@ -859,36 +1700,135 @@ export default {
         this.animate = !this.animate;
       }, 0);
     },
-    //导航左边点击
-    lottnavleft(){
+    //菜单选择项1
+    playGroupBut(item, index) {
+      this.navTo = index;
+      this.playNum = 0;
+      this.current_player = item;
+      this.current_player_bonus = item.groups[0].players[0];
+      this.className = this.current_player_bonus.id;
+      this.iscreat();
+      console.log(this.className);
+    },
+    //菜单选择项2
+    playersBut(play, indexff) {
+      this.playNum = indexff;
+      this.current_player_bonus = play;
+      this.className = play.id;
+      this.displayBonus = play.displayBonus;
+      if (isNaN(this.displayBonus)) {
+        let ar = [];
+        ar = this.displayBonus.split("-");
+        this.displayBonus1 = Number(ar[0]);
+        this.displayBonus2 = Number(ar[1]);
+        this.displayBonus3 = this.displayBonus1 + "-" + this.displayBonus2;
+      }
+      this.iscreat();
+      console.log(play.id)
+    },
+    //导航右边点击
+    lottnavright() {
       let box = this.$refs.lottnavbox.offsetWidth;
       let ul = this.$refs.lottnavUl.offsetWidth;
       let li = this.$refs.lottnavLi[0].offsetWidth;
-      if((this.num*li +box) < ul){
-        this.num ++;
-        if(ul > box){
-          this.left = -(this.num * li)
+      if (this.num * li + box < ul) {
+        this.num++;
+        if (ul > box) {
+          this.left = -(this.num * li);
         }
-      }else if((this.num*li +box) > ul){
+      } else if (this.num * li + box > ul) {
         this.num = this.num;
       }
     },
-    //导航右边点击
-    lottnavright(){
+    //导航左边点击
+    lottnavleft() {
       let box = this.$refs.lottnavbox.offsetWidth;
       let ul = this.$refs.lottnavUl.offsetWidth;
       let li = this.$refs.lottnavLi[0].offsetWidth;
-      if(this.num > 0){
-        this.num --;
-        if(ul > box){
-          this.left = -(this.num * li)
+      if (this.left < 0) {
+        this.num = parseInt(this.left / 100 * -1);
+      }
+      if (this.num > 0) {
+        this.num--;
+        if (ul > box) {
+          this.left = -(this.num * li);
         }
-      }else if((this.num*li +box) > ul){
+      } else if (this.num * li + box > ul) {
         this.num = 0;
       }
     },
+    //添加号码栏
+    addNum() {
+      this.pd.addMoney = this.spinner3;
+      this.productList.unshift(this.pd);
+      this.pd = {};
+      this.d = [];
+      this.iscreat();
+    },
+    //删除指定行
+    deleList(item, index) {
+      this.productList.splice(index, 1);
+    },
+    //前二-冠亚和
+    qianergyh(bets) {
+      let betCount = [2, 2, 4, 4, 6, 6, 8, 8, 10, 8, 8, 6, 6, 4, 4, 2, 2];
+      let count = 0;
+      for (let i = 0; i < bets.length; i++) {
+        let a = bets[i];
+        count += betCount[a - 3];
+      }
+      return count;
+    },
+    //公用
+    toListByLength(str, len) {
+      let line = [];
+      if (str !== "-" || str !== "") {
+        for (let i = 0; i < str.length; i += len) {
+          line.push(str.substring(i, i + len));
+        }
+      }
+      return line;
+    },
+    getCountall(lines) {
+      return this.getCountCached(lines, 0, lines.length, new Set());
+    },
+    getCountCached(lines, index, allSize, cache) {
+      let line = lines[index];
+      let size = line.length;
+      let count = 0;
+      for (let i = 0; i < size; i++) {
+        let n = line[i];
+        if (!cache.has(n)) {
+          if (index + 1 < allSize) {
+            cache.add(n);
+            count += this.getCountCached(lines, index + 1, allSize, cache);
+            cache.delete(n);
+          } else {
+            count++;
+          }
+        }
+      }
+      return count;
+    },
+    //复式
+    fushi(bets, zhu) {
+      if (bets.length != zhu) {
+        return 0;
+      }
+      let all = [];
+      for (let i = 0; i < bets.length; i++) {
+        let n = this.toListByLength(bets[i], 2);
+        all.push(n);
+      }
+      let count = this.getCountall(all);
+      return count;
+    },
+    //清空
+    exit() {
+      this.productList = [];
+    },
   },
-  components:{
+  components: {
     tool
   },
   filters: {

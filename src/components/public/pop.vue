@@ -1,12 +1,15 @@
 <template>
-  <div class="pop" v-show="true">
-    <ul class="loginSuccess">
-      <li>{{title}}</li>
-      <li>
+  <div class="pop" v-show="openSimple" @click="openSimple = false">
+    <ul class="loginSuccess num1" v-if="number ===1">
+      <li class="title">{{title}}</li>
+      <li class="content">
         <h4>{{content}}</h4>
         <p>欢迎您，来到宏發娱乐！</p>
       </li>
-      <li><button class="logoAffirm" @click="closeSimpleDialog">确认</button></li>
+      <li class="button"><button class="logoAffirm" @click="closeSimpleDialog">确认</button></li>
+    </ul>
+    <ul class="loginSuccess num2" v-if="number ===2">
+      <li class="content">{{content}}</li>
     </ul>
   </div>
 </template>
@@ -15,19 +18,30 @@ export default {
   data() {
     return {
       openSimple: false,
-      title:'温馨提示！',
-      content: "欢迎您，来到宏發娱乐！"
     };
   },
-  methods: {
-    //登陆成功
-    openSimpleDialog() {
-      this.openSimple = !this.openSimple;
-      this.content = '登陆成功';
+  props:{
+    title:{
+      type:String
     },
-    //关闭登陆成功窗口
+    content:{
+      type:String
+    },
+    number:{
+      type:Number
+    }
+  },
+  methods: {
     closeSimpleDialog() {
-      this.openSimple = false;
+      this.openSimple = !this.openSimple;
+    },
+    //3秒后自动关闭
+    three(){
+      if(this.num === 2){
+        setTimeout(() =>{
+          this.openSimple = false;
+        },3000)
+      }
     }
   }
 };
@@ -39,26 +53,22 @@ export default {
   top: 0px;
   left: 0px;
   z-index: 20180608;
-  // background: rgba(0, 0, 0, 0.1);
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color:rgba(0,0,0,.4);
   & ul{
     min-width: 300px;
     max-width: 500px;
-    min-height:160px;
     max-height:400px;
     background: #FFF;
     border-radius: 4px;
     @extend %flex;
     @extend %fdc;
     @extend %sbetween;
-    & li{
-      border: 1px solid #ddd;
-    }
-    & li:nth-child(1){
+    & .title{
       @extend %faj;
       background: #AF3A31;
       color: #fff;
@@ -68,14 +78,13 @@ export default {
       border-radius: 4px 4px 0px 0px;
       border-bottom: 0px solid #ddd;
     }
-    & li:nth-child(2){
+    & .content{
       min-height: 118px;
-      padding: 4px 10px;
     }
-    & li:nth-child(3){
+    & .button{
       @extend %flex;
       @extend %sbetween;
-      border-top: 0px solid #ddd;
+      border-top: 1px solid #ddd;
       & button{
         width: 100%;
         @extend %faj;
@@ -100,6 +109,12 @@ export default {
       height: 70px;
       @extend %faj;
     }
+  }
+}
+.num1{}
+.num2{
+  & li{
+    @extend %faj;
   }
 }
 </style>

@@ -68,7 +68,7 @@ export default new Router({
           }
         },
         {
-          path: '/lotts/k3',
+          path: '/lotts/k3/:lotteryId',
           name: 'k3',
           component: k3,
           meta: {
@@ -76,7 +76,7 @@ export default new Router({
           }
         },
         {
-          path: '/lotts/ssc',
+          path: '/lotts/ssc/:lotteryId',
           name: 'ssc',
           component: ssc,
           meta: {
@@ -84,7 +84,7 @@ export default new Router({
           }
         },
         {
-          path: '/lotts/pk10',
+          path: '/lotts/pk10/:lotteryId',
           name: 'pk10',
           component: pk10,
           meta: {

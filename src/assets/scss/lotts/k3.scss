@@ -9,6 +9,7 @@
   width: 100%;
   @for $i from 1 through 6 {
     & .k3_star1:nth-child(#{$i}) {
+      cursor: pointer;
       border: 1px solid #EFF0F4;
       border-radius: 10px;
       margin: 0px 4px;
@@ -30,6 +31,7 @@
 //二不同
 .conterBut.conterButk3_star2_same_not {
   padding: 36px 0px;
+  cursor: pointer;
   & .k3_star2_same_notBox {
     @extend %faj;
     min-height: 40px;
@@ -288,6 +290,7 @@
   @extend %faj;
   padding: 20px 0px 30px;
   & .k3_star2_sameBox:nth-child(1) {
+    cursor: pointer;
     & .k3_star2_same:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -370,6 +373,7 @@
     }
     & .k3_star2_sameAll {
       @extend %faj;
+      cursor: pointer;
       & span {
         @extend %flex;
         margin: 2px 2px;
@@ -381,6 +385,7 @@
     }
   }
   & .k3_star2_sameBox:nth-child(2) {
+    cursor: pointer;
     & .k3_star2_same:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -463,17 +468,19 @@
     }
     & .k3_star2_sameAll {
       @extend %faj;
+      cursor: pointer;
       & span {
         @extend %flex;
         margin: 2px 2px;
         width: 60px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px;
         background-size: 26px 26px;
       }
     }
   }
   & .k3_star2_sameBox:nth-child(3) {
+    cursor: pointer;
     & .k3_star2_same:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -484,7 +491,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -498,7 +505,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -512,7 +519,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -526,7 +533,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -540,7 +547,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -556,17 +563,19 @@
     }
     & .k3_star2_sameAll {
       @extend %faj;
+      cursor: pointer;
       & span {
         @extend %flex;
         margin: 2px 2px;
         width: 60px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px;
         background-size: 26px 26px;
       }
     }
   }
   & .k3_star2_sameBox:nth-child(4) {
+    cursor: pointer;
     & .k3_star2_same:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -577,7 +586,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -591,7 +600,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -605,7 +614,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -619,7 +628,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -633,7 +642,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -649,17 +658,19 @@
     }
     & .k3_star2_sameAll {
       @extend %faj;
+      cursor: pointer;
       & span {
         @extend %flex;
         margin: 2px 2px;
         width: 60px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px;
         background-size: 26px 26px;
       }
     }
   }
   & .k3_star2_sameBox:nth-child(5) {
+    cursor: pointer;
     & .k3_star2_same:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -670,7 +681,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -684,7 +695,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -698,7 +709,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -712,7 +723,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -726,7 +737,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -742,17 +753,19 @@
     }
     & .k3_star2_sameAll {
       @extend %faj;
+      cursor: pointer;
       & span {
         @extend %flex;
         margin: 2px 2px;
         width: 60px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px;
         background-size: 26px 26px;
       }
     }
   }
   & .k3_star2_sameBox:nth-child(6) {
+    cursor: pointer;
     & .k3_star2_same:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -763,7 +776,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -777,7 +790,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -791,7 +804,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -805,7 +818,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -819,7 +832,7 @@
         margin: 2px 2px;
         width: 88px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
         background-size: 26px 26px;
       }
     }
@@ -835,12 +848,13 @@
     }
     & .k3_star2_sameAll {
       @extend %faj;
+      cursor: pointer;
       & span {
         @extend %flex;
         margin: 2px 2px;
         width: 60px;
         height: 26px;
-        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px;
         background-size: 26px 26px;
       }
     }
@@ -893,6 +907,7 @@
   @extend %faj;
   & .k3_star3_linkBox {
     @extend %faj;
+    cursor: pointer;
     & .k3_star3_link:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -968,6 +983,7 @@
   %fdc;
   & .k3_star3_same_notBox:nth-child(1) {
     @extend %faj;
+    cursor: pointer;
     & .k3_star3_same_not:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -1051,6 +1067,7 @@
   }
   & .k3_star3_same_notBox:nth-child(2) {
     @extend %faj;
+    cursor: pointer;
     & .k3_star3_same_not:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -1134,6 +1151,7 @@
   }
   & .k3_star3_same_notBox:nth-child(3) {
     @extend %faj;
+    cursor: pointer;
     & .k3_star3_same_not:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -1217,6 +1235,7 @@
   }
   & .k3_star3_same_notBox:nth-child(4) {
     @extend %faj;
+    cursor: pointer;
     & .k3_star3_same_not:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -1307,6 +1326,7 @@
   & .k3_star3_sameBox:nth-child(1) {
     min-height: 45px;
     @extend %faj;
+    cursor: pointer;
     & .k3_star3_same:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;
@@ -1363,6 +1383,7 @@
   & .k3_star3_sameBox:nth-child(2) {
     min-height: 45px;
     @extend %faj;
+    cursor: pointer;
     & .k3_star3_same:nth-child(1) {
       @extend %flex;
       border: 1px solid #EFF0F4;

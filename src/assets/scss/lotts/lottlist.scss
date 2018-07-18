@@ -497,10 +497,32 @@
   width: 108px;
 }
 
+.lott-right-top2-span1.pk10 {
+  @extend %faj;
+  width: 60px;
+}
 .lott-right-top2-span2 {
   @extend %faj;
   width: 50px;
   & i {
+    margin: 0px 2px;
+    color: #ff9600;
+  }
+}
+.lott-right-top2-span2.ssc {
+  @extend %faj;
+  width: 80px;
+  & i {
+    margin: 0px 2px;
+    color: #ff9600;
+  }
+}
+.lott-right-top2-span2.pk10 {
+  @extend %faj;
+  width: 128px;
+  overflow: hidden;
+  & i {
+    margin: 0px 2px;
     color: #ff9600;
   }
 }
@@ -510,6 +532,14 @@
   width: 33px;
 }
 
+.lott-right-top2-span3.ssc {
+  @extend %faj;
+  width: 70px;
+}
+.lott-right-top2-span3.pk10 {
+  @extend %faj;
+  width: 70px;
+}
 .lott-right-top2-span4 {
   @extend %faj;
   width: 66px;

@@ -4,11 +4,10 @@
     GeminiScrollbar.my-scroll-bar(style="height:462px;width:232px;")
       .lotteList
         ul
-          li(:class="{'active': index === navNum}", v-for='(nav,index) in lotteryList', :key='index') 
-            router-link(:to='"/lotts/"+nav.groupId')
-              img(:class="nav.toF5money ? 'totransition' : ''", :src='"@/assets/img/lott/"+nav.groupId+".png"',@mouseover="selectStyle(nav)", @mouseout="outStyle(nav)" alt='') 
-              {{nav.name}}
-              span 1分钟1期
+          li(:class="{'active': index === navNum}", v-for='(nav,index) in lotteryList', :key='index', @click="lotteryTo(nav,index)") 
+            img(:class="nav.toF5money ? 'totransition' : ''", :src='"@/assets/img/lott/"+nav.groupId+".png"',@mouseover="selectStyle(nav)", @mouseout="outStyle(nav)" alt='') 
+            {{nav.name}}
+            span 1分钟1期
     .homeSideCenter
       .banner
         .bannerBox
@@ -356,6 +355,9 @@ export default {
     this.getLastDayWinList();
   },
   methods: {
+    lotteryTo(item,index){
+      this.$router.push('/lotts/'+item.groupId+'/'+item.id);
+    },
     selectStyle(item) {
       this.$nextTick(() => {
         this.$set(item, "toF5money", true);
@@ -388,9 +390,9 @@ export default {
     },
     gotBet() {
       if (this.lotteryId != "cqssc") {
-        this.$router.push({ path: "/lotts/k3" });
+        this.$router.push("/lotts/k3/"+this.lotteryId);
       } else {
-        this.$router.push({ path: "/lotts/ssc" });
+        this.$router.push("/lotts/ssc/"+this.lotteryId);
       }
     },
     //过期判断
