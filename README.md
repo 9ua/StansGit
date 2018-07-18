@@ -154,3 +154,20 @@
 		this.$loader.show();
 	手动关闭
 		this.$loader.hide();
+
+# 弹窗 #
+
+	<pop ref="pop" :title="title" :content="content" :content1="content1" :content2="content2" :number="number"></pop>
+	
+	import pop from '../../public/pop.vue';
+
+	title:'',
+	content:'',
+	content1:'',
+	content2:'',
+	number:null,
+
+	this.$refs.pop.closeSimpleDialog();
+	this.content = '哈哈哈哈'
+	this.number = 2;
+

@@ -10,7 +10,6 @@ const activity = r => require.ensure([], () => r(require('@/components/page/acti
 const appdown = r => require.ensure([], () => r(require('@/components/page/appdown.vue')), 'appdown')
 const helpcenter = r => require.ensure([], () => r(require('@/components/page/helpcenter.vue')), 'helpcenter')
 const login = r => require.ensure([], () => r(require('@/components/logins/login.vue')), 'login')
-const pop = r => require.ensure([], () => r(require('@/components/public/pop.vue')), 'pop')
 const user = r => require.ensure([], () => r(require('@/components/page/user.vue')), 'user')
 const userinfo = r => require.ensure([], () => r(require('@/components/page/user/userinfo.vue')), 'userinfo')
 const securityCenter = r => require.ensure([], () => r(require('@/components/page/user/securityCenter.vue')), 'securityCenter')
@@ -71,7 +70,7 @@ export default new Router({
           name: 'k3',
           component: k3,
           meta: {
-            title: "宏發娱乐-彩票大厅-快3"
+            title: "宏發娱乐-彩票大厅"
           }
         },
         {
@@ -79,7 +78,7 @@ export default new Router({
           name: 'ssc',
           component: ssc,
           meta: {
-            title: "宏發娱乐-彩票大厅-时时彩"
+            title: "宏發娱乐-彩票大厅"
           }
         },
         {
@@ -87,7 +86,7 @@ export default new Router({
           name: 'pk10',
           component: pk10,
           meta: {
-            title: "宏發娱乐-彩票大厅-北京赛车"
+            title: "宏發娱乐-彩票大厅"
           }
         },
         {

@@ -6,16 +6,19 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from './vuex/store'
-import MuseUI from 'muse-ui';
-import 'muse-ui/dist/muse-ui.css';
-import theme from 'muse-ui/lib/theme';
-import md5 from 'js-md5';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import YDUI from 'vue-ydui';
-import 'vue-ydui/dist/ydui.px.css';
+import MuseUI from 'muse-ui'
+import 'muse-ui/dist/muse-ui.css'
+import theme from 'muse-ui/lib/theme'
+import md5 from 'js-md5'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import YDUI from 'vue-ydui'
+import 'vue-ydui/dist/ydui.px.css'
 import GeminiScrollbar from 'vue-gemini-scrollbar'
 import Loading from "./components/loading/index"
+import popTo from "./components/loading/pop"
+
+Vue.use(popTo);
 Vue.use(Loading);
 Vue.use(GeminiScrollbar)
 Vue.use(YDUI);
@@ -51,6 +54,7 @@ let needLoadingRequestCount = 0
 export function showFullScreenLoading() {
   if (needLoadingRequestCount === 0) {
     Vue.prototype.$loader.show();
+    Vue.prototype.$pop.show();
   }
   needLoadingRequestCount++
 }
@@ -60,6 +64,7 @@ export function tryHideFullScreenLoading() {
   needLoadingRequestCount--
   if (needLoadingRequestCount === 0) {
     Vue.prototype.$loader.hide();
+    Vue.prototype.$pop.hide();
   }
 }
 //http request 拦截器

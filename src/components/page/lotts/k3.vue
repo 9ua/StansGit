@@ -237,11 +237,9 @@
         </div>
       </div>
     </div>
-    <pop ref="pop" :title="title" :content="content" :number="number"></pop>
   </div>
 </template>
 <script>
-import pop from '../../public/pop.vue';
 import star from "@/components/page/lotts/star2.vue";
 import { baseUrl } from "../../../assets/js/env";
 export default {
@@ -249,6 +247,8 @@ export default {
     return {
       title:'',
       content:'',
+      content1:'',
+      content2:'',
       number:null,
       isshowPop:false,
       num: 0,
@@ -827,35 +827,48 @@ export default {
     },
     //立即投注
     betGo() {
-      let formData = new FormData();
-      formData.append("order[0].content", this.con);
-      formData.append("order[0].betCount", this.zhu);
-      formData.append("order[0].price", this.spinner3);
-      formData.append("order[0].unit", 1);
-      formData.append("order[0].playId", this.className);
-      formData.append("count", this.zhu);
-      formData.append("traceOrders[0].price", this.spinner3);
-      formData.append("traceOrders[0].seasonId", this.seasonId);
-      formData.append("bounsType", 0);
-      formData.append("traceWinStop", 0);
-      formData.append("isTrace", 0);
-      formData.append("lotteryId", this.$route.params.lotteryId);
-      formData.append("amount", this.spinner3 * this.zhu);
-      this.$axios
-        .post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config)
-        .then(res => {
-          if (res.data.message === "success") {
-            this.getbetOrderList();//我的投注
-            this.iscreat();
-            console.warn("投注成功");
-          } else {
-            this.iscreat();
-            console.warn(res.data.data);
-          }
-        })
-        .catch(error => {
-          console.log("立即投注,No");
-        });
+      if(this.zhu === 0){
+        this.$refs.pop.closeSimpleDialog();
+        this.content = '您尚未选定一个完整的投注。'
+        this.number = 2;
+      }else if(this.spinner3 === 0){
+        this.$refs.pop.closeSimpleDialog();
+        this.content = '您有号码未设置金额，请核对后投注。'
+        this.number = 2;
+      }else{
+        let formData = new FormData();
+        formData.append("order[0].content", this.con);
+        formData.append("order[0].betCount", this.zhu);
+        formData.append("order[0].price", this.spinner3);
+        formData.append("order[0].unit", 1);
+        formData.append("order[0].playId", this.className);
+        formData.append("count", this.zhu);
+        formData.append("traceOrders[0].price", this.spinner3);
+        formData.append("traceOrders[0].seasonId", this.seasonId);
+        formData.append("bounsType", 0);
+        formData.append("traceWinStop", 0);
+        formData.append("isTrace", 0);
+        formData.append("lotteryId", this.$route.params.lotteryId);
+        formData.append("amount", this.spinner3 * this.zhu);
+        this.$axios
+          .post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config)
+          .then(res => {
+            if (res.data.message === "success") {
+              this.getbetOrderList();//我的投注
+              this.iscreat();
+              this.$refs.pop.closeSimpleDialog();
+              this.title = '温馨提示'
+              this.content = '恭喜您，投注成功！'
+              this.number = 1;
+            } else {
+              this.iscreat();
+              console.warn(res.data.data);
+            }
+          })
+          .catch(error => {
+            console.log("立即投注,No");
+          });
+      }
     },
     //导航点击
     lottListNav(item, index) {
@@ -1068,7 +1081,8 @@ export default {
     //時間到彈窗
     timesUp() {
       this.isshowGif = true;
-      this.geteServerTime();//获取彩種當前獎期時間
+      this.geteServerTime();
+      this.$pop.show({title:'温馨提示',content:'已经到底啦',content1:String(this.seasonId),content2:String(Number(this.seasonId)+1),number:3});
     },
     //中奖信息
     butClass1C() {
@@ -1167,9 +1181,7 @@ export default {
         }
       } else if (this.num * li + box > ul) {
         this.num = this.num;
-        this.$refs.pop.closeSimpleDialog();
-        this.content = '已经到底啦'
-        this.number = 2;
+        this.$pop.show({title:'温馨提示',content:'已经到底啦',content1:'',content2:'',number:2});
       }
     },
     //导航左边点击
@@ -1186,9 +1198,7 @@ export default {
           this.left = -(this.num * li);
         }
       }else{
-        this.$refs.pop.closeSimpleDialog();
-        this.content = '已经到顶啦'
-        this.number = 2;
+        this.$pop.show({title:'温馨提示',content:'已经到顶啦',content1:'',content2:'',number:2});
       }
     },
     //添加号码栏
@@ -1209,7 +1219,7 @@ export default {
     }
   },
   components: {
-    star,pop
+    star
   },
   filters: {
     mask(value) {
