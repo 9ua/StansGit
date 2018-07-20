@@ -62,34 +62,33 @@
             <div class="conterBut" :class="'conterBut'+className">
               <div :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
                 <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="lotteryId !== 'dfk3' && item.ball !== '03' && item.ball !== '18'">
-                  <span v-if="className !== 'k3_star3_and'"></span>
+                  <span v-if="className !== 'k3_star3_and'">{{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}</span>
                   <span v-else>
                     <i>{{item.ball}}</i>
                     <i>赔160.00</i>
                   </span>
                 </p>
                 <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="lotteryId === 'dfk3'">
-                  <span v-if="className !== 'k3_star3_and'"></span>
+                  <span v-if="className !== 'k3_star3_and'">{{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}</span>
                   <span v-else>
                     <i>{{item.ball}}</i>
                     <i>赔60.00</i>
                   </span>
                 </p>
-                <star :class="className+'All'" v-if="className === 'k3_star2_same'" :con="con" :zhu="zhu" :item="item" :indexha="indexha" :numViews="numViews" :indexf="indexf"></star>
+                <!-- <star :class="className+'All'" v-if="className === 'k3_star2_same'" :con="con" :zhu="zhu" :item="item" :indexha="indexha" :numViews="numViews" :indexf="indexf"></star> -->
                 <!-- <div :class="className+'All'" v-if="className === 'k3_star2_same'" @click="curBallsAll(numViews,indexf)">
                   <span></span>
                 </div> -->
               </div>
             </div>
             <div class="zhu">
-              <p>您选择了
-                <i>{{zhu}}</i> 注</p>
+              <p>您选择了<i>{{zhu}}</i> 注</p>
               <div class="butBox">
                 <div class="numSum">
                   <span class="trim">投注金额</span>
                   <yd-spinner v-model="spinner3" min="0"></yd-spinner>
                 </div>
-                <button class="add" @click="addNum">添加号码栏</button>
+                <button class="add" @click="addNum">添加号码篮</button>
                 <button @click="betGo">立即投注</button>
               </div>
             </div>
@@ -106,7 +105,7 @@
               <div class="addListBox">
                 <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index" v-if="item.addCon !== null">
                   <li>【{{item.addTitle}}】</li>
-                  <li>{{item.addCon}}</li>
+                  <li><span>{{item.addCon}}</span></li>
                   <li>{{item.addPattern}}</li>
                   <li>{{item.addzhu}}</li>
                   <li>{{item.addMoney}}</li>
@@ -123,7 +122,7 @@
                 <span>总金额：{{zhu*spinner3}}, </span>
                 <span>余额：{{$store.state.balance}}</span>
               </p>
-              <button>确认投注</button>
+              <button @click="affirmBetGo">确认投注</button>
             </div>
           </div>
         </div>
@@ -240,15 +239,10 @@
   </div>
 </template>
 <script>
-import star from "@/components/page/lotts/star2.vue";
 import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      title:'',
-      content:'',
-      content1:'',
-      content2:'',
       number:null,
       isshowPop:false,
       num: 0,
@@ -286,6 +280,12 @@ export default {
       d5: [], //选中的号码的下标
       d6: [], //选中的号码的下标
       dd: [], //选中的号码的下标
+      zhu1:0,
+      zhu2:0,
+      zhu3:0,
+      zhu4:0,
+      zhu5:0,
+      zhu6:0,
       butClass1: true,
       butClass2: false,
       animate: true,
@@ -595,7 +595,7 @@ export default {
         this.pd.addPattern = "元";
         this.pd.addzhu = this.zhu;
         this.pd.addMoney = this.spinner3;
-        //和值大小单双
+        //和值大小单双++
         if (this.className === "k3_star3_and") {
           if (indexf == 0) {
             this.d1[index] = item.ball;
@@ -622,8 +622,8 @@ export default {
           this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
           this.pd.addCon = this.con;
         }
-        //二同号
-        if (this.className === "k3_star2_same") {
+        //二不同++
+        if (this.className === "k3_star2_same_not") {
           if (indexf == 0) {
             this.d1[index] = item.ball;
             this.dd = this.d1.filter(function(n) {
@@ -659,28 +659,434 @@ export default {
             });
             this.en = this.dd.join(",");
           }
-          if (indexf == 5) {
-            this.d6[index] = item.ball;
-            this.dd = this.d6.filter(function(n) {
-              return n;
-            });
-            this.fn = this.dd.join(",");
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.pd.addCon = this.con;
+        }
+        //二同号++
+        if (this.className === "k3_star2_same") {
+          if(index !== 5){
+            if (indexf == 0) {
+              this.d1[index] = item.ball;
+              this.dd = this.d1.filter(function(n) {
+                return n;
+              });
+              this.an = this.dd.join(",");
+            }
+            if (indexf == 1) {
+              this.d2[index] = item.ball;
+              this.dd = this.d2.filter(function(n) {
+                return n;
+              });
+              this.bn = this.dd.join(",");
+            }
+            if (indexf == 2) {
+              this.d3[index] = item.ball;
+              this.dd = this.d3.filter(function(n) {
+                return n;
+              });
+              this.cn = this.dd.join(",");
+            }
+            if (indexf == 3) {
+              this.d4[index] = item.ball;
+              this.dd = this.d4.filter(function(n) {
+                return n;
+              });
+              this.dn = this.dd.join(",");
+            }
+            if (indexf == 4) {
+              this.d5[index] = item.ball;
+              this.dd = this.d5.filter(function(n) {
+                return n;
+              });
+              this.en = this.dd.join(",");
+            }
+            if (indexf == 5) {
+              this.d6[index] = item.ball;
+              this.dd = this.d6.filter(function(n) {
+                return n;
+              });
+              this.fn = this.dd.join(",");
+            }
+          }
+          if(index === 5){
+            if (indexf == 0 && item.choose === true) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = true;
+                this.d[i] = numViews.nums[i].ball;
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.an = this.dd.join(",");
+                this.zhu1 = 5;
+              }
+            }
+            if (indexf == 1 && item.choose === true) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = true;
+                this.d[i] = numViews.nums[i].ball;
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.bn = this.dd.join(",");
+                this.zhu2 = 5;
+              }
+            }
+            if (indexf == 2 && item.choose === true) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = true;
+                this.d[i] = numViews.nums[i].ball;
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.cn = this.dd.join(",");
+                this.zhu3 = 5;
+              }
+            }
+            if (indexf == 3 && item.choose === true) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = true;
+                this.d[i] = numViews.nums[i].ball;
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.dn = this.dd.join(",");
+                this.zhu4 = 5;
+              }
+            }
+            if (indexf == 4 && item.choose === true) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = true;
+                this.d[i] = numViews.nums[i].ball;
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.en = this.dd.join(",");
+                this.zhu5 = 5;
+              }
+            }
+            if (indexf == 5 && item.choose === true) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = true;
+                this.d[i] = numViews.nums[i].ball;
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.fn = this.dd.join(",");
+                this.zhu6 = 5;
+              }
+            }
           }
           this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en +"," +this.fn;
           this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5+this.zhu6;
+          this.pd.addzhu = this.zhu;
           this.pd.addCon = this.con;
-          console.log("父:",this.con)
+          console.log("indexf:",this.con)
+        }
+        //三不同++
+        if (this.className === "k3_star3_same_not") {
+          if (indexf == 0) {
+            this.d1[index] = item.ball;
+            this.dd = this.d1.filter(function(n) {
+              return n;
+            });
+            this.an = this.dd.join(",");
+          }
+          if (indexf == 1) {
+            this.d2[index] = item.ball;
+            this.dd = this.d2.filter(function(n) {
+              return n;
+            });
+            this.bn = this.dd.join(",");
+          }
+          if (indexf == 2) {
+            this.d3[index] = item.ball;
+            this.dd = this.d3.filter(function(n) {
+              return n;
+            });
+            this.cn = this.dd.join(",");
+          }
+          if (indexf == 3) {
+            this.d4[index] = item.ball;
+            this.dd = this.d4.filter(function(n) {
+              return n;
+            });
+            this.dn = this.dd.join(",");
+          }
+          if (indexf == 4) {
+            this.d5[index] = item.ball;
+            this.dd = this.d5.filter(function(n) {
+              return n;
+            });
+            this.en = this.dd.join(",");
+          }
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.pd.addCon = this.con;
+        }
+        //三同号++
+        if (this.className === "k3_star3_same"){
+          if (indexf == 0) {
+            this.d1[index] = item.ball;
+            this.dd = this.d1.filter(function(n) {
+              return n;
+            });
+            this.an = this.dd.join(",");
+          }
+          if (indexf == 1) {
+            this.d2[index] = item.ball;
+            this.dd = this.d2.filter(function(n) {
+              return n;
+            });
+            this.bn = this.dd.join(",");
+          }
+          this.con =this.an +"," +this.bn;
+          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.pd.addCon = this.con;
         }
       } else {
         this.d.splice(index, 1, "");
         this.dd = this.d.filter(function(n) {return n;});
         this.zhu--;
         this.pd.addCon = this.dd.join(",");
-      }
-    },
-    curBallsAll(numViews, indexf) {
-      if (indexf === 0) {
-        console.log(indexf);
+        //和值大小单双--
+        if (this.className === "k3_star3_and") {
+          if (indexf == 0) {
+            this.d1.splice(index, 1, "");
+            this.dd = this.d1.filter(function(n) {
+              return n;
+            });
+            this.an = this.dd.join(",");
+          }
+          if (indexf == 1) {
+            this.d2.splice(index, 1, "");
+            this.dd = this.d2.filter(function(n) {
+              return n;
+            });
+            this.bn = this.dd.join(",");
+          }
+          if (indexf == 2) {
+            this.d3.splice(index, 1, "");
+            this.dd = this.d3.filter(function(n) {
+              return n;
+            });
+            this.cn = this.dd.join(",");
+          }
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.pd.addCon = this.con;
+        }
+        //二不同--
+        if (this.className === "k3_star2_same_not") {
+          if (indexf == 0) {
+            this.d1.splice(index, 1, "");
+            this.dd = this.d1.filter(function(n) {
+              return n;
+            });
+            this.an = this.dd.join(",");
+          }
+          if (indexf == 1) {
+            this.d2.splice(index, 1, "");
+            this.dd = this.d2.filter(function(n) {
+              return n;
+            });
+            this.bn = this.dd.join(",");
+          }
+          if (indexf == 2) {
+            this.d3.splice(index, 1, "");
+            this.dd = this.d3.filter(function(n) {
+              return n;
+            });
+            this.cn = this.dd.join(",");
+          }
+          if (indexf == 3) {
+            this.d4.splice(index, 1, "");
+            this.dd = this.d4.filter(function(n) {
+              return n;
+            });
+            this.dn = this.dd.join(",");
+          }
+          if (indexf == 4) {
+            this.d5.splice(index, 1, "");
+            this.dd = this.d5.filter(function(n) {
+              return n;
+            });
+            this.en = this.dd.join(",");
+          }
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.pd.addCon = this.con;
+        }
+        //二同号--
+        if (this.className === "k3_star2_same") {
+          if(index !== 5){
+            if (indexf == 0) {
+              this.d1.splice(index, 1, "");
+              this.dd = this.d1.filter(function(n) {
+                return n;
+              });
+              this.an = this.dd.join(",");
+            }
+            if (indexf == 1) {
+              this.d2.splice(index, 1, "");
+              this.dd = this.d2.filter(function(n) {
+                return n;
+              });
+              this.bn = this.dd.join(",");
+            }
+            if (indexf == 2) {
+              this.d3.splice(index, 1, "");
+              this.dd = this.d3.filter(function(n) {
+                return n;
+              });
+              this.cn = this.dd.join(",");
+            }
+            if (indexf == 3) {
+              this.d4.splice(index, 1, "");
+              this.dd = this.d4.filter(function(n) {
+                return n;
+              });
+              this.dn = this.dd.join(",");
+            }
+            if (indexf == 4) {
+              this.d5.splice(index, 1, "");
+              this.dd = this.d5.filter(function(n) {
+                return n;
+              });
+              this.en = this.dd.join(",");
+            }
+            if (indexf == 5) {
+              this.d6.splice(index, 1, "");
+              this.dd = this.d6.filter(function(n) {
+                return n;
+              });
+              this.fn = this.dd.join(",");
+            }
+          }
+          if(index === 5){
+            if (indexf == 0 && item.choose === false) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = false;
+                this.d.splice(i, 1, "");
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.an = this.dd.join(",");
+                this.zhu1 = 0;
+              }
+            }
+            if (indexf == 1 && item.choose === false) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = false;
+                this.d.splice(i, 1, "");
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.bn = this.dd.join(",");
+                this.zhu2 = 0;
+              }
+            }
+            if (indexf == 2 && item.choose === false) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = false;
+                this.d.splice(i, 1, "");
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.cn = this.dd.join(",");
+                this.zhu3 = 0;
+              }
+            }
+            if (indexf == 3 && item.choose === false) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = false;
+                this.d.splice(i, 1, "");
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.dn = this.dd.join(",");
+                this.zhu4 = 0;
+              }
+            }
+            if (indexf == 4 && item.choose === false) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = false;
+                this.d.splice(i, 1, "");
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.en = this.dd.join(",");
+                this.zhu5 = 0;
+              }
+            }
+            if (indexf == 5 && item.choose === false) {
+              for(let i = 0; i< numViews.nums.length; i++){
+                numViews.nums[i].choose = false;
+                this.d.splice(i, 1, "");
+                this.d.splice(this.d.indexOf("全选"),1,"");
+                this.dd = this.d.filter(function(n) {return n;});
+                this.fn = this.dd.join(",");
+                this.zhu6 = 0;
+              }
+            }
+          }
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en +"," +this.fn;
+          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5+this.zhu6;
+          this.pd.addzhu = this.zhu;
+          this.pd.addCon = this.con;
+        }
+        //三不同--
+        if (this.className === "k3_star3_same_not") {
+          if (indexf == 0) {
+            this.d1.splice(index, 1, "");
+            this.dd = this.d1.filter(function(n) {
+              return n;
+            });
+            this.an = this.dd.join(",");
+          }
+          if (indexf == 1) {
+            this.d2.splice(index, 1, "");
+            this.dd = this.d2.filter(function(n) {
+              return n;
+            });
+            this.bn = this.dd.join(",");
+          }
+          if (indexf == 2) {
+            this.d3.splice(index, 1, "");
+            this.dd = this.d3.filter(function(n) {
+              return n;
+            });
+            this.cn = this.dd.join(",");
+          }
+          if (indexf == 3) {
+            this.d4.splice(index, 1, "");
+            this.dd = this.d4.filter(function(n) {
+              return n;
+            });
+            this.dn = this.dd.join(",");
+          }
+          if (indexf == 4) {
+            this.d5.splice(index, 1, "");
+            this.dd = this.d5.filter(function(n) {
+              return n;
+            });
+            this.en = this.dd.join(",");
+          }
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.pd.addCon = this.con;
+        }
+        //三同号--
+        if (this.className === "k3_star3_same"){
+          if (indexf == 0) {
+            this.d1.splice(index, 1, "");
+            this.dd = this.d1.filter(function(n) {
+              return n;
+            });
+            this.an = this.dd.join(",");
+          }
+          if (indexf == 1) {
+            this.d2.splice(index, 1, "");
+            this.dd = this.d2.filter(function(n) {
+              return n;
+            });
+            this.bn = this.dd.join(",");
+          }
+          this.con =this.an +"," +this.bn;
+          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.pd.addCon = this.con;
+        }
       }
     },
     //玩法术
@@ -825,16 +1231,21 @@ export default {
       }
       this.displayBonus = this.splayers[0][0].displayBonus;
     },
+    //确认投注
+    affirmBetGo(){
+      if(this.productList.length == 0){
+        this.$pop.show({title:'温馨提示',content:'您未选择号码,号码篮是空的！',content1:String(this.seasonId),content2:String(Number(this.seasonId)+1),number:1});
+      }else{
+        this.$pop.show({title:'温馨提示',content:'已经到底啦',content1:String(this.seasonId)-1,content2:this.productList,number:4});
+      }
+      console.log(this.productList)
+    },
     //立即投注
     betGo() {
       if(this.zhu === 0){
-        this.$refs.pop.closeSimpleDialog();
-        this.content = '您尚未选定一个完整的投注。'
-        this.number = 2;
+        this.$pop.show({title:'',content:'您尚未选定一个完整的投注。',content1:'',content2:'',number:2});
       }else if(this.spinner3 === 0){
-        this.$refs.pop.closeSimpleDialog();
-        this.content = '您有号码未设置金额，请核对后投注。'
-        this.number = 2;
+        this.$pop.show({title:'',content:'您有号码未设置金额，请核对后投注。',content1:'',content2:'',number:2});
       }else{
         let formData = new FormData();
         formData.append("order[0].content", this.con);
@@ -856,10 +1267,7 @@ export default {
             if (res.data.message === "success") {
               this.getbetOrderList();//我的投注
               this.iscreat();
-              this.$refs.pop.closeSimpleDialog();
-              this.title = '温馨提示'
-              this.content = '恭喜您，投注成功！'
-              this.number = 1;
+              this.$pop.show({title:'温馨提示',content:'恭喜您，投注成功！',content1:'',content2:'',number:1});
             } else {
               this.iscreat();
               console.warn(res.data.data);
@@ -872,6 +1280,8 @@ export default {
     },
     //导航点击
     lottListNav(item, index) {
+      this.$refs.popTo.closeSimpleDialog();
+      this.productList = [];
       this.arrLottName.indexOf();
       this.lottName = item.name;
       this.lottNameIndex = index;
@@ -883,6 +1293,12 @@ export default {
     //清空
     iscreat() {
       this.zhu = 0;
+      this.zhu1 = 0;
+      this.zhu2 = 0;
+      this.zhu3 = 0;
+      this.zhu4 = 0;
+      this.zhu5 = 0;
+      this.zhu6 = 0;
       this.pd = {};
       this.d = [];
       this.d1 = [];
@@ -1203,11 +1619,18 @@ export default {
     },
     //添加号码栏
     addNum() {
-      this.pd.addMoney = this.spinner3;
-      this.productList.unshift(this.pd);
-      this.pd = {};
-      this.d = [];
-      this.iscreat();
+      if(this.zhu === 0){
+        this.$pop.show({title:'',content:'您尚未选定一个完整的投注。',content1:'',content2:'',number:2});
+      }else if(this.spinner3 === 0){
+        this.$pop.show({title:'',content:'您有号码未设置金额，请核对后投注。',content1:'',content2:'',number:2});
+      }else{
+        this.pd.addMoney = this.spinner3;
+        this.productList.unshift(this.pd);
+        this.pd = {};
+        this.d = [];
+        this.iscreat();
+      }
+      
     },
     //删除指定行
     deleList(item, index) {
@@ -1216,10 +1639,7 @@ export default {
     //清空
     exit() {
       this.productList = [];
-    }
-  },
-  components: {
-    star
+    },
   },
   filters: {
     mask(value) {

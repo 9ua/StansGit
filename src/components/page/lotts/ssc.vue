@@ -86,7 +86,7 @@
               <div class="addListBox">
                 <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index">
                   <li>【{{item.addTitle}}】</li>
-                  <li>{{item.addCon}}</li>
+                  <li><span>{{item.addCon}}</span></li>
                   <li>{{item.addPattern}}</li>
                   <li>{{item.addzhu}}</li>
                   <li>{{item.addMoney}}</li>
@@ -193,10 +193,6 @@ import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      title:'',
-      content:'',
-      content1:'',
-      content2:'',
       number:null,
       num:0,
       left:0,
@@ -1639,13 +1635,9 @@ export default {
     //立即投注
     betGo() {
       if(this.zhu === 0){
-        this.$refs.pop.closeSimpleDialog();
-        this.content = '您尚未选定一个完整的投注。'
-        this.number = 2;
+        this.$pop.show({title:'',content:'您尚未选定一个完整的投注。',content1:'',content2:'',number:2});
       }else if(this.spinner3 === 0){
-        this.$refs.pop.closeSimpleDialog();
-        this.content = '您有号码未设置金额，请核对后投注。'
-        this.number = 2;
+        this.$pop.show({title:'',content:'您有号码未设置金额，请核对后投注。',content1:'',content2:'',number:2});
       }else{
         let formData = new FormData();
         formData.append("order[0].content", this.con);
@@ -1667,10 +1659,7 @@ export default {
             if (res.data.message === "success") {
               this.getbetOrderList();
               this.iscreat();
-              this.$refs.pop.closeSimpleDialog();
-              this.title = '温馨提示'
-              this.content = '恭喜您，投注成功！'
-              this.number = 1;
+              this.$pop.show({title:'温馨提示',content:'恭喜您，投注成功！',content1:'',content2:'',number:1});
             } else {
               this.iscreat();
               console.warn(res.data.data);

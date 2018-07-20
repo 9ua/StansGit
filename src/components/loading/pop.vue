@@ -29,6 +29,25 @@
       </li>
       <li class="button"><button class="logoAffirm" @click="openSimple = false">确认</button></li>
     </ul>
+    <!-- 确认投注 -->
+    <ul class="num4" v-if="number =='4'">
+      <li class="title">
+        <span></span>
+        <p>请核准您的投注信息</p>
+        <span><i class="el-icon-circle-close-outline transition"></i></span>
+      </li>
+      <li class="headline">彩种：{{content}}期号：{{content}}</li>
+      <li class="content">
+        <span class="addHead">详情：</span>
+        <div>
+          <span class="addtitle"></span>
+          <p class="addCon"></p>
+        </div>
+      </li>
+      <li class="">付款总金额：<i>{{content1}}</i>元</li>
+      <li class="">付款账号：{{content1}}</li>
+      <li class=""><button>确认投注</button></li>
+    </ul>
   </div>
 </template>
 <script>
@@ -89,7 +108,7 @@ export default {
   & ul{
     min-width: 300px;
     max-width: 500px;
-    max-height:400px;
+    // max-height:400px;
     background: #FFF;
     border-radius: 4px;
     @extend %flex;
@@ -179,6 +198,13 @@ export default {
         margin-left: 4px;
       }
     }
+  }
+}
+ul.num4{
+  width: 460px;
+  height: 432px;
+  & li.title{
+    height: 40px;
   }
 }
 </style>
