@@ -26,34 +26,30 @@
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
                   暂无记录
-            tr(v-for='item in tradelist')
-              td {{tradelist.lotteryName}}
-              td 第{{tradelist.seasonId}}期
-                p {{tradelist.statusName}}
-              td {{tradelist.content}}
-                p 玩法{{tradelist.playName}}
-              td {{tradelist.amount}}                
-              td {{tradelist.openNum}}                
-              td {{tradelist.win}}                
-              td {{tradelist.createTime}}
+            tr(v-for='(item,index) in tradelist',v-if='index<start+limit&&index>=start')
+              td {{item.lotteryName}}
+              td 第{{item.seasonId}}期
+                p {{item.statusName}}
+              td {{item.content}}
+                p 玩法{{item.playName}}
+              td {{item.amount}}                
+              td {{item.openNum}}                
+              td {{item.win}}                
+              td {{item.createTime}}
               td 
-      .page
-        p 共
-          em {{tradelist.length}}
-          条记录
-        .pageNav
-          ul.pagination
-            li
-              router-link(to="",@click.native="pre") 上一页
-            //- li(v-for="(item,index) in tradelist")
-            li
-              router-link(to="",@click.native="next") 下一页
+      pageNav(:list='tradelist',:limit='limit',:reset='reset',@pageTo='pageTo')
       .userTip.mgt15
         p ※温馨提示：追号记录最多只保留7天。
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
+import noContent from "../public/noContent";
+import pageNav from "../public/pageNav";
 export default {
+  components: {
+    noContent,
+    pageNav
+  },
   data() {
     return {
       betMoney: 0,
@@ -61,10 +57,13 @@ export default {
       navType: 0,
       betweenType: 1,
       status: 100,
+      reset: false,
+      start: 0,
+      limit: 15,
       tradelist: [],
       th: [
         "流水号",
-        "彩种",        
+        "彩种",
         "起始期号",
         "已追/总期数",
         "已投/总金额",
@@ -89,6 +88,9 @@ export default {
     // this.getTradeList();
   },
   methods: {
+    pageTo($event) {
+      this.start = this.limit * ($event - 1);
+    },
     changeTime(e, time, index) {
       this.navTime = index;
       this.betweenType = time;
@@ -100,6 +102,9 @@ export default {
       // this.getTradeList();
     },
     getTradeList() {
+      this.noContent = true;
+      this.reset = true;
+      this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getbetOrderList", {
           params: {

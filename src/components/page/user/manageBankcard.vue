@@ -70,9 +70,11 @@ export default {
         });
     },
     getBankUserList() {
+      this.$loader.show();
       this.$axios
         .get(baseUrl + "/api/proxy/getBankUserList")
         .then(res => {
+          this.$loader.hide();
           this.bankUserList = res.data.data;
           if (res.data.data.length === 0) {
             this.content = "！您尚未绑定银行卡，一共可以绑定 5 张银行卡。";
@@ -84,7 +86,12 @@ export default {
           }
         })
         .catch(error => {
-          console.log("获取列表Error");
+          this.$loader.hide();
+          this.$message.error({
+            message: "请您的检查网络",
+            center: true,
+            showClose: true
+          });
         });
     }
   },

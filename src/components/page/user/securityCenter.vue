@@ -79,45 +79,38 @@ export default {
   methods: {
     //取安全中心状态
     getSecurityCenterStatus() {
-      if (localStorage.getItem("centerStatus")) {
-        let centerStatus = JSON.parse(localStorage.getItem("centerStatus"));
-        this.password = centerStatus.password;
-        this.securityCoe = centerStatus.securityCoe;
-        this.mobile = centerStatus.mobile;
-        this.question = centerStatus.question;
-        this.email = centerStatus.email;
-        this.lastLoginTime = centerStatus.lastLoginTime;
-      } else {
-        this.$axios
-          .get(
-            baseUrl + "/api/userCenter/getSecurityCenterStatus",
-            this.$store.state.config
-          )
-          .then(res => {
-            this.password = res.data.data.password;
-            this.securityCoe = res.data.data.securityCoe;
-            this.mobile = res.data.data.mobile;
-            this.question = res.data.data.question;
-            this.email = res.data.data.email;
-            this.lastLoginTime = res.data.data.lastLoginTime;
-            localStorage.setItem("centerStatus", JSON.stringify(res.data.data));
-          })
-          .catch(error => {
-            console.log("取安全中心状态No");
-          });
-      }
-      if (this.securityCoe === 1) {
-        this.value5 += 1;
-      }
-      if (this.mobile === 1) {
-        this.value5 += 1;
-      }
-      if (this.question === 1) {
-        this.value5 += 1;
-      }
-      if (this.email === 1) {
-        this.value5 += 1;
-      }
+      this.$loader.show();
+      this.$axios
+        .get(
+          baseUrl + "/api/userCenter/getSecurityCenterStatus",
+          this.$store.state.config
+        )
+        .then(res => {
+          this.password = res.data.data.password;
+          this.securityCoe = res.data.data.securityCoe;
+          this.mobile = res.data.data.mobile;
+          this.question = res.data.data.question;
+          this.email = res.data.data.email;
+          this.lastLoginTime = res.data.data.lastLoginTime;
+          // localStorage.setItem("centerStatus", JSON.stringify(res.data.data));
+          if (this.securityCoe === 1) {
+            this.value5 += 1;
+          }
+          if (this.mobile === 1) {
+            this.value5 += 1;
+          }
+          if (this.question === 1) {
+            this.value5 += 1;
+          }
+          if (this.email === 1) {
+            this.value5 += 1;
+          }
+          this.$loader.hide();
+        })
+        .catch(error => {
+          this.$loader.hide();
+          console.log("取安全中心状态No");
+        });
     }
   }
 };

@@ -90,6 +90,7 @@ export default {
         });
         return;
       } else {
+        this.$loader.show();
         let formData = new FormData();
         formData.append("id", this.id);
         formData.append("bankNameId", this.bankNameId);
@@ -101,6 +102,7 @@ export default {
         this.$axios
           .post(baseUrl + "/api/proxy/setBankUser", formData)
           .then(res => {
+            this.$loader.hide();
             if (res.data.code === 1) {
               this.$message({
                 message: res.data.data.message,
@@ -120,7 +122,12 @@ export default {
             }
           })
           .catch(error => {
-            console.log("No");
+            this.$loader.hide();
+            this.$message.error({
+                message: "请检查您的网络！",
+                center: true,
+                showClose: true
+              });
           });
       }
     }

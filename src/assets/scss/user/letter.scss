@@ -1,1 +1,20 @@
-@import '@/assets/scss/user/comm.scss';
+.msgControl {
+  padding: 10px;
+  & input[type=checkbox] {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+  & input[type=button] {
+    background: #ccc;
+    padding: 5px 10px;
+    color: #666;
+    border: 0;
+    border-radius: 5px;
+    margin: 0 5px;
+    &:hover {
+      background: #090;
+      color: #fff;
+    }
+  }
+}

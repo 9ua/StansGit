@@ -14,7 +14,12 @@
         table(width="100%", border="0", margin="0" ,padding="0" ,cellspacing="0" ,cellpadding="0", class="manageInvite",v-if='!noContent')
           tr
             th(v-for='item in ths') {{item}}
-          tr(v-for='item in invitelist')
+          tr(style="bottom:0px;",v-if="invitelist.length===0")
+              td(colspan="100")
+                .notContent(style="padding: 100px 0px;") 
+                  mu-icon(value='sentiment_dissatisfied',class='icon')
+                  暂无记录
+          tr(v-for='(item,index) in invitelist',v-if='index<start+limit&&index>=start')
             td {{item.code}}
             td {{item.code|createUrl}}
             td {{item.id}}
@@ -24,17 +29,7 @@
               router-link(to='',@click.native='detail($event,item.id)') 详情
               em |
               router-link(to='',@click.native='del($event,item.id)') 删除
-        .page
-          p 共
-            em {{invitelist.length}}
-            条记录
-        //- .pageNav
-        //-   ul.pagination
-        //-     li
-        //-       router-link(to="",@click.native="pre",v-if='page>1') 上一页
-        //-     //- li(v-for="(item,index) in tradelist")
-        //-     li
-        //-       router-link(to="",@click.native="next",v-if='invitelist.length>0') 下一页
+        pageNav(:list='invitelist',:limit='limit',:reset="reset",@pageTo='pageTo')
         el-dialog(title='详情', :visible.sync='dialogTableVisible')
           el-table(:data='gridData')
             el-table-column(property='lottery', label='彩种', width='150')
@@ -44,17 +39,22 @@
           p ※ 温馨提示：“邀请码” 与 “注册链接” 功能一致，可以使用邀请码，也可以使用注册链接。
 </template>
 <script>
-import noContent from "./noContent";
 import { baseUrl } from "../../../assets/js/env";
+import noContent from "../public/noContent";
+import pageNav from "../public/pageNav";
 export default {
   components: {
-    noContent
+    noContent,
+    pageNav
   },
   data() {
     return {
       noContent: true,
       toggle: 0,
       navNum: 1,
+      reset: false,
+      start: 0,
+      limit: 15,
       select: "",
       dialogTableVisible: false,
       gridData: [
@@ -89,6 +89,10 @@ export default {
     this.getInviteList();
   },
   methods: {
+    //接收pageNav组件分页信号
+    pageTo($event) {
+      this.start = this.limit * ($event - 1);
+    },
     detail() {
       this.dialogTableVisible = true;
     },
@@ -111,6 +115,8 @@ export default {
     },
     getInviteList() {
       this.noContent = true;
+      this.reset = true;
+      this.start = 0;
       this.$axios
         .get(baseUrl + "/api/agent/inviteCode", {
           params: { type: this.usertype }
@@ -134,10 +140,10 @@ export default {
               type: "success",
               message: "删除成功!"
             });
-          }else{
-              this.$message({
+          } else {
+            this.$message({
               type: "success",
-              message: res.data.message,
+              message: res.data.message
             });
           }
           this.getInviteList();

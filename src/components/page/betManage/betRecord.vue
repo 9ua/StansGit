@@ -38,7 +38,7 @@
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
                   暂无记录
-            tr(v-for='item in tradelist')
+            tr(v-for='(item,index) in tradelist',v-if='index<start+limit&&index>=start')
               td {{item.lotteryName}}
               td 第{{item.seasonId}}期
                 p {{item.statusName}}
@@ -49,26 +49,18 @@
               td {{item.win}}                
               td {{item.createTime}}
               td 
-      .page
-        p 当前页共
-          em {{tradelist.length}}
-          条记录
-        .pageNav
-          ul.pagination
-            li
-              router-link(to="",@click.native="pre",v-if='page>1') 上一页
-            //- li(v-for="(item,index) in tradelist")
-            li
-              router-link(to="",@click.native="next",v-if='tradelist.length>0') 下一页
+      pageNav(:list='tradelist',:limit='limit',:reset='reset',@pageTo='pageTo')
       .userTip.mgt15
         p ※温馨提示：投注记录最多只保留7天。
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
-import noContent from "../agent/noContent";
+import noContent from "../public/noContent";
+import pageNav from "../public/pageNav";
 export default {
   components: {
-    noContent
+    noContent,
+    pageNav
   },
   data() {
     return {
@@ -82,9 +74,9 @@ export default {
       navTime: 0,
       navType: 0,
       betweenType: 1,
-      page: 1,
+      reset:false,
       start: 0,
-      limit: 5,
+      limit: 15,
       status: 100,
       tradelist: [],
       th: [
@@ -115,23 +107,9 @@ export default {
     this.getGainLost();
   },
   methods: {
-    //上一页
-    pre() {
-      if (this.page > 1) {
-        this.start = this.start - this.limit;
-        this.page--;
-        this.getTradeList();
-      }
-    },
-    //下一页
-    next() {
-      if (this.tradelist.length > 0) {
-        this.start = this.start + this.limit;
-        this.page++;
-        this.getTradeList();
-      } else {
-        // this.next=false;
-      }
+    //接收pageNav组件分页信号
+    pageTo($event) {
+      this.start = this.limit * ($event - 1);
     },
     changeTime(e, time, index) {
       this.navTime = index;
@@ -159,21 +137,23 @@ export default {
         });
     },
     getTradeList() {
-      this.noContent=true;
+      this.noContent = true;
+      this.reset = true;
+      this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getbetOrderList", {
           params: {
             account: this.$store.state.Globalusername,
             include: 0,
             status: this.status,
-            betweenType: this.betweenType,
-            start: this.start,
-            limit: this.limit
+            betweenType: this.betweenType
+            // start: this.start,
+            // limit: this.limit
           }
         })
         .then(res => {
           this.tradelist = res.data.data.list;
-          this.noContent=false;
+          this.noContent = false;
         })
         .catch(error => {
           console.log("获取彩種ratio ERROR");

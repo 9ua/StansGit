@@ -12,57 +12,39 @@
             tr
               th(v-for='item in th') {{item}}
           tbody
-            tr(style="bottom:0px;",v-if="tradelist.length===0")
+            tr(style="bottom:0px;",v-if="list.length===0")
               td(colspan="100")
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
                   暂无记录
-            tr(v-for='item in tradelist')
-              td {{tradelist.lotteryName}}
-              td 第{{tradelist.seasonId}}期
-                p {{tradelist.statusName}}
-              td {{tradelist.content}}
-                p 玩法{{tradelist.playName}}
-              td {{tradelist.amount}}                
-              td {{tradelist.openNum}}                
-              td {{tradelist.win}}                
-              td {{tradelist.createTime}}
+            tr(v-for='item in list',v-if='index<start+limit&&index>=start')
+              td {{item.account}}
+              td {{item.userTypeName}}
+              td {{item.teamChildCount}}
+              td {{item.childCount}}                             
+              td {{item.count}}
               td 
-      .page
-        p 共
-          em {{tradelist.length}}
-          条记录
-        .pageNav
-          ul.pagination
-            li
-              router-link(to="",@click.native="pre") 上一页
-            //- li(v-for="(item,index) in tradelist")
-            li
-              router-link(to="",@click.native="next") 下一页
+      pageNav(:list='list',:limit='limit',:reset="reset",@pageTo='pageTo')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
-import noContent from "./noContent";
+import noContent from "../public/noContent";
+import pageNav from "../public/pageNav";
 export default {
   components: {
-    noContent
+    noContent,
+    pageNav
   },
   data() {
     return {
+      reset: false,
+      start: 0,
+      limit: 15,
       navindex: 0,
       dateFlag: 0,
       noContent: true,
-      tradelist: [],
-      th: [
-        "账户",
-        "用户类型",
-        "投注金额",
-        "中奖金额",
-        "返点金额",
-        "活动礼金",
-        "投注人数",
-        "盈利"
-      ],
+      list: [],
+      th: ["账户", "用户类型", "下级人数", "直属下级", "盈利"],
       nav: [
         { name: "今天", value: 0 },
         { name: "昨天", value: 1 },
@@ -75,6 +57,10 @@ export default {
     this.getUnderLevelReport();
   },
   methods: {
+    //接收pageNav组件分页信号
+    pageTo($event) {
+      this.start = this.limit * ($event - 1);
+    },
     changeTime(e, value, index) {
       this.navindex = index;
       this.dateFlag = value;
@@ -82,6 +68,8 @@ export default {
     },
     getUnderLevelReport() {
       this.noContent = true;
+      this.reset = true;
+      this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getUnderLevelReport", {
           params: {
@@ -90,7 +78,7 @@ export default {
           }
         })
         .then(res => {
-          this.tradelist = res.data.data;
+          this.list = res.data.data;
           this.noContent = false;
         })
         .catch(error => {

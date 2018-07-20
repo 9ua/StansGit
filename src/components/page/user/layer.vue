@@ -84,6 +84,7 @@ export default {
       this.$emit("close");
     },
     saveHeadImg() {
+      this.$loader.show();
       let params = new URLSearchParams();
       params.append("image", Number(this.img));
       params.append("nickName", this.nickName);
@@ -93,18 +94,23 @@ export default {
         .post(
           baseUrl + "/api/userCenter/saveUserData",
           params,
-          this.$store.state.config
         )
         .then(res => {
-          let userData=JSON.parse(localStorage.getItem("topUserData"));
-          userData.image=this.img;
-          localStorage.setItem("topUserData",JSON.stringify(userData));
+          this.$loader.hide();
+          let userData = JSON.parse(localStorage.getItem("topUserData"));
+          userData.image = this.img;
+          localStorage.setItem("topUserData", JSON.stringify(userData));
           this.$store.state.img = this.img;
           localStorage.setItem("img", this.img);
           this.close();
         })
         .catch(error => {
-          console.log("用户信息保存失败");
+          this.$loader.hide();
+          this.$message.error({
+            message: "用户信息保存失败！",
+            center: true,
+            showClose: true
+          });
         });
     }
   }
@@ -214,7 +220,7 @@ export default {
 }
 .slider-con {
   width: 1680px;
-  transition: .8s;
+  transition: 0.8s;
 }
 .headImgView {
   float: left;

@@ -414,6 +414,7 @@ export default {
     },
     //获取过去开奖号码1个
     getPastOp() {
+      console.log(1)
       if (this.isExperid()) {
         this.$axios
           .get(

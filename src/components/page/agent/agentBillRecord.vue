@@ -38,7 +38,8 @@
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
                   暂无记录
-            tr(v-for='item in tradelist')
+            tr(v-for='(item,index) in tradelist',v-if='index<start+limit&&index>=start')
+              td {{item.account}}
               td {{item.seasonId}}
               td {{item.changeTime}}
               td {{item.lotteryName}}
@@ -47,26 +48,18 @@
               td {{item.balance}}                          
               td {{item.accountChangeTypeName}}
               td 
-      .page
-        p 当前页共
-          em {{tradelist.length}}
-          条记录
-        .pageNav
-          ul.pagination
-            li
-              router-link(to="",@click.native="pre",v-if='page>1') 上一页
-            //- li(v-for="(item,index) in tradelist")
-            li
-              router-link(to="",@click.native="next",v-if='tradelist.length>0') 下一页
+      pageNav(:list='tradelist',:limit='limit',:reset="reset" @pageTo='pageTo')
       .userTip.mgt15
         p ※ 温馨提示：交易明细最多只保留7天。
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
-import noContent from "../agent/noContent";
+import noContent from "../public/noContent";
+import pageNav from "../public/pageNav";
 export default {
   components: {
-    noContent
+    noContent,
+    pageNav
   },
   data() {
     return {
@@ -78,11 +71,12 @@ export default {
       navType: 0,
       betweenType: 1,
       status: 100,
-      page: 1, //页数
-      limit: 5,
       start: 0,
+      limit: 15,
+      reset:false,
       tradelist: [],
       th: [
+        "账号",
         "流水号",
         "时间",
         "摘要",
@@ -107,28 +101,14 @@ export default {
     this.getTradeList();
   },
   methods: {
+    //接收pageNav组件分页信号
+    pageTo($event) {
+      this.start = this.limit * ($event - 1);
+    },
     changeTime(e, time, index) {
       this.navTime = index;
       this.betweenType = time;
       this.getTradeList();
-    },
-    //上一页
-    pre() {
-      if (this.page > 1) {
-        this.start = this.start - this.limit;
-        this.page--;
-        this.getTradeList();
-      }
-    },
-    //下一页
-    next() {
-      if (this.tradelist.length > 0) {
-        this.start = this.start + this.limit;
-        this.page++;
-        this.getTradeList();
-      } else {
-        // this.next=false;
-      }
     },
     changeType(e, value, index) {
       this.navType = index;
@@ -136,8 +116,10 @@ export default {
       this.getTradeList();
     },
     getTradeList() {
+      this.noContent = true;
+      this.reset = true;
+      this.start = 0;
       if (this.account === "") {
-        this.noContent = true;
         this.$axios
           .get(baseUrl + "/api/proxy/getTradeList", {
             params: {
@@ -145,8 +127,8 @@ export default {
               include: this.include,
               accountChangeType: this.status,
               betweenType: this.betweenType,
-              start: this.start,
-              limit: this.limit
+              // start: this.start,
+              // limit: this.limit
             }
           })
           .then(res => {
@@ -157,7 +139,6 @@ export default {
             console.log("获取彩種ratio ERROR");
           });
       } else {
-        this.noContent = true;
         this.$axios
           .get(baseUrl + "/api/proxy/getTradeList", {
             params: {
@@ -165,8 +146,8 @@ export default {
               include: this.include,
               accountChangeType: this.status,
               betweenType: this.betweenType,
-              start: this.start,
-              limit: this.limit
+              // start: this.start,
+              // limit: this.limit
             }
           })
           .then(res => {

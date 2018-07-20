@@ -61,7 +61,7 @@
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
-import noContent from "./noContent";
+import noContent from "../public/noContent";
 export default {
   components: {
     noContent

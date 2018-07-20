@@ -39,6 +39,7 @@ const resetWay = r => require.ensure([], () => r(require('@/components/page/user
 const setBankcard = r => require.ensure([], () => r(require('@/components/page/user/setBankcard.vue')), 'setBankcard')
 const betRecord = r => require.ensure([], () => r(require('@/components/page/betManage/betRecord.vue')), 'betRecord')
 const PLstatement = r => require.ensure([], () => r(require('@/components/page/betManage/PLstatement.vue')), 'PLstatement')
+const NoticeDetail = r => require.ensure([], () => r(require('@/components/page/user/NoticeDetail.vue')), 'NoticeDetail')
 Vue.use(Router)
 export default new Router({
   mode: 'history',
@@ -313,6 +314,13 @@ export default new Router({
               component: setBankcard,
               meta: {
                 title: "宏發娱乐-找回安全密码"
+              }
+            },
+            {
+              path: '/user/NoticeDetail',
+              component: NoticeDetail,
+              meta: {
+                title: "宏發娱乐-公告详情"
               }
             },
           ],

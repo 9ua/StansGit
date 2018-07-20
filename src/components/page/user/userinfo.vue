@@ -91,9 +91,11 @@ export default {
     },
     // 获取用户信息
     getUserData() {
+      this.$loader.show();
       this.$axios
         .get(baseUrl + "/api/userCenter/getUserData")
         .then(res => {
+          this.$loader.hide();
           this.nickName = res.data.data.nickName;
           this.birthday = res.data.data.birthday;
           this.sex = res.data.data.sex;
@@ -107,11 +109,13 @@ export default {
           }
         })
         .catch(error => {
+          this.$loader.hide();          
           console.log("getUserData no");
         });
     },
     //设置用户信息
     setUserData() {
+      this.$loader.show();     
       let params = new URLSearchParams();
       params.append("image", this.img);
       params.append("nickName", this.nickName);
@@ -124,6 +128,7 @@ export default {
           this.$store.state.config
         )
         .then(res => {
+          this.$loader.hide();          
           this.$store.state.img = this.img;
           localStorage.setItem("img", this.img);
           this.$message({
@@ -134,6 +139,7 @@ export default {
           });
         })
         .catch(error => {
+          this.$loader.hide();
           this.$message.error({
             message: "用户信息保存失败！",
             center: true,

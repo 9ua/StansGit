@@ -21,7 +21,10 @@
   content: "";
   display: table;
 }
-
+.content-box .content{
+  overflow: hidden;
+  clear: both;
+}
 .viewBox {
   & .userRight {
     float: left;
@@ -131,7 +134,7 @@
 }
 
 .userTip {
-  margin: 0 15px;
+  margin: 15px 15px;
   border: 1px solid #f8e2b9;
   background: #fffdeb;
   color: #f46e00;

@@ -25,37 +25,29 @@
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
                   暂无记录
-            tr(v-for='(item,index) in underUserList',v-if='index>=start&&index<end')
+            tr(v-for='(item,index) in underUserList',v-if='index<start+limit&&index>=start')
               td {{item.account}}
               td {{item.userTypeName}}
               td {{item.childCount}}
               td {{item.rebateRatio}}                
               td {{item.teamCount}}                
               td {{item.loginTime}}                
-      .page
-        p 共
-          em {{underUserList.length}}
-          条记录
-        .pageNav
-          ul.pagination
-            li
-              router-link(to="",@click.native="pre",v-if='start>0') 上一页
-            //- li(v-for="(item,index) in underUserList")
-            li
-              router-link(to="",@click.native="next",v-if='underUserList.length>end') 下一页
+      pageNav(:list='underUserList',:limit='limit',:reset="reset",@pageTo='pageTo')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
-import noContent from "../agent/noContent";
+import noContent from "../public/noContent";
+import pageNav from "../public/pageNav";
 export default {
   components: {
-    noContent
+    noContent,
+    pageNav
   },
   data() {
     return {
+      reset:false,
       start: 0, //分页标识开始
-      end: 1, //分页标识结束
-      limit: 10, //分页标识结束
+      limit: 15, //单页显示数目
       account: "",
       noContent: true,
       th: ["账号", "用户类型", "下级人数", "返点率", "团队会员数", "登录时间"],
@@ -67,22 +59,14 @@ export default {
     this.end = this.start + this.limit;
   },
   methods: {
-    //上一页
-    pre() {
-      if (this.start > 0) {
-        this.start = this.start - this.limit;
-        this.end = this.start + this.limit;
-      }
-    },
-    //下一页
-    next() {
-      if (this.underUserList.length > this.end) {
-        this.start = this.start + this.limit;
-        this.end = this.start + this.limit;
-      }
+    //接收pageNav组件分页信号
+    pageTo($event) {
+      this.start = this.limit * ($event - 1);
     },
     getUnderUserList() {
       this.noContent = true;
+      this.reset=true;
+      this.start=0;
       if (this.account === "") {
         this.$axios
           .get(baseUrl + "/api/proxy/getUnderUserList", {
@@ -104,8 +88,8 @@ export default {
             if (res.data.code === 1) {
               this.underUserList = res.data.data;
               this.noContent = false;
-            }else{
-              this.account='';
+            } else {
+              this.account = "";
               this.$message.error({
                 message: res.data.data.message,
                 center: true,

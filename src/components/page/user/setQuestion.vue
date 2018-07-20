@@ -67,6 +67,7 @@ export default {
         });
         return;
       }
+      this.$loader.show();
       let md5answer1 = md5(this.answer1);
       let md5answer2 = md5(this.answer2);
       let formData = new FormData();
@@ -82,17 +83,17 @@ export default {
             this.$store.state.config
           )
           .then(res => {
+            this.$loader.hide();
             if (res.data.code === 1) {
               this.$message({
-                message: res.data.message,
+                message: "设置成功！",
                 type: "success",
                 center: true,
                 showClose: true
               });
               this.active = 2;
-              localStorage.removeItem("centerStatus");
               setTimeout(() => {
-                this.$router.push({ path: "/user" });
+                this.$router.push({ path: "/user/securityCenter" });
               }, 2000);
             } else {
               this.$message.error({
@@ -103,9 +104,15 @@ export default {
             }
           })
           .catch(error => {
-            console.log("设置密保问题No");
+            this.$loader.hide();
+            this.$message.error({
+                message: "请检查您的网络！",
+                center: true,
+                showClose: true
+              });
           });
       } else {
+        this.$loader.hide();
         this.$message.error({
           message: "密保问题不能相同！",
           center: true,
