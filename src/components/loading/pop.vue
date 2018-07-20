@@ -89,7 +89,6 @@ export default {
   & ul{
     min-width: 300px;
     max-width: 500px;
-    max-height:400px;
     background: #FFF;
     border-radius: 4px;
     @extend %flex;

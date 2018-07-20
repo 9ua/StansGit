@@ -157,17 +157,5 @@
 
 # 弹窗 #
 
-	<pop ref="pop" :title="title" :content="content" :content1="content1" :content2="content2" :number="number"></pop>
-	
-	import pop from '../../public/pop.vue';
-
-	title:'',
-	content:'',
-	content1:'',
-	content2:'',
-	number:null,
-
-	this.$refs.pop.closeSimpleDialog();
-	this.content = '哈哈哈哈'
-	this.number = 2;
+	this.$pop.show({title:'温馨提示',content:'已经到底啦',content1:String(this.seasonId),content2:String(Number(this.seasonId)+1),number:3});
 
