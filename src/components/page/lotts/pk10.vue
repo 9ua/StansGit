@@ -578,6 +578,10 @@ export default {
   created() {
     setInterval(this.scroll, 1400);
   },
+  destroyed() {
+    clearInterval(this.timer);
+    this.iscreat();
+  },
   mounted() {
     this.getLastDayWinList();
     this.lotteryAll();

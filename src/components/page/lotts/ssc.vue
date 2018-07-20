@@ -528,6 +528,10 @@ export default {
     this.getPlayTree();
     this.geteServerTime();
   },
+  destroyed() {
+    clearInterval(this.timer);
+    this.iscreat();
+  },
   methods:{
     // 中间->投注选号
     curBalls(item,index,list,indexf) {

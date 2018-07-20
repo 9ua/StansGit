@@ -236,13 +236,16 @@
         </div>
       </div>
     </div>
+    <firmbet ref="firmbet" :productList="productList" :content="String(this.seasonId)-1"></firmbet>
   </div>
 </template>
 <script>
+import firmbet from '@/components/loading/firmbet.vue';
 import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
+      isfirmbet:false,
       number:null,
       isshowPop:false,
       num: 0,
@@ -269,7 +272,9 @@ export default {
         addCon: null,
         addPattern: "元",
         addzhu: null,
-        addMoney: null
+        addMoney: null,
+        addClassName:null,
+        addSeasonId:null
       },
       addTitle: "单挑一骰",
       d: [], //选中的号码的下标
@@ -573,6 +578,11 @@ export default {
   created() {
     setInterval(this.scroll, 1400);
   },
+  destroyed() {
+    clearInterval(this.timer);
+    clearTimeout(this.timer2);
+    this.iscreat();
+  },
   mounted() {
     this.getLastDayWinList();
     this.lotteryAll();
@@ -595,6 +605,8 @@ export default {
         this.pd.addPattern = "元";
         this.pd.addzhu = this.zhu;
         this.pd.addMoney = this.spinner3;
+        this.pd.addClassName = this.className;
+        this.pd.addSeasonId = this.seasonId;
         //和值大小单双++
         if (this.className === "k3_star3_and") {
           if (indexf == 0) {
@@ -1236,9 +1248,9 @@ export default {
       if(this.productList.length == 0){
         this.$pop.show({title:'温馨提示',content:'您未选择号码,号码篮是空的！',content1:String(this.seasonId),content2:String(Number(this.seasonId)+1),number:1});
       }else{
-        this.$pop.show({title:'温馨提示',content:'已经到底啦',content1:String(this.seasonId)-1,content2:this.productList,number:4});
+        this.$refs.firmbet.isshow();
+        // this.$refs.firmbet.betGo();
       }
-      console.log(this.productList)
     },
     //立即投注
     betGo() {
@@ -1640,6 +1652,9 @@ export default {
     exit() {
       this.productList = [];
     },
+  },
+  components:{
+    firmbet
   },
   filters: {
     mask(value) {
