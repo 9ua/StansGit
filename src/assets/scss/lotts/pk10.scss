@@ -68,8 +68,10 @@
     %aitems;
   }
 }
-.pk10_side_gy_andBox,.pk10_star2_andBox{
-  & .carTitle{
-    background: none;
+.conterButDiv.pk10_side_gy_andBox{
+  & .both{
+    & .carTitle{
+      font-size: 12px;
+    }
   }
 }

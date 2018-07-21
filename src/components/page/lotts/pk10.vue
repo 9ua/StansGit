@@ -68,7 +68,7 @@
                     </p>
                   </div>
                 </div>
-                <tool class="changes" v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'" :item="numViews"></tool>
+                <tool class="changes" :item="numViews" v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'"></tool>
                 <!-- <div class="changes" v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'">
                   <span :class="{'active':tools.choose}" v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,numViews)">{{tools.name}}</span>
                 </div> -->
@@ -276,8 +276,10 @@ export default {
         addTitle: "单挑一骰",
         addCon: null,
         addPattern: "元",
-        addzhu: 0,
-        addMoney: 0
+        addzhu: null,
+        addMoney: null,
+        addClassName:null,
+        addSeasonId:null
       },
       addTitle: "单挑一骰",
       d: [], //选中的号码的下标
@@ -580,6 +582,7 @@ export default {
   },
   destroyed() {
     clearInterval(this.timer);
+    clearTimeout(this.timer2);
     this.iscreat();
   },
   mounted() {
@@ -1425,6 +1428,7 @@ export default {
     },
     //导航点击
     lottListNav(item, index) {
+      this.productList = [];
       this.arrLottName.indexOf();
       this.lottName = item.name;
       this.lottNameIndex = index;
@@ -1435,6 +1439,7 @@ export default {
     },
     //清空
     iscreat() {
+      this.pd = {};
       this.d = [];
       this.dd = [];
       this.ka = [];
@@ -1728,6 +1733,7 @@ export default {
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
+      this.addTitle = play.title;
       this.displayBonus = play.displayBonus;
       if (isNaN(this.displayBonus)) {
         let ar = [];
@@ -1773,11 +1779,17 @@ export default {
     },
     //添加号码栏
     addNum() {
-      this.pd.addMoney = this.spinner3;
-      this.productList.unshift(this.pd);
-      this.pd = {};
-      this.d = [];
-      this.iscreat();
+      if(this.zhu === 0){
+        this.$pop.show({title:'',content:'您尚未选定一个完整的投注。',content1:'',content2:'',number:2});
+      }else if(this.spinner3 === 0){
+        this.$pop.show({title:'',content:'您有号码未设置金额，请核对后投注。',content1:'',content2:'',number:2});
+      }else{
+        this.pd.addMoney = this.spinner3;
+        this.productList.unshift(this.pd);
+        this.pd = {};
+        this.d = [];
+        this.iscreat();
+      }
     },
     //删除指定行
     deleList(item, index) {

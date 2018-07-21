@@ -1292,7 +1292,6 @@ export default {
     },
     //导航点击
     lottListNav(item, index) {
-      this.$refs.popTo.closeSimpleDialog();
       this.productList = [];
       this.arrLottName.indexOf();
       this.lottName = item.name;
@@ -1642,7 +1641,6 @@ export default {
         this.d = [];
         this.iscreat();
       }
-      
     },
     //删除指定行
     deleList(item, index) {
