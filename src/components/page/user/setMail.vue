@@ -163,7 +163,7 @@ export default {
             this.active = 2;
             localStorage.removeItem("centerStatus");
             setTimeout(() => {
-              this.$router.push("/user");
+              this.$router.push("/user/securityCenter");
             }, 2000);
           } else {
             this.$message.error({
