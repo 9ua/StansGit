@@ -62,16 +62,17 @@
                 <div class="both">
                   <span class="carTitle">{{numViews.title}}</span>
                   <div class="carBox">
-                    <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)">
-                      <i>{{item.ball}}</i>
-                      <b></b>
-                    </p>
+                    <div class="cars">
+                      <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)">
+                        <i>{{item.ball}}</i>
+                        <b></b>
+                      </p>
+                    </div>
+                    <div class="changes" v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'">
+                      <span v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,indexto,numViews,indexf)">{{tools.name}}</span>
+                    </div>
                   </div>
                 </div>
-                <tool class="changes" :item="numViews" v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'"></tool>
-                <!-- <div class="changes" v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'">
-                  <span :class="{'active':tools.choose}" v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,numViews)">{{tools.name}}</span>
-                </div> -->
               </div>
             </div>
             <div class="zhu">
@@ -116,7 +117,7 @@
                 <span>总金额：{{zhu*spinner3}}, </span>
                 <span>余额：{{$store.state.balance}}</span>
               </p>
-              <button>确认投注</button>
+              <button @click="affirmBetGo">确认投注</button>
             </div>
           </div>
         </div>
@@ -232,9 +233,11 @@
         </div>
       </div>
     </div>
+    <firmbet ref="firmbet" :productLists="productList" :pds="pd" :content="String(this.seasonId)-1"></firmbet>
   </div>
 </template>
 <script>
+import firmbet from '@/components/loading/firmbet.vue';
 import tool from "@/components/page/lotts/tool.vue";
 import { baseUrl } from "../../../assets/js/env";
 export default {
@@ -271,26 +274,35 @@ export default {
       kh: [], //选中的号码的下标
       ki: [], //选中的号码的下标
       kj: [], //选中的号码的下标
+      zhu1:0,
+      zhu2:0,
+      zhu3:0,
+      zhu4:0,
+      zhu5:0,
+      zhu6:0,
+      zhu7:0,
+      zhu8:0,
+      zhu9:0,
+      zhu10:0,
       productList: [],
       pd: {
-        addTitle: "单挑一骰",
+        addTitle: "龙虎",
         addCon: null,
         addPattern: "元",
         addzhu: null,
         addMoney: null,
         addClassName:null,
-        addSeasonId:null
+        addSeasonId:null,
+        addName:"宏發pk10",
       },
-      addTitle: "单挑一骰",
-      d: [], //选中的号码的下标
-      dd: [], //选中的号码的下标
+      addTitle: "龙虎",
       arr: [],
       butClass1: true,
       butClass2: false,
       animate: true,
       orderList: null,
       className: "pk10_side_lh", //玩法ID
-      lottName: "北京赛车", //彩种名
+      lottName: "宏發pk10", //彩种名
       arrLottId: [],
       arrLottName: [],
       lotteryId: "pk10", //彩种id
@@ -592,12 +604,105 @@ export default {
     this.geteServerTime();
   },
   methods: {
+    aa(){
+      this.dd = this.d.filter(function(n) {return n;});
+      this.pd.addTitle = this.addTitle;
+      this.con = this.dd.join(",");
+      this.zhu++;
+      this.pd.addCon = this.con;
+      this.pd.addPattern = "元";
+      this.pd.addzhu = this.zhu;
+      this.pd.addMoney = this.spinner3;
+      this.pd.addClassName = this.className;
+      this.pd.addSeasonId = this.seasonId;
+      this.pd.addName = this.lottName;
+    },
+    toolsCur(tools,idx,item,indexff) {
+      
+      if (Object.is(tools.fncode, "full")) {
+        this.full({ball: item.nums},item,indexff);
+      } else if (Object.is(tools.fncode, "big")) {
+        this.big({ball: item.nums},item,indexff);
+      } else if (Object.is(tools.fncode, "small")) {
+        this.small({ball: item.nums},item,indexff);
+      } else if (Object.is(tools.fncode, "single")) {
+        this.single({ball: item.nums},item,indexff);
+      } else if (Object.is(tools.fncode, "double")) {
+        this.double({ball: item.nums},item,indexff);
+      } else {
+        this.empty({ball: item.nums},item,indexff);
+      }
+    },
+    //全
+    full({ ball },item,indexf) {
+      this.empty({ball});
+      ball.filter((list,i) => {
+        list.choose = true;
+        this.d[i] = ball[i].ball;
+        this.aa();
+        this.pk10_boxjia(list,i,item,indexf);
+      });
+    },
+    //大
+    big({ ball },item,indexf) {
+      this.empty({ball});
+      let len = Math.ceil(ball.length / 2);
+      ball.filter((list, i) => {
+        if (i >= len) {
+          list.choose = true;
+          this.d[i] = ball[i].ball;
+          this.aa();
+          this.pk10_boxjia(list,i,item,indexf);
+        }
+      });
+    },
+    //小
+    small({ ball },item,indexf) {
+      this.empty({ball});
+      let len = Math.ceil(ball.length / 2);
+      ball.filter((list, i) => {
+        if (i < len) {
+          list.choose = true;
+          this.d[i] = ball[i].ball;
+          this.aa();
+          this.pk10_boxjia(list,i,item,indexf);
+        }
+      });
+    },
+    //单
+    single({ ball },item,indexf) {
+      this.empty({ball});
+      ball.filter((list,i) => {
+        if (list.ball % 2 === 1) {
+          list.choose = true;
+          this.d[i] = ball[i].ball;
+          this.aa();
+          this.pk10_boxjia(list,i,item,indexf)
+        }
+      });
+    },
+    //双
+    double({ ball },item,indexf) {
+      this.empty({ball});
+      ball.filter((list,i) => {
+        if (list.ball % 2 === 0) {
+          list.choose = true;
+          this.d[i] = ball[i].ball;
+          this.aa();
+          this.pk10_boxjia(list,i,item,indexf)
+        }
+      });
+    },
+    //清
+    empty({ ball },item,indexf) {
+      ball.filter((list,i) => {
+        list.choose = false;
+      });
+    },
     // 中间->投注选号
     curBalls(item,index,list,indexf) {
       if (list.chooseOne) {
-        list.balls.map(b => {
-          b.choose = false;
-        });
+        list.balls.map(b => {b.choose = false;});
       }
       item.choose = !item.choose;
       if(item.choose === true){
@@ -605,11 +710,14 @@ export default {
         this.dd = this.d.filter(function(n) {return n;});
         this.zhu++;
         this.pd.addTitle = this.addTitle;
-        this.pd.addCon = this.dd.join(",");
         this.con = this.dd.join(",");
+        this.pd.addCon = this.con;
         this.pd.addPattern = "元";
         this.pd.addzhu = this.zhu;
         this.pd.addMoney = this.spinner3;
+        this.pd.addClassName = this.className;
+        this.pd.addSeasonId = this.seasonId;
+        this.pd.addName = this.lottName;
         this.pk10_boxjia(item,index,list,indexf);
       }else{
         this.d.splice(index, 1, "");
@@ -846,6 +954,7 @@ export default {
       if (this.className === "pk10_star2_and") {
         this.dd = this.d.filter(function(n) {return n;});
         this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
       }
       //前二、前三、前四、前五，复式
       if (this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5") {
@@ -878,21 +987,25 @@ export default {
           this.pd.addCon = this.an + "," + this.bn;
           this.con = this.an + "," + this.bn;
           this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star3") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.con = this.an + "," + this.bn + "," + this.cn;
           this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star4") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star5") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
           this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
           this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
         }
       }
       //猜前二、猜前三、猜前四、猜前五
@@ -926,21 +1039,25 @@ export default {
           this.pd.addCon = this.an + "," + this.bn;
           this.con = this.an + "," + this.bn;
           this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.con = this.an + "," + this.bn + "," + this.cn;
           this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star4_dj") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star5_dj") {
           this.pd.addCon
           this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
           this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
         }
       }
     },
@@ -1185,6 +1302,7 @@ export default {
       if (this.className === "pk10_star2_and") {
         this.dd = this.d.filter(function(n) {return n;});
         this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
       }
       //前二，复式
       if (
@@ -1221,21 +1339,25 @@ export default {
           this.pd.addCon = this.an + "," + this.bn;
           this.con = this.an + "," + this.bn;
           this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star3") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.con = this.an + "," + this.bn + "," + this.cn;
           this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star4") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star5") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
           this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
           this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
         }
       }
       //猜前二、猜前三、猜前四、猜前五
@@ -1273,21 +1395,25 @@ export default {
           this.pd.addCon = this.an + "," + this.bn;
           this.con = this.an + "," + this.bn;
           this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.con = this.an + "," + this.bn + "," + this.cn;
           this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star4_dj") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star5_dj") {
           this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
           this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
           this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
         }
       }
     },
@@ -1387,6 +1513,14 @@ export default {
       }
       this.displayBonus = this.splayers[0][0].displayBonus;
     },
+    //确认投注
+    affirmBetGo(){
+      if(this.productList.length == 0){
+        this.$pop.show({title:'温馨提示',content:'您未选择号码,号码篮是空的！',content1:String(this.seasonId),content2:String(Number(this.seasonId)+1),number:1});
+      }else{
+        this.$refs.firmbet.isshow();
+      }
+    },
     //立即投注
     betGo() {
       if(this.zhu === 0){
@@ -1429,8 +1563,7 @@ export default {
     //导航点击
     lottListNav(item, index) {
       this.productList = [];
-      this.arrLottName.indexOf();
-      this.lottName = item.name;
+      this.lottName = this.arrLottName[this.arrLottName.indexOf(item.name)];
       this.lottNameIndex = index;
       this.$router.push("/lotts/pk10/" + item.id);
       this.getPlayTree();
@@ -1511,6 +1644,7 @@ export default {
             this.arrLottName.push(k.name);
           });
           this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.lotteryId);
+          this.lottName = this.arrLottName[this.lottNameIndex];
           if (this.lottNameIndex > 5) {
             this.left = -200;
           }
@@ -1726,7 +1860,26 @@ export default {
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
       this.iscreat();
-      console.log(this.className);
+      switch (item.title) {
+        case "两面盘":
+          this.addTitle = "龙虎";
+          break;
+        case "定位胆":
+          this.addTitle = "前五定位胆";
+          break;
+        case "前二":
+          this.addTitle = "冠亚和";
+          break;
+        case "前三":
+          this.addTitle = "前三复式";
+          break;
+        case "前四":
+          this.addTitle = "前四复式";
+          break;
+        case "前五":
+          this.addTitle = "前五复式";
+          break;
+      }
     },
     //菜单选择项2
     playersBut(play, indexff) {
@@ -1743,7 +1896,6 @@ export default {
         this.displayBonus3 = this.displayBonus1 + "-" + this.displayBonus2;
       }
       this.iscreat();
-      console.log(play.id)
     },
     //导航右边点击
     lottnavright() {
@@ -1855,7 +2007,7 @@ export default {
     },
   },
   components: {
-    tool
+    tool,firmbet
   },
   filters: {
     mask(value) {

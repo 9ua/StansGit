@@ -236,7 +236,7 @@
         </div>
       </div>
     </div>
-    <firmbet ref="firmbet" :productList="productList" :content="String(this.seasonId)-1"></firmbet>
+    <firmbet ref="firmbet" :productLists="productList" :pds="pd" :content="String(this.seasonId)-1"></firmbet>
   </div>
 </template>
 <script>
@@ -274,7 +274,8 @@ export default {
         addzhu: null,
         addMoney: null,
         addClassName:null,
-        addSeasonId:null
+        addSeasonId:null,
+        addName:"宏發快3",
       },
       addTitle: "单挑一骰",
       d: [], //选中的号码的下标
@@ -598,7 +599,7 @@ export default {
       if (item.choose === true) {
         this.d[index] = item.ball;
         this.dd = this.d.filter(function(n) {return n;});
-        this.zhu++;
+        this.zhu ++;
         this.pd.addTitle = this.addTitle;
         this.pd.addCon = this.dd.join(",");
         this.con = this.dd.join(",");
@@ -607,6 +608,7 @@ export default {
         this.pd.addMoney = this.spinner3;
         this.pd.addClassName = this.className;
         this.pd.addSeasonId = this.seasonId;
+        this.pd.addName = this.lottName;
         //和值大小单双++
         if (this.className === "k3_star3_and") {
           if (indexf == 0) {
@@ -680,44 +682,32 @@ export default {
           if(index !== 5){
             if (indexf == 0) {
               this.d1[index] = item.ball;
-              this.dd = this.d1.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d1.filter(function(n) {return n;});
               this.an = this.dd.join(",");
             }
             if (indexf == 1) {
               this.d2[index] = item.ball;
-              this.dd = this.d2.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d2.filter(function(n) {return n;});
               this.bn = this.dd.join(",");
             }
             if (indexf == 2) {
               this.d3[index] = item.ball;
-              this.dd = this.d3.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d3.filter(function(n) {return n;});
               this.cn = this.dd.join(",");
             }
             if (indexf == 3) {
               this.d4[index] = item.ball;
-              this.dd = this.d4.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d4.filter(function(n) {return n;});
               this.dn = this.dd.join(",");
             }
             if (indexf == 4) {
               this.d5[index] = item.ball;
-              this.dd = this.d5.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d5.filter(function(n) {return n;});
               this.en = this.dd.join(",");
             }
             if (indexf == 5) {
               this.d6[index] = item.ball;
-              this.dd = this.d6.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d6.filter(function(n) {return n;});
               this.fn = this.dd.join(",");
             }
           }
@@ -782,11 +772,11 @@ export default {
                 this.zhu6 = 5;
               }
             }
+            this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5+this.zhu6;
+            this.pd.addzhu = this.zhu;
           }
           this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en +"," +this.fn;
           this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
-          this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5+this.zhu6;
-          this.pd.addzhu = this.zhu;
           this.pd.addCon = this.con;
           console.log("indexf:",this.con)
         }
@@ -854,7 +844,8 @@ export default {
       } else {
         this.d.splice(index, 1, "");
         this.dd = this.d.filter(function(n) {return n;});
-        this.zhu--;
+        this.zhu --;
+        this.pd.addzhu = this.zhu;
         this.pd.addCon = this.dd.join(",");
         //和值大小单双--
         if (this.className === "k3_star3_and") {
@@ -929,44 +920,32 @@ export default {
           if(index !== 5){
             if (indexf == 0) {
               this.d1.splice(index, 1, "");
-              this.dd = this.d1.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d1.filter(function(n) {return n;});
               this.an = this.dd.join(",");
             }
             if (indexf == 1) {
               this.d2.splice(index, 1, "");
-              this.dd = this.d2.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d2.filter(function(n) {return n;});
               this.bn = this.dd.join(",");
             }
             if (indexf == 2) {
               this.d3.splice(index, 1, "");
-              this.dd = this.d3.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d3.filter(function(n) {return n;});
               this.cn = this.dd.join(",");
             }
             if (indexf == 3) {
               this.d4.splice(index, 1, "");
-              this.dd = this.d4.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d4.filter(function(n) {return n;});
               this.dn = this.dd.join(",");
             }
             if (indexf == 4) {
               this.d5.splice(index, 1, "");
-              this.dd = this.d5.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d5.filter(function(n) {return n;});
               this.en = this.dd.join(",");
             }
             if (indexf == 5) {
               this.d6.splice(index, 1, "");
-              this.dd = this.d6.filter(function(n) {
-                return n;
-              });
+              this.dd = this.d6.filter(function(n) {return n;});
               this.fn = this.dd.join(",");
             }
           }
@@ -1031,12 +1010,12 @@ export default {
                 this.zhu6 = 0;
               }
             }
+            this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en +"," +this.fn;
+            this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+            this.pd.addCon = this.con;
+            this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5+this.zhu6;
+            this.pd.addzhu = this.zhu;
           }
-          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en +"," +this.fn;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
-          this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5+this.zhu6;
-          this.pd.addzhu = this.zhu;
-          this.pd.addCon = this.con;
         }
         //三不同--
         if (this.className === "k3_star3_same_not") {
@@ -1293,8 +1272,7 @@ export default {
     //导航点击
     lottListNav(item, index) {
       this.productList = [];
-      this.arrLottName.indexOf();
-      this.lottName = item.name;
+      this.lottName = this.arrLottName[this.arrLottName.indexOf(item.name)];
       this.lottNameIndex = index;
       this.$router.push("/lotts/k3/" + item.id);
       this.getPlayTree();//玩法术
@@ -1347,8 +1325,7 @@ export default {
         var setupTime = localStorage.getItem("data_lotteryAll_k3");
         if (
           setupTime === null ||
-          now - setupTime > this.$store.state.cacheTime
-        ) {
+          now - setupTime > this.$store.state.cacheTime) {
           localStorage.removeItem("lotteryAll_k3");
           localStorage.removeItem("data_lotteryAll_k3");
           this.$axios
@@ -1372,9 +1349,8 @@ export default {
             this.arrLottId.push(k.id);
             this.arrLottName.push(k.name);
           });
-          this.lottNameIndex = this.arrLottId.indexOf(
-            this.$route.params.lotteryId
-          );
+          this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.lotteryId);
+          this.lottName = this.arrLottName[this.lottNameIndex];
           if (this.lottNameIndex > 5) {
             this.left = -200;
           }
@@ -1585,7 +1561,17 @@ export default {
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
       this.iscreat();
-      console.log(index, this.className);
+      switch (item.title) {
+        case "单骰":
+          this.addTitle = "单挑一骰";
+          break;
+        case "二骰":
+          this.addTitle = "二不同";
+          break;
+        case "三骰":
+          this.addTitle = "和值";
+          break;
+      }
     },
     //菜单选择项2
     playersBut(play, indexff) {
@@ -1594,7 +1580,6 @@ export default {
       this.className = play.id;
       this.addTitle = play.title;
       this.iscreat();
-      console.log(play.id);
     },
     //导航右边点击
     lottnavright() {
@@ -1649,6 +1634,7 @@ export default {
     //清空
     exit() {
       this.productList = [];
+      this.pd={};
     },
   },
   components:{
