@@ -12,14 +12,14 @@
         <div>
           <p class="hint">请核准您的投注信息</p>
           <p class="headline">
-            <span>彩种：{{content}}</span>
+            <span>彩种：{{addName}}</span>
             <span>期号：{{content}}</span>
           </p>
           <div class="addBox">
             <span class="addHead">详情：</span>
             <div>
               <ul>
-                <li v-for="(item,index) in productList" :key="index">
+                <li v-for="(item,index) in productLists" :key="index">
                   <span class="addtitle">【{{item.addTitle}}】</span>
                   <p class="addCon">{{item.addCon}}</p>
                 </li>
@@ -45,23 +45,36 @@ export default {
       addMoney:0,
       money:0,
       toshwo:false,
+      addName:null,
       username:localStorage.getItem('username')
     };
   },
   props:{
-    productList:{
+    productLists:{
       type:Array
     },
     content:{
       type:Number
+    },
+    pds:{
+      type:Object
     }
-  },
-  mounted(){
-    this.betGo();
   },
   methods:{
     isshow(){
       this.toshwo = !this.toshwo;
+      let addName = '';
+      let addMoney=0;
+      let addzhu=0;
+      let money=0;
+      for(let i=0; i<this.productLists.length;i++){
+        addMoney += this.productLists[i].addMoney;
+        addzhu += this.productLists[i].addzhu;
+        money += this.productLists[i].addMoney * this.productLists[i].addzhu;
+        addName = this.productLists[0].addName;
+      }
+      this.money = money;
+      this.addName = addName;
     },
     betGo(){
       let addMoney=0;
@@ -69,23 +82,24 @@ export default {
       let money=0;
       let addSeasonId=null;
       let formData = new FormData();
-      for(let i=0; i<this.productList.length;i++){
-        addMoney += this.productList[i].addMoney;
-        addzhu += this.productList[i].addzhu;
-        money += this.productList[i].addMoney * this.productList[i].addzhu;
-        addSeasonId = this.productList[0].addSeasonId
-        formData.append("order["+i+"].content", this.productList[i].addCon);
-        formData.append("order["+i+"].betCount", this.productList[i].addzhu);
-        formData.append("order["+i+"].price", this.productList[i].addMoney);
+      for(let i=0; i<this.productLists.length;i++){
+        addMoney += this.productLists[i].addMoney;
+        addzhu += this.productLists[i].addzhu;
+        money += this.productLists[i].addMoney * this.productLists[i].addzhu;
+        addSeasonId = this.productLists[0].addSeasonId
+        formData.append("order["+i+"].content", this.productLists[i].addCon);
+        formData.append("order["+i+"].betCount", this.productLists[i].addzhu);
+        formData.append("order["+i+"].price", this.productLists[i].addMoney);
         formData.append("order["+i+"].unit", 1);
-        formData.append("order["+i+"].playId", this.productList[i].addClassName);
-        formData.append("traceOrders["+i+"].price", this.productList[i].addMoney);
+        formData.append("order["+i+"].playId", this.productLists[i].addClassName);
+        formData.append("traceOrders[0].price", this.productLists[i].addMoney);
       }
       this.money = money;
       this.addMoney = addMoney;
       this.zhu = addzhu;
-      formData.append("traceOrders[0].seasonId",addSeasonId);
+      this.addSeasonId = addSeasonId;
       formData.append("count", this.zhu);
+      formData.append("traceOrders[0].seasonId",this.addSeasonId);
       formData.append("bounsType", 0);
       formData.append("traceWinStop", 0);
       formData.append("isTrace", 0);
@@ -95,12 +109,14 @@ export default {
         .post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config)
         .then(res => {
           if (res.data.message === "success") {
+            this.toshwo = !this.toshwo;
             this.$pop.show({title:'温馨提示',content:'恭喜您，投注成功！',content1:'',content2:'',number:1});
-            // this.getbetOrderList();//我的投注
-            // this.iscreat();
+            this.$parent.getbetOrderList();//调用父级的获取投注记录
+            this.$parent.exit();//调用父级的清空方法
           } else {
-            // this.iscreat();
-            console.warn(res.data.data);
+            this.toshwo = !this.toshwo;
+            this.$pop.show({title:'温馨提示',content:res.data.data,content1:'',content2:'',number:1});
+            this.$parent.exit();//调用父级的清空方法
           }
         })
         .catch(error => {
@@ -192,9 +208,14 @@ export default {
             & li {
               @extend %flex;
               & .addtitle {
+                @extend %flex;
+                width: 108px;
                 margin-right: 10px;
               }
               & .addCon {
+                @extend %flex,%fr;
+                max-width: 220px;
+                word-break:break-all;
               }
             }
           }

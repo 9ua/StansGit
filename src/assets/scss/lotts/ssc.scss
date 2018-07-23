@@ -12,10 +12,42 @@
     & .both {
       @extend %flex;
     }
+    & .changes{
+      @extend %flex,%aitems, %fr;
+      width: 168px;
+      margin-left: 10px;
+      cursor: pointer;
+      & span{
+        @extend %faj;
+        width: 26px;
+        height: 26px;
+        margin: 0px 1px;
+        padding: 2px;
+        border-radius: 50%;
+        border: 1px solid #c0c5d2;
+        box-shadow: 0 1px 3px #d4d4d4, inset 0 -1px 5px #fff;
+        background: linear-gradient(180deg, #fff 0, #f1efef);
+      }
+      & span:hover{
+        @extend %faj;
+        width: 26px;
+        height: 26px;
+        margin: 0px 1px;
+        padding: 2px;
+        border-radius: 50%;
+        color: #FFF;
+        border: 1px solid #f37036;
+        box-shadow: 0 1px 3px #d4d4d4, inset 0 -1px 5px #fff;
+        background: linear-gradient(180deg, #f37036 0, #f37036);
+      }
+    }
     & .carBox {
       @extend %flex,
       %fr;
-      max-width: 440px;
+      max-width: 618px;
+      & .cars{
+        @extend %flex;
+      }
     }
   }
   & .carTitle {

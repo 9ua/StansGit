@@ -20,6 +20,9 @@ export default {
   props: {
     item: {
       type: Object
+    },
+    zhu:{
+      type:Number
     }
   },
   methods: {
@@ -52,19 +55,14 @@ export default {
     },
     //全
     full({ ball }) {
-      this.empty({
-        ball
-      });
-      ball.filter(list => {
+      this.empty({ball});
+      ball.filter((list,idx) => {
         list.choose = true;
       });
-      console.log(this.con)
     },
     //大
     big({ ball }) {
-      this.empty({
-        ball
-      });
+      this.empty({ball});
       let len = Math.ceil(ball.length / 2);
       ball.filter((list, idx) => {
         if (idx >= len) {
@@ -74,9 +72,7 @@ export default {
     },
     //小
     small({ ball }) {
-      this.empty({
-        ball
-      });
+      this.empty({ball});
       let len = Math.ceil(ball.length / 2);
       ball.filter((list, idx) => {
         if (idx < len) {
@@ -86,10 +82,8 @@ export default {
     },
     //单
     single({ ball }) {
-      this.empty({
-        ball
-      });
-      ball.filter(list => {
+      this.empty({ball});
+      ball.filter((list,idx) => {
         if (list.ball % 2 === 0) {
           list.choose = true;
         }
@@ -97,10 +91,8 @@ export default {
     },
     //双
     double({ ball }) {
-      this.empty({
-        ball
-      });
-      ball.filter(list => {
+      this.empty({ball});
+      ball.filter((list,idx) => {
         if (list.ball % 2 === 1) {
           list.choose = true;
         }
@@ -108,7 +100,7 @@ export default {
     },
     //清
     empty({ ball }) {
-      ball.filter(list => {
+      ball.filter((list,idx) => {
         list.choose = false;
       });
     }

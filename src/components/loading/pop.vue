@@ -64,10 +64,10 @@ export default {
     },
     //3秒后自动关闭
     three(){
-      if(this.number === 2 || this.number === 3){
+      if(this.number === '2' || this.number === '3'){
         setTimeout(() =>{
           this.openSimple = false;
-        },3000)
+        },2000)
       }
     }
   }
