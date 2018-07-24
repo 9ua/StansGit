@@ -3,7 +3,7 @@
   .userRight
     .userTitle 我要充值
     .userMain
-      newTab(:navNum=4)
+      newTab(:navNum='4')
       .rechLeftInfo
       .p 收款银行：
         span {{receiveBankName}}

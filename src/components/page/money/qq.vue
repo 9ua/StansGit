@@ -3,7 +3,7 @@
   .userRight
     .userTitle 我要充值
     .userMain
-      newTab(:navNum=2)
+      newTab(:navNum='2')
       .maintain(style='padding-top: 180px;padding-bottom: 180px;text-align:center;')
         i(class='iconfont hf-setting-fill')
         span QQ钱包充值维护中，请选择其它充值方式
