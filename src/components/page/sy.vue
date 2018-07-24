@@ -90,6 +90,7 @@ export default {
   data() {
     return {
       img: 0,
+      active:-1,
       HoverShowContent:false,
       HoverShowAccount:false,
       acountlists:[
