@@ -52,7 +52,7 @@ export default {
     rechargeEntrance() {
       this.$axios
         .get(baseUrl + "/api/proxy/rechargeEntrance", {
-          params: { rechargeWay: 1 }
+          params: { rechargeWay: 2 }
         })
         .then(res => {
           this.QRCodeUrl =baseUrl+ res.data.data.QRCodeUrl;
@@ -62,10 +62,18 @@ export default {
           console.log("获取列表Error");
         });
     },
-    sendReq() {
+    submit() {
       if (this.checkCode == "") {
         this.$message.error({
           message: "交易订单后六位不能为空！",
+          center: true,
+          showClose: true
+        });
+        return;
+      }
+      if (this.checkCode.length != 6) {
+        this.$message.error({
+          message: "交易订单后六位格式错误！",
           center: true,
           showClose: true
         });
@@ -88,7 +96,7 @@ export default {
         return;
       } else {
         let formData = new FormData();
-        formData.append("rechargeWay", 1);
+        formData.append("rechargeWay", 2);
         formData.append("receiveBankId", this.receiveBankId);
         formData.append("chargeamount", this.chargeamount);
         formData.append("niceName", this.niceName);

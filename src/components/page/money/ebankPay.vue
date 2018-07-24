@@ -75,7 +75,7 @@ export default {
           console.log("获取列表Error");
         });
     },
-    sendReq() {
+    submit() {
       if (this.checkCode == "") {
         this.$message.error({
           message: "交易订单后六位不能为空！",
@@ -101,7 +101,7 @@ export default {
         return;
       } else {
         let formData = new FormData();
-        formData.append("rechargeWay", 1);
+        formData.append("rechargeWay", 5);
         formData.append("receiveBankId", this.receiveBankId);
         formData.append("chargeamount", this.chargeamount);
         formData.append("niceName", this.niceName);

@@ -62,7 +62,7 @@ export default {
           console.log("获取列表Error");
         });
     },
-    sendReq() {
+    submit() {
       if (this.checkCode == "") {
         this.$message.error({
           message: "交易订单后六位不能为空！",

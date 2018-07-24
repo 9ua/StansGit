@@ -76,7 +76,7 @@ export default {
       betweenType: 1,
       reset:false,
       start: 0,
-      limit: 1,
+      limit: 15,
       status: 100,
       tradelist: [],
       th: [

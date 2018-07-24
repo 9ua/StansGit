@@ -26,9 +26,9 @@
               <div class="accountList HoverShowContent" v-if='HoverShowAccount'>
                 <i></i>
                 <div>
-                  <a :href='item.path' v-for="(item,index) in acountlists" :key="index">
+                  <router-link :to='item.path' v-for="(item,index) in acountlists" :key="index">
                     {{item.title}}
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </router-link>
@@ -42,9 +42,9 @@
               <div class="accountList HoverShowContent" v-if='HoverShowContent'>
                 <i></i>
                 <div>
-                  <a :href='"/money/"+item.alino' v-for="(item,index) in paywaylist" :key="index">
+                  <router-link :to='"/money/"+item.alino' v-for="(item,index) in paywaylist" :key="index">
                     {{item.alias}}
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </router-link>
