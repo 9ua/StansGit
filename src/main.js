@@ -17,7 +17,7 @@ import 'vue-ydui/dist/ydui.px.css'
 import GeminiScrollbar from 'vue-gemini-scrollbar'
 import Loading from "./components/loading/index"
 import popTo from "./components/loading/pop"
-
+import './assets/iconfont/iconfont.css'
 Vue.use(popTo);
 Vue.use(Loading);
 Vue.use(GeminiScrollbar)

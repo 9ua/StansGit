@@ -67,6 +67,14 @@ export default {
         });
     },
     submit() {
+      if (this.card != this.card2) {
+        this.$message.error({
+          message: "请输入相同银行卡号！",
+          center: true,
+          showClose: true
+        });
+        return;
+      }
       if (
         this.bankNameId == "" ||
         this.card == "" ||
@@ -124,10 +132,10 @@ export default {
           .catch(error => {
             this.$loader.hide();
             this.$message.error({
-                message: "请检查您的网络！",
-                center: true,
-                showClose: true
-              });
+              message: "请检查您的网络！",
+              center: true,
+              showClose: true
+            });
           });
       }
     }

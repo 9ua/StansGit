@@ -19,16 +19,36 @@
             <router-link to="/user" tag="li"><img :src='"/static/images/"+this.$store.state.img+".jpg"' alt="" />
               <span>{{this.$store.state.Globalusername}}</span>
             </router-link>
-            <router-link to="" tag="li">
-              <a href="javascript:;">我的账户</a>
+            <router-link to="" tag="li" @mouseover.native='HoverShowAccount=true' @mouseout.native="HoverShowAccount=false">
+              <a href="javascript:;">我的账户
+                <i class='iconfont hf-down-copy' style='font-size:14px'></i>
+              </a>
+              <div class="accountList HoverShowContent" v-if='HoverShowAccount'>
+                <i></i>
+                <div>
+                  <a :href='item.path' v-for="(item,index) in acountlists" :key="index">
+                    {{item.title}}
+                  </a>
+                </div>
+              </div>
             </router-link>
             <router-link to="" tag="li">
               <a href="javascript:;">余额：{{$store.state.balance}}</a>
             </router-link>
-            <router-link to="" tag="li">
-              <a href="javascript:;">充值</a>
+            <router-link to="" tag="li" @mouseover.native='HoverShowContent=true' @mouseout.native="HoverShowContent=false">
+              <a href="javascript:;">充值
+                <i class='iconfont hf-down-copy' style='font-size:14px'></i>
+              </a>
+              <div class="accountList HoverShowContent" v-if='HoverShowContent'>
+                <i></i>
+                <div>
+                  <a :href='"/money/"+item.alino' v-for="(item,index) in paywaylist" :key="index">
+                    {{item.alias}}
+                  </a>
+                </div>
+              </div>
             </router-link>
-            <router-link to="" tag="li">
+            <router-link to="/money/withdraw" tag="li">
               <a href="javascript:;">提现</a>
             </router-link>
             <li @click="logOut">
@@ -70,18 +90,28 @@ export default {
   data() {
     return {
       img: 0,
-      active:-1,
+      HoverShowContent:false,
+      HoverShowAccount:false,
+      acountlists:[
+        { title: "投注记录", path: "/betManage/betRecord" },
+        { title: "交易记录", path: "/user/billRecord" },
+        { title: "个人信息", path: "/user/userinfo" },
+        { title: "安全中心", path: "/user/securityCenter" },
+        { title: "代理中心", path: "/agent/agentReport" },
+      ],
       navs: [
         { title: "首页", path: "/home" },
         { title: "彩票大厅", path: "/lott" },
         { title: "活动中心", path: "/activity" },
         { title: "手机购彩", path: "/appdown" },
         { title: "帮助指南", path: "/helpcenter" }
-      ]
+      ],
+      paywaylist: []
     };
   },
   mounted() {
     this.getTopUserData();
+    this.getRechargeWayList();
   },
   methods: {
     setClass(v){
@@ -91,7 +121,7 @@ export default {
     //获取用户信息
     getTopUserData() {
       if (localStorage.getItem("topUserData")) {
-        let topUserData=JSON.parse(localStorage.getItem("topUserData"));
+        let topUserData = JSON.parse(localStorage.getItem("topUserData"));
         this.$store.state.img = topUserData.image;
       } else {
         this.$axios
@@ -105,6 +135,22 @@ export default {
           })
           .catch(error => {
             this.$store.state.img = 0;
+          });
+      }
+    },
+    getRechargeWayList() {
+      if (localStorage.getItem("paywaylist")) {
+        let paywaylist = JSON.parse(localStorage.getItem("paywaylist"));
+        this.paywaylist = paywaylist;
+      } else {
+        this.$axios
+          .get(baseUrl + "/api/proxy/getRechargeWayList")
+          .then(res => {
+            this.paywaylist = res.data.data;
+            localStorage.setItem("paywaylist", JSON.stringify(res.data.data));
+          })
+          .catch(error => {
+            console.log("Error");
           });
       }
     },

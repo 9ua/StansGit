@@ -41,7 +41,8 @@
     & .header-top-login {
       @extend %flex;
       & li {
-        margin-left: 10px;
+        margin-left: 30px;
+        height: 100%;
         cursor: pointer;
         & img {
           width: 24px;
@@ -53,9 +54,43 @@
           color: #FE7A12;
         }
       }
-      & li:hover{
+      & li:hover {
         color: #FE7A12;
       }
+    }
+  }
+}
+
+.accountList {
+  position: absolute;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 5px;
+  top:34px;
+  margin-left: -16px;
+  z-index: 20;
+  box-shadow: 4px 4px 8px rgba(0,0,0,.3);
+  & i{
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #fff;
+    margin-left: 36px;
+    margin-top: -10px;
+  }
+  & a{
+    color: #666;
+    display: block;
+    padding: 0 5px;
+    width: 80px;
+    text-align: center;
+    line-height: 24px;
+    &:hover{
+      color: #e4393c!important;
+      text-decoration: underline;
     }
   }
 }

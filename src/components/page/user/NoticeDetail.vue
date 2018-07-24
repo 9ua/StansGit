@@ -10,7 +10,7 @@
           .articlePublishTime {{createTime}}
           .articleContent
             p(v-html='content')
-          .author {{author}}
+          .author 管理员
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
