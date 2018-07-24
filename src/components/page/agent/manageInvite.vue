@@ -96,7 +96,6 @@ export default {
       this.rebateratio = b.target.value;
     },
     getInviteCode() {
-      let _this = this;
       let config = {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         withCredentials: true

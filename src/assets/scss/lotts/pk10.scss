@@ -23,11 +23,36 @@
         padding: 2px;
         border-radius:50%;
       }
+      & span.active{
+        @extend %faj;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #f37036;
+        background: #f37036;
+        color:#FFF;
+        margin: 0px 2px;
+        padding: 2px;
+        border-radius:50%;
+      }
+      & span:hover{
+        @extend %faj;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #f37036;
+        background: #f37036;
+        color:#FFF;
+        margin: 0px 2px;
+        padding: 2px;
+        border-radius:50%;
+      }
     }
     & .carBox {
       @extend %flex,
       %fr;
-      max-width: 600px;
+      max-width: 616px;
+      & .cars{
+        @extend %flex;
+      }
     }
   }
   & .carTitle {
@@ -61,15 +86,22 @@
     }
   }
 }
-
+.conterBut.conterButpk10_star2_and{
+  & .cars{
+    @extend %flex,%fr;
+    max-width: 520px;
+  }
+}
 .conterButpk10_side_lh {
   & .pk10_side_lhBox {
     @extend %flex,
     %aitems;
   }
 }
-.pk10_side_gy_andBox,.pk10_star2_andBox{
-  & .carTitle{
-    background: none;
+.conterButDiv.pk10_side_gy_andBox{
+  & .both{
+    & .carTitle{
+      font-size: 12px;
+    }
   }
 }

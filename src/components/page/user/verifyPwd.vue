@@ -154,7 +154,7 @@ export default {
               });
               this.active = 3;
               setTimeout(() => {
-                this.$router.go(-1);
+                this.$router.push("/user/securityCenter");
               }, 2000);
               localStorage.removeItem("centerStatus");
             } else {

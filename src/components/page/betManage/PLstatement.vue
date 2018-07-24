@@ -10,9 +10,9 @@
             p
               mu-icon(value='monetization_on',class='icon') 
               余额
-              router-link(to="/ebankPay") 充值
-              router-link(to="/withdraw") 提现
-              router-link(to="/billRecord") 交易记录
+              router-link(to="ebankPay") 充值
+              router-link(to="withdraw") 提现
+              router-link(to="billRecord") 交易记录
           .plTotal
             mu-icon(value='line_weight',class='icon')
             .detail
