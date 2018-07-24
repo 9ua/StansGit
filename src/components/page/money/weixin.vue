@@ -3,7 +3,7 @@
   .userRight
     .userTitle 我要充值
     .userMain
-      newTab(:navNum='0')
+      newTab(:navNum=0)
       .rechLeftInfo
         .img(style='width:1px;height:280px;')
           img(:src='this.QRCodeUrl',style="width:200px;margin:22px 144px;")
