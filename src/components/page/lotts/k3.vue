@@ -1179,6 +1179,7 @@ export default {
         this.arrpeilvc.push(arr1);
         this.arrpeilvc.push(arr2);
         this.arrpeilvc.push(this.arrpeilvb);
+        console.log(this.arrpeilva,this.arrpeilvb)
       } else if (this.lotteryId !== "dfk3") {
         this.arrpeilva = [];
         this.arrpeilvb = [];
@@ -1198,7 +1199,10 @@ export default {
         for (let i in arrpeilv2) {
           this.arrpeilvb.push(arrpeilv2[i]);
         }
+        console.log(this.arrpeilva,this.arrpeilvb)
       }
+
+
       this.current_player = this.playGroups[0].groups[0].players[0];
       this.current_player_bonus = this.current_player;
       for (let i = 0; i < this.playGroups.length; i++) {

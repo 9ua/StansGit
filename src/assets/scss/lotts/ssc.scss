@@ -46,7 +46,8 @@
       %fr;
       max-width: 618px;
       & .cars{
-        @extend %flex;
+        @extend %flex,%fr;
+        // max-width: 420px;
       }
     }
   }
