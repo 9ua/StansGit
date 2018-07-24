@@ -72,6 +72,7 @@
                       <span v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,indexto,numViews,indexf)">{{tools.name}}</span>
                     </div>
                   </div>
+                  <!-- <tool class="changes" :item="numViews"  v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'"></tool> -->
                 </div>
               </div>
             </div>
@@ -243,6 +244,7 @@ import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
+      reset:-1,
       number:null,
       num: 0,
       left: 0,
@@ -604,100 +606,1489 @@ export default {
     this.geteServerTime();
   },
   methods: {
-    aa(){
-      this.dd = this.d.filter(function(n) {return n;});
-      this.pd.addTitle = this.addTitle;
-      this.con = this.dd.join(",");
-      this.zhu++;
-      this.pd.addCon = this.con;
-      this.pd.addPattern = "元";
-      this.pd.addzhu = this.zhu;
-      this.pd.addMoney = this.spinner3;
-      this.pd.addClassName = this.className;
-      this.pd.addSeasonId = this.seasonId;
-      this.pd.addName = this.lottName;
-    },
-    toolsCur(tools,idx,item,indexff) {
-      
-      if (Object.is(tools.fncode, "full")) {
-        this.full({ball: item.nums},item,indexff);
-      } else if (Object.is(tools.fncode, "big")) {
-        this.big({ball: item.nums},item,indexff);
-      } else if (Object.is(tools.fncode, "small")) {
-        this.small({ball: item.nums},item,indexff);
-      } else if (Object.is(tools.fncode, "single")) {
-        this.single({ball: item.nums},item,indexff);
-      } else if (Object.is(tools.fncode, "double")) {
-        this.double({ball: item.nums},item,indexff);
-      } else {
-        this.empty({ball: item.nums},item,indexff);
+    //全 ++++
+    iszhu1({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ka[i] = list.ball;
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+          this.zhu1 = 10;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kb[i] = list.ball;
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+          this.zhu2 = 10;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kc[i] = list.ball;
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+          this.zhu3 = 10;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kd[i] = list.ball;
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+          this.zhu4 = 10;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ke[i] = list.ball;
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+          this.zhu5 = 10;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ka[i] = list.ball;
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kb[i] = list.ball;
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kc[i] = list.ball;
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kd[i] = list.ball;
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ke[i] = list.ball;
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ka[i] = list.ball;
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join(",");
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ka[i] = list.ball;
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kb[i] = list.ball;
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kc[i] = list.ball;
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kd[i] = list.ball;
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ke[i] = list.ball;
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
       }
     },
-    //全
-    full({ ball },item,indexf) {
-      this.empty({ball});
-      ball.filter((list,i) => {
-        list.choose = true;
-        this.d[i] = ball[i].ball;
-        this.aa();
-        this.pk10_boxjia(list,i,item,indexf);
-      });
-    },
-    //大
-    big({ ball },item,indexf) {
-      this.empty({ball});
-      let len = Math.ceil(ball.length / 2);
-      ball.filter((list, i) => {
-        if (i >= len) {
-          list.choose = true;
-          this.d[i] = ball[i].ball;
-          this.aa();
-          this.pk10_boxjia(list,i,item,indexf);
+    //大 ++++
+    iszhu2({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
         }
-      });
-    },
-    //小
-    small({ ball },item,indexf) {
-      this.empty({ball});
-      let len = Math.ceil(ball.length / 2);
-      ball.filter((list, i) => {
-        if (i < len) {
-          list.choose = true;
-          this.d[i] = ball[i].ball;
-          this.aa();
-          this.pk10_boxjia(list,i,item,indexf);
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
         }
-      });
-    },
-    //单
-    single({ ball },item,indexf) {
-      this.empty({ball});
-      ball.filter((list,i) => {
-        if (list.ball % 2 === 1) {
-          list.choose = true;
-          this.d[i] = ball[i].ball;
-          this.aa();
-          this.pk10_boxjia(list,i,item,indexf)
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
         }
-      });
-    },
-    //双
-    double({ ball },item,indexf) {
-      this.empty({ball});
-      ball.filter((list,i) => {
-        if (list.ball % 2 === 0) {
-          list.choose = true;
-          this.d[i] = ball[i].ball;
-          this.aa();
-          this.pk10_boxjia(list,i,item,indexf)
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
         }
-      });
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join(",");
+            }
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
     },
-    //清
-    empty({ ball },item,indexf) {
-      ball.filter((list,i) => {
-        list.choose = false;
-      });
+    //小 ++++
+    iszhu3({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join(",");
+            }
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+    },
+    //单 ++++
+    iszhu4({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join(",");
+            }
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+    },
+    //双 ++++
+    iszhu5({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join(",");
+            }
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+    },
+    //清 ++++
+    iszhu6({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ka = [];
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+          this.zhu1 = 0;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kb = [];
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+          this.zhu2 = 0;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kc = [];
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+          this.zhu3 = 0;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kd = [];
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+          this.zhu4 = 0;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ke = [];
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+          this.zhu5 = 0;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ka = [];
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+          this.zhu1 = 0;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kb = [];
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+          this.zhu2 = 0;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kc = [];
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+          this.zhu3 = 0;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kd = [];
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+          this.zhu4 = 0;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ke = [];
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+          this.zhu5 = 0;
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ka = [];
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join(",");
+          });
+          this.zhu1 = 0;
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ka = [];
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+          this.zhu1 = 0;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kb = [];
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+          this.zhu2 = 0;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kc = [];
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+          this.zhu3 = 0;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kd = [];
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+          this.zhu4 = 0;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ke = [];
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+          this.zhu5 = 0;
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
     },
     // 中间->投注选号
     curBalls(item,index,list,indexf) {
@@ -708,9 +2099,9 @@ export default {
       if(item.choose === true){
         this.d[index] = item.ball;
         this.dd = this.d.filter(function(n) {return n;});
+        this.con = this.dd.join(",");
         this.zhu++;
         this.pd.addTitle = this.addTitle;
-        this.con = this.dd.join(",");
         this.pd.addCon = this.con;
         this.pd.addPattern = "元";
         this.pd.addzhu = this.zhu;
@@ -866,26 +2257,31 @@ export default {
           this.ka[indexg] = num.ball;
           this.dd = this.ka.filter(function(n) {return n;});
           this.an = this.dd.join("");
+          this.zhu1 ++;
         }
         if (indexff === 1) {
           this.kb[indexg] = num.ball;
           this.dd = this.kb.filter(function(n) {return n;});
           this.bn = this.dd.join("");
+          this.zhu2 ++;
         }
         if (indexff === 2) {
           this.kc[indexg] = num.ball;
           this.dd = this.kc.filter(function(n) {return n;});
           this.cn = this.dd.join("");
+          this.zhu3 ++;
         }
         if (indexff === 3) {
           this.kd[indexg] = num.ball;
           this.dd = this.kd.filter(function(n) {return n;});
           this.dn = this.dd.join("");
+          this.zhu4 ++;
         }
         if (indexff === 4) {
           this.ke[indexg] = num.ball;
           this.dd = this.ke.filter(function(n) {return n;});
           this.en = this.dd.join("");
+          this.zhu5 ++;
         }
         if (this.an === "") {
           this.an = "-";
@@ -902,8 +2298,10 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
         this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
       }
       //定位胆，后五
       if (this.className === "pk10_star1_dwd_last") {
@@ -911,26 +2309,31 @@ export default {
           this.ka[indexg] = num.ball;
           this.dd = this.ka.filter(function(n) {return n;});
           this.an = this.dd.join("");
+          this.zhu1 ++;
         }
         if (indexff === 1) {
           this.kb[indexg] = num.ball;
           this.dd = this.kb.filter(function(n) {return n;});
           this.bn = this.dd.join("");
+          this.zhu2 ++;
         }
         if (indexff === 2) {
           this.kc[indexg] = num.ball;
           this.dd = this.kc.filter(function(n) {return n;});
           this.cn = this.dd.join("");
+          this.zhu3 ++;
         }
         if (indexff === 3) {
           this.kd[indexg] = num.ball;
           this.dd = this.kd.filter(function(n) {return n;});
           this.dn = this.dd.join("");
+          this.zhu4 ++;
         }
         if (indexff === 4) {
           this.ke[indexg] = num.ball;
           this.dd = this.ke.filter(function(n) {return n;});
           this.en = this.dd.join("");
+          this.zhu5 ++;
         }
         if (this.an === "") {
           this.an = "-";
@@ -947,11 +2350,14 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5;
+        this.pd.addzhu = this.zhu;
         this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
       }
       //前二，冠亚和
       if (this.className === "pk10_star2_and") {
+        this.d[indexg] = num.ball;
         this.dd = this.d.filter(function(n) {return n;});
         this.zhu = this.qianergyh(this.dd);
         this.pd.addzhu = this.zhu;
@@ -1036,26 +2442,26 @@ export default {
           this.en = this.dd.join("");
         }
         if (this.className === "pk10_star2_dj") {
-          this.pd.addCon = this.an + "," + this.bn;
           this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
           this.zhu = this.fushi(this.con.split(","), 2);
           this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star3_dj") {
-          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
           this.zhu = this.fushi(this.con.split(","), 3);
           this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star4_dj") {
-          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
           this.zhu = this.fushi(this.con.split(","), 4);
           this.pd.addzhu = this.zhu;
         }
         if (this.className === "pk10_star5_dj") {
-          this.pd.addCon
           this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
           this.zhu = this.fushi(this.con.split(","), 5);
           this.pd.addzhu = this.zhu;
         }
@@ -1214,26 +2620,31 @@ export default {
           this.ka.splice(indexg, 1, "");
           this.dd = this.ka.filter(function(n) {return n;});
           this.an = this.dd.join("");
+          this.zhu1 --;
         }
         if (indexff === 1) {
           this.kb.splice(indexg, 1, "");
           this.dd = this.kb.filter(function(n) {return n;});
           this.bn = this.dd.join("");
+          this.zhu2 --;
         }
         if (indexff === 2) {
           this.kc.splice(indexg, 1, "");
           this.dd = this.kc.filter(function(n) {return n;});
           this.cn = this.dd.join("");
+          this.zhu3 --;
         }
         if (indexff === 3) {
           this.kd.splice(indexg, 1, "");
           this.dd = this.kd.filter(function(n) {return n;});
           this.dn = this.dd.join("");
+          this.zhu4 --;
         }
         if (indexff === 4) {
           this.ke.splice(indexg, 1, "");
           this.dd = this.ke.filter(function(n) {return n;});
           this.en = this.dd.join("");
+          this.zhu5 --;
         }
         if (this.an === "") {
           this.an = "-";
@@ -1250,6 +2661,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
+        this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5;
+        this.pd.addzhu = this.zhu;
         this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
         this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
       }
@@ -1259,26 +2672,31 @@ export default {
           this.ka.splice(indexg, 1, "");
           this.dd = this.ka.filter(function(n) {return n;});
           this.an = this.dd.join("");
+          this.zhu1 --;
         }
         if (indexff === 1) {
           this.kb.splice(indexg, 1, "");
           this.dd = this.kb.filter(function(n) {return n;});
           this.bn = this.dd.join("");
+          this.zhu2 --;
         }
         if (indexff === 2) {
           this.kc.splice(indexg, 1, "");
           this.dd = this.kc.filter(function(n) {return n;});
           this.cn = this.dd.join("");
+          this.zhu3 --;
         }
         if (indexff === 3) {
           this.kd.splice(indexg, 1, "");
           this.dd = this.kd.filter(function(n) {return n;});
           this.dn = this.dd.join("");
+          this.zhu4 --;
         }
         if (indexff === 4) {
           this.ke.splice(indexg, 1, "");
           this.dd = this.ke.filter(function(n) {return n;});
           this.en = this.dd.join("");
+          this.zhu5 --;
         }
         if (this.an === "") {
           this.an = "-";
@@ -1295,11 +2713,14 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
+        this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5;
+        this.pd.addzhu = this.zhu;
         this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
         this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
       }
       //前二，冠亚和
       if (this.className === "pk10_star2_and") {
+        this.d.splice(indexg, 1, "");
         this.dd = this.d.filter(function(n) {return n;});
         this.zhu = this.qianergyh(this.dd);
         this.pd.addzhu = this.zhu;
@@ -1597,6 +3018,16 @@ export default {
       this.jn = "";
       this.con = [];
       this.zhu = 0;
+      this.zhu1 = 0;
+      this.zhu2 = 0;
+      this.zhu3 = 0;
+      this.zhu4 = 0;
+      this.zhu5 = 0;
+      this.zhu6 = 0;
+      this.zhu7 = 0;
+      this.zhu8 = 0;
+      this.zhu9 = 0;
+      this.zhu10 = 0;
       this.pd = {};
       this.spinner3 = 0;
       for (let h = 0; h < this.snumView.length; h++) {
@@ -2000,6 +3431,1554 @@ export default {
       }
       let count = this.getCountall(all);
       return count;
+    },
+    //全 ++++
+    iszhu1({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ka[i] = list.ball;
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+          this.zhu1 = 10;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kb[i] = list.ball;
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+          this.zhu2 = 10;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kc[i] = list.ball;
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+          this.zhu3 = 10;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kd[i] = list.ball;
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+          this.zhu4 = 10;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ke[i] = list.ball;
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+          this.zhu5 = 10;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ka[i] = list.ball;
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kb[i] = list.ball;
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kc[i] = list.ball;
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kd[i] = list.ball;
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ke[i] = list.ball;
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ka[i] = list.ball;
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join(",");
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ka[i] = list.ball;
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kb[i] = list.ball;
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kc[i] = list.ball;
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.kd[i] = list.ball;
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = true;
+            this.ke[i] = list.ball;
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+    },
+    //大 ++++
+    iszhu2({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join(",");
+            }
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i >= len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+    },
+    //小 ++++
+    iszhu3({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join(",");
+            }
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (i < len) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+    },
+    //单 ++++
+    iszhu4({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join(",");
+            }
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 1) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+    },
+    //双 ++++
+    iszhu5({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+          this.zhu1 = 5;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+          this.zhu2 = 5;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+          this.zhu3 = 5;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+          this.zhu4 = 5;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+          this.zhu5 = 5;
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join(",");
+            }
+          });
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        let len = Math.ceil(ball.length / 2);
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ka[i] = list.ball;
+              this.dd = this.ka.filter(function(n) {return n;});
+              this.an = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kb[i] = list.ball;
+              this.dd = this.kb.filter(function(n) {return n;});
+              this.bn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kc[i] = list.ball;
+              this.dd = this.kc.filter(function(n) {return n;});
+              this.cn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.kd[i] = list.ball;
+              this.dd = this.kd.filter(function(n) {return n;});
+              this.dn = this.dd.join("");
+            }
+          });
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            if (list.ball % 2 === 0) {
+              list.choose = true;
+              this.ke[i] = list.ball;
+              this.dd = this.ke.filter(function(n) {return n;});
+              this.en = this.dd.join("");
+            }
+          });
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+    },
+    //清 ++++
+    iszhu6({ ball },item,indexf){
+      //前五定位胆,后五定位胆
+      if(this.className === 'pk10_star1_dwd' || this.className === "pk10_star1_dwd_last"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ka = [];
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+          this.zhu1 = 0;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kb = [];
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+          this.zhu2 = 0;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kc = [];
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+          this.zhu3 = 0;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kd = [];
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+          this.zhu4 = 0;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ke = [];
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+          this.zhu5 = 0;
+        }
+        if (this.an === "") {
+          this.an = "-";
+        }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.pd.addzhu = this.zhu;
+        this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," + this.en;
+        this.pd.addCon = this.con;
+      }
+      //前二、前三、前四、前五，复式
+      if(this.className === "pk10_star2" || this.className === "pk10_star3" || this.className === "pk10_star4" || this.className === "pk10_star5"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ka = [];
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+          this.zhu1 = 0;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kb = [];
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+          this.zhu2 = 0;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kc = [];
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+          this.zhu3 = 0;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kd = [];
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+          this.zhu4 = 0;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ke = [];
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+          this.zhu5 = 0;
+        }
+        if (this.className === "pk10_star2") {
+          this.pd.addCon = this.an + "," + this.bn;
+          this.con = this.an + "," + this.bn;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn;
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5") {
+          this.pd.addCon = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn + "," +this.en;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+      //前二冠亚和
+      if(this.className === "pk10_star2_and"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ka = [];
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join(",");
+          });
+          this.zhu1 = 0;
+        }
+        this.con = this.an;
+        this.pd.addCon = this.con;
+        this.zhu = this.qianergyh(this.dd);
+        this.pd.addzhu = this.zhu;
+      }
+      //猜前二、猜前三、猜前四、猜前五
+      if (this.className === "pk10_star2_dj" || this.className === "pk10_star3_dj" || this.className === "pk10_star4_dj" || this.className === "pk10_star5_dj"){
+        if(indexf === 0){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ka = [];
+            this.dd = this.ka.filter(function(n) {return n;});
+            this.an = this.dd.join("");
+          });
+          this.zhu1 = 0;
+        }
+        if(indexf === 1){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kb = [];
+            this.dd = this.kb.filter(function(n) {return n;});
+            this.bn = this.dd.join("");
+          });
+          this.zhu2 = 0;
+        }
+        if(indexf === 2){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kc = [];
+            this.dd = this.kc.filter(function(n) {return n;});
+            this.cn = this.dd.join("");
+          });
+          this.zhu3 = 0;
+        }
+        if(indexf === 3){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.kd = [];
+            this.dd = this.kd.filter(function(n) {return n;});
+            this.dn = this.dd.join("");
+          });
+          this.zhu4 = 0;
+        }
+        if(indexf === 4){
+          ball.filter((list,i) => {
+            list.choose = false;
+            this.ke = [];
+            this.dd = this.ke.filter(function(n) {return n;});
+            this.en = this.dd.join("");
+          });
+          this.zhu5 = 0;
+        }
+        if (this.className === "pk10_star2_dj") {
+          this.con = this.an + "," + this.bn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 2);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star3_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 3);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star4_dj") {
+          this.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 4);
+          this.pd.addzhu = this.zhu;
+        }
+        if (this.className === "pk10_star5_dj") {
+          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+          this.pd.addCon = this.con;
+          this.zhu = this.fushi(this.con.split(","), 5);
+          this.pd.addzhu = this.zhu;
+        }
+      }
+    },
+    aa(){
+      this.dd = this.d.filter(function(n) {return n;});
+      this.pd.addTitle = this.addTitle;
+      this.con = this.dd.join(",");
+      this.pd.addCon = this.con;
+      this.pd.addPattern = "元";
+      this.pd.addzhu = this.zhu;
+      this.pd.addMoney = this.spinner3;
+      this.pd.addClassName = this.className;
+      this.pd.addSeasonId = this.seasonId;
+      this.pd.addName = this.lottName;
+    },
+    //全大小单双清
+    toolsCur(tools,idx,item,indexff) {
+      if (Object.is(tools.fncode, "full")) {
+        this.full({ball: item.nums},item,indexff);
+      } else if (Object.is(tools.fncode, "big")) {
+        this.big({ball: item.nums},item,indexff);
+      } else if (Object.is(tools.fncode, "small")) {
+        this.small({ball: item.nums},item,indexff);
+      } else if (Object.is(tools.fncode, "single")) {
+        this.single({ball: item.nums},item,indexff);
+      } else if (Object.is(tools.fncode, "double")) {
+        this.double({ball: item.nums},item,indexff);
+      } else {
+        this.empty({ball: item.nums},item,indexff);
+      }
+    },
+    //全
+    full({ ball },item,indexf) {
+      this.empty({ball},item,indexf);
+      this.aa();
+      this.iszhu1({ ball },item,indexf);
+      
+    },
+    //大
+    big({ ball },item,indexf) {
+      this.empty({ball},item,indexf);
+      this.aa();
+      this.iszhu2({ ball },item,indexf);
+    },
+    //小
+    small({ ball },item,indexf) {
+      this.empty({ball},item,indexf);
+      this.aa();
+      this.iszhu3({ ball },item,indexf);
+    },
+    //单
+    single({ ball },item,indexf) {
+      this.empty({ball},item,indexf);
+      this.aa();
+      this.iszhu4({ ball },item,indexf);
+    },
+    //双
+    double({ ball },item,indexf) {
+      this.empty({ball},item,indexf);
+      this.aa();
+      this.iszhu5({ ball },item,indexf);
+    },
+    //清
+    empty({ ball },item,indexf) {
+      this.aa();
+      this.iszhu6({ ball },item,indexf);
     },
     //清空
     exit() {

@@ -68,7 +68,7 @@
             <router-link to="/home"><img src="../../assets/img/home/logo.png" alt="" /></router-link>
           </div>
           <ul>
-            <router-link :to="nav.path" tag="li" v-for="(nav,index) in navs" :key="index">{{nav.title}}</router-link>
+            <router-link :class='{active:index===active}' :to="nav.path" tag="li" v-for="(nav,index) in navs" :key="index">{{nav.title}}</router-link>
           </ul>
         </div>
       </div>
@@ -90,6 +90,7 @@ export default {
   data() {
     return {
       img: 0,
+      active:-1,
       HoverShowContent:false,
       HoverShowAccount:false,
       acountlists:[
@@ -114,6 +115,9 @@ export default {
     this.getRechargeWayList();
   },
   methods: {
+    setClass(v){
+      this.active=v;
+    },
     ...mapMutations(["OUT_LOGIN"]),
     //获取用户信息
     getTopUserData() {

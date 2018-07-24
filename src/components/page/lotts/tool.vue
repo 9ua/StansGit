@@ -1,12 +1,14 @@
 <template>
   <div>
-    <span :class="{'active':tools.choose}" v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools)">{{tools.name}}</span>
+    <span :class="indexto  === toolsNum ? 'active' : ''" v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,indexto)">{{tools.name}}</span>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      toolsNum: -1,
+      className:"pk10_star1_dwd",
       ballTools: [
         { fncode: "full", name: "全", choose: false },
         { fncode: "big", name: "大", choose: false },
@@ -21,48 +23,40 @@ export default {
     item: {
       type: Object
     },
-    zhu:{
-      type:Number
-    }
+    zhu: {
+      type: Number
+    },
   },
   methods: {
-    toolsCur(tools) {
+    toolsCur(tools, indexto) {
+      this.toolsNum = indexto;
+      tools.choose = !tools.choose;
       if (Object.is(tools.fncode, "full")) {
-        this.full({
-          ball: this.item.nums
-        });
+        this.full({ ball: this.item.nums });
       } else if (Object.is(tools.fncode, "big")) {
-        this.big({
-          ball: this.item.nums
-        });
+        this.big({ ball: this.item.nums });
       } else if (Object.is(tools.fncode, "small")) {
-        this.small({
-          ball: this.item.nums
-        });
+        this.small({ ball: this.item.nums });
       } else if (Object.is(tools.fncode, "single")) {
-        this.single({
-          ball: this.item.nums
-        });
+        this.single({ ball: this.item.nums });
       } else if (Object.is(tools.fncode, "double")) {
-        this.double({
-          ball: this.item.nums
-        });
+        this.double({ ball: this.item.nums });
       } else {
-        this.empty({
-          ball: this.item.nums
-        });
+        this.empty({ ball: this.item.nums });
       }
     },
     //全
     full({ ball }) {
-      this.empty({ball});
-      ball.filter((list,idx) => {
+      this.empty({ ball });
+      ball.filter((list, idx) => {
         list.choose = true;
+        // console.log(this.item.nums.length);
       });
+      this.pk10jia();
     },
     //大
     big({ ball }) {
-      this.empty({ball});
+      this.empty({ ball });
       let len = Math.ceil(ball.length / 2);
       ball.filter((list, idx) => {
         if (idx >= len) {
@@ -72,7 +66,7 @@ export default {
     },
     //小
     small({ ball }) {
-      this.empty({ball});
+      this.empty({ ball });
       let len = Math.ceil(ball.length / 2);
       ball.filter((list, idx) => {
         if (idx < len) {
@@ -82,8 +76,8 @@ export default {
     },
     //单
     single({ ball }) {
-      this.empty({ball});
-      ball.filter((list,idx) => {
+      this.empty({ ball });
+      ball.filter((list, idx) => {
         if (list.ball % 2 === 0) {
           list.choose = true;
         }
@@ -91,8 +85,8 @@ export default {
     },
     //双
     double({ ball }) {
-      this.empty({ball});
-      ball.filter((list,idx) => {
+      this.empty({ ball });
+      ball.filter((list, idx) => {
         if (list.ball % 2 === 1) {
           list.choose = true;
         }
@@ -100,7 +94,7 @@ export default {
     },
     //清
     empty({ ball }) {
-      ball.filter((list,idx) => {
+      ball.filter((list, idx) => {
         list.choose = false;
       });
     }
@@ -109,7 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/minix/main.scss';
+@import "../../../assets/minix/main.scss";
 .changes {
   @extend %flex, %fr;
   width: 168px;
@@ -125,6 +119,18 @@ export default {
     border: 1px solid #c0c5d2;
     box-shadow: 0 1px 3px #d4d4d4, inset 0 -1px 5px #fff;
     background: linear-gradient(180deg, #fff 0, #f1efef);
+  }
+  & span.active {
+    @extend %faj;
+    width: 26px;
+    height: 26px;
+    margin: 0px 1px;
+    padding: 2px;
+    border-radius: 50%;
+    color: #fff;
+    border: 1px solid #f37036;
+    box-shadow: 0 1px 3px #d4d4d4, inset 0 -1px 5px #fff;
+    background: linear-gradient(180deg, #f37036 0, #f37036);
   }
 }
 </style>
