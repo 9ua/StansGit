@@ -13,7 +13,7 @@ import { baseUrl } from "../../../assets/js/env";
 import newTab from "../public/newTab";
 export default {
   components: {
-    newTab
+    newTab 
   },
 };
 </script>
