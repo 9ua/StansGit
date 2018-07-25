@@ -3,8 +3,8 @@
   .leftListArea
     ul.sildeSession(v-for='parent in parents')
       h3 
-        yd-icon(:name="parent.icon",class='icon') 
-        {{parent.item}}
+        i.iconfont(:class="parent.icon",style='margin:0 10px;') 
+        span {{parent.item}}
       li(v-for='(son,index) in parent.son') 
         router-link(:to="son.to") {{son.name}}
   router-view
@@ -16,7 +16,7 @@ export default {
       parents: [
         {
           item: "账户管理",
-          icon: "ucenter",
+          icon: "hf-user",
           son: [
             { name: "个人信息", to: "/user/userinfo" },
             { name: "安全中心", to: "/user/securityCenter" },
@@ -25,7 +25,7 @@ export default {
         },
         {
           item: "投注管理",
-          icon: "discount",
+          icon: "hf-fsrebeta",
           son: [
             { name: "投注记录", to: "/betManage/betRecord" },
             { name: "追号记录", to: "/betManage/seekOrder" }
@@ -33,7 +33,7 @@ export default {
         },
         {
           item: "资金管理",
-          icon: "type",
+          icon: "hf-i-money",
           son: [
             { name: "交易记录", to: "/user/billRecord" },
             { name: "今日盈亏", to: "/user/PLstatement" }
@@ -41,7 +41,7 @@ export default {
         },
         {
           item: "代理中心",
-          icon: "phone2",
+          icon: "hf-users",
           son: [
             { name: "代理说明", to: "/agent/agentIntro" },
             { name: "代理报表", to: "/agent/agentReport" },
@@ -54,7 +54,7 @@ export default {
         },
         {
           item: "消息管理",
-          icon: "warn-outline",
+          icon: "hf-mail-fill",
           son: [
             { name: "站内信", to: "/user/letter" },
             { name: "网站公告", to: "/user/notice" }

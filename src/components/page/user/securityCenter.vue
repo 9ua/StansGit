@@ -8,7 +8,7 @@
           .star
             mu-icon(value='star',:class="{'curr': index <= value5}",v-for='index in 5',:key='index')
           .text
-            strong 您的账户安全级别为低，可以通过完善安全信息提高级别。
+            strong 您的账户安全级别为{{level}}，可以通过完善安全信息提高级别。
             p
               上次登录时间： 
               ins {{lastLoginTime}}
@@ -55,8 +55,7 @@
               p 绑定邮箱可以增加账户安全性，快速找回帐号密码。
             span.btn
               router-link(to="/user/setMail",v-show="! email") 绑定密保邮箱
-              router-link(to="/user/verifyMail",v-show="email") 修改密保邮箱
-              
+              router-link(to="/user/verifyMail",v-show="email") 修改密保邮箱              
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -64,7 +63,7 @@ export default {
   data() {
     return {
       lastLoginTime: "",
-      local: "美国",
+      local: "",
       value5: 1,
       password: 1, //密码
       securityCoe: 0, //安全码
@@ -73,8 +72,20 @@ export default {
       email: 0 //密保邮箱
     };
   },
+  computed:{
+    level(){
+      if(this.value5>3){
+        return "高";
+      }else if(this.value5===3){
+        return "中";
+      }else{
+        return "低";
+      }
+    }
+  },
   created() {
     this.getSecurityCenterStatus();
+    
   },
   methods: {
     //取安全中心状态

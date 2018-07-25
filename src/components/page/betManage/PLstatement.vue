@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       id: "",
-      balance:0,
+      balance: 0,
       betAmount: 0,
       winAmount: 0,
       activityAndSend: 0,
@@ -59,10 +59,25 @@ export default {
     };
   },
   mounted() {
-    this.getGainLost();
-    this.getBalance();
+    this.allAxios();
+    // this.getBalance();
   },
   methods: {
+    allAxios() {
+      let _this=this;
+      this.$loader.show();
+      this.$axios
+        .all([
+          this.getGainLost(),
+          this.getBalance(),
+        ])
+        .then(
+          this.$axios.spread((userResp, reposResp) =>{
+            // 上面两个请求都完成后，才执行这个回调方法
+            _this.$loader.hide();
+          })
+        );
+    },
     getGainLost() {
       this.$axios
         .get(baseUrl + "/api/proxy/getGainLost")
@@ -75,7 +90,6 @@ export default {
           this.drawingAmount = res.data.data.drawingAmount;
         })
         .catch(error => {
-          console.log("获取列表Error");
         });
     },
     getBalance() {

@@ -49,7 +49,7 @@
               td {{item.win}}                
               td {{item.createTime}}
               td 
-      pageNav(:list='tradelist',:limit='limit',:reset='reset',@pageTo='pageTo')
+      pageNav(:list='tradelist',:limit='limit',ref='pageNav',@pageTo='pageTo')
       .userTip.mgt15
         p ※温馨提示：投注记录最多只保留7天。
 </template>
@@ -74,7 +74,6 @@ export default {
       navTime: 0,
       navType: 0,
       betweenType: 1,
-      reset:false,
       start: 0,
       limit: 15,
       status: 100,
@@ -138,7 +137,7 @@ export default {
     },
     getTradeList() {
       this.noContent = true;
-      this.reset = true;
+      this.$refs.pageNav.reset();
       this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getbetOrderList", {

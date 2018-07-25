@@ -29,7 +29,7 @@
               router-link(to='',@click.native='detail($event,item.id)') 详情
               em |
               router-link(to='',@click.native='del($event,item.id)') 删除
-        pageNav(:list='invitelist',:limit='limit',:reset="reset",@pageTo='pageTo')
+        pageNav(:list='invitelist',:limit='limit',ref='pageNav',@pageTo='pageTo')
         el-dialog(title='详情', :visible.sync='dialogTableVisible')
           el-table(:data='gridData')
             el-table-column(property='lottery', label='彩种', width='150')
@@ -52,7 +52,6 @@ export default {
       noContent: true,
       toggle: 0,
       navNum: 1,
-      reset: false,
       start: 0,
       limit: 15,
       select: "",
@@ -115,7 +114,7 @@ export default {
     },
     getInviteList() {
       this.noContent = true;
-      this.reset = true;
+      this.$refs.pageNav.reset();
       this.start = 0;
       this.$axios
         .get(baseUrl + "/api/agent/inviteCode", {

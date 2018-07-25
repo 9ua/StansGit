@@ -2,7 +2,7 @@
 .page
   p 共
     em {{list.length}}
-    条记录
+    span 条记录
   .pageNav
     ul.pagination
       li
@@ -19,7 +19,6 @@ export default {
   props: {
     list: Array,
     limit: Number,
-    reset: Boolean
   },
   data() {
     return {
@@ -29,13 +28,14 @@ export default {
   },
   computed: {
     pages() {
-      if (this.reset) {
-        this.active = 1;
-      }
       return Math.ceil(this.list.length / this.limit);
     }
   },
   methods: {
+    reset(){     
+      this.active=1;
+      this.pageArrGet();
+    },
     pageArrGet() {
       if (this.pages <= 6) {
         return;

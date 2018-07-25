@@ -17,11 +17,6 @@ export default {
       return listnav;
     }
   },
-//   data() {
-//     return {
-//       navNum: 0
-//     };
-//   }
 };
 </script>
 <style lang="scss" scoped>

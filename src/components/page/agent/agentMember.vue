@@ -32,7 +32,7 @@
               td {{item.rebateRatio}}                
               td {{item.teamCount}}                
               td {{item.loginTime}}                
-      pageNav(:list='underUserList',:limit='limit',:reset="reset",@pageTo='pageTo')
+      pageNav(:list='underUserList',:limit='limit',ref='pageNav',@pageTo='pageTo')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -45,7 +45,6 @@ export default {
   },
   data() {
     return {
-      reset:false,
       start: 0, //分页标识开始
       limit: 15, //单页显示数目
       account: "",
@@ -65,7 +64,7 @@ export default {
     },
     getUnderUserList() {
       this.noContent = true;
-      this.reset=true;
+      this.$refs.pageNav.reset();
       this.start=0;
       if (this.account === "") {
         this.$axios

@@ -36,8 +36,8 @@
             tr(style="bottom:0px;",v-if="tradelist.length===0")
               td(colspan="100")
                 .notContent(style="padding: 100px 0px;") 
-                  mu-icon(value='sentiment_dissatisfied',class='icon')
-                  暂无记录
+                  mu-icon(value='sentiment_dissatisfied',class='icon') 
+                  span 暂无记录
             tr(v-for='(item,index) in tradelist',v-if='index<start+limit&&index>=start')
               td {{item.account}}
               td {{item.lotteryName}}
@@ -50,7 +50,7 @@
               td {{item.win}}                
               td {{item.createTime}}
               td 
-      pageNav(:list='tradelist',:limit='limit',:reset="reset" @pageTo='pageTo')
+      pageNav(:list='tradelist',:limit='limit',ref='pageNav', @pageTo='pageTo')
       .userTip.mgt15
         p ※ 温馨提示：投注明细最多只保留7天。
 </template>
@@ -78,8 +78,7 @@ export default {
       navType: 0,
       betweenType: 1,
       start: 0,
-      limit: 15,
-      reset:false,
+      limit: 1,
       status: 100,
       tradelist: [],
       th: [
@@ -142,7 +141,7 @@ export default {
     },
     getTradeList() {
       this.noContent = true;
-      this.reset=true;
+      this.$refs.pageNav.reset();
       this.start=0;
       if (this.account === "") {
         this.$axios

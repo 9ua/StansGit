@@ -20,7 +20,7 @@
               td 管理员
               td {{item.createTime}}
               td 
-        pageNav(:list='list',:limit='limit',:reset='reset',@pageTo='pageTo')
+        pageNav(:list='list',:limit='limit',ref='pageNav',@pageTo='pageTo')
         .msgControl
           input(type='checkbox')
           span 全选
@@ -40,7 +40,6 @@ export default {
   },
   data() {
     return {
-      reset: false,
       limit: 20,
       start: 0,
       noContent: true,
@@ -58,7 +57,7 @@ export default {
     },
     getUserNoticeList() {
       this.noContent = true;
-      this.reset = true;
+      this.$refs.pageNav.reset();
       this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getUserNoticeList", {

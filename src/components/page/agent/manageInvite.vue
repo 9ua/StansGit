@@ -13,30 +13,21 @@
           返点设置：请先为下级设置返点。
       .bonusTable
         ul
-          li 时时彩
+          li 返点：
           li 
-            input(type="number",name="ssc" ,tag="时时彩返点" ,placeholder="" ,min="0.0" ,step="0.1" ,max="8.0" ,class="userInput mgl20")
-            &nbsp;
-            span （自身返点8.0，可为下级设置返点范围0.0-8.0）
+            input(type="number",v-model='rebateratio',tag="时时彩返点" ,placeholder="" ,class="userInput mgl20",@keyup.enter='getInviteCode')
+            span （自身返点{{highbet}}，可为下级设置返点范围0.0-{{highbet}}）
         ul
-          li 快三
+          li 有效期限：
           li 
-            input(type="number",name="K3" ,tag="快3返点" ,placeholder="" ,min="0.0" ,step="0.1" ,max="8.0" ,class="userInput mgl20")
-            &nbsp;
-            span （自身返点8.0，可为下级设置返点范围0.0-8.0）
+            input(type="number",v-model='validtime',placeholder="" ,min="0.0" ,class="userInput mgl20",@keyup.enter='getInviteCode')
+            span （天数）
         ul
-          li 十一选五
+          li 推广渠道：
           li 
-            input(type="number",name="K3" ,tag="快3返点" ,placeholder="" ,min="0.0" ,step="0.1" ,max="8.0" ,class="userInput mgl20")
-            &nbsp;
-            span （自身返点8.0，可为下级设置返点范围0.0-8.0）
-        ul
-          li PK10
-          li 
-            input(type="number",name="K3" ,tag="快3返点" ,placeholder="" ,min="0.0" ,step="0.1" ,max="8.0" ,class="userInput mgl20")
-            &nbsp;
-            span （自身返点8.0，可为下级设置返点范围0.0-8.0）
-      router-link(to='',class='submitBtn',style='margin-left: 200px;') 生成邀请码
+            input(type="text",v-model='extaddress' ,placeholder=""  ,class="userInput mgl20",@keyup.enter='getInviteCode')
+            span （推广渠道）
+      router-link(to='',class='submitBtn',style='margin-left: 184px;',@click.native='getInviteCode') 生成邀请码
       .userTip.mg30
         p
           ※ 温馨提示：
@@ -48,6 +39,7 @@
           span 3、下级返点值设得越低，下级的赔率就越低，建议给下级设置的返点不要过低。    
 </template>
 <script>
+import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
@@ -55,7 +47,6 @@ export default {
       usertype: 0,
       highbet: 0,
       rebateratio: 0,
-      betlist: [],
       validtime: 0,
       extaddress: "",
       listnav: [
@@ -66,55 +57,61 @@ export default {
     };
   },
   mounted() {
-    // this.createbetlist();
+    this.createbetlist();
   },
   methods: {
     changUserType(e, v, i) {
       this.usertype = i;
     },
     createbetlist() {
-      this.$http
-        .get(this.$store.state.url + "api/agent/getExtQuota")
+      this.$loader.show();
+      this.$axios
+        .get(baseUrl + "/api/agent/getExtQuota")
         .then(res => {
           this.highbet = res.data.data.rebateRatio;
-          for (let i = res.data.data.rebateRatio * 10; i >= 0; i = i - 1) {
-            this.betlist.push(i / 10);
-          }
-          return this.betlist;
+          this.$loader.hide();
         })
         .catch(error => {
-          console.log(error);
-          console.log("获取彩種ratio ERROR");
-          this.highbet = 0;
-          for (let i = this.highbet * 10; i >= 0; i = i - 1) {
-            this.betlist.push(i / 10);
-          }
-          return this.betlist;
+          this.$loader.hide();
+          this.$message.error({
+            message: "请检查您的网络！",
+            center: true,
+            showClose: true
+          });
         });
     },
-    setrebet(b) {
-      this.rebateratio = b.target.value;
-    },
     getInviteCode() {
-      let config = {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        withCredentials: true
-      };
+      console.log(isNaN(Number(this.rebateratio)));   
+      if(this.rebateratio>this.highbet){
+        this.$message.error({
+          message:"返点高于自身"+this.highbet,
+          center:true,
+          showClose:true,
+        })
+        return;
+      }
+      if(isNaN(Number(this.rebateratio))){
+        this.$message.error({
+          message:"返点必须是数值！",
+          center:true,
+          showClose:true,
+        })
+        return;
+      }
+      this.$loader.show();
       let formData = new FormData();
       formData.append("usertype", Number(this.usertype));
       formData.append("rebateratio", Number(this.rebateratio));
       formData.append("validtime", this.validtime);
       formData.append("extaddress", "123");
       this.$axios
-        .post(
-          this.$store.state.url + "api/agent/createInviteCode",
-          formData,
-          config
-        )
+        .post(baseUrl + "/api/agent/createInviteCode", formData)
         .then(res => {
-          this.$router.push({ path: "/manageInvite/mIcode" });
+          this.$loader.hide();
+          this.$router.push({ path: "manageIcode" });
         })
         .catch(error => {
+          this.$loader.hide();
           console.log("No");
         });
     }

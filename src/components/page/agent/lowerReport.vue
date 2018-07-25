@@ -24,7 +24,7 @@
               td {{item.childCount}}                             
               td {{item.count}}
               td 
-      pageNav(:list='list',:limit='limit',:reset="reset",@pageTo='pageTo')
+      pageNav(:list='list',:limit='limit',ref='pageNav',,@pageTo='pageTo')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -37,7 +37,6 @@ export default {
   },
   data() {
     return {
-      reset: false,
       start: 0,
       limit: 15,
       navindex: 0,
@@ -68,7 +67,7 @@ export default {
     },
     getUnderLevelReport() {
       this.noContent = true;
-      this.reset = true;
+      this.$refs.pageNav.reset();
       this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getUnderLevelReport", {
