@@ -49,7 +49,7 @@
 import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
-    return {
+    return { 
       bankUserId: "",
       myAmount: "",
       amount: "",
