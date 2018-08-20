@@ -48,10 +48,21 @@ const qq = r => require.ensure([], () => r(require('@/components/page/money/qq.v
 const unionpay = r => require.ensure([], () => r(require('@/components/page/money/unionpay.vue')), 'unionpay')
 const huabei = r => require.ensure([], () => r(require('@/components/page/money/huabei.vue')), 'huabei')
 const creditc = r => require.ensure([], () => r(require('@/components/page/money/creditc.vue')), 'creditc')
+
+const trendchart = r => require.ensure([], () => r(require('@/components/trendchart/trendchartBox.vue')), 'trendchartBox')
 Vue.use(Router)
 export default new Router({
   mode: 'history',
-  routes: [{
+  routes: [
+    {
+      path: '/trendChart/:id',
+      name: 'trendchart',
+      component: trendchart,
+      meta: {
+        title: "开奖走势"
+      }
+    },
+    {
       path: '/',
       name: 'sy',
       redirect: "home",
@@ -395,6 +406,6 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login,
-    },
+    }
   ]
 });

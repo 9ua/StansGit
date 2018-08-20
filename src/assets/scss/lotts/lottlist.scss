@@ -450,7 +450,7 @@
           @extend %flex;
           padding: 0px 6px;
         }
-        & span:hover {
+        & span:hover,a:hover {
           color: #ff9600;
           cursor: pointer;
         }
