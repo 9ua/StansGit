@@ -73,7 +73,8 @@ export default {
       navNum: 0,
       lottery: "hot",
       showPop: false,
-      lotterys:null,
+      lotterys: null,
+      select:'hot',
       lotteryList: null,
       lotteryListHot: null,
       lotteryListAll: null,
@@ -81,11 +82,26 @@ export default {
       lotteryListSsc: null,
       lotteryListPk10: null,
       listnav: [
-        { name: "热门", lottery: "hot" },
-        { name: "全部", lottery: "all" },
-        { name: "快3", lottery: "k3" },
-        { name: "时时彩", lottery: "ssc" },
-        { name: "快乐彩", lottery: "pk10" }
+        {
+          name: "热门",
+          lottery: "hot"
+        },
+        {
+          name: "全部",
+          lottery: "all"
+        },
+        {
+          name: "快3",
+          lottery: "k3"
+        },
+        {
+          name: "时时彩",
+          lottery: "ssc"
+        },
+        {
+          name: "快乐彩",
+          lottery: "pk10"
+        }
       ],
       winpool: [
         {
@@ -356,26 +372,47 @@ export default {
       this.$set(item, "showPop", false);
     },
     toLottery(item) {
-      this.$router.push("/lotts/"+item.groupId+"/"+item.id);
+      this.$router.push("/lotts/" + item.groupId + "/" + item.id);
     },
     navTo(e, index, navs) {
+      console.log("navs",navs)
       this.navNum = index;
       this.lottery = navs.lottery;
       switch (this.lottery) {
         case "hot":
-          this.lotteryList = this.lotteryListHot;
+          this.select = 'hot';
+          if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+          }else
+          this.lotteryAll();
           break;
         case "all":
-          this.lotteryList = this.lotteryListAll;
+          this.select = 'all';
+          if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+          }else
+          this.lotteryAll();
           break;
         case "k3":
-          this.lotteryList = this.lotteryListK3;
+          this.select = 'k3';
+          if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+          }else
+          this.lotteryAll();
           break;
         case "ssc":
-          this.lotteryList = this.lotteryListSsc;
+          this.select = 'ssc';
+          if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+          }else
+          this.lotteryAll();
           break;
         case "pk10":
-          this.lotteryList = this.lotteryListPk10;
+          this.select = 'pk10';
+          if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+          }else
+          this.lotteryAll();
           break;
       }
     },
@@ -383,51 +420,16 @@ export default {
       this.showPop = !this.showPop;
     },
     lotteryAll() {
-      var now = new Date().getTime();
-      if(localStorage.getItem("getLotteryList") !== null){
-        var setupTime = localStorage.getItem("data_getLotteryList");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
-          localStorage.removeItem("getLotteryList");
-          localStorage.removeItem("data_getLotteryList");
-          this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-            localStorage.setItem("getLotteryList",JSON.stringify(res.data.data));
-            this.lotterys = JSON.parse(localStorage.getItem("getLotteryList"));
-            localStorage.setItem("data_getLotteryList",now);
-            this.lotteryList = this.lotterys.hot;
-            this.lotteryListHot = this.lotterys.hot;
-            this.lotteryListAll = this.lotterys.all;
-            this.lotteryListK3 = this.lotterys.k3;
-            this.lotteryListSsc = this.lotterys.ssc;
-            this.lotteryListPk10 = this.lotterys.pk10;
-          })
-          .catch(error => {
-            console.log(error);
-          });
-        }else{
-          this.lotterys = JSON.parse(localStorage.getItem("getLotteryList"));
-          this.lotteryList = this.lotterys.hot;
-          this.lotteryListHot = this.lotterys.hot;
-          this.lotteryListAll = this.lotterys.all;
-          this.lotteryListK3 = this.lotterys.k3;
-          this.lotteryListSsc = this.lotterys.ssc;
-          this.lotteryListPk10 = this.lotterys.pk10;
-        }
-      }else{
-        this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-          localStorage.setItem("getLotteryList",JSON.stringify(res.data.data));
-          this.lotterys = JSON.parse(localStorage.getItem("getLotteryList"));
-          localStorage.setItem("data_getLotteryList",now);
-          this.lotteryList = this.lotterys.hot;
-          this.lotteryListHot = this.lotterys.hot;
-          this.lotteryListAll = this.lotterys.all;
-          this.lotteryListK3 = this.lotterys.k3;
-          this.lotteryListSsc = this.lotterys.ssc;
-          this.lotteryListPk10 = this.lotterys.pk10;
+      this.$axios
+        .get(baseUrl + "/api/lottery/getLotteryList",{params:{type:this.select}})
+        .then(res => {
+          this.lotteryList = res.data.data;
+          localStorage.setItem( "getLotteryList_"+this.select, JSON.stringify(res.data.data));
+          this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
         })
         .catch(error => {
           console.log(error);
         });
-      }
     }
   },
   filters: {

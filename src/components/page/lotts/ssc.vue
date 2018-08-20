@@ -153,7 +153,7 @@
                 <span class="lott-right-top4-span3" :class="{'status': item.win === 0}" v-if="item.statusName !== '已中奖'"><i>{{item.statusName}}</i></span>
                 <span class="lott-right-top4-span3" v-else><i>{{item.win}}</i></span>
               </li>
-              <li class="lott-right-top4-but">更多>></li>
+              <li class="lott-right-top4-but" @click="$router.push('/betManage/betRecord')">更多>></li>
             </ul>
           </div>
           <div class="lott-right-top5">
@@ -1637,35 +1637,13 @@ export default {
     },
     //玩法术
     getPlayTree(){
-      var now = new Date().getTime();
       if(localStorage.getItem("getPlayTree_playGroups_ssc") !== null ){
-        var setupTime = localStorage.getItem("data_getPlayTree_ssc");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
-          localStorage.removeItem("getPlayTree_playGroups_ssc");
-          localStorage.removeItem("getPlayTree_playBonus_ssc");
-          localStorage.removeItem("data_getPlayTree_ssc");
-          this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId,this.$store.state.config).then(res =>{
-          localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(res.data.data.playGroups));
-          localStorage.setItem("getPlayTree_playBonus_ssc",JSON.stringify(res.data.data.playBonus));
-          localStorage.setItem("data_getPlayTree_ssc",now);
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
-          this.setupPlayTree();
-        }).catch(error =>{
-          console.log("玩法术,No");
-        });
-        }else{
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
-          this.setupPlayTree();
-        }
+        this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
+        this.setupPlayTree();
       }else{
         this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.lotteryId,this.$store.state.config).then(res =>{
           localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(res.data.data.playGroups));
-          localStorage.setItem("getPlayTree_playBonus_ssc",JSON.stringify(res.data.data.playBonus));
-          localStorage.setItem("data_getPlayTree_ssc",now);
           this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_ssc"));
           this.setupPlayTree();
         }).catch(error =>{
           console.log("玩法术,No");
@@ -1793,37 +1771,21 @@ export default {
     },
     // 获取彩种
     lotteryAll() {
-      var now = new Date().getTime();
       if(localStorage.getItem("lotteryAll_ssc") !== null){
-        var setupTime = localStorage.getItem("data_lotteryAll_ssc");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
-          localStorage.removeItem("lotteryAll_ssc");
-          localStorage.removeItem("data_lotteryAll_ssc");
-          this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-            localStorage.setItem("lotteryAll_ssc",JSON.stringify(res.data.data.ssc));
-            this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_ssc"));
-            localStorage.setItem("data_lotteryAll_ssc",now);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-        }else{
-          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_ssc"));
-          this.lotteryList.map(k => {
-            this.arrLottId.push(k.id);
-            this.arrLottName.push(k.name);
-          });
-          this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.lotteryId);
-          this.lottName = this.arrLottName[this.lottNameIndex];
-          if (this.lottNameIndex > 5) {
-            this.left = -200;
-          }
+        this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_ssc"));
+        this.lotteryList.map(k => {
+          this.arrLottId.push(k.id);
+          this.arrLottName.push(k.name);
+        });
+        this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.lotteryId);
+        this.lottName = this.arrLottName[this.lottNameIndex];
+        if (this.lottNameIndex > 5) {
+          this.left = -200;
         }
       }else{
         this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-          localStorage.setItem("lotteryAll_ssc",JSON.stringify(res.data.data.ssc));
+          localStorage.setItem("lotteryAll_ssc",JSON.stringify(res.data.data));
           this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_ssc"));
-          localStorage.setItem("data_lotteryAll_ssc",now);
         })
         .catch(error => {
           console.log(error);

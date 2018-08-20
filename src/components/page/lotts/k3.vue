@@ -2,7 +2,8 @@
   <div class="lott">
     <div class="lott-center">
       <div class="lott-top">
-        <div class="lott-top-left"><img src="@/assets/img/lott/k3.png" alt="" />
+        <div class="lott-top-left">
+          <img src="@/assets/img/lott/k3.png" alt="" />
           <span>{{lottName}}</span>
         </div>
         <div class="lott-top-middle k3">
@@ -19,8 +20,7 @@
           <div class="showName" v-show="!isshowGif">
             <img :src='"@/assets/img/lott/k3n"+n1+".jpg"' alt="">
             <img :src='"@/assets/img/lott/k3n"+n2+".jpg"' alt="">
-            <img :src='"@/assets/img/lott/k3n"+n3+".jpg"' alt="">
-          </div>
+            <img :src='"@/assets/img/lott/k3n"+n3+".jpg"' alt=""> </div>
         </div>
       </div>
       <div class="lottBox">
@@ -78,11 +78,11 @@
                 <!-- <star :class="className+'All'" v-if="className === 'k3_star2_same'" :con="con" :zhu="zhu" :item="item" :indexha="indexha" :numViews="numViews" :indexf="indexf"></star> -->
                 <!-- <div :class="className+'All'" v-if="className === 'k3_star2_same'" @click="curBallsAll(numViews,indexf)">
                   <span></span>
-                </div> -->
-              </div>
+                </div> --></div>
             </div>
             <div class="zhu">
-              <p>您选择了<i>{{zhu}}</i> 注</p>
+              <p>您选择了
+                <i>{{zhu}}</i> 注</p>
               <div class="butBox">
                 <div class="numSum">
                   <span class="trim">投注金额</span>
@@ -105,7 +105,9 @@
               <div class="addListBox">
                 <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index" v-if="item.addCon !== null">
                   <li>【{{item.addTitle}}】</li>
-                  <li><span>{{item.addCon}}</span></li>
+                  <li>
+                    <span>{{item.addCon}}</span>
+                  </li>
                   <li>{{item.addPattern}}</li>
                   <li>{{item.addzhu}}</li>
                   <li>{{item.addMoney}}</li>
@@ -182,7 +184,7 @@
                   <i>{{item.win}}</i>
                 </span>
               </li>
-              <li class="lott-right-top4-but">更多>></li>
+              <li class="lott-right-top4-but" @click="$router.push('/betManage/betRecord')">更多>></li>
             </ul>
           </div>
           <div class="lott-right-top5">
@@ -1179,7 +1181,6 @@ export default {
         this.arrpeilvc.push(arr1);
         this.arrpeilvc.push(arr2);
         this.arrpeilvc.push(this.arrpeilvb);
-        console.log(this.arrpeilva,this.arrpeilvb)
       } else if (this.lotteryId !== "dfk3") {
         this.arrpeilva = [];
         this.arrpeilvb = [];
@@ -1199,10 +1200,7 @@ export default {
         for (let i in arrpeilv2) {
           this.arrpeilvb.push(arrpeilv2[i]);
         }
-        console.log(this.arrpeilva,this.arrpeilvb)
       }
-
-
       this.current_player = this.playGroups[0].groups[0].players[0];
       this.current_player_bonus = this.current_player;
       for (let i = 0; i < this.playGroups.length; i++) {
@@ -1324,53 +1322,23 @@ export default {
     },
     // 获取彩种
     lotteryAll() {
-      var now = new Date().getTime();
       if (localStorage.getItem("lotteryAll_k3") !== null) {
-        var setupTime = localStorage.getItem("data_lotteryAll_k3");
-        if (
-          setupTime === null ||
-          now - setupTime > this.$store.state.cacheTime) {
-          localStorage.removeItem("lotteryAll_k3");
-          localStorage.removeItem("data_lotteryAll_k3");
-          this.$axios
-            .get(baseUrl + "/api/lottery/getLotteryList")
-            .then(res => {
-              localStorage.setItem(
-                "lotteryAll_k3",
-                JSON.stringify(res.data.data.k3)
-              );
-              this.lotteryList = JSON.parse(
-                localStorage.getItem("lotteryAll_k3")
-              );
-              localStorage.setItem("data_lotteryAll_k3", now);
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        } else {
-          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_k3"));
-          this.lotteryList.map(k => {
-            this.arrLottId.push(k.id);
-            this.arrLottName.push(k.name);
-          });
-          this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.lotteryId);
-          this.lottName = this.arrLottName[this.lottNameIndex];
-          if (this.lottNameIndex > 5) {
-            this.left = -200;
-          }
+        this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_k3"));
+        this.lotteryList.map(k => {
+          this.arrLottId.push(k.id);
+          this.arrLottName.push(k.name);
+        });
+        this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.lotteryId);
+        this.lottName = this.arrLottName[this.lottNameIndex];
+        if (this.lottNameIndex > 5) {
+          this.left = -200;
         }
       } else {
         this.$axios
           .get(baseUrl + "/api/lottery/getLotteryList")
           .then(res => {
-            localStorage.setItem(
-              "lotteryAll_k3",
-              JSON.stringify(res.data.data.k3)
-            );
-            this.lotteryList = JSON.parse(
-              localStorage.getItem("lotteryAll_k3")
-            );
-            localStorage.setItem("data_lotteryAll_k3", now);
+            localStorage.setItem( "lotteryAll_k3", JSON.stringify(res.data.data));
+            this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_k3"));
           })
           .catch(error => {
             console.log(error);

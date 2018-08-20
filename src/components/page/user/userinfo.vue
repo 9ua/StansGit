@@ -13,12 +13,12 @@
           li
             span 账号:
             ins {{this.$store.state.Globalusername}}
-          li
-            span 等级:
-            ins VIP1
-          li
-            span 头衔:
-            ins 农民
+          //- li
+          //-   span 等级:
+          //-   ins VIP1
+          //- li
+          //-   span 头衔:
+          //-   ins 农民
           li
             span 昵称:
             input.usreinput(placeholder='昵称为1-5位汉字，设置后不能修改',v-model='nickName',:input="nickName")
@@ -71,7 +71,7 @@ export default {
       ],
       listnav: [
         { title: "个人资料", to: "userinfo" },
-        { title: "等级头衔", to: "personalLevel" }
+        // { title: "等级头衔", to: "personalLevel" }
       ]
     };
   },
