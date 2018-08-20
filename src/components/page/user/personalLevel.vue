@@ -86,7 +86,7 @@ export default {
       },
       listnav: [
         { title: "个人资料", to: "userinfo" },
-        { title: "等级头衔", to: "personalLevel" }
+        // { title: "等级头衔", to: "personalLevel" }
       ]
     };
   },

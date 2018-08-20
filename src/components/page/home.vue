@@ -455,7 +455,7 @@ export default {
           localStorage.removeItem("lotteryAll_hot");
           localStorage.removeItem("data_lotteryAll_hot");
           this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-            localStorage.setItem("lotteryAll_hot",JSON.stringify(res.data.data.hot));
+            localStorage.setItem("lotteryAll_hot",JSON.stringify(res.data.data));
             this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_hot"));
             localStorage.setItem("data_lotteryAll_hot",now);
           })
@@ -467,7 +467,7 @@ export default {
         }
       }else{
         this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-          localStorage.setItem("lotteryAll_hot",JSON.stringify(res.data.data.hot));
+          localStorage.setItem("lotteryAll_hot",JSON.stringify(res.data.data));
           this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_hot"));
           localStorage.setItem("data_lotteryAll_hot",now);
         })

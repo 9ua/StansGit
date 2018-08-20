@@ -28,7 +28,7 @@ export default {
           icon: "hf-fsrebeta",
           son: [
             { name: "投注记录", to: "/betManage/betRecord" },
-            { name: "追号记录", to: "/betManage/seekOrder" }
+            // { name: "追号记录", to: "/betManage/seekOrder" }
           ]
         },
         {
