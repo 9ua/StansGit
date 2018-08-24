@@ -32,7 +32,7 @@ module.exports = {
       '@': resolve('src'),
       '@img': resolve('src/asstes/images'),
       '@static': resolve('static'),
-    }
+    },
   },
   module: {
     rules: [

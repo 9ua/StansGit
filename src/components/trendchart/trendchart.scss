@@ -1,0 +1,123 @@
+@import '@/assets/minix/main.scss';
+.lotteryTrendArea {
+  position: relative;
+}
+
+.tck3 {
+  position: relative;
+  width: 100%;
+}
+
+table {
+  background: #fff;
+  border: 1px solid #ccc;
+  width: 100%;
+  text-align: center;
+  color: #b9b9b9;
+  border-collapse: collapse;
+  line-height: 30px;
+  font-size: 12px;
+}
+
+thead {
+  background-color: #ddd;
+  color: #003;
+}
+
+th {
+  border-bottom: 0px solid #ccc;
+}
+
+td {
+  border: none;
+}
+
+th,
+.trendBorder-l {
+  border-left: 1px solid #ccc;
+}
+
+.trendBall-1,
+.trendBall-2,
+.trendBall-3,
+.trendBall-4,
+.trendBall-5 {
+  background: url(../../assets/img/trend/ball-red.png) no-repeat center;
+  color: #fff;
+}
+
+.clustNumBallOverlap {
+  background: url(../../assets/img/trend/ball-overlap.png) no-repeat center;
+  color: #fff;
+}
+
+.clustNumBallWarm {
+  background: url(../../assets/img/trend/ball-warm.png) no-repeat center;
+  color: #fff;
+}
+
+.listHeader {
+  width: 100%;
+}
+
+.listHeader td {
+  height: 30px;
+}
+.smallFont14{
+  min-width: 190px;
+}
+.trendBorder-1803 {
+  & i {
+    display: inline-block;
+    width: calc(100% / 6);
+  }
+}
+.trendBorder-1804 {
+  & i {
+    display: inline-block;
+    width: calc(100% / 10);
+  }
+}
+.trendBorder-1805 {
+  & i {
+    display: inline-block;
+    width: calc(100% / 10);
+  }
+}
+
+.fontColorBlack {
+  color: #003;
+}
+
+tfoot {
+  background-color: #ccc;
+  color: #003;
+}
+
+.trendNumTotal {
+  background: #ddd;
+  color: #666;
+  border-top: 1px solid #ccc;
+}
+
+.lotteryTrendNoBorder tbody tr:nth-child(5n+6) td {
+  border-top: 1px solid #FFF;
+}
+
+.lottsTrendTable tbody tr:nth-child(5n+6) td {
+  border-top: 1px solid #ccc;
+}
+
+#addCanvas canvas {
+  position: absolute;
+}
+
+.lotteryTrendCanvas,
+.lottsTrendCanvasBox {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}

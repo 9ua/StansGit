@@ -101,6 +101,10 @@ export default {
         {
           name: "快乐彩",
           lottery: "pk10"
+        },
+        {
+          name: "11选5",
+          lottery: "x11x5"
         }
       ],
       winpool: [
@@ -414,6 +418,13 @@ export default {
           }else
           this.lotteryAll();
           break;
+        case "x11x5":
+          this.select = 'x11x5';
+          if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+          }else
+          this.lotteryAll();
+          break;  
       }
     },
     overShow(e, index) {

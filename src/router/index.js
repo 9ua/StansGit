@@ -55,11 +55,11 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/trendChart/:id',
+      path: '/trendChart/:id/:name',
       name: 'trendchart',
       component: trendchart,
       meta: {
-        title: "开奖走势"
+        title: "宏發娱乐-开奖走势"
       }
     },
     {

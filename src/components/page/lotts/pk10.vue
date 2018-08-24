@@ -128,7 +128,7 @@
           <div class="lott-right-top1">
             <button>今日开奖</button>
             <p>
-              <router-link tag="a" target="_blank" to="/trendChart/1805">走势图</router-link>
+              <router-link tag="a" target="_blank" :to='"/trendChart/1805/"+lotteryId'>走势图</router-link>
               <i>|</i>
               <span>玩法说明</span>
             </p>
