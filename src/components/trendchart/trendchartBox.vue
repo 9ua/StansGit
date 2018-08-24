@@ -113,6 +113,7 @@ export default {
           setTimeout(() => {
             drawTrend();
           }, 400);
+          console.log(this.lotteryList,this.lotts.title)
         });
     }
   },

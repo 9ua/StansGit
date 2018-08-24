@@ -132,7 +132,7 @@
           <div class="lott-right-top1">
             <button>今日开奖</button>
             <p>
-              <router-link tag="a" target="_blank" :to='"/trendChart/1803/"+lotteryId'>走势图</router-link>
+              <router-link tag="a" target="_blank" :to='"/trendChart/1803/"+$route.params.lotteryId'>走势图</router-link>
               <i>|</i>
               <!-- <span>玩法说明</span> -->
             </p>
@@ -852,7 +852,7 @@ export default {
         }
       } else {
         this.$axios
-          .get(baseUrl + "/api/lottery/getPlayTree?lotteryId=" + this.lotteryId)
+          .get(baseUrl + "/api/lottery/getPlayTree?lotteryId=" + this.$route.params.lotteryId)
           .then(res => {
             localStorage.setItem(
               "getPlayTree_playGroups_k3",
@@ -1057,7 +1057,7 @@ export default {
         }
       } else {
         this.$axios
-          .get(baseUrl + "/api/lottery/getLotteryList")
+          .get(baseUrl + "/api/lottery/getLotteryList",{params:{type:'k3'}})
           .then(res => {
             localStorage.setItem( "lotteryAll_k3", JSON.stringify(res.data.data));
             this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_k3"));
