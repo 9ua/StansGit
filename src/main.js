@@ -28,6 +28,8 @@ Vue.use(MuseUI);
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 // 登陆拦截
+
+
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     if (localStorage.getItem("loginStatus") === true) {
@@ -38,7 +40,7 @@ router.beforeEach((to, from, next) => {
         query: {
           redirect: to.fullPath
         }
-      })
+      });
     }
   } else {
     next();

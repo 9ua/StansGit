@@ -49,6 +49,9 @@ const unionpay = r => require.ensure([], () => r(require('@/components/page/mone
 const huabei = r => require.ensure([], () => r(require('@/components/page/money/huabei.vue')), 'huabei')
 const creditc = r => require.ensure([], () => r(require('@/components/page/money/creditc.vue')), 'creditc')
 
+
+
+const winning = r => require.ensure([], () => r(require('@/components/cp/winMsg.vue')), 'winning')
 const trendchart = r => require.ensure([], () => r(require('@/components/trendchart/trendchartBox.vue')), 'trendchartBox')
 Vue.use(Router)
 export default new Router({
@@ -61,6 +64,11 @@ export default new Router({
       meta: {
         title: "宏發娱乐-开奖走势"
       }
+    },
+    {
+      path:"/winning",
+      name:"winning",
+      component:winning
     },
     {
       path: '/',

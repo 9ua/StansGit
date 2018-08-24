@@ -1,0 +1,66 @@
+@import '@/assets/minix/main.scss';
+.yestDayIncom {
+  margin-bottom: 13px;
+  border: 1px solid #DCE1E5;
+  height: 191px;
+  h3 {
+    @extend %flex;
+    @extend %aitems;
+    border-bottom: 1px solid #EEEEEE;
+    height: 30px;
+    padding-left: 8px;
+  }
+  & ul {
+    @extend %flex;
+    @extend %sbetween;
+    @extend %fdc;
+    height: 160px;
+    & li {
+      @extend %flex,
+      %aitems,
+      %sbetween;
+      padding-left: 8px;
+      border-bottom: 1px dashed #DCE1E5;
+      height: 33%;
+      & .champion {
+        @extend %flex,
+        %aitems;
+        & p {
+          @extend %flex,
+          %fdc;
+          & span {
+            @extend %flex;
+            & .nickname,
+            & .gain {
+              color: #F63745;
+              font-style: normal;
+            }
+          }
+        }
+        & img {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+      }
+      &:nth-child(1)>p {
+        background: #C44F52;
+      }
+      &:nth-child(2)>p {
+        background: #3A94DF;
+      }
+      &:nth-child(3)>p {
+        background: #DB8C4A;
+      }
+      & p.index {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        color: #FFFFFF;
+        @extend %faj;
+        margin-right: 8px;
+      }
+    }
+  }
+}
