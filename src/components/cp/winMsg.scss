@@ -1,0 +1,22 @@
+@import '@/assets/minix/main.scss';
+ul.lott-right-top6-ul {
+  height: 500px;
+  overflow: hidden;
+  & li {
+    @extend %flex,
+    %aitems;
+    padding-left: 8px;
+    border-bottom: 1px dashed #DCE1E5;
+    height: 50px;
+    color: #666;
+    & img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    & i {
+      color: #F63745;
+    }
+  }
+}

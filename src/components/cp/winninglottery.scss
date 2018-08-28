@@ -1,0 +1,50 @@
+@import '@/assets/minix/main.scss';
+ul.lott-right-top7-ul {
+  & li {
+    @extend %flex,
+    %aitems,
+    %sbetween;
+    padding-left: 8px;
+    border-bottom: 1px dashed #DCE1E5;
+    height: 50px;
+    & .champion {
+      @extend %flex,
+      %aitems;
+      & p {
+        @extend %flex,
+        %fdc;
+        & .nickname,
+        & .gain {
+          color: #F63745;
+          font-style: normal;
+        }
+      }
+      & img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+    }
+    & p.index {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      color: #666;
+      @extend %faj;
+      margin-right: 8px;
+    }
+    &:nth-child(1)>p {
+      background: #C44F52;
+      color: #FFFFFF;
+    }
+    &:nth-child(2)>p {
+      background: #3A94DF;
+      color: #FFFFFF;
+    }
+    &:nth-child(3)>p {
+      background: #DB8C4A;
+      color: #FFFFFF;
+    }
+  }
+}

@@ -1,0 +1,121 @@
+@import '@/assets/minix/main.scss';
+.trendchartBox {
+  width: 100%;
+  min-width: 1400px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+div.select-section {
+  @extend %flex,
+  %sbetween;
+  line-height: 30px;
+  padding: 15px 20px;
+  background: #eee;
+  color: #003;
+  overflow: hidden;
+  & .left {
+    color: #099;
+    font-size: 16px;
+    font-weight: 700;
+    & button {
+      margin-left: 20px;
+      border-radius: 3px;
+      padding: 0px 10px;
+      color: #FFF;
+      background: #099;
+      border: none;
+      height: 30px;
+      min-width: 70px;
+      text-align: center;
+      font-size: 14px;
+    }
+  }
+  & .right {
+    @extend %faj;
+    cursor: pointer;
+    color: #003;
+    & i.hideSearchBarIcon {
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
+      background: url(../../assets/img/trend/hideSearchBarIcon.jpg) no-repeat center;
+      -webkit-transition: all .3s ease-in-out;
+      -moz-transition: all .3s ease-in-out;
+      -o-transition: all .3s ease-in-out;
+      transition: all .3s ease-in-out;
+    }
+    & i.hideSearchBarIcon.transform {
+      -webkit-transform: rotateZ(180deg);
+      -moz-transform: rotateZ(180deg);
+      -o-transform: rotateZ(180deg);
+      transform: rotateZ(180deg);
+    }
+  }
+}
+.chart_control_cont.transform{
+  height: 0px;
+  opacity: 0;
+  visibility: hidden;
+  padding: 0;
+  -webkit-transition: all  0.8s;
+  -moz-transition: all  0.8s;
+  -o-transition: all  0.8s;
+  transition: all  0.8s;
+}
+.chart_control_cont {
+  @extend %faj;
+  background: #eee;
+  border-top: 1px solid #ccc;
+  padding: 20px 0;
+  height: 71px;
+  opacity: 1;
+  visibility: visible ;
+  -webkit-transition: all  0.8s;
+  -moz-transition: all  0.8s;
+  -o-transition: all  0.8s;
+  transition: all  0.8s;
+  & .areaContainer {
+    @extend %flex;
+    height: 30px;
+    line-height: 30px;
+    .trendSearchCheckBox .checkbox {
+      width: 16px;
+      height: 16px;
+    }
+    .checkboxDetail {
+      cursor: pointer;
+    }
+    .checkbox {
+      vertical-align: middle;
+      cursor: pointer;
+    }
+  }
+  & .latelyIssueBox-trend {
+    margin-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    >ul {
+      @extend %flex,
+      %aitems;
+      height: 30px;
+      line-height: 30px;
+      & li {
+        height: 12px;
+        line-height: 12px;
+        font-size: 12px;
+        padding: 0 6px;
+        cursor: pointer;
+      }
+      & li:nth-child(2) {
+        border-left: 1px solid #003;
+        border-right: 1px solid #003;
+      }
+      & li.active {
+        color: #099;
+      }
+    }
+  }
+}

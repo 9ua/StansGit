@@ -107,7 +107,8 @@ export default {
         { title: "手机购彩", path: "/appdown" },
         { title: "帮助指南", path: "/helpcenter" }
       ],
-      paywaylist: []
+      paywaylist: [],
+      localStorageArr:[],
     };
   },
   mounted() {
@@ -156,6 +157,14 @@ export default {
       }
     },
     logOut() {
+      for(let i=0;i<localStorage.length;i++){
+        this.localStorageArr.push(localStorage.key(i));
+      }
+      this.localStorageArr.map((key) =>{
+        if(key !== 'username'){
+          localStorage.removeItem(key)
+        }
+      });
       this.$axios
         .get(baseUrl + "/api/user/logout")
         .then(res => {
@@ -163,6 +172,7 @@ export default {
             this.$store.state.loginStatus = false;
             localStorage.setItem("loginStatus", false);
             // localStorage.clear();
+            this.$router.push('/login');
           }
         })
         .catch(error => {
