@@ -1,7 +1,7 @@
 <template lang='jade'>
 .notContent(style='padding: 100px 0px;')
   .iconLoadingCon(style='transform: scale(0.6);')
-    img.loadingImg(src='http://imagess-google.com/system/mobile/lottery/loadingMobile.gif')
+    img.loadingImg(src='../../../assets/img/lott/loadingMobile.gif')
 </template>
 <script>
 export default {};

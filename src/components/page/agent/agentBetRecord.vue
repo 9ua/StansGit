@@ -38,7 +38,7 @@
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon') 
                   span 暂无记录
-            tr(v-for='(item,index) in tradelist',v-if='index<start+limit&&index>=start')
+            tr(v-for='(item,index) in tradelist')
               td {{item.account}}
               td {{item.lotteryName}}
               td 第{{item.seasonId}}期
@@ -50,7 +50,7 @@
               td {{item.win}}                
               td {{item.createTime}}
               td 
-      pageNav(:list='tradelist',:limit='limit',ref='pageNav', @pageTo='pageTo')
+      pageNav(:allCount='allCount',:limit='limit',ref='pageNav', @pageTo='pageTo')
       .userTip.mgt15
         p ※ 温馨提示：投注明细最多只保留7天。
 </template>
@@ -78,9 +78,10 @@ export default {
       navType: 0,
       betweenType: 1,
       start: 0,
-      limit: 1,
+      limit: 2,
       status: 100,
       tradelist: [],
+      allCount:1,
       th: [
         "账号",
         "彩种",
@@ -113,6 +114,7 @@ export default {
     //接收pageNav组件分页信号
     pageTo($event) {
       this.start = this.limit * ($event - 1);
+      this.getTradeList();
     },
     changeTime(e, time, index) {
       this.navTime = index;
@@ -142,7 +144,6 @@ export default {
     getTradeList() {
       this.noContent = true;
       this.$refs.pageNav.reset();
-      this.start=0;
       if (this.account === "") {
         this.$axios
           .get(baseUrl + "/api/proxy/getbetOrderList", {
@@ -151,13 +152,14 @@ export default {
               include: this.include,
               status: this.status,
               betweenType: this.betweenType,
-              // start: this.start,
-              // limit: this.limit
+              start: this.start,
+              limit: this.limit
             }
           })
           .then(res => {
             this.tradelist = res.data.data.list;
             this.noContent = false;
+            this.allCount=res.data.data.betOrderAllCount;
           })
           .catch(error => {
             console.log(" ERROR");
@@ -170,13 +172,14 @@ export default {
               include: this.include,
               status: this.status,
               betweenType: this.betweenType,
-              // start: this.start,
-              // limit: this.limit
+              start: this.start,
+              limit: this.limit
             }
           })
           .then(res => {
             if (res.data.code === 1) {
               this.tradelist = res.data.data.list;
+              this.allCount=res.data.data.betOrderAllCount;
               this.noContent = false;
             } else {
               this.account = "";
