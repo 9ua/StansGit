@@ -1,7 +1,7 @@
 <template lang='jade'>
 .page
   p 共
-    em {{list.length}}
+    em {{allCount}}
     span 条记录
   .pageNav
     ul.pagination
@@ -17,7 +17,7 @@
 <script>
 export default {
   props: {
-    list: Array,
+    allCount: Number,
     limit: Number,
   },
   data() {
@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     pages() {
-      return Math.ceil(this.list.length / this.limit);
+      return Math.ceil(this.allCount / this.limit);
     }
   },
   methods: {

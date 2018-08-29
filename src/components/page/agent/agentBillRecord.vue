@@ -48,7 +48,7 @@
               td {{item.balance}}                          
               td {{item.accountChangeTypeName}}
               td 
-      pageNav(:list='tradelist',:limit='limit',ref='pageNav',@pageTo='pageTo')
+      pageNav(:allCount='allCount',:limit='limit',ref='pageNav',@pageTo='pageTo')
       .userTip.mgt15
         p ※ 温馨提示：交易明细最多只保留7天。
 </template>
@@ -72,8 +72,9 @@ export default {
       betweenType: 1,
       status: 100,
       start: 0,
-      limit: 15,
+      limit: 10,
       tradelist: [],
+      allCount:1,
       th: [
         "账号",
         "流水号",
@@ -103,6 +104,7 @@ export default {
     //接收pageNav组件分页信号
     pageTo($event) {
       this.start = this.limit * ($event - 1);
+      this.getTradeList();
     },
     changeTime(e, time, index) {
       this.navTime = index;
@@ -126,12 +128,13 @@ export default {
               include: this.include,
               accountChangeType: this.status,
               betweenType: this.betweenType,
-              // start: this.start,
-              // limit: this.limit
+              start: this.start,
+              limit: this.limit
             }
           })
           .then(res => {
             this.tradelist = res.data.data.list;
+            this.allCount=res.data.data.allCount;
             this.noContent = false;
           })
           .catch(error => {
@@ -145,13 +148,14 @@ export default {
               include: this.include,
               accountChangeType: this.status,
               betweenType: this.betweenType,
-              // start: this.start,
-              // limit: this.limit
+              start: this.start,
+              limit: this.limit
             }
           })
           .then(res => {
             if (res.data.code === 1) {
               this.tradelist = res.data.data.list;
+              this.allCount=res.data.data.allCount;
               this.noContent = false;
             } else {
               this.account = "";
