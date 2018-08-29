@@ -50,12 +50,24 @@ export default {
         username: "",
         password: "",
         captcha_code: ""
-      }
+      },
+      localStorageArr:[],
     };
   },
   watch: {
     //监听路由变化后
     $route(to, from, next) {
+      //判断是否在登陆页面，是就清除缓存
+      if(to.fullPath === '/login' || '/login?id=ashore' || '/login?id=register'){
+        for (let i = 0; i < localStorage.length; i++) {
+          this.localStorageArr.push(localStorage.key(i));
+        }
+        this.localStorageArr.map(key => {
+          if (key !== "username") {
+            localStorage.removeItem(key);
+          }
+        });
+      }
       if (to.fullPath === "/login?id=ashore") {
         this.$refs.loginGoTitle.textContent = "用户登陆";
         this.tologin = false;
@@ -65,7 +77,23 @@ export default {
       }
     }
   },
+  mounted() {
+    this.islogin();
+  },
   methods: {
+    //清除缓存
+    islogin() {
+      if (this.$route.path === '/login' || '/login?id=ashore' || '/login?id=register') {
+        for (let i = 0; i < localStorage.length; i++) {
+          this.localStorageArr.push(localStorage.key(i));
+        }
+        this.localStorageArr.map(key => {
+          if (key !== "username") {
+            localStorage.removeItem(key);
+          }
+        });
+      }
+    },
     //立即注册
     toRegister() {
       this.$router.push({ query: { id: "register" } });
@@ -98,13 +126,19 @@ export default {
             this.$store.state.userType = res.data.data.userType;
             this.$store.state.Globalusername = res.data.data.account;
             this.$store.state.balance = res.data.data.balance;
-            localStorage.setItem("JSESSIONICookie", this.$store.state.JSESSIONICookie);
+            localStorage.setItem(
+              "JSESSIONICookie",
+              this.$store.state.JSESSIONICookie
+            );
             localStorage.setItem("userType", this.$store.state.userType);
             localStorage.setItem("username", this.$store.state.Globalusername);
             localStorage.setItem("balance", this.$store.state.balance);
             this.$store.state.loginStatus = true;
-            localStorage.setItem("loginStatus",Boolean(this.$store.state.loginStatus));
-            localStorage.setItem("username",res.data.data.account);
+            localStorage.setItem(
+              "loginStatus",
+              Boolean(this.$store.state.loginStatus)
+            );
+            localStorage.setItem("username", res.data.data.account);
             this.$router.push({ name: "sy" });
             this.RECORD_USERINFO(this.validateForm);
           }
