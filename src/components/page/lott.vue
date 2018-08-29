@@ -196,9 +196,10 @@ export default {
       this.showPop = !this.showPop;
     },
     lotteryAll() {
-      this.$axios
-        .get(baseUrl + "/api/lottery/getLotteryList",{params:{type:this.select}})
-        .then(res => {
+      if(localStorage.getItem("getLotteryList_"+this.select) !== null){
+        this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
+      }else{
+        this.$axios.get(baseUrl + "/api/lottery/getLotteryList",{params:{type:this.select}}).then(res => {
           this.lotteryList = res.data.data;
           localStorage.setItem( "getLotteryList_"+this.select, JSON.stringify(res.data.data));
           this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
@@ -206,6 +207,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      }
     }
   },
   filters: {
