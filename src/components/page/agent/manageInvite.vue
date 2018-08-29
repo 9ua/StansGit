@@ -10,7 +10,7 @@
           span 开户类型：
           router-link.userSearch(to="",:class="{'active': index === usertype}",v-for='(item,index) in usertypes',:key='index',@click.native='changUserType($event,item,index)') {{item.title}}
           br
-          返点设置：请先为下级设置返点。
+          | 返点设置：请先为下级设置返点。
       .bonusTable
         ul
           li 返点：
@@ -30,7 +30,7 @@
       router-link(to='',class='submitBtn',style='margin-left: 184px;',@click.native='getInviteCode') 生成邀请码
       .userTip.mg30
         p
-          ※ 温馨提示：
+          | ※ 温馨提示：
           br
           span 1、不同的返点赔率不同，返点越高赔率越高。
           br

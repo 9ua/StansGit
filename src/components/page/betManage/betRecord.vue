@@ -6,13 +6,13 @@
       ul.todayView.mgb10
         li 今日概况
         li 
-          投注金额：
+          | 投注金额：
           span {{betAmount| keepTwoNum2|addY}}
         li 
-          中奖金额：
+          | 中奖金额：
           span {{winAmount| keepTwoNum2|addY}}
         li 
-          盈利：
+          | 盈利：
           span {{winAmount-betAmount+activityAndSend+juniorRebateAmount | keepTwoNum2|addY}}
       ul.searchFirst
         //- li
@@ -37,7 +37,7 @@
               td(colspan="100")
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
-                  暂无记录
+                  | 暂无记录
             tr(v-for='(item,index) in tradelist',v-if='index<start+limit&&index>=start')
               td {{item.lotteryName}}
               td 第{{item.seasonId}}期

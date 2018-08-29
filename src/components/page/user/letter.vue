@@ -14,7 +14,7 @@
               td(colspan="100")
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
-                  暂无记录
+                  | 暂无记录
             tr(v-for='(item,index) in list',v-if='index<start+limit&&index>=start')
               td {{item.title}}
               td 管理员

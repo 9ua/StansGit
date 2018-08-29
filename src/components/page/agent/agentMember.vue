@@ -5,14 +5,14 @@
     .userMain.agentMember.mgb10
       .searchOpt 账户：
         input.userInput.w90(v-model='account',@keyup.enter='getUnderUserList')
-        &nbsp;用户类型：
+        | &nbsp;用户类型：
         ins.selectIcon
           select.userSelect(name='f')
             option(value='-1') 全部 
             option(value='1') 代理 
             option(value='0') 玩家
           em 
-        &nbsp;
+        | &nbsp;
         router-link(to='',class='submitBtn',@click.native='getUnderUserList') 搜索
       noContent(v-if='noContent')
       table(v-if='!noContent')
@@ -24,7 +24,7 @@
               td(colspan="100")
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
-                  暂无记录
+                  | 暂无记录
             tr(v-for='(item,index) in underUserList',v-if='index<start+limit&&index>=start')
               td {{item.account}}
               td {{item.userTypeName}}

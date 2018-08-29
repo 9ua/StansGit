@@ -10,10 +10,10 @@
           .text
             strong 您的账户安全级别为{{level}}，可以通过完善安全信息提高级别。
             p
-              上次登录时间： 
+              | 上次登录时间： 
               ins {{lastLoginTime}}
               ins {{local}} | 
-              不是我登录？
+              | 不是我登录？
               router-link(to="/user/verifyPwd") 修改密码
         ul.safeList
           li(:class='{noSet:!password}')

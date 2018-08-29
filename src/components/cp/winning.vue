@@ -6,7 +6,7 @@
       <div class="yestDayIncomItem">
         <ul>
           <li v-for="(item,index) in winList" :key="index" v-if="index &lt; num">
-            <div class="champion"> <img :src="&quot;/static/images/&quot;+item.img+&quot;.jpg&quot;" alt="" />
+            <div class="champion"> <img :src='"@/assets/img/heads/"+item.img+".jpg"' alt="" />
               <p>
                 <span>账户昵称 ：
                   <i class="nickname">{{item.account | mask}}</i>

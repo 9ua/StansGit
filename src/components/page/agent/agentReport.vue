@@ -7,7 +7,7 @@
         router-link(to="",:class="{'curr': index === navindex}",v-for='(item,index) in nav',@click.native='changeTime($event,item.value,index)',:key='index') {{item.name}}        
       ul.todayView.mgb10
         input.userInput(placeholder='下级报表查询', v-model="accountName",@keyup.enter='getUserTeam',v-focus="focusState")
-        &nbsp;
+        | &nbsp;
         router-link(to="",class='submitBtn ClickShade',@click.native='getUserTeam') 搜索
       noContent(v-if='noContent')
       .code_cont(v-if='!noContent')
@@ -57,7 +57,7 @@
           li
         .userTip
           p
-            ※ 温馨提示：代理报表最多只保存7天。                    
+            | ※ 温馨提示：代理报表最多只保存7天。                    
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";

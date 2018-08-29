@@ -6,7 +6,7 @@
           <yd-slider autoplay="1800">
             <yd-slider-item v-for="item in 2" :key="item">
               <a href="http://www.ydcss.com">
-                <img :src='"../../../static/images/lott/banner"+item+".png"'>
+                <img :src='"@/assets/img/home/banner"+item+".png"'>
               </a>
             </yd-slider-item>
           </yd-slider>

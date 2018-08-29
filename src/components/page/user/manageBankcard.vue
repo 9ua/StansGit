@@ -7,13 +7,14 @@
         .fix
           .cardItem(v-for="(item,index) in bankUserList")
             .bankName
-              i
-              {{item.title}}
+              i 
+              | {{item.title}}
             .bankNum
-              尾号：{{item.card|lastFive}}
+              | 尾号：
+              | {{item.card|lastFive}}
             .cardInfo.fix
               .cardStyle.cardPink
-                储蓄卡
+                | 储蓄卡
                 em
               .cardOperation
                span._islock 未锁定
@@ -23,7 +24,7 @@
               em {{item.niceName|name}}
           router-link(to="",class="cardEmpty cardItem ClickShade",@click.native="goCreate") 立即添加银行卡
         .userTip.mgt15
-          p  {{content}}
+          p {{content}}
 </template>
 <script>
 import md5 from "js-md5";

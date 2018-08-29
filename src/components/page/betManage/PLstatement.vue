@@ -9,7 +9,7 @@
             span {{balance}}
             p
               mu-icon(value='monetization_on',class='icon') 
-              余额
+              | 余额
               router-link(to="ebankPay") 充值
               router-link(to="withdraw") 提现
               router-link(to="billRecord") 交易记录

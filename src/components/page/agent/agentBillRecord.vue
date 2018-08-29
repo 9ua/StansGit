@@ -4,15 +4,15 @@
     .userTitle 交易明细
     .userMain
       .searchOpt 账户：
-        input.userInput.w90(v-model='account',@keyup.enter='getTradeList')
-        &nbsp;用户类型：
+        input.userInput.w90(v-model='account',@keyup.enter='getTradeList') 
+        | &nbsp;用户类型：
         ins.selectIcon
           select.userSelect(name='f',v-model='include',@change='getTradeList')
             option(value='1') 全部 
             option(value='2')  下级
             option(value='0') 自己
           em 
-        &nbsp;
+        | &nbsp;
         router-link(to='',class='submitBtn',@click.native='getTradeList') 搜索
       ul.searchFirst
         //- li

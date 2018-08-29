@@ -6,13 +6,13 @@
         ul
           li(:class="{'active': index === navNum}", v-for='(nav,index) in lotteryList', :key='index', @click="lotteryTo(nav,index)") 
             img(:class="nav.toF5money ? 'totransition' : ''", :src='"@/assets/img/lott/"+nav.groupId+".png"',@mouseover="selectStyle(nav)", @mouseout="outStyle(nav)" alt='') 
-            {{nav.name}}
+            | {{nav.name}}
             span 1分钟1期
     .homeSideCenter
       .banner
         .bannerBox
           router-link(to='/activity')
-            img(src='../../../static/images/lott/sy1.jpg', alt='')
+            img(src='@/assets/img/lott/sy1.jpg', alt='')
       .autoTab
         ul.tab
           li(:class="{'active': index === navNum}", v-for='(nav,index) in listnav', :key='index', @click='navTo($event,index,nav)') {{nav.name}}

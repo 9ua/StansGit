@@ -7,23 +7,23 @@
         router-link(:to="nav.to", v-for='(nav,index) in listnav',:class="{'active': index === navNum}",:key='index') {{nav.title}}
       .fix
         .selectHeadImg
-          img(:src='"/static/images/"+this.$store.state.img+".jpg"')
+          img(:src='"@/assets/img/heads/"+this.$store.state.img+".jpg"')
           p(@click='setHeadImg=true') 修改头像
         ul.evCallInfo
           li
             em 账
-            号 ：
+            | 号 ：
             span {{this.$store.state.Globalusername}}
           li 
             em 等
-            级 ：
+            | 级 ：
             span VIP1
           li 
             em 头
-            衔 ：
+            | 衔 ：
             span 农民
           li 
-            成长值 ：
+            | 成长值 ：
             span 0
           li(style='color: rgb(153, 153, 153);') 每充值1元加1分
         .levelBar
@@ -32,7 +32,7 @@
             em VIP1
             p
               span(style='color: rgb(241, 66, 65);') 0
-              /0  距离下一级还要0分
+              | /0  距离下一级还要0分
             i VIP2
         h6 等级机制
         table(width='80%')

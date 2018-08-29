@@ -12,7 +12,7 @@
           input(placeholder='请输入您要绑定的手机号码',class='userInput',v-model="mobile",@blur='checkMobile',type='number')
           em.verifyWrong(v-show='!mobileRight&&!isMobileFirst') 
             mu-icon(value="cancel",size="14")
-            {{mobile_tip}}
+            | {{mobile_tip}}
           em.verifyRight(v-show='mobileRight') 
             mu-icon(value="check_circle",size="14")
         li(style="position: relative;") 
@@ -20,7 +20,7 @@
           input(placeholder='输入验证码',class='userInput',v-model="validCode",@blur='checkCode',type='number')
           em.verifyWrong(v-show='!codeRight&&!isCodeFirst')
             mu-icon(value="cancel",size="14")
-            {{code_tip}}
+            | {{code_tip}}
           span.btn.SendCode
             router-link(to='',class='ClickShade',@click.native='flag && sendMobilCode()') {{text}}
           em.verifyRight(v-show='codeRight') 
@@ -30,7 +30,7 @@
           input(placeholder='请输入您的安全密码',class='userInput',v-model="securityCode",@blur='checkPwd',type='password',@keyup.enter="submit")
           em.verifyWrong(v-show='!pwdRight&&!isPwdFirst') 
             mu-icon(value="cancel",size="14")
-            {{pwd_tip}}
+            | {{pwd_tip}}
           em.verifyRight(v-show='pwdRight') 
             mu-icon(value="check_circle",size="14")
         li

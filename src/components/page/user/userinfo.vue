@@ -7,7 +7,7 @@
         router-link(:to="nav.to", v-for='(nav,index) in listnav',:class="{'active': index === navNum}",:key='index') {{nav.title}}
       .fix
         .selectHeadImg
-          img(:src='"/static/images/"+this.$store.state.img+".jpg"')
+          img(:src='"@/assets/img/heads/"+this.$store.state.img+".jpg"')
           p(@click='setHeadImg=true') 修改头像
         ul.personalInfo
           li
@@ -36,7 +36,7 @@
             span 性别:
             b.radio_box(v-for='(item,index) in listsex',:class="{'checked': index === sex}",:key='index' @click='sexRadio($event,item,index)') 
               i 
-              {{item.sex}}
+              | {{item.sex}}
           li
             span 生日:
             el-date-picker(v-model="birthday",type="date" ,value-format="yyyy/MM/dd" ,@change="(value) => toBirthday(value)", format="yyyy/MM/dd" ,:editable="false", placeholder="选择日期")

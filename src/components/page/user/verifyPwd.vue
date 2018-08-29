@@ -13,7 +13,7 @@
           input(placeholder='请输入安全密码',class='userInput',v-model="oldPwd",@blur='checkOldPwd',type='password',@keyup.enter="validOldLoginPassword")
           em.verifyWrong(v-show='!pwdOldRight&&!isOldFirst') 
             mu-icon(value="cancel",size="14")
-            {{pwd_old_tip}}
+            | {{pwd_old_tip}}
           em.verifyRight(v-show='pwdOldRight') 
             mu-icon(value="check_circle",size="14")
         li
@@ -25,7 +25,7 @@
           input(placeholder='请输入安全密码',class='userInput',v-model="newPwd",@blur='checkPwd',type='password')
           em.verifyWrong(v-show='!pwdRight&&!isFirst') 
             mu-icon(value="cancel",size="14")
-            {{pwd_tip}}
+            | {{pwd_tip}}
           em.verifyRight(v-show='pwdRight') 
             mu-icon(value="check_circle",size="14")
         li 
@@ -33,7 +33,7 @@
           input(placeholder='请再次输入安全密码',class='userInput',v-model="newPwdAgian",@blur='checkPwdAgain',type='password',@keyup.enter="submit")
           em.verifyWrong(v-show='!pwdRightAgain&&!isFirst') 
             mu-icon(value="cancel",size="14")
-            {{pwd_tip}}
+            | {{pwd_tip}}
           em.verifyRight(v-show='pwdRightAgain') 
             mu-icon(value="check_circle",size="14")
         li
