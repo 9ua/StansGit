@@ -1,0 +1,1440 @@
+@import '@/assets/minix/main.scss';
+.conterBut {
+  width: 100%;
+}
+
+.k3_star1Box {
+  @extend %faj;
+  min-height: 200px;
+  width: 100%;
+  @for $i from 1 through 6 {
+    & .k3_star1:nth-child(#{$i}) {
+      cursor: pointer;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 0px 4px;
+      & span {
+        @extend %flex;
+        margin: 0px 4px;
+        @include lottBg("k3n" + $i + ".jpg", 61px, 71px);
+        background-size: 100%;
+      }
+    }
+  }
+  & .k3_star1.active {
+    border: 1px solid #b5b5b5;
+    border-radius: 10px;
+    margin: 0px 4px;
+  }
+}
+
+//二不同
+.conterBut.conterButk3_star2_same_not {
+  padding: 36px 0px;
+  cursor: pointer;
+  & .k3_star2_same_notBox {
+    @extend %faj;
+    min-height: 40px;
+    width: 100%;
+  }
+  & .k3_star2_same_notBox:nth-child(1) {
+    & .k3_star2_same_not:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star2_same_not:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star2_same_notBox:nth-child(2) {
+    & .k3_star2_same_not:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star2_same_not:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star2_same_notBox:nth-child(3) {
+    & .k3_star2_same_not:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 60px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same_not.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star2_same_not:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+}
+
+//二同号
+.conterBut.conterButk3_star2_same {
+  @extend %faj;
+  padding: 20px 0px 30px;
+  & .k3_star2_sameBox:nth-child(1) {
+    cursor: pointer;
+    & .k3_star2_same:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(6) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %faj;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+      }
+    }
+    & .k3_star2_same.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star2_same:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star2_sameBox:nth-child(2) {
+    cursor: pointer;
+    & .k3_star2_same:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(6) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %faj;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+      }
+    }
+    & .k3_star2_same.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star2_same:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star2_sameBox:nth-child(3) {
+    cursor: pointer;
+    & .k3_star2_same:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(6) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %faj;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+      }
+    }
+    & .k3_star2_same.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star2_same:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star2_sameBox:nth-child(4) {
+    cursor: pointer;
+    & .k3_star2_same:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(6) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %faj;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+      }
+    }
+    & .k3_star2_same.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star2_same:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star2_sameBox:nth-child(5) {
+    cursor: pointer;
+    & .k3_star2_same:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(6) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %faj;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+      }
+    }
+    & .k3_star2_same.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star2_same:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star2_sameBox:nth-child(6) {
+    cursor: pointer;
+    & .k3_star2_same:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star2_same:nth-child(6) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %faj;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+      }
+    }
+    & .k3_star2_same.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star2_same:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+}
+
+//和值
+.conterBut.conterButk3_star3_and {
+  padding: 36px 0px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  & .k3_star3_andBox {
+    @extend %faj;
+    margin-bottom: 6px;
+    & .k3_star3_and {
+      width: 71px;
+      height: 71px;
+      cursor: pointer;
+      margin: 0px 4px;
+      @include lottBg("k3-1.png",
+      71px,
+      71px);
+      & span {
+        width: 71px;
+        height: 71px;
+        color: #555;
+        & i {
+          font-size: 30px;
+          font-weight: 700;
+          @extend %faj;
+        }
+        & i:nth-child(2) {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+    }
+    & .k3_star3_and.active {
+      border: 1px solid #BFBEBF;
+      border-radius: 10px;
+      background: none;
+    }
+  }
+}
+
+//三连号
+.conterBut.conterButk3_star3_link {
+  @extend %faj;
+  & .k3_star3_linkBox {
+    @extend %faj;
+    cursor: pointer;
+    & .k3_star3_link:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_link:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_link:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_link:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_link.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star3_link:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+}
+
+//三不同
+.conterBut.conterButk3_star3_same_not {
+  @extend %faj,
+  %fdc;
+  & .k3_star3_same_notBox:nth-child(1) {
+    @extend %faj;
+    cursor: pointer;
+    & .k3_star3_same_not:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star3_same_not:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star3_same_notBox:nth-child(2) {
+    @extend %faj;
+    cursor: pointer;
+    & .k3_star3_same_not:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star3_same_not:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star3_same_notBox:nth-child(3) {
+    @extend %faj;
+    cursor: pointer;
+    & .k3_star3_same_not:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star3_same_not:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star3_same_notBox:nth-child(4) {
+    @extend %faj;
+    cursor: pointer;
+    & .k3_star3_same_not:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(4) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not:nth-child(5) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same_not.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star3_same_not:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+}
+
+//三同号
+.conterBut.conterButk3_star3_same {
+  @extend %faj,
+  %fdc;
+  & .k3_star3_sameBox:nth-child(1) {
+    min-height: 45px;
+    @extend %faj;
+    cursor: pointer;
+    & .k3_star3_same:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n1.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n1.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n1.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n2.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n2.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n2.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n3.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n3.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n3.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star3_same:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+  & .k3_star3_sameBox:nth-child(2) {
+    min-height: 45px;
+    @extend %faj;
+    cursor: pointer;
+    & .k3_star3_same:nth-child(1) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n4.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n4.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n4.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same:nth-child(2) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n5.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n5.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n5.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same:nth-child(3) {
+      @extend %flex;
+      border: 1px solid #EFF0F4;
+      border-radius: 10px;
+      margin: 2px 2px;
+      & span {
+        @extend %flex;
+        margin: 2px 2px;
+        width: 88px;
+        height: 26px;
+        background: url('../../../assets/img/lott/k3n6.png') no-repeat 2px 0, url('../../../assets/img/lott/k3n6.png') no-repeat 31px 0px, url('../../../assets/img/lott/k3n6.png') no-repeat 60px 0px;
+        background-size: 26px 26px;
+      }
+    }
+    & .k3_star3_same.active {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+    & .k3_star3_same:hover {
+      border: 1px solid #b5b5b5;
+      border-radius: 10px;
+      margin: 2px 2px;
+    }
+  }
+}

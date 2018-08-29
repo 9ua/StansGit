@@ -3619,7 +3619,6 @@ export default {
       this.zhu8 = 0;
       this.zhu9 = 0;
       this.zhu10 = 0;
-      this.pd = {};
       this.spinner3 = 0;
       for (let h = 0; h < this.snumView.length; h++) {
         if (null != this.snumView[h]) {

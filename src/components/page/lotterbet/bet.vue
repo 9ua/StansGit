@@ -1,0 +1,219 @@
+<template>
+  <div class="bet">
+    <bet-content-top @emitGet="emitGet" ref="betContentTop"></bet-content-top>
+    <div class="lottBox">
+      <div class="lott-left">
+        <lott-left-nav @geteServerTime='geteServerTime' @exit='exit'></lott-left-nav>
+        <bet-content-k ref="betContentK" v-if="$route.params.id === 'k3'"></bet-content-k>
+        <bet-content-s ref="betContentS" v-if="$route.params.id === 'ssc'"></bet-content-s>
+        <bet-content-p ref="betContentP" v-if="$route.params.id === 'pk10'"></bet-content-p>
+        <hurdle ref="hurdles" @iscreat='iscreat'></hurdle>
+      </div>
+      <div class="lott-right">
+        <today-lottery-k @emitGet="emitGet" v-if='$route.params.id === "k3"'></today-lottery-k>
+        <today-lottery-s @emitGet="emitGet" v-if="$route.params.id === 'ssc'"></today-lottery-s>
+        <today-lottery-p @emitGet="emitGet" v-if="$route.params.id === 'pk10'"></today-lottery-p>
+        <beting></beting>
+        <winning></winning>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { baseUrl } from "../../../assets/js/env";
+import lottLeftNav from "./lottLeftNav.vue"; //彩种选择导航
+import todayLotteryK from "./todayLotteryK3.vue"; //今日开奖
+import todayLotteryS from "./todayLotterySSC.vue"; //今日开奖
+import todayLotteryP from "./todayLotteryPK10.vue"; //今日开奖
+import beting from "./beting.vue"; //我的投注
+import winning from "./winning.vue"; //中奖信息、昨日盈利榜
+import betContentTop from "./betContentTop.vue"; //头部
+import betContentK from "./betContentK3.vue"; //选号模块
+import betContentS from "./betContentSSC.vue"; //选号模块
+import betContentP from "./betContentPK10.vue"; //选号模块
+import hurdle from "./hurdle.vue"; //号码
+export default {
+  data() {
+    return {
+      playGroups: {}, //玩法树
+      playBonus: {}, //玩法树
+      lotteryId: "gsk3", //彩种id
+      arrpeilva: [],
+      arrpeilvb: [],
+      arrpeilvc: [],
+      splayGroups: [],
+      sgroups: [],
+      sgroups2: [],
+      splayers: [],
+      snumView: [],
+      current_player:null,
+    };
+  },
+  mounted(){
+    this.getPlayTree();
+  },
+  beforeDestroy(){
+    this.iscreat();
+  },
+  computed:{
+    current_player_groups() {
+      return this.$store.state.current_player_groups;
+    },
+    current_player_bonus(){
+      return this.$store.state.current_player_bonus;
+    },
+  },
+  methods: {
+    //清空号码篮
+    exit(){
+      this.$refs.hurdles.exit();
+    },
+    //我的投注，投注记录
+    emitGet(){
+      this.$refs.hurdles.getbetOrderList();
+    },
+    //清空方法
+    iscreat(){
+      if(this.$route.params.id === 'k3'){
+        this.$refs.betContentK.iscreat();
+      }
+      if(this.$route.params.id === 'ssc'){
+        this.$refs.betContentS.iscreat();
+      }
+      if(this.$route.params.id === 'pk10'){
+        this.$refs.betContentP.iscreat();
+      }
+    },
+    //获取系统时间
+    geteServerTime(){
+      this.$refs.betContentTop.geteServerTime();
+    },
+    //玩法术
+    getPlayTree() {
+      if (localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id) !== null) {
+        if(this.$route.params.id === 'k3'){
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
+          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_"+this.$route.params.id));
+          this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
+          this.$store.commit("CURRENT_PLAYER_BONUS",this.playBonus);
+        }else{
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
+          this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
+        }
+        this.setupPlayTree();
+      } else {
+        this.$axios.get(baseUrl +"/api/lottery/getPlayTree?lotteryId=" +this.$route.params.group).then(res => {
+          if(this.$route.params.id === 'k3'){
+            localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(res.data.data.playGroups));
+            localStorage.setItem("getPlayTree_playBonus_"+this.$route.params.id,JSON.stringify(res.data.data.playBonus));
+            this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
+            this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_"+this.$route.params.id));
+            this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
+            this.$store.commit("CURRENT_PLAYER_BONUS",this.playBonus);
+          }else{
+            localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(res.data.data.playGroups));
+            this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
+            this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
+          }
+          this.setupPlayTree();
+        })
+        .catch(error => {
+          console.log("玩法术,No");
+        });
+      }
+    },
+    setupPlayTree() {
+      if(this.$route.params.id === 'k3'){
+        let arr1 = [];
+        let arr2 = [];
+        let arrpeilv1 = JSON.parse(JSON.stringify(this.current_player_bonus[3].bonusArray));
+        let arrpeilv2 = JSON.parse(JSON.stringify(this.current_player_bonus[4].bonusArray));
+        if (this.lotteryId === "dfk3") {
+          for (let i in arrpeilv1) {
+            this.arrpeilva.push(arrpeilv1[i]);
+          }
+          this.arrpeilva.shift();
+          this.arrpeilva.pop();
+          for (let i = 0; i < this.arrpeilva.length / 2; i++) {
+            arr1.push(this.arrpeilva[i]);
+          }
+          for (
+            let i = this.arrpeilva.length / 2;
+            i < this.arrpeilva.length;
+            i++
+          ) {
+            arr2.push(this.arrpeilva[i]);
+          }
+          for (let i in arrpeilv2) {
+            this.arrpeilvb.push(arrpeilv2[i]);
+          }
+          this.arrpeilvc.push(arr1);
+          this.arrpeilvc.push(arr2);
+          this.arrpeilvc.push(this.arrpeilvb);
+        } else if (this.lotteryId !== "dfk3") {
+          this.arrpeilva = [];
+          this.arrpeilvb = [];
+          for (let i in arrpeilv1) {
+            this.arrpeilva.push(arrpeilv1[i]);
+          }
+          for (let i = 0; i < this.arrpeilva.length / 2; i++) {
+            arr1.push(this.arrpeilva[i]);
+          }
+          for (
+            let i = this.arrpeilva.length / 2;
+            i < this.arrpeilva.length;
+            i++
+          ) {
+            arr2.push(this.arrpeilva[i]);
+          }
+          for (let i in arrpeilv2) {
+            this.arrpeilvb.push(arrpeilv2[i]);
+          }
+        }
+      }
+      
+      this.current_player = this.playGroups[0].groups[0].players[0];
+      this.$store.commit("CURRENT_PLAYER_BONUS",this.current_player);
+      for (let i = 0; i < this.playGroups.length; i++) {
+        this.splayGroups.push(this.playGroups[i]);
+      }
+      for (let j = 0; j < this.splayGroups.length; j++) {
+        this.sgroups.push(this.splayGroups[j].groups);
+      }
+      for (let k = 0; k < this.sgroups.length; k++) {
+        for (let j = 0; j < this.sgroups[k].length; j++) {
+          this.sgroups2.push(this.sgroups[k][j]);
+        }
+      }
+      this.$store.commit("SGROUPS2",this.sgroups2);
+      for (let i = 0; i < this.sgroups2.length; i++) {
+        this.splayers.push(this.sgroups2[i].players);
+      }
+      for (let h = 0; h < this.splayers.length; h++) {
+        for (let i = 0; i < this.splayers[h].length; i++) {
+          this.snumView.push(this.splayers[h][i].numView);
+        }
+      }
+      this.$store.commit("SNUMVIEW",this.snumView);
+      this.displayBonus = this.splayers[0][0].displayBonus;
+    },
+  },
+  components: {
+    lottLeftNav,
+    todayLotteryK,
+    todayLotteryS,
+    todayLotteryP,
+    beting,
+    winning,
+    betContentTop,
+    betContentK,
+    betContentS,
+    betContentP,
+    hurdle,
+  }
+};
+</script>
+<style lang='scss' scoped>
+@import "@/assets/scss/lotterbet/bet.scss";
+@import "@/assets/scss/lotterbet/lottlist.scss";
+</style>

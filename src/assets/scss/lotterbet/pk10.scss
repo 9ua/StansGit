@@ -1,0 +1,107 @@
+@import '@/assets/minix/main.scss';
+.conterBut {
+  padding: 14px 0px;
+  & .conterButDiv {
+    @extend %flex,%aitems,%sbetween;
+    min-height: 46px;
+    width: 100%;
+    margin-bottom: 10px;
+    & .both{
+      @extend %flex;
+    }
+    & .changes{
+      @extend %flex,%fr;
+      width: 86px;
+      margin-right: 10px;
+      cursor: pointer;
+      & span{
+        @extend %faj;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #ddd;
+        margin: 0px 2px;
+        padding: 2px;
+        border-radius:50%;
+      }
+      & span.active{
+        @extend %faj;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #f37036;
+        background: #f37036;
+        color:#FFF;
+        margin: 0px 2px;
+        padding: 2px;
+        border-radius:50%;
+      }
+      & span:hover{
+        @extend %faj;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #f37036;
+        background: #f37036;
+        color:#FFF;
+        margin: 0px 2px;
+        padding: 2px;
+        border-radius:50%;
+      }
+    }
+    & .carBox {
+      @extend %flex,
+      %fr;
+      max-width: 616px;
+      & .cars{
+        @extend %flex;
+      }
+    }
+  }
+  & .carTitle {
+    @include lottBg("pk10Img.png", 94px, 36px);
+    @extend %faj;
+    background-position: -202px -45px;
+    padding-right: 10px;
+    font-size: 16px;
+    color: #FFF;
+  }
+  & .car {
+    cursor: pointer;
+    & i {
+      @extend %faj;
+      font-size: 16px;
+    }
+    & b {
+      @extend %faj;
+      @include lottBg("pk10Img.png", 52px, 16px);
+      background-position: -200px -86px;
+    }
+  }
+  & .car.active {
+    & i {
+      color: #f37036;
+    }
+    & b {
+      @extend %faj;
+      @include lottBg("pk10Img.png", 52px, 16px);
+      background-position: -200px -105px;
+    }
+  }
+}
+.conterBut.conterButpk10_star2_and{
+  & .cars{
+    @extend %flex,%fr;
+    max-width: 520px;
+  }
+}
+.conterButpk10_side_lh {
+  & .pk10_side_lhBox {
+    @extend %flex,
+    %aitems;
+  }
+}
+.conterButDiv.pk10_side_gy_andBox{
+  & .both{
+    & .carTitle{
+      font-size: 12px;
+    }
+  }
+}

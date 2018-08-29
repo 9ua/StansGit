@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     lotteryTo(item,index){
-      this.$router.push('/lotts/'+item.groupId+'/'+item.id);
+      this.$router.push('/bet/'+item.groupId+'/'+item.id);
     },
     selectStyle(item) {
       this.$nextTick(() => {

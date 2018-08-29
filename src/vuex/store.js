@@ -3,7 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import mutations from './mutations'
 import actions from './action'
-import getter from './getter'
+import * as getters from './getter'
 
 Vue.use(Vuex)
 const state = {
@@ -23,11 +23,42 @@ const state = {
   k3:'dfk3',
   ssc:'sj1fc',
   pk10:'ffpk10',
+
+
+  //游戏投注相关
+  current_player_groups: {}, //当前玩法树
+  current_player_bonus: {}, //当前玩法树
+  money: "", //投注金额  
+  zhu: 0, //注单数
+  con: "", //已选号码
+  spinner3:0,//当前投注倍数
+  sgroups2: [],//玩法菜单
+  snumView: [],
+  lottName:'',//当前彩种名
+  seasonId:'',//当前奖期
+  className:'k3_star3_and',//玩法ID
+  orderList:null,//我的投注
+  getPastOpens:null,//获取开奖号码
+  pd: {
+    addTitle: "单挑一骰",
+    addCon: null,
+    addPattern: "元",
+    addzhu: null,
+    addMoney: null,
+    addClassName: null,
+    addSeasonId: null,
+    addName: "宏發快3"
+  },
 };
+// const getters = {
+//   remarks:state => {
+//     return state.current_player_groups[2].groups[0].players[0];
+//   }
+// }
 
 export default new Vuex.Store({
   state,
   mutations,
   actions,
-  getter
+  getters
 })

@@ -58,13 +58,16 @@ export default {
   destroyed(){
     this.closeSimpleDialog();
   },
+  mounted(){
+    this.three();
+  },
   methods: {
     closeSimpleDialog() {
       this.openSimple = !this.openSimple;
     },
     //3秒后自动关闭
     three(){
-      if(this.number === '2' || this.number === '3'){
+      if(this.number === '3'){
         setTimeout(() =>{
           this.openSimple = false;
         },2000)
