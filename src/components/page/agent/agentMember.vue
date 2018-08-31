@@ -25,23 +25,23 @@
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
                   暂无记录
-            tr(v-for='(item,index) in underUserList',v-if='index<start+limit&&index>=start')
+            tr(v-for='(item,index) in underUserList')
               td {{item.account}}
               td {{item.userTypeName}}
               td {{item.childCount}}
               td {{item.rebateRatio}}                
               td {{item.teamCount}}                
               td {{item.loginTime}}                
-      pageNav(:list='underUserList',:limit='limit',ref='pageNav',@pageTo='pageTo')
+      //- pageNav(:list='underUserList',:limit='limit',ref='pageNav',@pageTo='pageTo')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
 import noContent from "../public/noContent";
-import pageNav from "../public/pageNav";
+// import pageNav from "../public/pageNav";
 export default {
   components: {
     noContent,
-    pageNav
+    // pageNav
   },
   data() {
     return {
@@ -55,7 +55,6 @@ export default {
   },
   mounted() {
     this.getUnderUserList();
-    this.end = this.start + this.limit;
   },
   methods: {
     //接收pageNav组件分页信号
@@ -64,8 +63,6 @@ export default {
     },
     getUnderUserList() {
       this.noContent = true;
-      this.$refs.pageNav.reset();
-      this.start=0;
       if (this.account === "") {
         this.$axios
           .get(baseUrl + "/api/proxy/getUnderUserList", {

@@ -41,15 +41,7 @@ const betRecord = r => require.ensure([], () => r(require('@/components/page/bet
 const PLstatement = r => require.ensure([], () => r(require('@/components/page/betManage/PLstatement.vue')), 'PLstatement')
 const NoticeDetail = r => require.ensure([], () => r(require('@/components/page/user/NoticeDetail.vue')), 'NoticeDetail')
 const withdraw = r => require.ensure([], () => r(require('@/components/page/money/withdraw.vue')), 'withdraw')
-const ebankPay = r => require.ensure([], () => r(require('@/components/page/money/ebankPay.vue')), 'ebankPay')
-const weixin = r => require.ensure([], () => r(require('@/components/page/money/weixin.vue')), 'weixin')
-const alipay = r => require.ensure([], () => r(require('@/components/page/money/alipay.vue')), 'alipay')
-const qq = r => require.ensure([], () => r(require('@/components/page/money/qq.vue')), 'qq')
-const unionpay = r => require.ensure([], () => r(require('@/components/page/money/unionpay.vue')), 'unionpay')
-const huabei = r => require.ensure([], () => r(require('@/components/page/money/huabei.vue')), 'huabei')
-const creditc = r => require.ensure([], () => r(require('@/components/page/money/creditc.vue')), 'creditc')
-
-
+const charge = r => require.ensure([], () => r(require('@/components/page/money/charge.vue')), 'charge')
 
 const winning = r => require.ensure([], () => r(require('@/components/cp/winMsg.vue')), 'winning')
 const trendchart = r => require.ensure([], () => r(require('@/components/trendchart/trendchartBox.vue')), 'trendchartBox')
@@ -358,52 +350,10 @@ export default new Router({
               }
             },
             {
-              path: '/money/bank',
-              component: ebankPay,
+              path: '/money/charge',
+              component: charge,
               meta: {
-                title: "宏發娱乐-银行转账"
-              }
-            },
-            {
-              path: '/money/weixin',
-              component: weixin,
-              meta: {
-                title: "宏發娱乐-微信充值"
-              }
-            },
-            {
-              path: '/money/alipay',
-              component: alipay,
-              meta: {
-                title: "宏發娱乐-支付宝充值"
-              }
-            },
-            {
-              path: '/money/qq',
-              component: qq,
-              meta: {
-                title: "宏發娱乐-qq钱包"
-              }
-            },
-            {
-              path: '/money/unionpay',
-              component: unionpay,
-              meta: {
-                title: "宏發娱乐-银联支付"
-              }
-            },
-            {
-              path: '/money/huabei',
-              component: huabei,
-              meta: {
-                title: "宏發娱乐-花呗支付"
-              }
-            },
-            {
-              path: '/money/creditc',
-              component: creditc,
-              meta: {
-                title: "宏發娱乐-信用卡支付"
+                title: "宏發娱乐-我要充值"
               }
             },
           ],

@@ -38,18 +38,18 @@
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
                   暂无记录
-            tr(v-for='(item,index) in tradelist',v-if='index<start+limit&&index>=start')
+            tr(v-for='(item,index) in tradelist')
               td {{item.lotteryName}}
               td 第{{item.seasonId}}期
                 p {{item.statusName}}
-              td {{item.content}}
+              td {{item.content|multi}}
                 p 玩法{{item.playName}}
               td {{item.amount}}                
               td {{item.openNum}}                
               td {{item.win}}                
               td {{item.createTime}}
               td 
-      pageNav(:list='tradelist',:limit='limit',ref='pageNav',@pageTo='pageTo')
+      pageNav(:allCount='allCount',:limit='limit',ref='pageNav',@pageTo='pageTo')
       .userTip.mgt15
         p ※温馨提示：投注记录最多只保留7天。
 </template>
@@ -78,6 +78,7 @@ export default {
       limit: 15,
       status: 100,
       tradelist: [],
+      allCount:1,
       th: [
         "彩种",
         "期号",
@@ -109,15 +110,18 @@ export default {
     //接收pageNav组件分页信号
     pageTo($event) {
       this.start = this.limit * ($event - 1);
+      this.getTradeList();
     },
     changeTime(e, time, index) {
       this.navTime = index;
       this.betweenType = time;
+      this.$refs.pageNav.reset();      
       this.getTradeList();
     },
     changeType(e, value, index) {
       this.navType = index;
       this.status = value;
+      this.$refs.pageNav.reset(); 
       this.getTradeList();
     },
     getGainLost() {
@@ -137,21 +141,20 @@ export default {
     },
     getTradeList() {
       this.noContent = true;
-      this.$refs.pageNav.reset();
-      this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getbetOrderList", {
           params: {
             account: this.$store.state.Globalusername,
             include: 0,
             status: this.status,
-            betweenType: this.betweenType
-            // start: this.start,
-            // limit: this.limit
+            betweenType: this.betweenType,
+            start: this.start,
+            limit: this.limit
           }
         })
         .then(res => {
           this.tradelist = res.data.data.list;
+          this.allCount=res.data.data.betOrderAllCount;
           this.noContent = false;
         })
         .catch(error => {
@@ -166,6 +169,23 @@ export default {
     keepTwoNum2(value) {
       value = Number(value);
       return value.toFixed(2);
+    },
+    multi(str) {
+      if (str.split(",").length > 10) {
+        let arr = str.split(",");
+        let ret = "";
+        let row = 10;
+        let col = Math.ceil(arr.length / row);
+        for (let i = 0; i < col; i++) {
+          ret +=str
+              .split(",")
+              .splice(i * row, row)
+              .join(",") + "\n";
+        }
+        return ret;
+      }else{
+        return str;
+      }
     }
   }
 };

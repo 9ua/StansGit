@@ -3,7 +3,7 @@
   .userRight
     .userTitle 代理说明
     .userMain.agentIntro
-      img(src="http://imagess-google.com/system/pc/other/agentIntro.jpg")
+      img(src='/static/images/lott/agentIntro.jpg')
       em 当您能看到这个页面，说明您的账号既是玩家账号也是代理账号，既可以自己投注，也可以发展下级玩家，赚取返点佣金。
       h3 如何赚取返点？
       p 可获得的返点，等于自身返点与下级返点的差值，如自身返点5，下级返点3，你将能获得下级投注金额2%的返点，如下级投注100元，你将会获得2元。点击下级开户，可查看自身返点，也可为下级设置返点。

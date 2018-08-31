@@ -43,7 +43,7 @@
               td {{item.lotteryName}}
               td 第{{item.seasonId}}期
                 p {{item.statusName}}
-              td {{item.content}}
+              td {{item.content|multi}}
                 p 玩法{{item.playName}}
               td {{item.amount}}                
               td {{item.openNum}}                
@@ -78,10 +78,10 @@ export default {
       navType: 0,
       betweenType: 1,
       start: 0,
-      limit: 2,
+      limit: 15,
       status: 100,
       tradelist: [],
-      allCount:1,
+      allCount: 1,
       th: [
         "账号",
         "彩种",
@@ -108,7 +108,6 @@ export default {
   },
   mounted() {
     this.getTradeList();
-    this.getGainLost();
   },
   methods: {
     //接收pageNav组件分页信号
@@ -119,31 +118,17 @@ export default {
     changeTime(e, time, index) {
       this.navTime = index;
       this.betweenType = time;
+      this.$refs.pageNav.reset();
       this.getTradeList();
     },
     changeType(e, value, index) {
       this.navType = index;
       this.status = value;
+      this.$refs.pageNav.reset();
       this.getTradeList();
-    },
-    getGainLost() {
-      this.$axios
-        .get(baseUrl + "/api/proxy/getGainLost")
-        .then(res => {
-          this.betAmount = res.data.data.betAmount;
-          this.winAmount = res.data.data.winAmount;
-          this.activityAndSend = res.data.data.activityAndSend;
-          this.juniorRebateAmount = res.data.data.juniorRebateAmount;
-          this.rechargeAmount = res.data.data.rechargeAmount;
-          this.drawingAmount = res.data.data.drawingAmount;
-        })
-        .catch(error => {
-          console.log("获取列表Error");
-        });
     },
     getTradeList() {
       this.noContent = true;
-      this.$refs.pageNav.reset();
       if (this.account === "") {
         this.$axios
           .get(baseUrl + "/api/proxy/getbetOrderList", {
@@ -159,7 +144,7 @@ export default {
           .then(res => {
             this.tradelist = res.data.data.list;
             this.noContent = false;
-            this.allCount=res.data.data.betOrderAllCount;
+            this.allCount = res.data.data.betOrderAllCount;
           })
           .catch(error => {
             console.log(" ERROR");
@@ -179,7 +164,7 @@ export default {
           .then(res => {
             if (res.data.code === 1) {
               this.tradelist = res.data.data.list;
-              this.allCount=res.data.data.betOrderAllCount;
+              this.allCount = res.data.data.betOrderAllCount;
               this.noContent = false;
             } else {
               this.account = "";
@@ -204,6 +189,23 @@ export default {
     keepTwoNum2(value) {
       value = Number(value);
       return value.toFixed(2);
+    },
+    multi(str) {
+      if (str.split(",").length > 10) {
+        let arr = str.split(",");
+        let ret = "";
+        let row = 10;
+        let col = Math.ceil(arr.length / row);
+        for (let i = 0; i < col; i++) {
+          ret +=str
+              .split(",")
+              .splice(i * row, row)
+              .join(",") + "\n";
+        }
+        return ret;
+      }else{
+        return str;
+      }
     }
   }
 };

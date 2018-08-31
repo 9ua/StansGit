@@ -38,7 +38,7 @@
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
                   span 暂无记录
-            tr(v-for='(item,index) in tradelist',v-if='index<start+limit&&index>=start')
+            tr(v-for='(item,index) in tradelist')
               td {{item.account}}
               td {{item.seasonId}}
               td {{item.changeTime}}
@@ -72,7 +72,7 @@ export default {
       betweenType: 1,
       status: 100,
       start: 0,
-      limit: 10,
+      limit: 15,
       tradelist: [],
       allCount:1,
       th: [
@@ -109,17 +109,17 @@ export default {
     changeTime(e, time, index) {
       this.navTime = index;
       this.betweenType = time;
+      this.$refs.pageNav.reset();
       this.getTradeList();
     },
     changeType(e, value, index) {
       this.navType = index;
       this.status = value;
+      this.$refs.pageNav.reset();
       this.getTradeList();
     },
     getTradeList() {
       this.noContent = true;
-      this.$refs.pageNav.reset();
-      this.start = 0;
       if (this.account === "") {
         this.$axios
           .get(baseUrl + "/api/proxy/getTradeList", {

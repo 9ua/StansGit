@@ -42,7 +42,7 @@
               <div class="accountList HoverShowContent" v-if='HoverShowContent'>
                 <i></i>
                 <div>
-                  <router-link :to='"/money/"+item.alino' v-for="(item,index) in paywaylist" :key="index">
+                  <router-link :to='"/money/charge?id="+item.id+"&alias="+item.alias' v-for="(item,index) in paywaylist" :key="index">
                     {{item.alias}}
                   </router-link>
                 </div>
