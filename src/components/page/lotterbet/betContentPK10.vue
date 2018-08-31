@@ -46,7 +46,7 @@ import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      showhaa:true,
+      showhaa: true,
       navTo: 0,
       playNum: 0,
       className: "pk10_side_lh", //玩法ID
@@ -101,24 +101,24 @@ export default {
       displayBonus: 0,
       displayBonus1: 0,
       displayBonus2: 0,
-      displayBonus3: "",
+      displayBonus3: ""
     };
   },
-  beforeDestroy(){
+  beforeDestroy() {
     this.iscreat();
   },
-  computed:{
-    playGroups(){
+  computed: {
+    playGroups() {
       return this.$store.state.current_player_groups;
     },
-    sgroups2(){
+    sgroups2() {
       return this.$store.state.sgroups2;
     },
-    snumView(){
+    snumView() {
       return this.$store.state.snumView;
-    },
+    }
   },
-  mounted(){
+  mounted() {
     this.isShowPlayGroups();
   },
   methods: {
@@ -129,7 +129,7 @@ export default {
           this.showhaa = false;
           this.current_player_bonus = this.playGroups[0].groups[0].players[0];
         }
-      }, 800);
+      }, 600);
     },
     // 中间->投注选号
     curBalls(item, index, list, indexf) {
@@ -440,7 +440,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.$store.state.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
           this.an +
@@ -511,7 +512,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.$store.state.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
           this.an +
@@ -579,20 +581,30 @@ export default {
         if (this.className === "pk10_star2") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5") {
@@ -616,7 +628,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -665,19 +680,29 @@ export default {
         if (this.className === "pk10_star2_dj") {
           this.$store.state.con = this.an + "," + this.bn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4_dj") {
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5_dj") {
@@ -692,7 +717,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -987,7 +1015,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.$store.state.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.pd.addCon =
           this.an +
@@ -1067,7 +1096,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.$store.state.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.pd.addCon =
           this.an +
@@ -1144,20 +1174,30 @@ export default {
         if (this.className === "pk10_star2") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5") {
@@ -1181,7 +1221,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -1230,20 +1273,30 @@ export default {
         if (this.className === "pk10_star2_dj") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4_dj") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5_dj") {
@@ -1267,7 +1320,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -1279,7 +1335,7 @@ export default {
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
-      this.$store.commit("CLASSNAME",this.className);
+      this.$store.commit("CLASSNAME", this.className);
       this.iscreat();
       switch (item.title) {
         case "两面盘":
@@ -1307,7 +1363,7 @@ export default {
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
-      this.$store.commit("CLASSNAME",this.className);
+      this.$store.commit("CLASSNAME", this.className);
       this.addTitle = play.title;
       if (isNaN(this.displayBonus)) {
         let ar = [];
@@ -1497,7 +1553,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.$store.state.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
           this.an +
@@ -1571,20 +1628,30 @@ export default {
         if (this.className === "pk10_star2") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5") {
@@ -1608,7 +1675,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -1689,19 +1759,29 @@ export default {
         if (this.className === "pk10_star2_dj") {
           this.$store.state.con = this.an + "," + this.bn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4_dj") {
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5_dj") {
@@ -1716,7 +1796,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -1809,7 +1892,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        ththis.$store.stateis.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        ththis.$store.stateis.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
           this.an +
@@ -1894,20 +1978,30 @@ export default {
         if (this.className === "pk10_star2") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5") {
@@ -1931,7 +2025,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -1960,7 +2057,8 @@ export default {
         this.className === "pk10_star2_dj" ||
         this.className === "pk10_star3_dj" ||
         this.className === "pk10_star4_dj" ||
-        this.className === "pk10_star5_dj") {
+        this.className === "pk10_star5_dj"
+      ) {
         let len = Math.ceil(ball.length / 2);
         if (indexf === 0) {
           ball.filter((list, i) => {
@@ -2025,19 +2123,29 @@ export default {
         if (this.className === "pk10_star2_dj") {
           this.$store.state.con = this.an + "," + this.bn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4_dj") {
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5_dj") {
@@ -2052,7 +2160,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -2145,7 +2256,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.$store.state.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
           this.an +
@@ -2235,20 +2347,30 @@ export default {
         if (this.className === "pk10_star2") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5") {
@@ -2272,7 +2394,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -2367,19 +2492,29 @@ export default {
         if (this.className === "pk10_star2_dj") {
           this.$store.state.con = this.an + "," + this.bn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4_dj") {
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5_dj") {
@@ -2394,7 +2529,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = ththis.$store.stateis.zhu;
         }
       }
@@ -2487,7 +2625,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        ththis.$store.stateis.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        ththis.$store.stateis.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
           this.an +
@@ -2577,20 +2716,30 @@ export default {
         if (this.className === "pk10_star2") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5") {
@@ -2614,7 +2763,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -2643,7 +2795,8 @@ export default {
         this.className === "pk10_star2_dj" ||
         this.className === "pk10_star3_dj" ||
         this.className === "pk10_star4_dj" ||
-        this.className === "pk10_star5_dj") {
+        this.className === "pk10_star5_dj"
+      ) {
         let len = Math.ceil(ball.length / 2);
         if (indexf === 0) {
           ball.filter((list, i) => {
@@ -2708,19 +2861,29 @@ export default {
         if (this.className === "pk10_star2_dj") {
           this.$store.state.con = this.an + "," + this.bn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4_dj") {
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5_dj") {
@@ -2735,7 +2898,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -2828,7 +2994,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.$store.state.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
           this.an +
@@ -2918,20 +3085,30 @@ export default {
         if (this.className === "pk10_star2") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5") {
@@ -2955,7 +3132,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -2984,7 +3164,8 @@ export default {
         this.className === "pk10_star2_dj" ||
         this.className === "pk10_star3_dj" ||
         this.className === "pk10_star4_dj" ||
-        this.className === "pk10_star5_dj") {
+        this.className === "pk10_star5_dj"
+      ) {
         let len = Math.ceil(ball.length / 2);
         if (indexf === 0) {
           ball.filter((list, i) => {
@@ -3049,19 +3230,29 @@ export default {
         if (this.className === "pk10_star2_dj") {
           this.$store.state.con = this.an + "," + this.bn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4_dj") {
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5_dj") {
@@ -3076,7 +3267,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -3158,7 +3352,8 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+        this.$store.state.zhu =
+          this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
           this.an +
@@ -3177,7 +3372,8 @@ export default {
         this.className === "pk10_star2" ||
         this.className === "pk10_star3" ||
         this.className === "pk10_star4" ||
-        this.className === "pk10_star5") {
+        this.className === "pk10_star5"
+      ) {
         if (indexf === 0) {
           ball.filter((list, i) => {
             list.choose = false;
@@ -3236,20 +3432,30 @@ export default {
         if (this.className === "pk10_star2") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5") {
@@ -3273,7 +3479,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -3300,7 +3509,8 @@ export default {
         this.className === "pk10_star2_dj" ||
         this.className === "pk10_star3_dj" ||
         this.className === "pk10_star4_dj" ||
-        this.className === "pk10_star5_dj") {
+        this.className === "pk10_star5_dj"
+      ) {
         if (indexf === 0) {
           ball.filter((list, i) => {
             list.choose = false;
@@ -3359,19 +3569,29 @@ export default {
         if (this.className === "pk10_star2_dj") {
           this.$store.state.con = this.an + "," + this.bn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star3_dj") {
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star4_dj") {
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 4);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
         if (this.className === "pk10_star5_dj") {
@@ -3386,7 +3606,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.fushi(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.fushi(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -3455,7 +3678,7 @@ export default {
     empty({ ball }, item, indexf) {
       this.aa();
       this.iszhu6({ ball }, item, indexf);
-    },
+    }
   },
   filters: {
     keepTwoNum(value) {

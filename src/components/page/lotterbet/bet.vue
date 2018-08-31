@@ -7,12 +7,14 @@
         <bet-content-k ref="betContentK" v-if="$route.params.id === 'k3'"></bet-content-k>
         <bet-content-s ref="betContentS" v-if="$route.params.id === 'ssc'"></bet-content-s>
         <bet-content-p ref="betContentP" v-if="$route.params.id === 'pk10'"></bet-content-p>
+        <bet-content-x ref="betContentX" v-if="$route.params.id === 'x11x5'"></bet-content-x>
         <hurdle ref="hurdles" @iscreat='iscreat'></hurdle>
       </div>
       <div class="lott-right">
         <today-lottery-k @emitGet="emitGet" v-if='$route.params.id === "k3"'></today-lottery-k>
         <today-lottery-s @emitGet="emitGet" v-if="$route.params.id === 'ssc'"></today-lottery-s>
         <today-lottery-p @emitGet="emitGet" v-if="$route.params.id === 'pk10'"></today-lottery-p>
+        <today-lottery-x @emitGet="emitGet" v-if="$route.params.id === 'x11x5'"></today-lottery-x>
         <beting></beting>
         <winning></winning>
       </div>
@@ -25,12 +27,14 @@ import lottLeftNav from "./lottLeftNav.vue"; //彩种选择导航
 import todayLotteryK from "./todayLotteryK3.vue"; //今日开奖
 import todayLotteryS from "./todayLotterySSC.vue"; //今日开奖
 import todayLotteryP from "./todayLotteryPK10.vue"; //今日开奖
+import todayLotteryX from "./todayLotteryX11X5.vue"; //今日开奖
 import beting from "./beting.vue"; //我的投注
 import winning from "./winning.vue"; //中奖信息、昨日盈利榜
 import betContentTop from "./betContentTop.vue"; //头部
 import betContentK from "./betContentK3.vue"; //选号模块
 import betContentS from "./betContentSSC.vue"; //选号模块
 import betContentP from "./betContentPK10.vue"; //选号模块
+import betContentX from "./betContentX11X5.vue"; //选号模块
 import hurdle from "./hurdle.vue"; //号码
 export default {
   data() {
@@ -82,6 +86,9 @@ export default {
       }
       if(this.$route.params.id === 'pk10'){
         this.$refs.betContentP.iscreat();
+      }
+      if(this.$route.params.id === 'x11x5'){
+        this.$refs.betContentX.iscreat();
       }
     },
     //获取系统时间
@@ -203,12 +210,14 @@ export default {
     todayLotteryK,
     todayLotteryS,
     todayLotteryP,
+    todayLotteryX,
     beting,
     winning,
     betContentTop,
     betContentK,
     betContentS,
     betContentP,
+    betContentX,
     hurdle,
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <!-- 选号模块PK10 -->
+  <!-- 选号模块SSC -->
   <div>
     <div v-if="showhaa"></div>
     <div class="getPlayTree">
@@ -12,7 +12,7 @@
         <li v-for="(item,indexs) in playGroups" :key="indexs" v-if="indexs === navTo">
           <div v-for='(group,indexabc) in item.groups' :key='indexabc'>
             <span class="groupTitle">{{group.title}}</span>
-            <span class="groupTitleList" :class="{'active': indexbcd === playNum}" v-for='(player,indexbcd) in group.players' :key='indexbcd' @click="playersBut(player,indexbcd)">{{player.title}}</span>
+            <span class="groupTitleList"  :class="{'active': current_player_bonus.id=== player.id}" v-for='(player,indexbcd) in group.players' :key='indexbcd' @click="playersBut(player,indexbcd)">{{player.title}}</span>
           </div>
         </li>
       </ul>
@@ -25,7 +25,7 @@
       <div class="conterBut" :class="'conterBut'+className">
         <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
           <div class="both">
-            <span class="carTitle">{{numViews.title}}</span>
+            <span class="carTitle" :class="{'active': numViews.title === ''}">{{numViews.title}}</span>
             <div class="carBox">
               <div class="cars">
                 <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)">
@@ -126,13 +126,13 @@ export default {
   },
   methods: {
     //判断玩法术是否已经成功
-    isShowPlayGroups() {
+    isShowPlayGroups(){
       setTimeout(() => {
-        if (localStorage.getItem("getPlayTree_playGroups_ssc") != null) {
+        if(localStorage.getItem("getPlayTree_playGroups_ssc") != null){
           this.showhaa = false;
           this.current_player_bonus = this.playGroups[0].groups[0].players[0];
         }
-      }, 800);
+      }, 600);
     },
     // 中间->投注选号
     curBalls(item, index, list, indexf) {

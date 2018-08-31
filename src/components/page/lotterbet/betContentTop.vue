@@ -14,7 +14,7 @@
       <p>第
         <span>{{lastSeasonId}}</span>期 开奖结果</p>
       <div class="showGif" v-show="isshowGif">
-        <span v-for="(item,index) in 3" :key="index"></span>
+        <span v-for="(item,index) in 3"></span>
       </div>
       <div class="showName" v-show="!isshowGif">
         <img :src='"@/assets/img/lott/k3n"+n1+".jpg"' alt="">
@@ -25,20 +25,30 @@
       <p>第
         <span>{{lastSeasonId}}</span>期 开奖结果</p>
       <div class="showName" v-show="!isshowGif">
-        <span v-for="(item,index) in nBox" :key="index" v-if="index < 5">{{item}}</span>
+        <span v-for="(item,index) in nBox" v-if="index < 5">{{item}}</span>
       </div>
       <div class="showGif" v-show="isshowGif">
-        <span v-for="(item,index) in 5" :key="index"></span>
+        <span v-for="(item,index) in 5"></span>
       </div>
     </div>
     <div class="lott-top-right pk10" v-if="$route.params.id === 'pk10'">
       <p>第
         <span>{{lastSeasonId}}</span>期 开奖结果</p>
       <div class="showName" v-show="!isshowGif">
-        <span v-for="(item,index) in nBox" :key="index">{{item}}</span>
+        <span v-for="(item,index) in nBox">{{item}}</span>
       </div>
       <div class="showGif" v-show="isshowGif">
-        <span v-for="(item,index) in 10" :key="index"></span>
+        <span v-for="(item,index) in 10"></span>
+      </div>
+    </div>
+    <div class="lott-top-right ssc" v-if="$route.params.id === 'x11x5'">
+      <p>第
+        <span>{{lastSeasonId}}</span>期 开奖结果</p>
+      <div class="showName" v-show="!isshowGif">
+        <span v-for="(item,index) in nBox" v-if="index < 5">{{item &lt; 10 ? "0"+item : item}}</span>
+      </div>
+      <div class="showGif" v-show="isshowGif">
+        <span v-for="(item,index) in 5"></span>
       </div>
     </div>
   </div>

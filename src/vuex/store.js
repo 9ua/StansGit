@@ -13,7 +13,7 @@ const state = {
   },
   JSESSIONICookie: '',
   Globalusername: localStorage.getItem('username'), //全局账号
-  img:localStorage.getItem('img'), //全局头像
+  img:0, //全局头像
   balance:localStorage.getItem('balance'), //全局余额
   userType: localStorage.getItem('userType'), //0会员，1代理
   loginStatus: Boolean(localStorage.getItem("loginStatus")), //是否登录

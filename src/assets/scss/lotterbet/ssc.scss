@@ -59,6 +59,9 @@
     font-size: 16px;
     color: #FFF;
   }
+  & .carTitle.active{
+    background: none;
+  }
   & .carTitleNo {
     @extend %faj;
     width: 94px;
@@ -108,10 +111,11 @@
           height: 30px;
           padding: 0px 0px;
           cursor: pointer;
-        } // & .groupTitleList.active {
-        //   height: 33px;
-        //   color: red;
-        // }
+        } 
+        & .groupTitleList.active {
+          height: 30px;
+          color: red;
+        }
         & .groupTitle {
           width: 60px;
           color: red;

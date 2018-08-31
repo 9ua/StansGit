@@ -66,21 +66,37 @@
 ## vscode 
 # 用户设置 #
     {
-	  //表示打开新的无标题文档(仅打开一个空工作区)。
-	  "workbench.startupEditor": "newUntitledFile",
-	  // 以像素为单位控制字号。
-	  "editor.fontSize": 16,
-	  // 通过使用鼠标滚轮同时按住 Ctrl 可缩放编辑器的字体
-	  "editor.mouseWheelZoom": true,
-	  // 控制工作台中的树控件是否支持水平滚动。
-	  "workbench.tree.horizontalScrolling": true,
-	  // 指定工作台中使用的颜色主题。
-	  "workbench.colorTheme": "Default Dark+",
-	  "prettier.tabWidth": 2,
-	  "vetur.format.defaultFormatter.html": "js-beautify-html",
-	  "vsicons.presets.hideFolders": true,
-	  "workbench.iconTheme": "vscode-icons",
-	}
+	//表示打开新的无标题文档(仅打开一个空工作区)。
+	"workbench.startupEditor": "newUntitledFile",
+	// 以像素为单位控制字号。
+	"editor.fontSize": 16,
+	// 通过使用鼠标滚轮同时按住 Ctrl 可缩放编辑器的字体
+	"editor.mouseWheelZoom": true,
+	// 控制工作台中的树控件是否支持水平滚动。
+	"workbench.tree.horizontalScrolling": true,
+	// 指定工作台中使用的颜色主题。
+	"workbench.colorTheme": "Default High Contrast",
+	"prettier.tabWidth": 2,
+	"vetur.format.defaultFormatter.html": "js-beautify-html",
+	"vsicons.presets.hideFolders": true,
+	"editor.detectIndentation": true,
+	"workbench.iconTheme": "vscode-icons",
+	"javascript.format.insertSpaceAfterCommaDelimiter": false,
+	"vsicons.projectDetection.disableDetect": true,
+	"explorer.confirmDelete": false,
+	"window.zoomLevel": 1,
+	"vetur.validation.template": false,
+	"explorer.confirmDragAndDrop": false,
+
+	// 指定建议小部件中的代码片段的位置
+	"editor.snippetSuggestions": "top",
+	// 控制粘贴上的格式是打开还是关闭
+	"editor.formatOnPaste": true
+	//删除所有空行
+	//ctrl+h  正则     ^\s*(?=\r?$)\n
+	//删除所有注释
+	//^[ \t]*//[^\n]*\n
+}
 
 # 插件 #
 1. Auto Close Tag
@@ -91,6 +107,7 @@
 6. IntelliSense for CSS class name
 7. Vetur
 8. vscode-icons
+9. Hungry Delete
 
 # res的值是JSON时需要转换 #
 1. JSON.parse(res.data);

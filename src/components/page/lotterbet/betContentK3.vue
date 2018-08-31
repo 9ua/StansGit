@@ -109,7 +109,7 @@ export default {
           this.showhaa = false;
           this.current_player_bonus = this.playGroups[2].groups[0].players[0];
         }
-      }, 200);
+      }, 600);
     },
     //中间选号
     curBalls(item, index, numViews, indexf) {

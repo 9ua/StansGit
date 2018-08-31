@@ -129,7 +129,6 @@ export default {
         this.$axios
           .get(
             baseUrl + "/api/userCenter/getTopUserData",
-            this.$store.state.config
           )
           .then(res => {
             this.$store.state.img = res.data.data.image;
