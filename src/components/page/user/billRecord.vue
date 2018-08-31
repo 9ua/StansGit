@@ -26,8 +26,8 @@
               td(colspan="100")
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
-                  | 暂无记录
-            tr(v-for='(item,index) in tradelist',v-if='index<start+limit&&index>=start')
+                  暂无记录
+            tr(v-for='(item,index) in tradelist')
               td {{item.seasonId}}
               td {{item.changeTime}}
               td {{item.lotteryName}}
@@ -36,7 +36,7 @@
               td {{item.balance}}                          
               td {{item.accountChangeTypeName}}
               td 
-      pageNav(:list='tradelist',:limit='limit',ref='pageNav',@pageTo='pageTo')
+      pageNav(:allCount='allCount',:limit='limit',ref='pageNav',@pageTo='pageTo')
       .userTip.mgt15
         p ※温馨提示：交易记录最多只保留7天。
 </template>
@@ -60,6 +60,7 @@ export default {
       limit: 15,
       start: 0,
       tradelist: [],
+      allCount:1,
       th: [
         "流水号",
         "时间",
@@ -87,34 +88,36 @@ export default {
   methods: {
     pageTo($event) {
       this.start = this.limit * ($event - 1);
+      this.getTradeList();
     },
     changeTime(e, time, index) {
       this.navTime = index;
       this.betweenType = time;
+      this.$refs.pageNav.reset();   
       this.getTradeList();
     },
     changeType(e, value, index) {
       this.navType = index;
       this.status = value;
+      this.$refs.pageNav.reset();   
       this.getTradeList();
     },
     getTradeList() {
       this.noContent = true;
-      this.$refs.pageNav.reset();
-      this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getTradeList", {
           params: {
             account: this.$store.state.Globalusername,
             include: 0,
             accountChangeType: this.status,
-            betweenType: this.betweenType
-            // start: this.start,
-            // limit: this.limit
+            betweenType: this.betweenType,
+            start: this.start,
+            limit: this.limit
           }
         })
         .then(res => {
           this.tradelist = res.data.data.list;
+          this.allCount=res.data.data.allCount;
           this.noContent = false;
         })
         .catch(error => {

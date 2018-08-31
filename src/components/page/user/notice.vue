@@ -11,22 +11,22 @@
               td(colspan="100")
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
-                  | 暂无记录
-            tr(v-for='(item,index) in list',v-if='index<start+limit&&index>=start')
+                  暂无记录
+            tr(v-for='(item,index) in list')
               td 
                 router-link(:to='"NoticeDetail?id="+item.id') {{item.title}}
               td {{item.createTime}}
               td 
-        pageNav(:list='list',:limit='limit',ref='pageNav',@pageTo='pageTo')
+        //- pageNav(:list='list',:limit='limit',ref='pageNav',@pageTo='pageTo')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
 import noContent from "../public/noContent";
-import pageNav from "../public/pageNav";
+// import pageNav from "../public/pageNav";
 export default {
   components: {
     noContent,
-    pageNav
+    // pageNav
   },
   data() {
     return {
@@ -46,7 +46,7 @@ export default {
     },
     getUserNoticeList() {
       this.noContent = true;
-      this.$refs.pageNav.reset();
+      // this.$refs.pageNav.reset();
       this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getUserNoticeList", {

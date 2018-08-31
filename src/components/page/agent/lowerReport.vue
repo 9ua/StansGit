@@ -16,15 +16,15 @@
               td(colspan="100")
                 .notContent(style="padding: 100px 0px;") 
                   mu-icon(value='sentiment_dissatisfied',class='icon')
-                  | 暂无记录
-            tr(v-for='item in list',v-if='index<start+limit&&index>=start')
+                  暂无记录
+            tr(v-for='item in list')
               td {{item.account}}
               td {{item.userTypeName}}
               td {{item.teamChildCount}}
               td {{item.childCount}}                             
               td {{item.count}}
               td 
-      pageNav(:list='list',:limit='limit',ref='pageNav',,@pageTo='pageTo')
+      pageNav(:allCount='allCount',:limit='limit',ref='pageNav',@pageTo='pageTo')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -43,6 +43,7 @@ export default {
       dateFlag: 0,
       noContent: true,
       list: [],
+      allCount:1,
       th: ["账户", "用户类型", "下级人数", "直属下级", "盈利"],
       nav: [
         { name: "今天", value: 0 },
@@ -59,25 +60,28 @@ export default {
     //接收pageNav组件分页信号
     pageTo($event) {
       this.start = this.limit * ($event - 1);
+      this.getTradeList();
     },
     changeTime(e, value, index) {
       this.navindex = index;
       this.dateFlag = value;
+      this.$refs.pageNav.reset();
       this.getUnderLevelReport();
     },
     getUnderLevelReport() {
       this.noContent = true;
-      this.$refs.pageNav.reset();
-      this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getUnderLevelReport", {
           params: {
             account: this.$store.state.Globalusername,
-            dateFlag: this.dateFlag
+            dateFlag: this.dateFlag,
+            start: this.start,
+            limit: this.limit
           }
         })
         .then(res => {
-          this.list = res.data.data;
+          this.list = res.data.data.list;
+          this.allCount = res.data.data.underUserListCount;
           this.noContent = false;
         })
         .catch(error => {

@@ -26,10 +26,10 @@
             td {{item.date}}
             td 注册（{{item.count}}）
             td 
-              router-link(to='',@click.native='detail($event,item.id)') 详情
-              em |
+              //- router-link(to='',@click.native='detail($event,item.id)') 详情
+              //- em |
               router-link(to='',@click.native='del($event,item.id)') 删除
-        pageNav(:list='invitelist',:limit='limit',ref='pageNav',@pageTo='pageTo')
+        //- pageNav(:list='invitelist',:limit='limit',ref='pageNav',@pageTo='pageTo')
         el-dialog(title='详情', :visible.sync='dialogTableVisible')
           el-table(:data='gridData')
             el-table-column(property='lottery', label='彩种', width='150')
@@ -41,11 +41,11 @@
 <script>
 import { baseUrl } from "../../../assets/js/env";
 import noContent from "../public/noContent";
-import pageNav from "../public/pageNav";
+// import pageNav from "../public/pageNav";
 export default {
   components: {
     noContent,
-    pageNav
+    // pageNav
   },
   data() {
     return {
@@ -114,7 +114,7 @@ export default {
     },
     getInviteList() {
       this.noContent = true;
-      this.$refs.pageNav.reset();
+      // this.$refs.pageNav.reset();
       this.start = 0;
       this.$axios
         .get(baseUrl + "/api/agent/inviteCode", {
