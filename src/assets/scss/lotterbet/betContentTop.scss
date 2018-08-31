@@ -1,0 +1,139 @@
+@import '@/assets/minix/main.scss';
+.lott-top {
+    background: url(../../../assets/img/lott/betBg.png);
+    height: 116px;
+    border-radius: 10px;
+    padding: 20px 0px;
+    margin: 14px;
+    @extend %flex;
+    & .lott-top-left {
+      @extend %faj;
+      width: 272px;
+      & img {
+        width: 66px;
+        height: 66px;
+      }
+      & span {
+        color: #404040;
+        font-weight: 700;
+        font-size: 26px;
+        margin-left: 10px;
+      }
+    }
+    & .lott-top-middle {
+      border: 1px solid rgba(190, 71, 81, .3);
+      border-top: 0px solid rgba(190, 71, 81, .3);
+      border-bottom: 0px solid rgba(190, 71, 81, .3);
+      & p {
+        @extend %faj;
+        font-size: 14px;
+        & span {
+          color: red;
+        }
+      }
+      & div {
+        @extend %faj;
+        font-size: 36px;
+        font-weight: 700;
+      }
+    }
+    & .lott-top-middle.k3,& .lott-top-middle.ssc{
+      width: 300px;
+    }
+    & .lott-top-middle.pk10{
+      width: 260px;
+    }
+    & .lott-top-right.k3 {
+      width: 400px;
+      & p {
+        @extend %faj;
+        font-size: 14px;
+        & span {
+          color: red;
+        }
+      }
+      & div {
+        @extend %faj;
+        font-size: 36px;
+        font-weight: 700;
+        height: 70px;
+      }
+      & .showGif{
+        @extend %faj;
+        font-size: 20px;
+        font-weight: 400;
+        height: 70px;
+        & span{
+          @include lottSt("open_num.gif", 61px, 71px);
+        }
+      }
+    }
+    & .lott-top-right.ssc {
+      width: 400px;
+      & p {
+        @extend %faj;
+        font-size: 14px;
+        & span {
+          color: red;
+        }
+      }
+      & div {
+        @extend %faj;
+        font-size: 36px;
+        font-weight: 700;
+        height: 70px;
+      }
+      & .showName {
+        @extend %faj;
+        font-size: 20px;
+        font-weight: 400;
+        height: 70px;
+        & span{
+          @extend %flex,%jcontent;
+          @include lottBg("ballOpenBg.png", 42px, 48px);
+          padding-top: 4px;
+          color: #a12836;
+        }
+      }
+      & .showGif{
+        @extend %faj;
+        font-size: 20px;
+        font-weight: 400;
+        height: 70px;
+        & span{
+          @include lottBg("ballOpening.gif", 42px, 48px);
+        }
+      }
+    }
+    & .lott-top-right.pk10 {
+      width: 440px;
+      & p {
+        @extend %faj;
+        font-size: 14px;
+        & span {
+          color: red;
+        }
+      }
+      & .showName {
+        @extend %faj;
+        font-size: 20px;
+        font-weight: 400;
+        height: 70px;
+        & span{
+          @extend %flex,%jcontent;
+          @include lottBg("ballOpenBg.png", 42px, 48px);
+          padding-top: 4px;
+          color: #a12836;
+        }
+      }
+      & .showGif{
+        @extend %faj;
+        font-size: 20px;
+        font-weight: 400;
+        height: 70px;
+        & span{
+          @include lottBg("ballOpening.gif", 42px, 48px);
+        }
+      }
+    }
+  }

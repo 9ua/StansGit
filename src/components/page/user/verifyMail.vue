@@ -16,7 +16,7 @@
           input(placeholder='输入安全密码',class='userInput',v-model="validCode",@blur='checkCode',type='password',@keyup.enter="validSecurityCode")
           em.verifyWrong(v-show='!codeRight&&!isCodeFirst')
             mu-icon(value="cancel",size="14")
-            {{code_tip}}
+            | {{code_tip}}
           em.verifyRight(v-show='codeRight') 
             mu-icon(value="check_circle",size="14")
         li

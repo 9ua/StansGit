@@ -14,7 +14,7 @@ $desw:750;
   width: $width;
 }
 @mixin lottSt($pic, $width, $height) {
-  background: url('../../../../static/images/lott/'+$pic) no-repeat;
+  background: url('../../../assets/img/lott/'+$pic) no-repeat;
   height: $height;
   width: $width;
 }
@@ -24,7 +24,7 @@ $desw:750;
   width: $width;
 }
 @mixin appdownBg($pic, $width, $height) {
-  background: url('../../../static/images/lott/'+$pic) no-repeat;
+  background: url('../../assets/img/'+$pic) no-repeat;
   height: $height;
   width: $width;
 }
@@ -34,7 +34,7 @@ $desw:750;
   width: $width;
 }
 @mixin loginBg($pic){
-  background: url('../../../static/images/lott/'+$pic) no-repeat;
+  background: url('../../assets/img/'+$pic) no-repeat;
 }
 %flex {
   display: -webkit-box;

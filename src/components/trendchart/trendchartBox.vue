@@ -124,5 +124,5 @@ export default {
 </script>
 <style lang='scss'>
 @import "./trendchartBox.scss";
-@import "./trendchart.scss";
+@import "./tcssc.scss";
 </style>

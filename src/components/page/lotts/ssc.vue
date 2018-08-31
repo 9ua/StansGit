@@ -2107,7 +2107,6 @@ export default {
         this.displayBonus3 = this.displayBonus1 + "-" + this.displayBonus2;
       }
       this.iscreat();
-      console.log(this.className);
     },
     //导航右边点击
     lottnavright() {

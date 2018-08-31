@@ -103,7 +103,7 @@ export default {
       formData.append("bounsType", 0);
       formData.append("traceWinStop", 0);
       formData.append("isTrace", 0);
-      formData.append("lotteryId", this.$route.params.lotteryId);
+      formData.append("lotteryId", this.$route.params.group);
       formData.append("amount", this.money);
       this.$axios
         .post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config)

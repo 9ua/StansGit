@@ -3,7 +3,7 @@
   <ul class="lott-right-top7-ul">
     <li v-for="(item,index) in winList" :key="index">
       <div class="champion">
-        <img :src='"../../../static/images/"+item.img+".jpg"' alt="" />
+        <img :src='"@/assets/img/heads/"+item.img+".jpg"' alt="" />
         <p>
           <span>账号昵称 ：
             <i class="nickname">{{item.account | mask}}</i>

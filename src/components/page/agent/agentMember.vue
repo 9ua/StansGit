@@ -5,14 +5,14 @@
     .userMain.agentMember.mgb10
       .searchOpt 账户：
         input.userInput.w90(v-model='account',@keyup.enter='getUnderUserList')
-        &nbsp;用户类型：
+        | &nbsp;用户类型：
         ins.selectIcon
           select.userSelect(name='f')
             option(value='-1') 全部 
             option(value='1') 代理 
             option(value='0') 玩家
           em 
-        &nbsp;
+        | &nbsp;
         router-link(to='',class='submitBtn',@click.native='getUnderUserList') 搜索
       noContent(v-if='noContent')
       table(v-if='!noContent')
@@ -32,7 +32,6 @@
               td {{item.rebateRatio}}                
               td {{item.teamCount}}                
               td {{item.loginTime}}                
-      //- pageNav(:list='underUserList',:limit='limit',ref='pageNav',@pageTo='pageTo')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";

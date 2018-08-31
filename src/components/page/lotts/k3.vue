@@ -75,10 +75,7 @@
                     <i>赔60.00</i>
                   </span>
                 </p>
-                <!-- <star :class="className+'All'" v-if="className === 'k3_star2_same'" :con="con" :zhu="zhu" :item="item" :indexha="indexha" :numViews="numViews" :indexf="indexf"></star> -->
-                <!-- <div :class="className+'All'" v-if="className === 'k3_star2_same'" @click="curBallsAll(numViews,indexf)">
-                  <span></span>
-                </div> --></div>
+              </div>
             </div>
             <div class="zhu">
               <p>您选择了
@@ -155,7 +152,7 @@
                 <span class="lott-right-top2-span3">{{item.n1+item.n2+item.n3}}</span>
                 <span class="lott-right-top2-span4">
                   <i :class="(item.n1+item.n2+item.n3) &lt; 11 ? 'yellow' : 'blue'">{{(item.n1+item.n2+item.n3) &lt; 11 ? "小" : "大"}}</i>
-                      <i :class="(item.n1+item.n2+item.n3) % 2 ===0 ? 'yellow' : 'blue'">{{(item.n1+item.n2+item.n3) % 2 ===0 ? "双" : "单"}}</i>
+                  <i :class="(item.n1+item.n2+item.n3) % 2 ===0 ? 'yellow' : 'blue'">{{(item.n1+item.n2+item.n3) % 2 ===0 ? "双" : "单"}}</i>
                 </span>
               </li>
             </ul>
@@ -209,16 +206,16 @@
   </div>
 </template>
 <script>
-import firmbet from '@/components/loading/firmbet.vue';
-import winninglottery from '@/components/cp/winninglottery.vue';
-import winMsg from '@/components/cp/winMsg.vue';
+import firmbet from "@/components/loading/firmbet.vue";
+import winninglottery from "@/components/cp/winninglottery.vue";
+import winMsg from "@/components/cp/winMsg.vue";
 import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      isfirmbet:false,
-      number:null,
-      isshowPop:false,
+      isfirmbet: false,
+      number: null,
+      isshowPop: false,
       num: 0,
       left: 0,
       sum: 0,
@@ -244,9 +241,9 @@ export default {
         addPattern: "元",
         addzhu: null,
         addMoney: null,
-        addClassName:null,
-        addSeasonId:null,
-        addName:"宏發快3",
+        addClassName: null,
+        addSeasonId: null,
+        addName: "宏發快3"
       },
       addTitle: "单挑一骰",
       d: [], //选中的号码的下标
@@ -257,12 +254,12 @@ export default {
       d5: [], //选中的号码的下标
       d6: [], //选中的号码的下标
       dd: [], //选中的号码的下标
-      zhu1:0,
-      zhu2:0,
-      zhu3:0,
-      zhu4:0,
-      zhu5:0,
-      zhu6:0,
+      zhu1: 0,
+      zhu2: 0,
+      zhu3: 0,
+      zhu4: 0,
+      zhu5: 0,
+      zhu6: 0,
       butClass1: true,
       butClass2: false,
       animate: true,
@@ -286,6 +283,7 @@ export default {
       today: "",
       countDown: "",
       timer: "",
+      timer2: "",
       lastSeasonId: null, //当前期
       seasonId: null, //下一期
       isshowGif: false,
@@ -307,7 +305,6 @@ export default {
   destroyed() {
     clearInterval(this.timer);
     clearTimeout(this.timer2);
-    this.iscreat();
   },
   mounted() {
     this.lotteryAll();
@@ -322,8 +319,10 @@ export default {
       item.choose = !item.choose;
       if (item.choose === true) {
         this.d[index] = item.ball;
-        this.dd = this.d.filter(function(n) {return n;});
-        this.zhu ++;
+        this.dd = this.d.filter(function(n) {
+          return n;
+        });
+        this.zhu++;
         this.pd.addTitle = this.addTitle;
         this.pd.addCon = this.dd.join(",");
         this.con = this.dd.join(",");
@@ -333,6 +332,12 @@ export default {
         this.pd.addClassName = this.className;
         this.pd.addSeasonId = this.seasonId;
         this.pd.addName = this.lottName;
+        console.log("addTitle:",this.addTitle)
+        console.log("addzhu:",this.zhu)
+        console.log("spinner3:",this.spinner3)
+        console.log("className:",this.className)
+        console.log("seasonId:",this.seasonId)
+        console.log("lottName:",this.lottName)
         //和值大小单双++
         if (this.className === "k3_star3_and") {
           if (indexf == 0) {
@@ -357,7 +362,12 @@ export default {
             this.cn = this.dd.join(",");
           }
           this.con = this.an + "," + this.bn + "," + this.cn;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.con = this.con
+            .split(",")
+            .filter(function(n) {
+              return n;
+            })
+            .join(",");
           this.pd.addCon = this.con;
         }
         //二不同++
@@ -397,112 +407,172 @@ export default {
             });
             this.en = this.dd.join(",");
           }
-          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.con =
+            this.an +
+            "," +
+            this.bn +
+            "," +
+            this.cn +
+            "," +
+            this.dn +
+            "," +
+            this.en;
+          this.con = this.con
+            .split(",")
+            .filter(function(n) {
+              return n;
+            })
+            .join(",");
           this.pd.addCon = this.con;
         }
         //二同号++
         if (this.className === "k3_star2_same") {
-          if(index !== 5){
+          if (index !== 5) {
             if (indexf == 0) {
               this.d1[index] = item.ball;
-              this.dd = this.d1.filter(function(n) {return n;});
+              this.dd = this.d1.filter(function(n) {
+                return n;
+              });
               this.an = this.dd.join(",");
             }
             if (indexf == 1) {
               this.d2[index] = item.ball;
-              this.dd = this.d2.filter(function(n) {return n;});
+              this.dd = this.d2.filter(function(n) {
+                return n;
+              });
               this.bn = this.dd.join(",");
             }
             if (indexf == 2) {
               this.d3[index] = item.ball;
-              this.dd = this.d3.filter(function(n) {return n;});
+              this.dd = this.d3.filter(function(n) {
+                return n;
+              });
               this.cn = this.dd.join(",");
             }
             if (indexf == 3) {
               this.d4[index] = item.ball;
-              this.dd = this.d4.filter(function(n) {return n;});
+              this.dd = this.d4.filter(function(n) {
+                return n;
+              });
               this.dn = this.dd.join(",");
             }
             if (indexf == 4) {
               this.d5[index] = item.ball;
-              this.dd = this.d5.filter(function(n) {return n;});
+              this.dd = this.d5.filter(function(n) {
+                return n;
+              });
               this.en = this.dd.join(",");
             }
             if (indexf == 5) {
               this.d6[index] = item.ball;
-              this.dd = this.d6.filter(function(n) {return n;});
+              this.dd = this.d6.filter(function(n) {
+                return n;
+              });
               this.fn = this.dd.join(",");
             }
           }
-          if(index === 5){
+          if (index === 5) {
             if (indexf == 0 && item.choose === true) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = true;
                 this.d[i] = numViews.nums[i].ball;
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.an = this.dd.join(",");
                 this.zhu1 = 5;
               }
             }
             if (indexf == 1 && item.choose === true) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = true;
                 this.d[i] = numViews.nums[i].ball;
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.bn = this.dd.join(",");
                 this.zhu2 = 5;
               }
             }
             if (indexf == 2 && item.choose === true) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = true;
                 this.d[i] = numViews.nums[i].ball;
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.cn = this.dd.join(",");
                 this.zhu3 = 5;
               }
             }
             if (indexf == 3 && item.choose === true) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = true;
                 this.d[i] = numViews.nums[i].ball;
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.dn = this.dd.join(",");
                 this.zhu4 = 5;
               }
             }
             if (indexf == 4 && item.choose === true) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = true;
                 this.d[i] = numViews.nums[i].ball;
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.en = this.dd.join(",");
                 this.zhu5 = 5;
               }
             }
             if (indexf == 5 && item.choose === true) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = true;
                 this.d[i] = numViews.nums[i].ball;
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.fn = this.dd.join(",");
                 this.zhu6 = 5;
               }
             }
-            this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5+this.zhu6;
+            this.zhu =
+              this.zhu1 +
+              this.zhu2 +
+              this.zhu3 +
+              this.zhu4 +
+              this.zhu5 +
+              this.zhu6;
             this.pd.addzhu = this.zhu;
           }
-          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en +"," +this.fn;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.con =
+            this.an +
+            "," +
+            this.bn +
+            "," +
+            this.cn +
+            "," +
+            this.dn +
+            "," +
+            this.en +
+            "," +
+            this.fn;
+          this.con = this.con
+            .split(",")
+            .filter(function(n) {
+              return n;
+            })
+            .join(",");
           this.pd.addCon = this.con;
-          console.log("indexf:",this.con)
+          console.log("indexf:", this.con);
         }
         //三不同++
         if (this.className === "k3_star3_same_not") {
@@ -541,12 +611,26 @@ export default {
             });
             this.en = this.dd.join(",");
           }
-          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.con =
+            this.an +
+            "," +
+            this.bn +
+            "," +
+            this.cn +
+            "," +
+            this.dn +
+            "," +
+            this.en;
+          this.con = this.con
+            .split(",")
+            .filter(function(n) {
+              return n;
+            })
+            .join(",");
           this.pd.addCon = this.con;
         }
         //三同号++
-        if (this.className === "k3_star3_same"){
+        if (this.className === "k3_star3_same") {
           if (indexf == 0) {
             this.d1[index] = item.ball;
             this.dd = this.d1.filter(function(n) {
@@ -561,14 +645,21 @@ export default {
             });
             this.bn = this.dd.join(",");
           }
-          this.con =this.an +"," +this.bn;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.con = this.an + "," + this.bn;
+          this.con = this.con
+            .split(",")
+            .filter(function(n) {
+              return n;
+            })
+            .join(",");
           this.pd.addCon = this.con;
         }
       } else {
         this.d.splice(index, 1, "");
-        this.dd = this.d.filter(function(n) {return n;});
-        this.zhu --;
+        this.dd = this.d.filter(function(n) {
+          return n;
+        });
+        this.zhu--;
         this.pd.addzhu = this.zhu;
         this.pd.addCon = this.dd.join(",");
         //和值大小单双--
@@ -595,7 +686,12 @@ export default {
             this.cn = this.dd.join(",");
           }
           this.con = this.an + "," + this.bn + "," + this.cn;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.con = this.con
+            .split(",")
+            .filter(function(n) {
+              return n;
+            })
+            .join(",");
           this.pd.addCon = this.con;
         }
         //二不同--
@@ -635,109 +731,169 @@ export default {
             });
             this.en = this.dd.join(",");
           }
-          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.con =
+            this.an +
+            "," +
+            this.bn +
+            "," +
+            this.cn +
+            "," +
+            this.dn +
+            "," +
+            this.en;
+          this.con = this.con
+            .split(",")
+            .filter(function(n) {
+              return n;
+            })
+            .join(",");
           this.pd.addCon = this.con;
         }
         //二同号--
         if (this.className === "k3_star2_same") {
-          if(index !== 5){
+          if (index !== 5) {
             if (indexf == 0) {
               this.d1.splice(index, 1, "");
-              this.dd = this.d1.filter(function(n) {return n;});
+              this.dd = this.d1.filter(function(n) {
+                return n;
+              });
               this.an = this.dd.join(",");
             }
             if (indexf == 1) {
               this.d2.splice(index, 1, "");
-              this.dd = this.d2.filter(function(n) {return n;});
+              this.dd = this.d2.filter(function(n) {
+                return n;
+              });
               this.bn = this.dd.join(",");
             }
             if (indexf == 2) {
               this.d3.splice(index, 1, "");
-              this.dd = this.d3.filter(function(n) {return n;});
+              this.dd = this.d3.filter(function(n) {
+                return n;
+              });
               this.cn = this.dd.join(",");
             }
             if (indexf == 3) {
               this.d4.splice(index, 1, "");
-              this.dd = this.d4.filter(function(n) {return n;});
+              this.dd = this.d4.filter(function(n) {
+                return n;
+              });
               this.dn = this.dd.join(",");
             }
             if (indexf == 4) {
               this.d5.splice(index, 1, "");
-              this.dd = this.d5.filter(function(n) {return n;});
+              this.dd = this.d5.filter(function(n) {
+                return n;
+              });
               this.en = this.dd.join(",");
             }
             if (indexf == 5) {
               this.d6.splice(index, 1, "");
-              this.dd = this.d6.filter(function(n) {return n;});
+              this.dd = this.d6.filter(function(n) {
+                return n;
+              });
               this.fn = this.dd.join(",");
             }
           }
-          if(index === 5){
+          if (index === 5) {
             if (indexf == 0 && item.choose === false) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = false;
                 this.d.splice(i, 1, "");
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.an = this.dd.join(",");
                 this.zhu1 = 0;
               }
             }
             if (indexf == 1 && item.choose === false) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = false;
                 this.d.splice(i, 1, "");
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.bn = this.dd.join(",");
                 this.zhu2 = 0;
               }
             }
             if (indexf == 2 && item.choose === false) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = false;
                 this.d.splice(i, 1, "");
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.cn = this.dd.join(",");
                 this.zhu3 = 0;
               }
             }
             if (indexf == 3 && item.choose === false) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = false;
                 this.d.splice(i, 1, "");
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.dn = this.dd.join(",");
                 this.zhu4 = 0;
               }
             }
             if (indexf == 4 && item.choose === false) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = false;
                 this.d.splice(i, 1, "");
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.en = this.dd.join(",");
                 this.zhu5 = 0;
               }
             }
             if (indexf == 5 && item.choose === false) {
-              for(let i = 0; i< numViews.nums.length; i++){
+              for (let i = 0; i < numViews.nums.length; i++) {
                 numViews.nums[i].choose = false;
                 this.d.splice(i, 1, "");
-                this.d.splice(this.d.indexOf("全选"),1,"");
-                this.dd = this.d.filter(function(n) {return n;});
+                this.d.splice(this.d.indexOf("全选"), 1, "");
+                this.dd = this.d.filter(function(n) {
+                  return n;
+                });
                 this.fn = this.dd.join(",");
                 this.zhu6 = 0;
               }
             }
-            this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en +"," +this.fn;
-            this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+            this.con =
+              this.an +
+              "," +
+              this.bn +
+              "," +
+              this.cn +
+              "," +
+              this.dn +
+              "," +
+              this.en +
+              "," +
+              this.fn;
+            this.con = this.con
+              .split(",")
+              .filter(function(n) {
+                return n;
+              })
+              .join(",");
             this.pd.addCon = this.con;
-            this.zhu = this.zhu1+this.zhu2+this.zhu3+this.zhu4+this.zhu5+this.zhu6;
+            this.zhu =
+              this.zhu1 +
+              this.zhu2 +
+              this.zhu3 +
+              this.zhu4 +
+              this.zhu5 +
+              this.zhu6;
             this.pd.addzhu = this.zhu;
           }
         }
@@ -778,12 +934,26 @@ export default {
             });
             this.en = this.dd.join(",");
           }
-          this.con =this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.con =
+            this.an +
+            "," +
+            this.bn +
+            "," +
+            this.cn +
+            "," +
+            this.dn +
+            "," +
+            this.en;
+          this.con = this.con
+            .split(",")
+            .filter(function(n) {
+              return n;
+            })
+            .join(",");
           this.pd.addCon = this.con;
         }
         //三同号--
-        if (this.className === "k3_star3_same"){
+        if (this.className === "k3_star3_same") {
           if (indexf == 0) {
             this.d1.splice(index, 1, "");
             this.dd = this.d1.filter(function(n) {
@@ -798,8 +968,13 @@ export default {
             });
             this.bn = this.dd.join(",");
           }
-          this.con =this.an +"," +this.bn;
-          this.con = this.con.split(",").filter(function(n) {return n;}).join(",");
+          this.con = this.an + "," + this.bn;
+          this.con = this.con
+            .split(",")
+            .filter(function(n) {
+              return n;
+            })
+            .join(",");
           this.pd.addCon = this.con;
         }
       }
@@ -852,7 +1027,11 @@ export default {
         }
       } else {
         this.$axios
-          .get(baseUrl + "/api/lottery/getPlayTree?lotteryId=" + this.$route.params.lotteryId)
+          .get(
+            baseUrl +
+              "/api/lottery/getPlayTree?lotteryId=" +
+              this.$route.params.lotteryId
+          )
           .then(res => {
             localStorage.setItem(
               "getPlayTree_playGroups_k3",
@@ -947,21 +1126,39 @@ export default {
       this.displayBonus = this.splayers[0][0].displayBonus;
     },
     //确认投注
-    affirmBetGo(){
-      if(this.productList.length == 0){
-        this.$pop.show({title:'温馨提示',content:'您未选择号码,号码篮是空的！',content1:String(this.seasonId),content2:String(Number(this.seasonId)+1),number:1});
-      }else{
+    affirmBetGo() {
+      if (this.productList.length == 0) {
+        this.$pop.show({
+          title: "温馨提示",
+          content: "您未选择号码,号码篮是空的！",
+          content1: String(this.seasonId),
+          content2: String(Number(this.seasonId) + 1),
+          number: 1
+        });
+      } else {
         this.$refs.firmbet.isshow();
         // this.$refs.firmbet.betGo();
       }
     },
     //立即投注
     betGo() {
-      if(this.zhu === 0){
-        this.$pop.show({title:'',content:'您尚未选定一个完整的投注。',content1:'',content2:'',number:2});
-      }else if(this.spinner3 === 0){
-        this.$pop.show({title:'',content:'您有号码未设置金额，请核对后投注。',content1:'',content2:'',number:2});
-      }else{
+      if (this.zhu === 0) {
+        this.$pop.show({
+          title: "",
+          content: "您尚未选定一个完整的投注。",
+          content1: "",
+          content2: "",
+          number: 2
+        });
+      } else if (this.spinner3 === 0) {
+        this.$pop.show({
+          title: "",
+          content: "您有号码未设置金额，请核对后投注。",
+          content1: "",
+          content2: "",
+          number: 2
+        });
+      } else {
         let formData = new FormData();
         formData.append("order[0].content", this.con);
         formData.append("order[0].betCount", this.zhu);
@@ -977,12 +1174,22 @@ export default {
         formData.append("lotteryId", this.$route.params.lotteryId);
         formData.append("amount", this.spinner3 * this.zhu);
         this.$axios
-          .post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config)
+          .post(
+            baseUrl + "/api/lottery/bet",
+            formData,
+            this.$store.state.config
+          )
           .then(res => {
             if (res.data.message === "success") {
-              this.getbetOrderList();//我的投注
+              this.getbetOrderList(); //我的投注
               this.iscreat();
-              this.$pop.show({title:'温馨提示',content:'恭喜您，投注成功！',content1:'',content2:'',number:1});
+              this.$pop.show({
+                title: "温馨提示",
+                content: "恭喜您，投注成功！",
+                content1: "",
+                content2: "",
+                number: 1
+              });
             } else {
               this.iscreat();
               console.warn(res.data.data);
@@ -999,9 +1206,9 @@ export default {
       this.lottName = this.arrLottName[this.arrLottName.indexOf(item.name)];
       this.lottNameIndex = index;
       this.$router.push("/lotts/k3/" + item.id);
-      this.getPlayTree();//玩法术
-      this.getPastOp();//获取过去开奖号码10个
-      this.geteServerTime();//获取彩種當前獎期時間
+      this.getPlayTree(); //玩法术
+      this.getPastOp(); //获取过去开奖号码10个
+      this.geteServerTime(); //获取彩種當前獎期時間
     },
     //清空
     iscreat() {
@@ -1050,17 +1257,37 @@ export default {
           this.arrLottId.push(k.id);
           this.arrLottName.push(k.name);
         });
-        this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.lotteryId);
+        this.lottNameIndex = this.arrLottId.indexOf(
+          this.$route.params.lotteryId
+        );
         this.lottName = this.arrLottName[this.lottNameIndex];
         if (this.lottNameIndex > 5) {
           this.left = -200;
         }
       } else {
         this.$axios
-          .get(baseUrl + "/api/lottery/getLotteryList",{params:{type:'k3'}})
+          .get(baseUrl + "/api/lottery/getLotteryList", {
+            params: { type: "k3" }
+          })
           .then(res => {
-            localStorage.setItem( "lotteryAll_k3", JSON.stringify(res.data.data));
-            this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_k3"));
+            localStorage.setItem(
+              "lotteryAll_k3",
+              JSON.stringify(res.data.data)
+            );
+            this.lotteryList = JSON.parse(
+              localStorage.getItem("lotteryAll_k3")
+            );
+            this.lotteryList.map(k => {
+              this.arrLottId.push(k.id);
+              this.arrLottName.push(k.name);
+            });
+            this.lottNameIndex = this.arrLottId.indexOf(
+              this.$route.params.lotteryId
+            );
+            this.lottName = this.arrLottName[this.lottNameIndex];
+            if (this.lottNameIndex > 5) {
+              this.left = -200;
+            }
           })
           .catch(error => {
             console.log(error);
@@ -1095,7 +1322,7 @@ export default {
     reGetPastOp() {
       clearTimeout(this.timer2);
       this.timer2 = setTimeout(() => {
-        this.getPastOp();//获取过去开奖号码10个
+        this.getPastOp(); //获取过去开奖号码10个
       }, 12000);
     },
     //我的投注
@@ -1127,8 +1354,8 @@ export default {
             this.today = res.data.data.restSeconds;
             this.lastSeasonId = this.getCurrentSaleTime.lastSeasonId;
             this.seasonId = this.getCurrentSaleTime.seasonId;
-            this.initSetTimeout();//倒计时
-            this.getPastOp();//获取过去开奖号码10个
+            this.initSetTimeout(); //倒计时
+            this.getPastOp(); //获取过去开奖号码10个
           }
         });
     },
@@ -1136,7 +1363,7 @@ export default {
     initSetTimeout() {
       this.timer = setInterval(() => {
         this.today = this.today - 1;
-        this.setTimeMode();//時間格式轉換
+        this.setTimeMode(); //時間格式轉換
         if (this.today < 1) {
           clearInterval(this.timer);
           this.timesUp();
@@ -1145,17 +1372,17 @@ export default {
           this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
           this.today === 47
         ) {
-          this.getPastOp();//获取过去开奖号码10个
+          this.getPastOp(); //获取过去开奖号码10个
         } else if (
           this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
           this.today === 46
         ) {
-          this.getPastOp();//获取过去开奖号码10个
+          this.getPastOp(); //获取过去开奖号码10个
         } else if (
           this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
           this.today === 45
         ) {
-          this.getPastOp();//获取过去开奖号码10个
+          this.getPastOp(); //获取过去开奖号码10个
         }
       }, 1000);
     },
@@ -1179,7 +1406,13 @@ export default {
     timesUp() {
       this.isshowGif = true;
       this.geteServerTime();
-      this.$pop.show({title:'温馨提示',content:'已经到底啦',content1:String(this.seasonId),content2:String(Number(this.seasonId)+1),number:3});
+      this.$pop.show({
+        title: "温馨提示",
+        content: "已经到底啦",
+        content1: String(this.seasonId),
+        content2: String(Number(this.seasonId) + 1),
+        number: 3
+      });
     },
     //中奖信息
     butClass1C() {
@@ -1231,7 +1464,13 @@ export default {
         }
       } else if (this.num * li + box > ul) {
         this.num = this.num;
-        this.$pop.show({title:'温馨提示',content:'已经到底啦',content1:'',content2:'',number:2});
+        this.$pop.show({
+          title: "温馨提示",
+          content: "已经到底啦",
+          content1: "",
+          content2: "",
+          number: 2
+        });
       }
     },
     //导航左边点击
@@ -1247,17 +1486,35 @@ export default {
         if (ul > box) {
           this.left = -(this.num * li);
         }
-      }else{
-        this.$pop.show({title:'温馨提示',content:'已经到顶啦',content1:'',content2:'',number:2});
+      } else {
+        this.$pop.show({
+          title: "温馨提示",
+          content: "已经到顶啦",
+          content1: "",
+          content2: "",
+          number: 2
+        });
       }
     },
     //添加号码栏
     addNum() {
-      if(this.zhu === 0){
-        this.$pop.show({title:'',content:'您尚未选定一个完整的投注。',content1:'',content2:'',number:2});
-      }else if(this.spinner3 === 0){
-        this.$pop.show({title:'',content:'您有号码未设置金额，请核对后投注。',content1:'',content2:'',number:2});
-      }else{
+      if (this.zhu === 0) {
+        this.$pop.show({
+          title: "",
+          content: "您尚未选定一个完整的投注。",
+          content1: "",
+          content2: "",
+          number: 2
+        });
+      } else if (this.spinner3 === 0) {
+        this.$pop.show({
+          title: "",
+          content: "您有号码未设置金额，请核对后投注。",
+          content1: "",
+          content2: "",
+          number: 2
+        });
+      } else {
         this.pd.addMoney = this.spinner3;
         this.productList.unshift(this.pd);
         this.pd = {};
@@ -1272,11 +1529,13 @@ export default {
     //清空
     exit() {
       this.productList = [];
-      this.pd={};
-    },
+      this.pd = {};
+    }
   },
-  components:{
-    firmbet,winninglottery,winMsg
+  components: {
+    firmbet,
+    winninglottery,
+    winMsg
   },
   filters: {
     mask(value) {

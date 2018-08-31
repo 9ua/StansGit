@@ -11,8 +11,8 @@
           span 安全密码：
           input(placeholder='请输入安全密码',class='userInput',v-model="safePwd",@blur='checkPwd',type='password')
           em.verifyWrong(v-show='!pwdRight&&!isFirst') 
-            mu-icon(value="cancel",size="14")
-            {{pwd_tip}}
+            mu-icon(value="cancel",size="14") 
+            | {{pwd_tip}}
           em.verifyRight(v-show='pwdRight') 
             mu-icon(value="check_circle",size="14")
         li 
@@ -20,7 +20,7 @@
           input(placeholder='请再次输入安全密码',class='userInput',v-model="safePwdAgian",@blur='checkPwdAgain',type='password',@keyup.enter="submit")
           em.verifyWrong(v-show='!pwdRightAgain&&!isFirst') 
             mu-icon(value="cancel",size="14")
-            {{pwd_tip}}
+            | {{pwd_tip}}
           em.verifyRight(v-show='pwdRightAgain') 
             mu-icon(value="check_circle",size="14")
         li

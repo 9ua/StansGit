@@ -16,7 +16,7 @@
             </router-link>
           </ul>
           <ul class="header-top-login" v-show="$store.state.loginStatus">
-            <router-link to="/user" tag="li"><img :src='"/static/images/"+this.$store.state.img+".jpg"' alt="" />
+            <router-link to="/user" tag="li"><img :src='"@/assets/img/heads/"+this.$store.state.img+".jpg"' alt="" />
               <span>{{this.$store.state.Globalusername}}</span>
             </router-link>
             <router-link to="" tag="li" @mouseover.native='HoverShowAccount=true' @mouseout.native="HoverShowAccount=false">

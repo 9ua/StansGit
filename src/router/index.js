@@ -3,6 +3,7 @@ import Router from 'vue-router'
 const sy = r => require.ensure([], () => r(require('@/components/page/sy.vue')), 'sy')
 const home = r => require.ensure([], () => r(require('@/components/page/home.vue')), 'home')
 const lott = r => require.ensure([], () => r(require('@/components/page/lott.vue')), 'lott')
+const bet = r => require.ensure([], () => r(require('@/components/page/lotterbet/bet.vue')), 'bet')
 const k3 = r => require.ensure([], () => r(require('@/components/page/lotts/k3.vue')), 'lott')
 const ssc = r => require.ensure([], () => r(require('@/components/page/lotts/ssc.vue')), 'lott')
 const pk10 = r => require.ensure([], () => r(require('@/components/page/lotts/pk10.vue')), 'lott')
@@ -85,6 +86,11 @@ export default new Router({
           meta: {
             title: "宏發娱乐-彩票大厅"
           }
+        },
+        {
+          path: 'bet/:id/:group',
+          name: 'bet',
+          component: bet
         },
         {
           path: '/lotts/k3/:lotteryId',

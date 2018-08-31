@@ -13,7 +13,7 @@
           input(placeholder='请输入安全密码',class='userInput',v-model="oldPwd",@blur='checkOldPwd',type='password',@keyup.enter="validOldLoginPassword")
           em.verifyWrong(v-show='!pwdOldRight&&!isOldFirst') 
             mu-icon(value="cancel",size="14")
-            {{pwd_old_tip}}
+            | {{pwd_old_tip}}
           em.verifyRight(v-show='pwdOldRight') 
             mu-icon(value="check_circle",size="14")
         li
