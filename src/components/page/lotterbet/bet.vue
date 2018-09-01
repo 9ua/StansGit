@@ -179,8 +179,8 @@ export default {
         }
       }
       
-      this.current_player = this.playGroups[0].groups[0].players[0];
-      this.$store.commit("CURRENT_PLAYER_BONUS",this.current_player);
+      // this.current_player = this.playGroups[0].groups[0].players[0];
+      // this.$store.commit("CURRENT_PLAYER_BONUS",this.current_player);
       for (let i = 0; i < this.playGroups.length; i++) {
         this.splayGroups.push(this.playGroups[i]);
       }

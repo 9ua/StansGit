@@ -56,6 +56,7 @@ import firmbet from "@/components/loading/firmbet.vue";
 export default {
   data() {
     return {
+      className:'',
       orderList: null,
       zhu: this.$store.state.zhu,
       productList: [],
@@ -77,9 +78,6 @@ export default {
   computed:{
     seasonId(){
       return this.$store.state.seasonId;
-    },
-    className(){
-      return this.$store.state.className;
     },
   },
   methods: {
@@ -136,6 +134,15 @@ export default {
     },
     //立即投注
     betGo() {
+      if(this.$route.params.id === 'k3'){
+        this.className = "k3_star3_and";
+      }else if(this.$route.params.id === 'ssc'){
+        this.className = "ssc_star5";
+      }else if(this.$route.params.id === 'pk10'){
+        this.className = "pk10_side_lh";
+      }else if(this.$route.params.id === 'x11x5'){
+        this.className = "n11x5_x1";
+      }
       if (this.$store.state.zhu === 0) {
         this.$pop.show({
           title: "",
@@ -186,7 +193,7 @@ export default {
               });
             } else {
               this.$emit("iscreat");
-              console.warn(res.data.data);
+              this.$pop.show({title: "温馨提示",content: res.data.data,content1: "",content2: "",number: 1});
             }
           })
           .catch(error => {

@@ -28,7 +28,7 @@
             <span class="carTitle" :class="{'active': numViews.title === ''}">{{numViews.title}}</span>
             <div class="carBox">
               <div class="cars">
-                <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)">
+                <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(indexf,indexha,item,numViews,current_player_bonus)">
                   <span>
                     <i>{{item.ball}}</i>
                   </span>
@@ -64,11 +64,6 @@ export default {
       cn: "",
       dn: "",
       en: "",
-      fn: "",
-      gn: "",
-      hn: "",
-      in: "",
-      jn: "",
       con: "",
       addTitle: "任选一任选复式",
       d: [], //选中的号码的下标
@@ -77,21 +72,10 @@ export default {
       kc: [], //选中的号码的下标
       kd: [], //选中的号码的下标
       ke: [], //选中的号码的下标
-      kf: [], //选中的号码的下标
-      kg: [], //选中的号码的下标
-      kh: [], //选中的号码的下标
-      ki: [], //选中的号码的下标
-      kj: [], //选中的号码的下标
-      zhu1: 0,
-      zhu2: 0,
-      zhu3: 0,
-      zhu4: 0,
-      zhu5: 0,
-      zhu6: 0,
-      zhu7: 0,
-      zhu8: 0,
-      zhu9: 0,
-      zhu10: 0,
+      dm: "", //胆码
+      tm: "", //拖码
+      dmNum: "", //可选择胆码数量
+      dmArr: [], //最新选中胆码下标
       item: {},
       indexha: 0,
       ballTools: [
@@ -127,27 +111,28 @@ export default {
   },
   methods: {
     //判断玩法术是否已经成功
-    isShowPlayGroups(){
-      setTimeout(() => {
-        if(localStorage.getItem("getPlayTree_playGroups_x11x5") != null){
+    isShowPlayGroups() {
+      if (localStorage.getItem("getPlayTree_playGroups_x11x5") === null) {
+        setTimeout(() => {
           this.showhaa = false;
-          this.current_player_bonus = this.playGroups[0].groups[0].players[0];
-        }
-      }, 600);
+          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_x11x5"))[0].groups[0].players[0]
+        }, 600);
+      } else {
+        this.showhaa = false;
+        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_x11x5"))[0].groups[0].players[0]
+      }
     },
-    // 中间->投注选号
-    curBalls(item, index, list, indexf) {
-      if (list.chooseOne) {
-        list.balls.map(b => {
+    //中间->投注选号
+    curBalls(indexff, indexg, num, numViews, player) {
+      if (numViews.chooseOne) {
+        numViews.balls.map(b => {
           b.choose = false;
         });
       }
-      item.choose = !item.choose;
-      if (item.choose === true) {
-        this.d[index] = item.ball;
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
+      num.choose = !num.choose;
+      if (num.choose === true) {
+        this.d[indexg] = num.ball;
+        this.dd = this.d.filter(function(n) {return n;});
         this.$store.state.zhu++;
         this.$store.state.pd.addTitle = this.addTitle;
         this.$store.state.pd.addCon = this.dd.join(",");
@@ -158,144 +143,131 @@ export default {
         this.$store.state.pd.addClassName = this.className;
         this.$store.state.pd.addSeasonId = this.$store.state.seasonId;
         this.$store.state.pd.addName = this.$store.state.lottName;
-        this.betssc_boxjia(item, index, list, indexf);
+        this.bet_boxjia(indexff, indexg, num, numViews, player);
       } else {
-        this.d.splice(index, 1, "");
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
+        this.d.splice(indexg, 1, "");
+        this.dd = this.d.filter(function(n) {return n;});
         this.$store.state.zhu--;
         this.$store.state.con = this.dd.join(",");
         this.$store.state.pd.addCon = this.dd.join(",");
-        this.betssc_boxjian(item, index, list, indexf);
+        this.bet_boxjian(indexff, indexg, num, numViews, player);
+      }
+    },
+    //复式投注
+    fushi() {
+      if (
+        this.className === "n11x5_x2" ||
+        this.className === "n11x5_star2_group" ||
+        this.className === "n11x5_x3" ||
+        this.className === "n11x5_star3_group" ||
+        this.className === "n11x5_x4" ||
+        this.className === "n11x5_x5" ||
+        this.className === "n11x5_x6" ||
+        this.className === "n11x5_x7" ||
+        this.className === "n11x5_x8"
+      ) {
+        let ret = "";
+        if (
+          this.className === "n11x5_x2" ||
+          this.className === "n11x5_star2_group"
+        ) {
+          ret = this.groupSplit(this.dd, 2);
+        }
+        if (
+          this.className === "n11x5_x3" ||
+          this.className === "n11x5_star3_group"
+        ) {
+          ret = this.groupSplit(this.dd, 3);
+        }
+        if (this.className === "n11x5_x4") {
+          ret = this.groupSplit(this.dd, 4);
+        }
+        if (this.className === "n11x5_x5") {
+          ret = this.groupSplit(this.dd, 5);
+        }
+        if (this.className === "n11x5_x6") {
+          ret = this.groupSplit(this.dd, 6);
+        }
+        if (this.className === "n11x5_x7") {
+          ret = this.groupSplit(this.dd, 7);
+        }
+        if (this.className === "n11x5_x8") {
+          ret = this.groupSplit(this.dd, 8);
+        }
+        this.$store.state.zhu = ret.length;
+        this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
     },
     //投注 ++++
-    betssc_boxjia(num, indexg, list, indexff) {
-      //大小单双 +
-      if (this.className === "ssc_dxds") {
+    bet_boxjia(indexff, indexg, num, numViews, player) {
+      //选一定位胆 ++
+      if (this.className === "n11x5_dwd") {
         if (indexff === 0) {
           this.ka[indexg] = num.ball;
-          this.dd = this.ka.filter(function(n) {
-            return n;
-          });
-          this.an = this.dd.join("+");
+          this.dd = this.ka.filter(function(n) {return n;});
+          this.an = this.dd.join("");
         }
         if (indexff === 1) {
           this.kb[indexg] = num.ball;
-          this.dd = this.kb.filter(function(n) {
-            return n;
-          });
-          this.bn = this.dd.join("+");
+          this.dd = this.kb.filter(function(n) {return n;});
+          this.bn = this.dd.join("");
         }
         if (indexff === 2) {
           this.kc[indexg] = num.ball;
-          this.dd = this.kc.filter(function(n) {
-            return n;
-          });
-          this.cn = this.dd.join("+");
+          this.dd = this.kc.filter(function(n) {return n;});
+          this.cn = this.dd.join("");
         }
         if (indexff === 3) {
           this.kd[indexg] = num.ball;
-          this.dd = this.kd.filter(function(n) {
-            return n;
-          });
-          this.dn = this.dd.join("+");
+          this.dd = this.kd.filter(function(n) {return n;});
+          this.dn = this.dd.join("");
         }
         if (indexff === 4) {
           this.ke[indexg] = num.ball;
-          this.dd = this.ke.filter(function(n) {
-            return n;
-          });
-          this.en = this.dd.join("+");
+          this.dd = this.ke.filter(function(n) {return n;});
+          this.en = this.dd.join("");
         }
-        if (this.className === "ssc_dxds") {
-          if (this.an === "") {
-            this.an = "-";
-          }
-          if (this.bn === "") {
-            this.bn = "-";
-          }
-          if (this.cn === "") {
-            this.cn = "-";
-          }
-          if (this.dn === "") {
-            this.dn = "-";
-          }
-          if (this.en === "") {
-            this.en = "-";
-          }
-          this.$store.state.pd.addCon =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-          this.$store.state.con =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
+        if (this.an === "") {
+          this.an = "-";
         }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.$store.state.con = this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+        this.$store.state.pd.addCon = this.$store.state.con;
       }
-      //五星、四星、三星、二星二码不定位 、前四组选6+
-      if (
-        this.className === "ssc_star4_front_group6" ||
-        this.className === "ssc_star5_none2" ||
-        this.className === "ssc_star4_front_none2" ||
-        this.className === "ssc_star3_front_none2" ||
-        this.className === "ssc_star3_mid_none2" ||
-        this.className === "ssc_star3_last_none2"
-      ) {
-        let ret = this.groupSplit(this.dd, 2);
-        let arr = [];
-        let abc = "";
-        for (var k = 0; k < ret.length; k++) {
-          var cc = ret[k].join("");
-          arr.push(cc);
+      //复式 ++
+      this.fushi();
+      //选二直选复式 ++
+      if (this.className === "n11x5_star2_front") {
+        if (indexff === 0) {
+          this.ka[indexg] = num.ball;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
         }
-        abc = arr.join(",");
-        this.$store.state.zhu = arr.length;
+        if (indexff === 1) {
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+        }
+        let count = this.getCountFront((this.an + "," + this.bn).split(","), 2);
+        this.$store.state.con = this.an + "," + this.bn + ",-" + ",-" + ",-";
+        this.$store.state.pd.addCon = this.$store.state.con;
+        this.$store.state.zhu = count;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
+        
       }
-      //三码不定位、三星组六 +
-      if (
-        this.className === "ssc_star5_none3" ||
-        this.className === "ssc_star3_mid_group6" ||
-        this.className === "ssc_star3_last_group6" ||
-        this.className === "ssc_star3_front_group6"
-      ) {
-        let ret = this.groupSplit(this.dd, 3);
-        let arr = [];
-        let abc = "";
-        for (var k = 0; k < ret.length; k++) {
-          var cc = ret[k].join("");
-          arr.push(cc);
-        }
-        abc = arr.join(",");
-        this.$store.state.zhu = arr.length;
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //复式 +
-      if (
-        this.className === "ssc_star5" ||
-        this.className === "ssc_star4_front" ||
-        this.className === "ssc_star3_front" ||
-        this.className === "ssc_star3_mid" ||
-        this.className === "ssc_star3_last" ||
-        this.className === "ssc_star2_front" ||
-        this.className === "ssc_star2_last" ||
-        this.className === "ssc_star1_dwd"
-      ) {
+      //选三直选复式 ++
+      if (this.className === "n11x5_star3_front") {
         if (indexff === 0) {
           this.ka[indexg] = num.ball;
           this.dd = this.ka;
@@ -311,712 +283,99 @@ export default {
           this.dd = this.kc;
           this.cn = this.dd.join("");
         }
-        if (indexff === 3) {
-          this.kd[indexg] = num.ball;
-          this.dd = this.kd.filter(function(n) {
-            return n;
-          });
-          this.dn = this.dd.join("");
+        let count = this.getCountFront((this.an + "," + this.bn + "," + this.cn).split(","), 3);
+        this.$store.state.con = this.an + "," + this.bn + "," + this.cn + ",-" + ",-";
+        this.$store.state.pd.addCon = this.$store.state.con;
+        this.$store.state.zhu = count;
+        this.$store.state.pd.addzhu = this.$store.state.zhu;
+      }
+      //任选胆拖 ++
+      //组选胆拖 ++
+      if (
+        this.className === "n11x5_x2_dt" ||
+        this.className === "n11x5_star2_group_dt" ||
+        this.className === "n11x5_x3_dt" ||
+        this.className === "n11x5_star3_group_dt" ||
+        this.className === "n11x5_x4_dt" ||
+        this.className === "n11x5_x5_dt" ||
+        this.className === "n11x5_x6_dt" ||
+        this.className === "n11x5_x7_dt" ||
+        this.className === "n11x5_x8_dt") {
+        if (this.className === "n11x5_x2_dt" ||this.className === "n11x5_star2_group_dt") {
+          this.dmNum = 1;
         }
-        if (indexff === 4) {
-          this.ke[indexg] = num.ball;
-          this.dd = this.ke;
-          this.en = this.dd.join("");
+        if (this.className === "n11x5_x3_dt" ||this.className === "n11x5_star3_group_dt") {
+          this.dmNum = 2;
         }
-        if (this.className === "ssc_star4_front") {
-          this.$store.state.pd.addCon =
-            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con =
-            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            4
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = this.$store.state.con + ",-";
-          this.$store.state.con = this.$store.state.con + ",-";
+        if (this.className === "n11x5_x4_dt") {
+          this.dmNum = 3;
         }
-        if (this.className === "ssc_star3_front") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            3
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = this.$store.state.con + ",-" + ",-";
-          this.$store.state.con = this.$store.state.con + ",-" + ",-";
+        if (this.className === "n11x5_x5_dt") {
+          this.dmNum = 4;
         }
-        if (this.className === "ssc_star3_mid") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            3
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = "-," + this.$store.state.con + ",-";
-          this.$store.state.con = "-," + this.$store.state.con + ",-";
+        if (this.className === "n11x5_x6_dt") {
+          this.dmNum = 5;
         }
-        if (this.className === "ssc_star3_last") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            3
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = "-,-," + this.$store.state.con;
-          this.$store.state.con = "-,-," + this.$store.state.con;
+        if (this.className === "n11x5_x7_dt") {
+          this.dmNum = 6;
         }
-        if (this.className === "ssc_star2_front") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn;
-          this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            2
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon =
-            this.$store.state.con + ",-" + ",-" + ",-";
-          this.$store.state.con = this.$store.state.con + ",-" + ",-" + ",-";
+        if (this.className === "n11x5_x8_dt") {
+          this.dmNum = 7;
         }
-        if (this.className === "ssc_star2_last") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn;
-          this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            2
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = "-,-,-," + this.$store.state.con;
-          this.$store.state.con = "-,-,-," + this.$store.state.con;
-        }
-        if (this.className === "ssc_star1_dwd") {
-          if (indexff === 0) {
-            this.ka[indexg] = num.ball;
-            this.dd = this.ka;
-            this.an = this.dd.join("");
+        if (indexff === 0) {
+          this.dmArr.push(num.ball)
+          //清空所有选中的胆码
+          this.current_player_bonus.numView[0].nums.forEach((item, index) => {
+            this.current_player_bonus.numView[0].nums[index].choose = false;
+          })
+          if(this.dmArr.length > 0){
+            if(this.dmArr.length > this.dmNum){
+              this.dmArr.splice(-2, 1);
+            }
           }
-          if (indexff === 1) {
-            this.kb[indexg] = num.ball;
+          //然后再重新选中
+          this.dmArr.forEach((item, i) => {
+            let index = item[0] == "0" ? item[1] - 1 : item - 1;
+            this.current_player_bonus.numView[0].nums[index].choose = true;
+          })
+          //胆、拖反选
+          if (this.current_player_bonus.numView[0].nums[indexg].choose === true) {
+            this.current_player_bonus.numView[1].nums[indexg].choose = false;
+            this.kb.splice(indexg, 1, "");
             this.dd = this.kb;
             this.bn = this.dd.join("");
-          }
-          if (indexff === 2) {
-            this.kc[indexg] = num.ball;
-            this.dd = this.kc;
-            this.cn = this.dd.join("");
-          }
-          if (indexff === 3) {
-            this.kd[indexg] = num.ball;
-            this.dd = this.kd.filter(function(n) {
-              return n;
-            });
-            this.dn = this.dd.join("");
-          }
-          if (indexff === 4) {
-            this.ke[indexg] = num.ball;
-            this.dd = this.ke;
-            this.en = this.dd.join("");
-          }
-          if (this.className === "ssc_star1_dwd") {
-            if (this.an === "") {
-              this.an = "-";
-            }
-            if (this.bn === "") {
-              this.bn = "-";
-            }
-            if (this.cn === "") {
-              this.cn = "-";
-            }
-            if (this.dn === "") {
-              this.dn = "-";
-            }
-            if (this.en === "") {
-              this.en = "-";
-            }
-          }
-          this.$store.state.pd.addCon =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-          this.$store.state.con =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-        }
-        if (this.className === "ssc_star5") {
-          this.$store.state.pd.addCon =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-          this.$store.state.con =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            5
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-        }
-      }
-      //龙虎和 +
-      if (this.className === "ssc_side_lhh") {
-        if (indexff === 0) {
-          this.ka[indexg] = num.ball;
-          this.dd = this.ka;
-          this.an = "[万千]" + this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb[indexg] = num.ball;
-          this.dd = this.kb;
-          this.bn = "[万百]" + this.dd.join("");
-        }
-        if (indexff === 2) {
-          this.kc[indexg] = num.ball;
-          this.dd = this.kc;
-          this.cn = "[万十]" + this.dd.join("");
-        }
-        if (indexff === 3) {
-          this.kd[indexg] = num.ball;
-          this.dd = this.kd.filter(function(n) {
-            return n;
-          });
-          this.dn = "[万个]" + this.dd.join("");
-        }
-        if (indexff === 4) {
-          this.ke[indexg] = num.ball;
-          this.dd = this.ke;
-          this.en = "[千百]" + this.dd.join("");
-        }
-        if (indexff === 5) {
-          this.kf[indexg] = num.ball;
-          this.dd = this.kf.filter(function(n) {
-            return n;
-          });
-          this.fn = "[千十]" + this.dd.join("");
-        }
-        if (indexff === 6) {
-          this.kg[indexg] = num.ball;
-          this.dd = this.kg.filter(function(n) {
-            return n;
-          });
-          this.gn = "[千个]" + this.dd.join("");
-        }
-        if (indexff === 7) {
-          this.kh[indexg] = num.ball;
-          this.dd = this.kh.filter(function(n) {
-            return n;
-          });
-          this.hn = "[百十]" + this.dd.join("");
-        }
-        if (indexff === 8) {
-          this.ki[indexg] = num.ball;
-          this.dd = this.ki.filter(function(n) {
-            return n;
-          });
-          this.in = "[百个]" + this.dd.join("");
-        }
-        if (indexff === 9) {
-          this.kj[indexg] = num.ball;
-          this.dd = this.kj.filter(function(n) {
-            return n;
-          });
-          this.jn = "[十个]" + this.dd.join("");
-        }
-        if (this.className === "ssc_side_lhh") {
-          if (this.an === "") {
-            this.an = "-";
-          }
-          if (this.bn === "") {
-            this.bn = "-";
-          }
-          if (this.cn === "") {
-            this.cn = "-";
-          }
-          if (this.dn === "") {
-            this.dn = "-";
-          }
-          if (this.en === "") {
-            this.en = "-";
-          }
-          if (this.fn === "") {
-            this.fn = "-";
-          }
-          if (this.gn === "") {
-            this.gn = "-";
-          }
-          if (this.hn === "") {
-            this.hn = "-";
-          }
-          if (this.in === "") {
-            this.in = "-";
-          }
-          if (this.jn === "") {
-            this.jn = "-";
-          }
-        }
-        this.$store.state.pd.addCon =
-          this.an +
-          "," +
-          this.bn +
-          "," +
-          this.cn +
-          "," +
-          this.dn +
-          "," +
-          this.en +
-          "," +
-          this.fn +
-          "," +
-          this.gn +
-          "," +
-          this.hn +
-          "," +
-          this.in +
-          "," +
-          this.jn;
-        this.$store.state.con =
-          this.an +
-          "," +
-          this.bn +
-          "," +
-          this.cn +
-          "," +
-          this.dn +
-          "," +
-          this.en +
-          "," +
-          this.fn +
-          "," +
-          this.gn +
-          "," +
-          this.hn +
-          "," +
-          this.in +
-          "," +
-          this.jn;
-        if (this.$store.state.con.indexOf("和") !== -1) {
-          this.youhezhi = true;
-        } else if (this.$store.state.con.indexOf("和") === -1) {
-          this.youhezhi = false;
-        }
-      }
-      //三星包胆 +
-      if (
-        this.className === "ssc_star3_front_group_contains" ||
-        this.className === "ssc_star3_mid_group_contains" ||
-        this.className === "ssc_star3_last_group_contains"
-      ) {
-        for (let i = 0; i < list.nums.length; i++) {
-          this.$store.state.zhu = 54;
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = num.ball;
-          this.$store.state.con = num.ball;
-          list.nums[i].choose = false;
-          list.nums[indexg].choose = true;
-        }
-      }
-      //二星包胆 +
-      if (
-        this.className === "ssc_star2_front_group_contains" ||
-        this.className === "ssc_star2_last_group_contains"
-      ) {
-        for (let i = 0; i < list.nums.length; i++) {
-          this.$store.state.zhu = 9;
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = num.ball;
-          this.$store.state.con = num.ball;
-          list.nums[i].choose = false;
-          list.nums[indexg].choose = true;
-        }
-      }
-      //五星--组选5 +
-      if (this.className === "ssc_star5_group5") {
-        if (indexff === 0) {
-          this.ka[indexg] = num.ball;
+            this.tm = this.strToarr(this.bn).join(",");
+          } 
+          this.ka = this.dmArr;
           this.dd = this.ka;
           this.an = this.dd.join("");
+          this.dm = this.dd.join(",");
         }
         if (indexff === 1) {
+          //胆、拖反选
+          if (this.current_player_bonus.numView[1].nums[indexg].choose === true) {
+            this.current_player_bonus.numView[0].nums[indexg].choose = false;
+            this.ka.splice(indexg, 1);
+            this.dd = this.ka;
+            this.an = this.dd.join("");
+            this.dm = this.dd.join(",");
+          } 
           this.kb[indexg] = num.ball;
           this.dd = this.kb;
           this.bn = this.dd.join("");
+          this.tm = this.strToarr(this.bn).join(",");
         }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount5(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选10 +
-      if (this.className === "ssc_star5_group10") {
-        if (indexff === 0) {
-          this.ka[indexg] = num.ball;
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb[indexg] = num.ball;
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount10(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选20 +
-      if (this.className === "ssc_star5_group20") {
-        if (indexff === 0) {
-          this.ka[indexg] = num.ball;
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb[indexg] = num.ball;
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount20(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选30 +
-      if (this.className === "ssc_star5_group30") {
-        if (indexff === 0) {
-          this.ka[indexg] = num.ball;
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb[indexg] = num.ball;
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount30(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选60 +
-      if (this.className === "ssc_star5_group60") {
-        if (indexff === 0) {
-          this.ka[indexg] = num.ball;
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb[indexg] = num.ball;
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount60(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选120 +
-      if (this.className === "ssc_star5_group120") {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        let lengths = this.dd.length;
-        this.$store.state.zhu = this.getCount120(lengths);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //前四--组选4 +
-      if (this.className === "ssc_star4_front_group4") {
-        if (indexff === 0) {
-          this.ka[indexg] = num.ball;
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb[indexg] = num.ball;
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount4(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //前四--组选12 +
-      if (this.className === "ssc_star4_front_group12") {
-        if (indexff === 0) {
-          this.ka[indexg] = num.ball;
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb[indexg] = num.ball;
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount12(
-          this.$store.state.con.split(",")
-        );
-      }
-      //前四--组选24 +
-      if (this.className === "ssc_star4_front_group24") {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        let lengths = this.dd.length;
-        this.$store.state.zhu = this.getzuCount24(lengths);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //前三、中三、后三组选3 +
-      if (
-        this.className === "ssc_star3_front_group3" ||
-        this.className === "ssc_star3_mid_group3" ||
-        this.className === "ssc_star3_last_group3"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        let lengths = this.dd.length;
-        this.$store.state.zhu = this.getzuCount3(lengths);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //二星组选 复式 +
-      if (
-        this.className === "ssc_star2_front_group" ||
-        this.className === "ssc_star2_last_group"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.erzuxuanfushi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //三星直选和值 +
-      if (
-        this.className === "ssc_star3_front_and" ||
-        this.className === "ssc_star3_mid_and" ||
-        this.className === "ssc_star3_last_and"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.sanzhixuanhezhi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //三星组选和值 +
-      if (
-        this.className === "ssc_star3_front_group_and" ||
-        this.className === "ssc_star3_mid_group_and" ||
-        this.className === "ssc_star3_last_group_and"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.sanzuxuanhezhi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //三星跨度 +
-      if (
-        this.className === "ssc_star3_front_kd" ||
-        this.className === "ssc_star3_mid_kd" ||
-        this.className === "ssc_star3_last_kd"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.sankuadu(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //二星直选和值 +
-      if (
-        this.className === "ssc_star2_front_and" ||
-        this.className === "ssc_star2_last_and"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.erzhixuanhezhi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //二星组选和值 +
-      if (
-        this.className === "ssc_star2_front_group_and" ||
-        this.className === "ssc_star2_last_group_and"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.erzuxuanhezhi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //二星跨度 +
-      if (
-        this.className === "ssc_star2_front_kd" ||
-        this.className === "ssc_star2_last_kd"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.erkuadu(this.dd);
+        let count = this.getCountDt((this.an + "," + this.bn).split(","),this.dmNum + 1);
+        this.$store.state.con = "胆" + this.dm + ";" + this.tm;
+        this.$store.state.pd.addCon = this.$store.state.con;
+        this.$store.state.zhu = count;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
     },
     //投注 ----
-    betssc_boxjian(num, indexg, list, indexff) {
-      //大小单双 -
-      if (this.className === "ssc_dxds") {
-        if (indexff === 0) {
-          this.ka.splice(indexg, 1, "");
-          this.dd = this.ka;
-          this.an = this.dd.join("+");
-        }
-        if (indexff === 1) {
-          this.kb.splice(indexg, 1, "");
-          this.dd = this.kb;
-          this.bn = this.dd.join("+");
-        }
-        if (indexff === 2) {
-          this.kc.splice(indexg, 1, "");
-          this.dd = this.kc;
-          this.cn = this.dd.join("+");
-        }
-        if (indexff === 3) {
-          this.kd.splice(indexg, 1, "");
-          this.dd = this.kd;
-          this.dn = this.dd.join("+");
-        }
-        if (indexff === 4) {
-          this.ke.splice(indexg, 1, "");
-          this.dd = this.ke;
-          this.en = this.dd.join("+");
-        }
-        if (this.className === "ssc_dxds") {
-          if (this.an === "") {
-            this.an = "-";
-          }
-          if (this.bn === "") {
-            this.bn = "-";
-          }
-          if (this.cn === "") {
-            this.cn = "-";
-          }
-          if (this.dn === "") {
-            this.dn = "-";
-          }
-          if (this.en === "") {
-            this.en = "-";
-          }
-          this.$store.state.pd.addCon =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-          this.$store.state.con =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-        }
-      }
-      //五星、四星、三星、二星二码不定位 、前四组选6 -
-      if (
-        this.className === "ssc_star4_front_group6" ||
-        this.className === "ssc_star5_none2" ||
-        this.className === "ssc_star4_front_none2" ||
-        this.className === "ssc_star3_front_none2" ||
-        this.className === "ssc_star3_mid_none2" ||
-        this.className === "ssc_star3_last_none2"
-      ) {
-        let ret = this.groupSplit(this.dd, 2);
-        let arr = [];
-        let abc = "";
-        for (var k = 0; k < ret.length; k++) {
-          var cc = ret[k].join("");
-          arr.push(cc);
-        }
-        abc = arr.join(",");
-        this.$store.state.zhu = arr.length;
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //三码不定位、前三组六、中三组六、后三组六 -
-      if (
-        this.className === "ssc_star5_none3" ||
-        this.className === "ssc_star3_mid_group6" ||
-        this.className === "ssc_star3_last_group6" ||
-        this.className === "ssc_star3_front_group6"
-      ) {
-        let ret = this.groupSplit(this.dd, 3);
-        let arr = [];
-        let abc = "";
-        for (var k = 0; k < ret.length; k++) {
-          var cc = ret[k].join("");
-          arr.push(cc);
-        }
-        abc = arr.join(",");
-        this.$store.state.zhu = arr.length;
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //复式 -
-      if (
-        this.className === "ssc_star5" ||
-        this.className === "ssc_star4_front" ||
-        this.className === "ssc_star3_front" ||
-        this.className === "ssc_star3_mid" ||
-        this.className === "ssc_star3_last" ||
-        this.className === "ssc_star2_front" ||
-        this.className === "ssc_star2_last" ||
-        this.className === "ssc_star1_dwd"
-      ) {
+    bet_boxjian(indexff, indexg, num, numViews, player) {
+      //选一定位胆 --
+      if (this.className === "n11x5_dwd") {
         if (indexff === 0) {
           this.ka.splice(indexg, 1, "");
           this.dd = this.ka;
@@ -1034,9 +393,7 @@ export default {
         }
         if (indexff === 3) {
           this.kd.splice(indexg, 1, "");
-          this.dd = this.kd.filter(function(n) {
-            return n;
-          });
+          this.dd = this.kd;
           this.dn = this.dd.join("");
         }
         if (indexff === 4) {
@@ -1044,544 +401,222 @@ export default {
           this.dd = this.ke;
           this.en = this.dd.join("");
         }
-        if (this.className === "ssc_star4_front") {
-          this.$store.state.pd.addCon =
-            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con =
-            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            4
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-        } else if (this.className === "ssc_star3_front") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            3
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-        } else if (this.className === "ssc_star3_mid") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            3
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-        } else if (this.className === "ssc_star3_last") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            3
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-        } else if (this.className === "ssc_star2_front") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn;
-          this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            2
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-        } else if (this.className === "ssc_star2_last") {
-          this.$store.state.pd.addCon = this.an + "," + this.bn;
-          this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            2
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-        } else if (this.className === "ssc_star1_dwd") {
-          this.$store.state.pd.addCon =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-          this.$store.state.con =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-        } else if (this.className === "ssc_star5") {
-          this.$store.state.pd.addCon =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-          this.$store.state.con =
-            this.an +
-            "," +
-            this.bn +
-            "," +
-            this.cn +
-            "," +
-            this.dn +
-            "," +
-            this.en;
-          this.$store.state.zhu = this.getCount(
-            this.$store.state.con.split(","),
-            5
-          );
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
+        if (this.an === "") {
+          this.an = "-";
         }
+        if (this.bn === "") {
+          this.bn = "-";
+        }
+        if (this.cn === "") {
+          this.cn = "-";
+        }
+        if (this.dn === "") {
+          this.dn = "-";
+        }
+        if (this.en === "") {
+          this.en = "-";
+        }
+        this.$store.state.con = this.an + "," + this.bn + "," + this.cn + ","+ this.dn + "," + this.dn;
+        this.$store.state.pd.addCon = this.$store.state.con;
       }
-      //龙虎和 -
-      if (this.className === "ssc_side_lhh") {
+      //复式 --
+      this.fushi();
+      //选二直选复式 -
+      if (this.className === "n11x5_star2_front") {
         if (indexff === 0) {
           this.ka.splice(indexg, 1, "");
           this.dd = this.ka;
-          this.an = "[万千]" + this.dd.join("");
-          if (this.an == "" || this.an == "-" || this.an == "[万千]") {
-            this.an = this.dd.join("");
-          }
+          this.an = this.dd.join("");
         }
         if (indexff === 1) {
           this.kb.splice(indexg, 1, "");
           this.dd = this.kb;
-          this.bn = "[万百]" + this.dd.join("");
-          if (this.bn == "" || this.bn == "-" || this.bn == "[万百]") {
-            this.bn = this.dd.join("");
-          }
+          this.bn = this.dd.join("");
+        }
+        let count = this.getCountFront((this.an + "," + this.bn).split(","), 2);
+        this.$store.state.con = this.an + "," + this.bn + ",-" + ",-" + ",-";
+        this.$store.state.pd.addCon = this.$store.state.con;
+        this.$store.state.zhu = count;
+        this.$store.state.pd.addzhu = this.$store.state.zhu;
+      }
+      //选三直选复式 -
+      if (this.className === "n11x5_star3_front") {
+        if (indexff === 0) {
+          this.ka.splice(indexg, 1, "");
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+        }
+        if (indexff === 1) {
+          this.kb.splice(indexg, 1, "");
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
         }
         if (indexff === 2) {
           this.kc.splice(indexg, 1, "");
           this.dd = this.kc;
-          this.cn = "[万十]" + this.dd.join("");
-          if (this.cn == "" || this.cn == "-" || this.cn == "[万十]") {
-            this.cn = this.dd.join("");
-          }
+          this.cn = this.dd.join("");
         }
-        if (indexff === 3) {
-          this.kd.splice(indexg, 1, "");
-          this.dd = this.kd;
-          this.dn = "[万个]" + this.dd.join("");
-          if (this.dn == "" || this.dn == "-" || this.dn == "[万个]") {
-            this.dn = this.dd.join("");
-          }
-        }
-        if (indexff === 4) {
-          this.ke.splice(indexg, 1, "");
-          this.dd = this.ke;
-          this.en = "[千百]" + this.dd.join("");
-          if (this.en == "" || this.en == "-" || this.en == "[千百]") {
-            this.en = this.dd.join("");
-          }
-        }
-        if (indexff === 5) {
-          this.kf.splice(indexg, 1, "");
-          this.dd = this.kf.filter(function(n) {
-            return n;
+        let count = this.getCountFront((this.an + "," + this.bn + "," + this.cn).split(","), 3);
+        this.$store.state.con = this.an + "," + this.bn + "," + this.cn + ",-" + ",-";
+        this.$store.state.pd.addCon = this.$store.state.con;
+        this.$store.state.zhu = count;
+        this.$store.state.pd.addzhu = this.$store.state.zhu;
+      }
+      //任选胆拖 --
+      //组选胆拖 --
+      if (
+        this.className === "n11x5_x2_dt" ||
+        this.className === "n11x5_star2_group_dt" ||
+        this.className === "n11x5_x3_dt" ||
+        this.className === "n11x5_star3_group_dt" ||
+        this.className === "n11x5_x4_dt" ||
+        this.className === "n11x5_x5_dt" ||
+        this.className === "n11x5_x6_dt" ||
+        this.className === "n11x5_x7_dt" ||
+        this.className === "n11x5_x8_dt") {
+        if (indexff === 0) {
+          this.dmArr.push(num.ball)
+          this.dmArr = this.dmArr.filter((item, index) => {
+            return item != num.ball
           });
-          this.fn = "[千十]" + this.dd.join("");
-          if (this.fn == "" || this.fn == "-" || this.fn == "[千十]") {
-            this.fn = this.dd.join("");
+          if(this.dmArr.length > 0){
+            if(this.dmArr.length > this.dmNum){
+              this.dmArr.splice(-2, 1);
+            }
           }
+          //清空所有胆码选中
+          this.current_player_bonus.numView[0].nums.forEach((item, index) => {
+            this.current_player_bonus.numView[0].nums[index].choose = false;
+          })
+          //然后再重新选中
+          this.dmArr.forEach((item, i) => {
+            let index = item[0] == "0" ? item[1] - 1 : item - 1;
+            this.current_player_bonus.numView[0].nums[index].choose = true;
+          });   
+          //胆、拖反选
+          if (this.current_player_bonus.numView[0].nums[indexg].choose === true) {
+            this.current_player_bonus.numView[1].nums[indexg].choose = false;
+            this.kb.splice(indexg, 1, "");
+            this.dd = this.kb;
+            this.bn = this.dd.join("");
+            this.tm = this.strToarr(this.bn).join(",");
+          }      
+          this.ka = this.dmArr;
+          this.dd = this.ka;
+          this.an = this.dd.join("");
+          this.dm = this.dd.join(",");
         }
-        if (indexff === 6) {
-          this.kg.splice(indexg, 1, "");
-          this.dd = this.kg.filter(function(n) {
-            return n;
+        if (indexff === 1) {
+          //胆、拖反选
+          if (this.current_player_bonus.numView[1].nums[indexg].choose === true) {
+            this.current_player_bonus.numView[0].nums[indexg].choose = false;
+            this.ka.splice(indexg, 1);
+            this.dd = this.ka;
+            this.an = this.dd.join("");
+            this.dm = this.dd.join(",");
+          } 
+          this.kb[indexg] = num.ball;
+          this.dd = this.kb;
+          this.bn = this.dd.join("");
+          this.tm = this.strToarr(this.bn).join(",");
+        }
+        let count = this.getCountDt((this.an + "," + this.bn).split(","),this.dmNum + 1);
+        this.$store.state.con = "胆" + this.dm + ";" + this.tm;
+        this.$store.state.pd.addCon = this.$store.state.con;
+        this.$store.state.zhu = count;
+        this.$store.state.pd.addzhu = this.$store.state.zhu;
+      }
+    },
+    //----------公用函数-----------
+    //排列组合
+    groupSplit(arr, size) {
+      let maxSize = arr.length,
+        groupArr = [];
+      if (size >= 1 && size <= maxSize) {
+        getArr(arr, 0, []);
+      }
+      function each(arr, index, fn) {
+        for (let i = index; i < maxSize; i++) {
+          fn(arr[i], i, arr);
+        }
+      }
+      function getArr(arr, _size, _arr, index) {
+        if (_size === size) {
+          return;
+        }
+        let len = _size + 1;
+        each(arr, index || 0, function(val, i, arr) {
+          _arr.splice(_size, 1, val);
+          if (_size === size - 1) {
+            groupArr.push(_arr.slice());
+          }
+          getArr(arr, len, _arr, i + 1);
+        });
+      }
+      return groupArr;
+    },
+    //字符串"010203"拆分成数组["01","02","03"]
+    strToarr(str) {
+      return str.split("").reduce((arr, v, i, self) => {
+        return !(i % 2)
+          ? arr.concat(self.slice(i, i + 2).join(""))
+          : arr.concat();
+      }, []);
+    },
+    //胆拖
+    getCountDt(betContent, stars) {
+      let count = 0;
+      let dmArr = [];
+      let tmArr = [];
+      for (let i = 0; i < betContent.length; i++) {
+        let n = betContent[i];
+        n = this.strToarr(n);
+        if (i === 0) {
+          dmArr = n;
+        } else if (i === 1) {
+          tmArr = n;
+        }
+      }
+      if (dmArr.length === 0) {
+        return 0;
+      }
+      count = this.groupSplit(tmArr, stars - 1).length;
+      return count*dmArr.length;
+    },
+    //直选排列组合
+    getCountFront(betContent, stars) {
+      if (betContent.length != stars) {
+        return 0;
+      }
+      let count = 0;
+      let tempArr = [];
+      for (let i = 0; i < stars; i++) {
+        let n = betContent[i];
+        n = this.strToarr(n);
+        tempArr.push(n);
+      }
+      if (stars == 2) {
+        tempArr[0].forEach((item1, index1) => {
+          tempArr[1].forEach((item2, index2) => {
+            if (item1 != item2) {
+              count++;
+            }
           });
-          this.gn = "[千个]" + this.dd.join("");
-          if (this.gn == "" || this.gn == "-" || this.gn == "[千个]") {
-            this.gn = this.dd.join("");
-          }
-        }
-        if (indexff === 7) {
-          this.kh.splice(indexg, 1, "");
-          this.dd = this.kh.filter(function(n) {
-            return n;
+        });
+      } else if (stars == 3) {
+        tempArr[0].forEach((item1, index1) => {
+          tempArr[1].forEach((item2, index2) => {
+            if (item1 != item2) {
+              tempArr[2].forEach((item3, index3) => {
+                if (item1 !== item2 && item1 !== item3 && item2 !== item3) {
+                  count++;
+                }
+              });
+            }
           });
-          this.hn = "[百十]" + this.dd.join("");
-          if (this.hn == "" || this.hn == "-" || this.hn == "[百十]") {
-            this.hn = this.dd.join("");
-          }
-        }
-        if (indexff === 8) {
-          this.ki.splice(indexg, 1, "");
-          this.dd = this.ki.filter(function(n) {
-            return n;
-          });
-          this.in = "[百个]" + this.dd.join("");
-          if (this.in == "" || this.in == "-" || this.in == "[百个]") {
-            this.in = this.dd.join("");
-          }
-        }
-        if (indexff === 9) {
-          this.kj.splice(indexg, 1, "");
-          this.dd = this.kj.filter(function(n) {
-            return n;
-          });
-          this.jn = "[十个]" + this.dd.join("");
-          if (this.jn == "" || this.jn == "-" || this.jn == "[十个]") {
-            this.jn = this.dd.join("");
-          }
-        }
-        if (this.className === "ssc_side_lhh") {
-          if (this.an === "") {
-            this.an = "-";
-          }
-          if (this.bn === "") {
-            this.bn = "-";
-          }
-          if (this.cn === "") {
-            this.cn = "-";
-          }
-          if (this.dn === "") {
-            this.dn = "-";
-          }
-          if (this.en === "") {
-            this.en = "-";
-          }
-          if (this.fn === "") {
-            this.fn = "-";
-          }
-          if (this.gn === "") {
-            this.gn = "-";
-          }
-          if (this.hn === "") {
-            this.hn = "-";
-          }
-          if (this.in === "") {
-            this.in = "-";
-          }
-          if (this.jn === "") {
-            this.jn = "-";
-          }
-        }
-        this.$store.state.pd.addCon =
-          this.an +
-          "," +
-          this.bn +
-          "," +
-          this.cn +
-          "," +
-          this.dn +
-          "," +
-          this.en +
-          "," +
-          this.fn +
-          "," +
-          this.gn +
-          "," +
-          this.hn +
-          "," +
-          this.in +
-          "," +
-          this.jn;
-        this.$store.state.con =
-          this.an +
-          "," +
-          this.bn +
-          "," +
-          this.cn +
-          "," +
-          this.dn +
-          "," +
-          this.en +
-          "," +
-          this.fn +
-          "," +
-          this.gn +
-          "," +
-          this.hn +
-          "," +
-          this.in +
-          "," +
-          this.jn;
-        if (this.$store.state.con.indexOf("和") !== -1) {
-          this.youhezhi = true;
-        } else if (this.$store.state.con.indexOf("和") === -1) {
-          this.youhezhi = false;
-        }
-      }
-      //三星包胆 -
-      if (
-        this.className === "ssc_star3_front_group_contains" ||
-        this.className === "ssc_star3_mid_group_contains" ||
-        this.className === "ssc_star3_last_group_contains"
-      ) {
-        for (let i = 0; i < list.nums.length; i++) {
-          this.$store.state.zhu = 0;
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = "";
-          this.$store.state.con = "";
-        }
-      }
-      //二星包胆 -
-      if (
-        this.className === "ssc_star2_front_group_contains" ||
-        this.className === "ssc_star2_last_group_contains"
-      ) {
-        for (let i = 0; i < list.nums.length; i++) {
-          this.$store.state.zhu = 0;
-          this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = "";
-          this.$store.state.con = "";
-        }
-      }
-      //五星--组选5 -
-      if (this.className === "ssc_star5_group5") {
-        if (indexff === 0) {
-          this.ka.splice(indexg, 1, "");
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb.splice(indexg, 1, "");
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount5(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选10 -
-      if (this.className === "ssc_star5_group10") {
-        if (indexff === 0) {
-          this.ka.splice(indexg, 1, "");
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb.splice(indexg, 1, "");
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount10(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选20 -
-      if (this.className === "ssc_star5_group20") {
-        if (indexff === 0) {
-          this.ka.splice(indexg, 1, "");
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb.splice(indexg, 1, "");
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount20(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选30 -
-      if (this.className === "ssc_star5_group30") {
-        if (indexff === 0) {
-          this.ka.splice(indexg, 1, "");
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb.splice(indexg, 1, "");
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount30(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选60 -
-      if (this.className === "ssc_star5_group60") {
-        if (indexff === 0) {
-          this.ka.splice(indexg, 1, "");
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb.splice(indexg, 1, "");
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount60(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //五星--组选120 -
-      if (this.className === "ssc_star5_group120") {
-        this.dd = this.d.filter(function(n) {
-          return n;
         });
-        let lengths = this.dd.length;
-        this.$store.state.zhu = this.getCount120(lengths);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
-      //前四--组选4 -
-      if (this.className === "ssc_star4_front_group4") {
-        if (indexff === 0) {
-          this.ka.splice(indexg, 1, "");
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb.splice(indexg, 1, "");
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount4(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //前四--组选12 -
-      if (this.className === "ssc_star4_front_group12") {
-        if (indexff === 0) {
-          this.ka.splice(indexg, 1, "");
-          this.dd = this.ka;
-          this.an = this.dd.join("");
-        }
-        if (indexff === 1) {
-          this.kb.splice(indexg, 1, "");
-          this.dd = this.kb;
-          this.bn = this.dd.join("");
-        }
-        this.$store.state.pd.addCon = this.an + "," + this.bn;
-        this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount12(
-          this.$store.state.con.split(",")
-        );
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //前四--组选24 -
-      if (this.className === "ssc_star4_front_group24") {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        let lengths = this.dd.length;
-        this.$store.state.zhu = this.getzuCount24(lengths);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //前三、中三、后三组选 -
-      if (
-        this.className === "ssc_star3_front_group3" ||
-        this.className === "ssc_star3_mid_group3" ||
-        this.className === "ssc_star3_last_group3"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        let lengths = this.dd.length;
-        this.$store.state.zhu = this.getzuCount3(lengths);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //二星组选 复式 -
-      if (
-        this.className === "ssc_star2_front_group" ||
-        this.className === "ssc_star2_last_group"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.erzuxuanfushi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //三星直选和值 -
-      if (
-        this.className === "ssc_star3_front_and" ||
-        this.className === "ssc_star3_mid_and" ||
-        this.className === "ssc_star3_last_and"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.sanzhixuanhezhi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //三星组选和值 -
-      if (
-        this.className === "ssc_star3_front_group_and" ||
-        this.className === "ssc_star3_mid_group_and" ||
-        this.className === "ssc_star3_last_group_and"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.sanzuxuanhezhi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //三星跨度 -
-      if (
-        this.className === "ssc_star3_front_kd" ||
-        this.className === "ssc_star3_mid_kd" ||
-        this.className === "ssc_star3_last_kd"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.sankuadu(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //二星直选和值 -
-      if (
-        this.className === "ssc_star2_front_and" ||
-        this.className === "ssc_star2_last_and"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.erzhixuanhezhi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //二星组选和值 -
-      if (
-        this.className === "ssc_star2_front_group_and" ||
-        this.className === "ssc_star2_last_group_and"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.erzuxuanhezhi(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
-      //二星跨度 -
-      if (
-        this.className === "ssc_star2_front_kd" ||
-        this.className === "ssc_star2_last_kd"
-      ) {
-        this.dd = this.d.filter(function(n) {
-          return n;
-        });
-        this.$store.state.zhu = this.erkuadu(this.dd);
-        this.$store.state.pd.addzhu = this.$store.state.zhu;
-      }
+      return count;
     },
     //菜单选择项1
     playGroupBut(item, index) {
@@ -1621,6 +656,7 @@ export default {
     },
     //菜单选择项2
     playersBut(play, indexff, indexabc) {
+      console.log(play.id);
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
@@ -1648,31 +684,15 @@ export default {
       this.kc = [];
       this.kd = [];
       this.ke = [];
-      this.kf = [];
-      this.kg = [];
-      this.kh = [];
-      this.ki = [];
-      this.kj = [];
+      this.dm = '';
+      this.tm = '';
+      this.dmNum = '';
+      this.dmArr = [];
       this.an = "";
       this.bn = "";
       this.cn = "";
       this.dn = "";
       this.en = "";
-      this.fn = "";
-      this.gn = "";
-      this.hn = "";
-      this.in = "";
-      this.jn = "";
-      this.zhu1 = 0;
-      this.zhu2 = 0;
-      this.zhu3 = 0;
-      this.zhu4 = 0;
-      this.zhu5 = 0;
-      this.zhu6 = 0;
-      this.zhu7 = 0;
-      this.zhu8 = 0;
-      this.zhu9 = 0;
-      this.zhu10 = 0;
       for (let h = 0; h < this.snumView.length; h++) {
         if (null != this.snumView[h]) {
           for (let j = 0; j < this.snumView[h].length; j++) {
@@ -1700,9 +720,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -1711,9 +729,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {
-              return n;
-            });
+            this.dd = this.kb.filter(function(n) {return n;});
             this.bn = this.dd.join("");
           });
           this.zhu2 = 10;
@@ -1722,9 +738,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kc[i] = list.ball;
-            this.dd = this.kc.filter(function(n) {
-              return n;
-            });
+            this.dd = this.kc.filter(function(n) {return n;});
             this.cn = this.dd.join("");
           });
           this.zhu3 = 10;
@@ -1733,9 +747,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kd[i] = list.ball;
-            this.dd = this.kd.filter(function(n) {
-              return n;
-            });
+            this.dd = this.kd.filter(function(n) {return n;});
             this.dn = this.dd.join("");
           });
           this.zhu4 = 10;
@@ -1744,9 +756,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ke[i] = list.ball;
-            this.dd = this.ke.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ke.filter(function(n) {return n;});
             this.en = this.dd.join("");
           });
           this.zhu5 = 10;
@@ -1884,9 +894,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join(",");
           });
           let ret = this.groupSplit(this.dd, 2);
@@ -1912,9 +920,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join(",");
           });
           this.$store.state.con = this.an;
@@ -1935,9 +941,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join(",");
           });
           let ret = this.groupSplit(this.dd, 3);
@@ -1962,9 +966,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join(",");
           });
           this.$store.state.con = this.an;
@@ -1982,9 +984,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -1993,9 +993,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {
-              return n;
-            });
+            this.dd = this.kb.filter(function(n) {return n;});
             this.bn = this.dd.join("");
           });
           this.zhu2 = 10;
@@ -2016,9 +1014,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -2027,9 +1023,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {
-              return n;
-            });
+            this.dd = this.kb.filter(function(n) {return n;});
             this.bn = this.dd.join("");
           });
           this.zhu2 = 10;
@@ -2047,9 +1041,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -2058,9 +1050,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {
-              return n;
-            });
+            this.dd = this.kb.filter(function(n) {return n;});
             this.bn = this.dd.join("");
           });
           this.zhu2 = 10;
@@ -2078,9 +1068,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join("");
           });
         }
@@ -2099,9 +1087,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join("");
           });
           this.$store.state.con = this.an;
@@ -2123,9 +1109,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -2145,9 +1129,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join("");
           });
         }
@@ -2155,9 +1137,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {
-              return n;
-            });
+            this.dd = this.kb.filter(function(n) {return n;});
             this.bn = this.dd.join("");
           });
         }
@@ -2186,9 +1166,7 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {
-              return n;
-            });
+            this.dd = this.ka.filter(function(n) {return n;});
             this.an = this.dd.join("");
           });
         }
@@ -5028,296 +4006,6 @@ export default {
     empty({ ball }, item, indexf) {
       this.aa();
       this.iszhu6({ ball }, item, indexf);
-    },
-
-    //----------公用函数-----------
-    //复式 betContent = [0,0,0,0,0] , count = 5
-    getCount(betContent, stars) {
-      if (betContent.length != stars) {
-        return 0;
-      }
-      let count = 1;
-      for (let i = 0; i < stars; i++) {
-        let n = betContent[i];
-        n = [...new Set(n)];
-        count *= n.length;
-      }
-      return count;
-    },
-    //组选共用函数
-    getCombin(num, len) {
-      if (num < len) {
-        return 0;
-      }
-      let nums = 1;
-      let lens = 1;
-      for (let i = 0; i < len; i++) {
-        nums *= num - i;
-        lens *= len - i;
-      }
-      return nums / lens;
-    },
-    //組選五
-    // bets = ["0,1", "1,2,3"]
-    getzuCount5(bets) {
-      if (bets.length != 2) {
-        return 0;
-      }
-      let n1 = bets[0];
-      let n2 = bets[1];
-      let count = 0;
-      for (let i = 0; i < n1.length; i++) {
-        count += n2.length;
-        if (n2.indexOf(n1[i]) >= 0) {
-          count--;
-        }
-      }
-      return count;
-    },
-    // 組選10
-    // bets = ["0,1,3", "1,2,3"]
-    getzuCount10(bets) {
-      if (bets.length != 2) {
-        return 0;
-      }
-      let n1 = bets[0];
-      let n2 = bets[1];
-      let count = 0;
-      for (let i = 0; i < n1.length; i++) {
-        count += n2.length;
-        if (n2.indexOf(n1[i]) >= 0) {
-          count--;
-        }
-      }
-      return count;
-    },
-    // 組選20
-    // bets = ["0,1,3", "1,2,3"]
-    getzuCount20(bets) {
-      if (bets.length != 2) {
-        return 0;
-      }
-      let n1 = bets[0];
-      let n2 = bets[1];
-      let count = 0;
-      for (let i = 0; i < n1.length; i++) {
-        let nowCount = n2.length;
-        if (n2.indexOf(n1[i]) >= 0) {
-          nowCount--;
-        }
-        count += this.getCombin(nowCount, 2);
-      }
-      return count;
-    },
-    //組選30
-    // bets = ["0,1,3", "1,2,3"]
-    getzuCount30(bets) {
-      if (bets.length != 2) {
-        return 0;
-      }
-      let n1 = bets[0];
-      let n2 = bets[1];
-      let count = 0;
-      for (let i = 0; i < n2.length; i++) {
-        let nowCount = n1.length;
-        if (n1.indexOf(n2[i]) >= 0) {
-          nowCount--;
-        }
-        count += this.getCombin(nowCount, 2);
-      }
-      return count;
-    },
-    //組選60
-    // bets = ["0,1,3", "1,2,3"]
-    getzuCount60(bets) {
-      if (bets.length != 2) {
-        return 0;
-      }
-      let n1 = bets[0];
-      let n2 = bets[1];
-      let count = 0;
-      for (let i = 0; i < n1.length; i++) {
-        let nowCount = n2.length;
-        if (n2.indexOf(n1[i]) >= 0) {
-          nowCount--;
-        }
-        count += this.getCombin(nowCount, 3);
-      }
-      return count;
-    },
-    //組選120
-    // bets = ["0", "1","3","7","9"]
-    getCount120(bets) {
-      return this.getCombin(bets, 5);
-    },
-    //四星-組選4
-    // bets = ["0,1,3", "1,2,3"]
-    getzuCount4(bets) {
-      if (bets.length != 2 || bets[0] === "" || bets[1] === "") {
-        return 0;
-      }
-      let n1 = bets[0];
-      let n2 = bets[1];
-      let count = 0;
-      for (let i = 0; i < n1.length; i++) {
-        count += n2.length;
-        if (n2.indexOf(n1[i]) >= 0) {
-          count--;
-        }
-      }
-      return count;
-    },
-    //四星-組選12
-    // bets = ["0,1,3", "1,2,3"]
-    getzuCount12(bets) {
-      if (bets.length != 2 || bets[0] === "" || bets[1] === "") {
-        return 0;
-      }
-      let n1 = bets[0];
-      let n2 = bets[1];
-      if (n1.length < 1) {
-        return 0;
-      }
-      if (n2.length < 2) {
-        return 0;
-      }
-      let count = 0;
-      for (let i = 0; i < n1.length; i++) {
-        let a = n2.length;
-        if (n2.indexOf(n1[i]) >= 0) {
-          a--;
-        }
-        count += this.getCombin(a, 2);
-      }
-      return count;
-    },
-    //四星-組選24
-    //bets = ["0", "1","9"]
-    getzuCount24(bets) {
-      return this.getCombin(bets, 4);
-    },
-    //三星-组三
-    //bets = ["0", "1","9"]
-    getzuCount3(bets) {
-      return this.getCombin(bets, 2) * 2;
-    },
-    //三星-跨度
-    sankuadu(bets) {
-      let betCount = [10, 54, 96, 126, 144, 150, 144, 126, 96, 54];
-      let count = 0;
-      for (let i = 0; i < bets.length; i++) {
-        count += betCount[bets[i]];
-      }
-      return count;
-    },
-    //三星-直选和值
-    sanzhixuanhezhi(bets) {
-      let betCount = [
-        1,
-        3,
-        6,
-        10,
-        15,
-        21,
-        28,
-        36,
-        45,
-        55,
-        63,
-        69,
-        73,
-        75,
-        75,
-        73,
-        69,
-        63,
-        55,
-        45,
-        36,
-        28,
-        21,
-        15,
-        10,
-        6,
-        3,
-        1
-      ];
-      let count = 0;
-      for (let i = 0; i < bets.length; i++) {
-        count += betCount[Number(bets[i])];
-      }
-      return count;
-    },
-    //三星-组选和值
-    sanzuxuanhezhi(bets) {
-      let betCount = [
-        1,
-        2,
-        2,
-        4,
-        5,
-        6,
-        8,
-        10,
-        11,
-        13,
-        14,
-        14,
-        15,
-        15,
-        14,
-        14,
-        13,
-        11,
-        10,
-        8,
-        6,
-        5,
-        4,
-        2,
-        2,
-        1
-      ];
-      let count = 0;
-      for (let i = 0; i < bets.length; i++) {
-        count += betCount[Number(bets[i]) - 1];
-      }
-      return count;
-    },
-    // 二星-组选複式
-    //bets = ["6","7"]
-    erzuxuanfushi(bets) {
-      let count = 0;
-      let size = bets.length;
-      count = this.getCombin(size, 2);
-      return count;
-    },
-    //二星-跨度
-    erkuadu(bets) {
-      let betCount = [10, 18, 16, 14, 12, 10, 8, 6, 4, 2];
-      let count = 0;
-      for (let i = 0; i < bets.length; i++) {
-        count += betCount[bets[i]];
-      }
-      return count;
-    },
-    //二星-直选和值
-    erzhixuanhezhi(bets) {
-      let betCount = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-      let count = 0;
-      for (let i = 0; i < bets.length; i++) {
-        count += betCount[bets[i]];
-      }
-      return count;
-    },
-    //二星-组选和值
-    erzuxuanhezhi(bets) {
-      let betCount = [1, 1, 2, 2, 3, 3, 4, 4, 5, 4, 4, 3, 3, 2, 2, 1, 1];
-      let count = 0;
-      for (let i = 0; i < bets.length; i++) {
-        count += betCount[Number(bets[i]) - 1];
-      }
-      return count;
     },
     //排列组合
     groupSplit(arr, size) {

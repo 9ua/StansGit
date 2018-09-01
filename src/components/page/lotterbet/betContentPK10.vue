@@ -123,13 +123,16 @@ export default {
   },
   methods: {
     //判断玩法术是否已经成功
-    isShowPlayGroups(){
-      setTimeout(() => {
-        if(localStorage.getItem("getPlayTree_playGroups_pk10") != null){
+    isShowPlayGroups() {
+      if (localStorage.getItem("getPlayTree_playGroups_pk10") === null) {
+        setTimeout(() => {
           this.showhaa = false;
-          this.current_player_bonus = this.playGroups[0].groups[0].players[0];
-        }
-      }, 600);
+          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_pk10"))[0].groups[0].players[0]
+        }, 600);
+      } else {
+        this.showhaa = false;
+        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_pk10"))[0].groups[0].players[0]
+      }
     },
     // 中间->投注选号
     curBalls(item, index, list, indexf) {

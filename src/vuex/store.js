@@ -50,12 +50,6 @@ const state = {
     addName: "宏發快3"
   },
 };
-// const getters = {
-//   remarks:state => {
-//     return state.current_player_groups[2].groups[0].players[0];
-//   }
-// }
-
 export default new Vuex.Store({
   state,
   mutations,

@@ -45,7 +45,7 @@ import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      showhaa:true,
+      showhaa: true,
       navTo: 2,
       playNum: 0,
       className: "k3_star3_and", //玩法ID
@@ -84,32 +84,35 @@ export default {
       indexha: 0
     };
   },
-  beforeDestroy(){
+  beforeDestroy() {
     this.iscreat();
   },
-  computed:{
-    playGroups(){
+  computed: {
+    playGroups() {
       return this.$store.state.current_player_groups;
     },
-    sgroups2(){
+    sgroups2() {
       return this.$store.state.sgroups2;
     },
-    snumView(){
+    snumView() {
       return this.$store.state.snumView;
-    },
+    }
   },
-  mounted(){
+  mounted() {
     this.isShowPlayGroups();
   },
   methods: {
     //判断玩法术是否已经成功
-    isShowPlayGroups(){
-      setTimeout(() => {
-        if(localStorage.getItem("getPlayTree_playGroups_k3") != null){
+    isShowPlayGroups() {
+      if (localStorage.getItem("getPlayTree_playGroups_k3") === null) {
+        setTimeout(() => {
           this.showhaa = false;
-          this.current_player_bonus = this.playGroups[2].groups[0].players[0];
-        }
-      }, 600);
+          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"))[2].groups[0].players[0]
+        }, 600);
+      } else {
+        this.showhaa = false;
+        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"))[2].groups[0].players[0]
+      }
     },
     //中间选号
     curBalls(item, index, numViews, indexf) {
@@ -118,7 +121,9 @@ export default {
       item.choose = !item.choose;
       if (item.choose === true) {
         this.d[index] = item.ball;
-        this.dd = this.d.filter(function(n) {return n;});
+        this.dd = this.d.filter(function(n) {
+          return n;
+        });
         this.$store.state.zhu++;
         this.$store.state.pd.addTitle = this.addTitle;
         this.$store.state.pd.addCon = this.dd.join(",");
@@ -776,7 +781,7 @@ export default {
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
-      this.$store.commit("CLASSNAME",this.className);
+      this.$store.commit("CLASSNAME", this.className);
       this.iscreat();
       switch (item.title) {
         case "单骰":
@@ -795,7 +800,7 @@ export default {
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
-      this.$store.commit("CLASSNAME",this.className);
+      this.$store.commit("CLASSNAME", this.className);
       this.addTitle = play.title;
       this.iscreat();
     },
@@ -837,7 +842,7 @@ export default {
           }
         }
       }
-    },
+    }
   },
   filters: {
     keepTwoNum(value) {
