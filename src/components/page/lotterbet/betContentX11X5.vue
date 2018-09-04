@@ -53,12 +53,12 @@ export default {
       navTo: 0,
       playNum: 0,
       playNums: false,
-      className: "n11x5_x1", //玩法ID
+      className: 'n11x5_x1', //玩法ID
       lotteryId: "sh11x5", //彩种id
       lottNameIndex: 3, //默认彩种
       bonusArray: [], //和值赔率
       current_player: {}, //當前玩法
-      current_player_bonus: {}, //當前玩法
+      current_player_bonus:{}, //當前玩法
       an: "",
       bn: "",
       cn: "",
@@ -115,11 +115,15 @@ export default {
       if (localStorage.getItem("getPlayTree_playGroups_x11x5") === null) {
         setTimeout(() => {
           this.showhaa = false;
-          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_x11x5"))[0].groups[0].players[0]
+          this.current_player_bonus = this.$store.state.current_player_groups[0].groups[0].players[0];
+          this.$store.state.className = this.current_player_bonus.id;
+          this.className = this.current_player_bonus.id;
         }, 600);
       } else {
         this.showhaa = false;
-        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_x11x5"))[0].groups[0].players[0]
+        this.current_player_bonus = this.$store.state.current_player_groups[0].groups[0].players[0];
+        this.$store.state.className = this.current_player_bonus.id;
+        this.className = this.current_player_bonus.id;
       }
     },
     //中间->投注选号
@@ -323,7 +327,7 @@ export default {
           this.dmNum = 7;
         }
         if (indexff === 0) {
-          this.dmArr.push(num.ball)
+          this.dmArr.push(num.ball);
           //清空所有选中的胆码
           this.current_player_bonus.numView[0].nums.forEach((item, index) => {
             this.current_player_bonus.numView[0].nums[index].choose = false;
@@ -341,7 +345,7 @@ export default {
           //胆、拖反选
           if (this.current_player_bonus.numView[0].nums[indexg].choose === true) {
             this.current_player_bonus.numView[1].nums[indexg].choose = false;
-            this.kb.splice(indexg, 1, "");
+            this.kb.splice(indexg, 1);
             this.dd = this.kb;
             this.bn = this.dd.join("");
             this.tm = this.strToarr(this.bn).join(",");
@@ -625,7 +629,7 @@ export default {
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = this.current_player_bonus.id;
       this.iscreat();
       switch (item.title) {
         case "选一":
@@ -656,11 +660,10 @@ export default {
     },
     //菜单选择项2
     playersBut(play, indexff, indexabc) {
-      console.log(play.id);
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = play.id;
       this.addTitle = play.fullTitle;
       if (isNaN(this.displayBonus)) {
         let ar = [];

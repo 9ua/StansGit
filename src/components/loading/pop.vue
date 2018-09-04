@@ -1,5 +1,5 @@
 <template>
-  <div class="pop" v-show="openSimple" @click="$pop.hide()">
+  <div class="pop" v-show="openSimple" @click="clearBox">
     <ul class="loginSuccess num1" v-if="number =='1'">
       <li class="title">
         <span></span>
@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       openSimple: true,
+      hides:null
     };
   },
   props:{
@@ -62,15 +63,19 @@ export default {
     this.three();
   },
   methods: {
+    clearBox(){
+      this.$pop.hide();
+      clearTimeout(this.hides);
+    },
     closeSimpleDialog() {
       this.openSimple = !this.openSimple;
     },
     //3秒后自动关闭
     three(){
       if(this.number === '3'){
-        setTimeout(() =>{
-          this.openSimple = false;
-        },2000)
+        this.hides = setTimeout(() =>{
+          this.$pop.hide();
+        },3000)
       }
     }
   }

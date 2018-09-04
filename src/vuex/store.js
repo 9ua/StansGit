@@ -36,7 +36,7 @@ const state = {
   snumView: [],
   lottName:'',//当前彩种名
   seasonId:'',//当前奖期
-  className:'k3_star3_and',//玩法ID
+  className:'',//玩法ID
   orderList:null,//我的投注
   getPastOpens:null,//获取开奖号码
   pd: {

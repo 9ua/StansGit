@@ -52,7 +52,7 @@ export default {
       showhaa: true,
       navTo: 0,
       playNum: 0,
-      className: "ssc_star5", //玩法ID
+      className: 'ssc_star5', //玩法ID
       lotteryId: "sj1fc", //彩种id
       lottNameIndex: 3, //默认彩种
       bonusArray: [], //和值赔率
@@ -130,11 +130,15 @@ export default {
       if (localStorage.getItem("getPlayTree_playGroups_ssc") === null) {
         setTimeout(() => {
           this.showhaa = false;
-          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0]
+          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0];
+          this.$store.state.className = this.current_player_bonus.id;
+          this.className = this.current_player_bonus.id;
         }, 600);
       } else {
         this.showhaa = false;
-        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0]
+        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0];
+        this.$store.state.className = this.current_player_bonus.id;
+        this.className = this.current_player_bonus.id;
       }
     },
     // 中间->投注选号
@@ -1592,7 +1596,7 @@ export default {
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = this.current_player_bonus.id;
       this.iscreat();
       switch (item.title) {
         case "五星":
@@ -1638,7 +1642,7 @@ export default {
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = play.id;
       this.addTitle = play.title;
       if (isNaN(this.displayBonus)) {
         let ar = [];

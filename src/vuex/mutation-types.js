@@ -12,6 +12,7 @@ export const BET_SUCCESS= 'BET_SUCCESS'//投注是否成功
 export const BET_GO_SHOW= 'BET_GO_SHOW'//投注确认标识
 export const BET_NOT= 'BET_NOT'//取消投注
 export const CURRENT_PLAYER_GROUPS= 'CURRENT_PLAYER_GROUPS'//当前玩法树
+export const PLAY_BONUS = 'PLAY_BONUS' //当前玩法树
 export const CURRENT_PLAYER_BONUS= 'CURRENT_PLAYER_BONUS'//当前玩法树
 export const SGROUPS2 = 'SGROUPS2'//玩法菜单
 export const SNUMVIEW = 'SNUMVIEW'

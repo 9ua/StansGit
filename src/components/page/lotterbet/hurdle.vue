@@ -56,7 +56,7 @@ import firmbet from "@/components/loading/firmbet.vue";
 export default {
   data() {
     return {
-      className:'',
+      className:this.$store.state.className,
       orderList: null,
       zhu: this.$store.state.zhu,
       productList: [],
@@ -134,15 +134,6 @@ export default {
     },
     //立即投注
     betGo() {
-      if(this.$route.params.id === 'k3'){
-        this.className = "k3_star3_and";
-      }else if(this.$route.params.id === 'ssc'){
-        this.className = "ssc_star5";
-      }else if(this.$route.params.id === 'pk10'){
-        this.className = "pk10_side_lh";
-      }else if(this.$route.params.id === 'x11x5'){
-        this.className = "n11x5_x1";
-      }
       if (this.$store.state.zhu === 0) {
         this.$pop.show({
           title: "",
@@ -165,7 +156,7 @@ export default {
         formData.append("order[0].betCount", this.$store.state.zhu);
         formData.append("order[0].price", this.$store.state.spinner3);
         formData.append("order[0].unit", 1);
-        formData.append("order[0].playId", this.className);
+        formData.append("order[0].playId", this.$store.state.className);
         formData.append("count", this.$store.state.zhu);
         formData.append("traceOrders[0].price", this.$store.state.spinner3);
         formData.append("traceOrders[0].seasonId", this.seasonId);

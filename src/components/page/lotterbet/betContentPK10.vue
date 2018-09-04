@@ -22,7 +22,7 @@
       <div class="conterBut" :class="'conterBut'+className">
         <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
           <div class="both">
-            <span class="carTitle">{{numViews.title}}</span>
+            <span class="carTitle" :class="{'active': numViews.title === ''}">{{numViews.title}}</span>
             <div class="carBox">
               <div class="cars">
                 <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)">
@@ -49,12 +49,12 @@ export default {
       showhaa: true,
       navTo: 0,
       playNum: 0,
-      className: "pk10_side_lh", //玩法ID
+      className:"pk10_side_lh", //玩法ID
       lotteryId: "ffpk10", //彩种id
       lottNameIndex: 3, //默认彩种
       bonusArray: [], //和值赔率
       current_player: {}, //當前玩法
-      current_player_bonus: {}, //當前玩法
+      current_player_bonus:{}, //當前玩法
       an: "",
       bn: "",
       cn: "",
@@ -127,11 +127,15 @@ export default {
       if (localStorage.getItem("getPlayTree_playGroups_pk10") === null) {
         setTimeout(() => {
           this.showhaa = false;
-          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_pk10"))[0].groups[0].players[0]
+          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_pk10"))[0].groups[0].players[0];
+          this.$store.state.className = this.current_player_bonus.id;
+          this.className = this.current_player_bonus.id;
         }, 600);
       } else {
         this.showhaa = false;
-        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_pk10"))[0].groups[0].players[0]
+        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_pk10"))[0].groups[0].players[0];
+        this.$store.state.className = this.current_player_bonus.id;
+        this.className = this.current_player_bonus.id;
       }
     },
     // 中间->投注选号
@@ -1338,7 +1342,7 @@ export default {
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = this.current_player_bonus.id;
       this.iscreat();
       switch (item.title) {
         case "两面盘":
@@ -1366,7 +1370,7 @@ export default {
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = play.id;
       this.addTitle = play.title;
       if (isNaN(this.displayBonus)) {
         let ar = [];

@@ -76,7 +76,8 @@ export default new Router({
           name: 'home',
           component: home,
           meta: {
-            title: "宏發娱乐-首页"
+            title: "宏發娱乐-首页",
+            requiresAuth: false
           }
         },
         {
@@ -84,13 +85,17 @@ export default new Router({
           name: 'lott',
           component: lott,
           meta: {
-            title: "宏發娱乐-彩票大厅"
+            title: "宏發娱乐-彩票大厅",
+            requiresAuth: true
           }
         },
         {
           path: 'bet/:id/:group',
           name: 'bet',
-          component: bet
+          component: bet,
+          meta: {
+            requiresAuth: true
+          },
         },
         {
           path: '/lotts/k3/:lotteryId',
@@ -121,7 +126,8 @@ export default new Router({
           name: 'activity',
           component: activity,
           meta: {
-            title: "宏發娱乐-活动中心"
+            title: "宏發娱乐-活动中心",
+            requiresAuth: true
           }
         },
         {
@@ -137,7 +143,8 @@ export default new Router({
           name: 'helpcenter',
           component: helpcenter,
           meta: {
-            title: "宏發娱乐-帮助指南"
+            title: "宏發娱乐-帮助指南",
+            requiresAuth: true
           }
         },
         {
@@ -367,7 +374,7 @@ export default new Router({
       ]
     },
     {
-      path: '/login',
+      path: '/login/:id',
       name: 'login',
       component: login,
     }

@@ -5,10 +5,10 @@
         <div class="header-top">
           <p>Hi,欢迎来到宏發娛樂！</p>
           <ul class="header-top-nologin" v-show="!$store.state.loginStatus">
-            <router-link to="/login" tag="li">
+            <router-link to="/login/ashore" tag="li">
               <a href="javascript:;">亲，请登陆</a>
             </router-link>
-            <router-link to="/login?id=register" tag="li">
+            <router-link to="/login/register" tag="li">
               <a href="javascript:;">用户注册</a>
             </router-link>
             <router-link to="" tag="li">
@@ -21,7 +21,7 @@
             </router-link>
             <router-link to="" tag="li" @mouseover.native='HoverShowAccount=true' @mouseout.native="HoverShowAccount=false">
               <a href="javascript:;">我的账户
-                <i class='iconfont hf-down-copy' style='font-size:14px'></i>
+                <i class='iconfont icon-down1' style='font-size:14px'></i>
               </a>
               <div class="accountList HoverShowContent" v-if='HoverShowAccount'>
                 <i></i>
@@ -37,7 +37,7 @@
             </router-link>
             <router-link to="" tag="li" @mouseover.native='HoverShowContent=true' @mouseout.native="HoverShowContent=false">
               <a href="javascript:;">充值
-                <i class='iconfont hf-down-copy' style='font-size:14px'></i>
+                <i class='iconfont icon-down1' style='font-size:14px'></i>
               </a>
               <div class="accountList HoverShowContent" v-if='HoverShowContent'>
                 <i></i>
@@ -144,7 +144,8 @@ export default {
         let paywaylist = JSON.parse(localStorage.getItem("paywaylist"));
         this.paywaylist = paywaylist;
       } else {
-        this.$axios
+        if(this.$store.state.loginStatus){
+          this.$axios
           .get(baseUrl + "/api/proxy/getRechargeWayList")
           .then(res => {
             this.paywaylist = res.data.data;
@@ -153,6 +154,8 @@ export default {
           .catch(error => {
             console.log("Error");
           });
+        }
+        
       }
     },
     logOut() {
@@ -171,7 +174,7 @@ export default {
             this.$store.state.loginStatus = false;
             localStorage.setItem("loginStatus", false);
             // localStorage.clear();
-            this.$router.push('/login');
+            this.$router.push('/login/ashore');
           }
         })
         .catch(error => {

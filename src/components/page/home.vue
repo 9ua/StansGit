@@ -98,10 +98,10 @@ export default {
       this.$set(item, "toF5money", false);
     },
     login() {
-      this.$router.push({ path: "/login?id=ashore" });
+      this.$router.push({ path: "/login/ashore" });
     },
     signin() {
-      this.$router.push({ path: "/login?id=register" });
+      this.$router.push({ path: "/login/register" });
     },
     toActive() {
       this.$router.push({ path: "/activity" });
@@ -112,10 +112,14 @@ export default {
       this.getPastOp();
     },
     gotBet() {
-      if (this.lotteryId != "cqssc") {
-        this.$router.push("/lotts/k3/"+this.lotteryId);
-      } else {
-        this.$router.push("/lotts/ssc/"+this.lotteryId);
+      if(this.$store.state.loginStatus){
+        if (this.lotteryId != "cqssc") {
+          this.$router.push("/lotts/k3/"+this.lotteryId);
+        } else {
+          this.$router.push("/lotts/ssc/"+this.lotteryId);
+        }
+      }else{
+        this.$router.push("/login/ashore");
       }
     },
     //过期判断
