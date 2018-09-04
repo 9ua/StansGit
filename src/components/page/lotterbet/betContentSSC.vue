@@ -112,14 +112,11 @@ export default {
   },
   computed: {
     playGroups() {
-      return this.$store.state.current_player_groups;
+      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
     },
     sgroups2() {
-      return this.$store.state.sgroups2;
+      return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
     },
-    snumView() {
-      return this.$store.state.snumView;
-    }
   },
   mounted() {
     this.isShowPlayGroups();
@@ -127,7 +124,7 @@ export default {
   methods: {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
-      if (localStorage.getItem("getPlayTree_playGroups_ssc") === null) {
+      if (localStorage.getItem("getPlayTree_playGroups_k3") === null) {
         setTimeout(() => {
           this.showhaa = false;
           this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0];
@@ -1691,13 +1688,9 @@ export default {
       this.zhu8 = 0;
       this.zhu9 = 0;
       this.zhu10 = 0;
-      for (let h = 0; h < this.snumView.length; h++) {
-        if (null != this.snumView[h]) {
-          for (let j = 0; j < this.snumView[h].length; j++) {
-            for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
-              this.snumView[h][j].nums[k].choose = false;
-            }
-          }
+      for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
+        for (let k = 0; k < this.current_player_bonus.numView[h].nums.length; k++) {
+          this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
     },

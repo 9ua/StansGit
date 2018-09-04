@@ -39,13 +39,6 @@ export default {
   [CLASSNAME](state, flag) {
     state.className = flag
   },
-  //玩法菜单
-  [SGROUPS2](state, flag){
-    state.sgroups2 = flag
-  },
-  [SNUMVIEW](state, flag){
-    state.snumView = flag
-  },
   //当前彩种名
   [LOTT_NAME](state, flag){
     state.lottName = flag

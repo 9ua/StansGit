@@ -32,8 +32,6 @@ const state = {
   zhu: 0, //注单数
   con: "", //已选号码
   spinner3:0,//当前投注倍数
-  sgroups2: [],//玩法菜单
-  snumView: [],
   lottName:'',//当前彩种名
   seasonId:'',//当前奖期
   className:'',//玩法ID

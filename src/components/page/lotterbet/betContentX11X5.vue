@@ -97,14 +97,11 @@ export default {
   },
   computed: {
     playGroups() {
-      return this.$store.state.current_player_groups;
+      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
     },
     sgroups2() {
-      return this.$store.state.sgroups2;
+      return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
     },
-    snumView() {
-      return this.$store.state.snumView;
-    }
   },
   mounted() {
     this.isShowPlayGroups();
@@ -112,16 +109,16 @@ export default {
   methods: {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
-      if (localStorage.getItem("getPlayTree_playGroups_x11x5") === null) {
+      if (localStorage.getItem("getPlayTree_playGroups_k3") === null) {
         setTimeout(() => {
           this.showhaa = false;
-          this.current_player_bonus = this.$store.state.current_player_groups[0].groups[0].players[0];
+          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_x11x5"))[0].groups[0].players[0];
           this.$store.state.className = this.current_player_bonus.id;
           this.className = this.current_player_bonus.id;
         }, 600);
       } else {
         this.showhaa = false;
-        this.current_player_bonus = this.$store.state.current_player_groups[0].groups[0].players[0];
+        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_x11x5"))[0].groups[0].players[0];
         this.$store.state.className = this.current_player_bonus.id;
         this.className = this.current_player_bonus.id;
       }
@@ -696,13 +693,9 @@ export default {
       this.cn = "";
       this.dn = "";
       this.en = "";
-      for (let h = 0; h < this.snumView.length; h++) {
-        if (null != this.snumView[h]) {
-          for (let j = 0; j < this.snumView[h].length; j++) {
-            for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
-              this.snumView[h][j].nums[k].choose = false;
-            }
-          }
+      for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
+        for (let k = 0; k < this.current_player_bonus.numView[h].nums.length; k++) {
+          this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
     },

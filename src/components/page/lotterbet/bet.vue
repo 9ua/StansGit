@@ -131,54 +131,33 @@ export default {
     },
     setupPlayTree(playGroups) {
       if(this.$route.params.id === 'k3'){
+        let _this = this;
         let arr1 = [];
         let arr2 = [];
         let arrpeilv1 = JSON.parse(JSON.stringify(this.current_player_bonus[3].bonusArray));
         let arrpeilv2 = JSON.parse(JSON.stringify(this.current_player_bonus[4].bonusArray));
-        if (this.lotteryId === "dfk3") {
-          for (let i in arrpeilv1) {
-            this.arrpeilva.push(arrpeilv1[i]);
-          }
-          this.arrpeilva.shift();
-          this.arrpeilva.pop();
-          for (let i = 0; i < this.arrpeilva.length / 2; i++) {
-            arr1.push(this.arrpeilva[i]);
-          }
-          for (
-            let i = this.arrpeilva.length / 2;
-            i < this.arrpeilva.length;
-            i++
-          ) {
-            arr2.push(this.arrpeilva[i]);
-          }
-          for (let i in arrpeilv2) {
-            this.arrpeilvb.push(arrpeilv2[i]);
-          }
-          this.arrpeilvc.push(arr1);
-          this.arrpeilvc.push(arr2);
-          this.arrpeilvc.push(this.arrpeilvb);
-        } else if (this.lotteryId !== "dfk3") {
-          this.arrpeilva = [];
-          this.arrpeilvb = [];
-          for (let i in arrpeilv1) {
-            this.arrpeilva.push(arrpeilv1[i]);
-          }
-          for (let i = 0; i < this.arrpeilva.length / 2; i++) {
-            arr1.push(this.arrpeilva[i]);
-          }
-          for (
-            let i = this.arrpeilva.length / 2;
-            i < this.arrpeilva.length;
-            i++
-          ) {
-            arr2.push(this.arrpeilva[i]);
-          }
-          for (let i in arrpeilv2) {
-            this.arrpeilvb.push(arrpeilv2[i]);
-          }
+        for (let i in arrpeilv1) {
+          this.arrpeilva.push(arrpeilv1[i]);
         }
+        for (let i = 0; i < this.arrpeilva.length / 2; i++) {
+          arr1.push(this.arrpeilva[i]);
+        }
+        for (let i = this.arrpeilva.length / 2;i < this.arrpeilva.length;i++) {
+          arr2.push(this.arrpeilva[i]);
+        }
+        for (let i in arrpeilv2) {
+          this.arrpeilvb.push(arrpeilv2[i]);
+        }
+        this.arrpeilvc.push(arr1);
+        this.arrpeilvc.push(arr2);
+        this.arrpeilvc.push(this.arrpeilvb);
+        let numView = this.playGroups[2].groups[0].players[0].numView;
+        for (let i = 0; i < numView.length; i++) {
+          numView[i]["lottRot"]=[...this.arrpeilvc[i]]
+        }
+        localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(this.playGroups));
       }
-      
+
       for (let i = 0; i < playGroups.length; i++) {
         this.splayGroups.push(playGroups[i]);
       }
@@ -191,17 +170,15 @@ export default {
         }
       }
       localStorage.setItem("SGROUPS2_"+this.$route.params.id,JSON.stringify(this.sgroups2));
-      // this.$store.commit("SGROUPS2",this.sgroups2);
-      for (let i = 0; i < this.sgroups2.length; i++) {
-        this.splayers.push(this.sgroups2[i].players);
-      }
-      for (let h = 0; h < this.splayers.length; h++) {
-        for (let i = 0; i < this.splayers[h].length; i++) {
-          this.snumView.push(this.splayers[h][i].numView);
-        }
-      }
-      this.$store.commit("SNUMVIEW",this.snumView);
-      this.displayBonus = this.splayers[0][0].displayBonus;
+      // for (let i = 0; i < this.sgroups2.length; i++) {
+      //   this.splayers.push(this.sgroups2[i].players);
+      // }
+      // for (let h = 0; h < this.splayers.length; h++) {
+      //   for (let i = 0; i < this.splayers[h].length; i++) {
+      //     this.snumView.push(this.splayers[h][i].numView);
+      //   }
+      // }
+      // this.displayBonus = this.splayers[0][0].displayBonus;
     },
   },
   components: {

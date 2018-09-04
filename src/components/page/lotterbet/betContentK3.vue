@@ -21,18 +21,18 @@
         <i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
       <div class="conterBut" :class="'conterBut'+className">
         <div :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
-          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="lotteryId !== 'dfk3' && item.ball !== '03' && item.ball !== '18'">
+          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="$route.params.group !== 'dfk3' && item.ball !== '03' && item.ball !== '18'">
             <span v-if="className !== 'k3_star3_and'">{{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}</span>
             <span v-else>
               <i>{{item.ball}}</i>
-              <i>赔0.00</i>
+              <i>赔{{numViews.lottRot[indexha]}}</i>
             </span>
           </p>
-          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="lotteryId === 'dfk3'">
+          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="$route.params.group === 'dfk3'">
             <span v-if="className !== 'k3_star3_and'">{{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}</span>
             <span v-else>
               <i>{{item.ball}}</i>
-              <i>赔0.00</i>
+              <i>赔{{numViews.lottRot[indexha]}}</i>
             </span>
           </p>
         </div>
@@ -90,16 +90,10 @@ export default {
   computed: {
     playGroups() {
       return JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
-      // return this.$store.state.current_player_groups;
     },
     sgroups2() {
       return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
-      // return this.$store.state.sgroups2;
     },
-    snumView() {
-      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
-      return this.$store.state.snumView;;
-    }
   },
   mounted() {
     this.isShowPlayGroups();
@@ -789,7 +783,6 @@ export default {
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
       this.$store.state.className = this.current_player_bonus.id;
-      this.$store.commit("CLASSNAME", this.className);
       this.iscreat();
       switch (item.title) {
         case "单骰":
@@ -842,19 +835,11 @@ export default {
       this.in = "";
       this.jn = "";
       this.$store.state.con = "";
-      console.log(this.snumView);
-      for (let h = 0; h < this.current_player_bonus.length; h++) {
-        console.log(1)
-        if (null != this.current_player_bonus[h]) {
-          for (let j = 0; j < this.current_player_bonus[h].length; j++) {
-            for (let k = 0; k < this.current_player_bonus[h][j].nums.length; k++) {
-              this.current_player_bonus[h][j].nums[k].choose = false;
-            }
-          }
+      for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
+        for (let k = 0; k < this.current_player_bonus.numView[h].nums.length; k++) {
+          this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
-
-
       // for (let h = 0; h < this.snumView.length; h++) {
       //   if (null != this.snumView[h]) {
       //     for (let j = 0; j < this.snumView[h].length; j++) {
