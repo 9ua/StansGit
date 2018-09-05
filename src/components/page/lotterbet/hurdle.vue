@@ -63,10 +63,10 @@ export default {
       productListAddZhu: 0,
       productListAddMoney: 0,
       productListAllMoney: 0,
-      conTemp:"",
-      zhuTemp:"",
+      conTemp: "",
+      zhuTemp: "",
       betFun: [],
-      dxds:["大","小","单","双"],
+      dxds: ["大", "小", "单", "双"],
       pd: {
         addTitle: "单挑一骰",
         addCon: null,
@@ -154,10 +154,7 @@ export default {
       formData.append("traceWinStop", 0);
       formData.append("isTrace", 0);
       formData.append("lotteryId", this.$route.params.group);
-      formData.append(
-        "amount",
-        this.$store.state.spinner3 * obj.zhu
-      );
+      formData.append("amount", this.$store.state.spinner3 * obj.zhu);
       return this.$axios.post(
         baseUrl + "/api/lottery/bet",
         formData,
@@ -174,20 +171,32 @@ export default {
     },
     splik3(arrk3) {
       let n = 0;
-      
-      arrk3.map((a) => {
-        this.dxds.map((b) =>{
-          if(a == b){
+      arrk3.map(a => {
+        this.dxds.map(b => {
+          if (a == b) {
             n++;
             this.$store.state.k3conTemp.push(b);
-            arrk3.splice(arrk3.indexOf(b), 1,"");
+            arrk3.splice(arrk3.indexOf(b), 1, "");
           }
         });
       });
-      arrk3 = arrk3.filter(function(n) {return n;}).join(",");
-      this.$store.state.k3conTemp.filter(function(n) {return n;}).join(",");
+      arrk3 = arrk3
+        .filter(function(n) {
+          return n;
+        })
+        .join(",");
+      this.$store.state.k3conTemp
+        .filter(function(n) {
+          return n;
+        })
+        .join(",");
       this.$store.state.k3zhuTemp = n;
-      this.betFun.push(this.bet({ con: this.$store.state.k3conTemp, zhu: this.$store.state.k3zhuTemp }));
+      this.betFun.push(
+        this.bet({
+          con: this.$store.state.k3conTemp,
+          zhu: this.$store.state.k3zhuTemp
+        })
+      );
       this.conTemp = arrk3;
       this.zhuTemp -= n;
     },
@@ -212,7 +221,7 @@ export default {
       } else {
         this.conTemp = this.$store.state.con;
         this.zhuTemp = this.$store.state.zhu;
-        if(this.$store.state.className !== 'k3_star3_and'){
+        if (this.$store.state.className !== "k3_star3_and") {
           if (this.$store.state.con.includes("大")) {
             this.spli("大");
           }
@@ -225,8 +234,13 @@ export default {
           if (this.$store.state.con.includes("双")) {
             this.spli("双");
           }
-        }else if(this.$store.state.className === 'k3_star3_and') {
-          if (this.$store.state.con.includes("大") || this.$store.state.con.includes("小") || this.$store.state.con.includes("单") || this.$store.state.con.includes("双")) {
+        } else if (this.$store.state.className === "k3_star3_and") {
+          if (
+            this.$store.state.con.includes("大") ||
+            this.$store.state.con.includes("小") ||
+            this.$store.state.con.includes("单") ||
+            this.$store.state.con.includes("双")
+          ) {
             let arrk3 = this.$store.state.con.split(",");
             this.splik3(arrk3);
           }
@@ -243,17 +257,19 @@ export default {
             let showFlag = true;
             for (let item of res) {
               if (item.data.message !== "success") {
-                console.log("k3conTemp:",this.$store.state.k3conTemp)
-                console.log("k3zhuTemp:",this.$store.state.k3zhuTemp)
-                console.log("conTemp:",this.conTemp);
-                console.log("zhuTemp:",this.zhuTemp);
                 showFlag = false;
                 break;
               }
             }
             if (showFlag) {
               this.getbetOrderList(); //我的投注
-              this.$pop.show({title: "温馨提示",content: "恭喜您，投注成功！",content1: "",content2: "",number: 1});
+              this.$pop.show({
+                title: "温馨提示",
+                content: "恭喜您，投注成功！",
+                content1: "",
+                content2: "",
+                number: 1
+              });
             }
             this.betFun = [];
             this.$emit("iscreat");
