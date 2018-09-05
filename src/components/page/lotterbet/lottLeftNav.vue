@@ -36,7 +36,7 @@ export default {
       lotteryList: null,
       arrLottId: [],
       arrLottName: [],
-      lottNameIndex:0,
+      lottNameIndex: 0
     };
   },
   mounted() {
@@ -45,33 +45,49 @@ export default {
   methods: {
     // 获取彩种
     lotteryAll() {
-      if (localStorage.getItem("lotteryAll_"+this.$route.params.id) !== null) {
-        this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_"+this.$route.params.id));
+      if (
+        localStorage.getItem("lotteryAll_" + this.$route.params.id) !== null
+      ) {
+        this.lotteryList = JSON.parse(
+          localStorage.getItem("lotteryAll_" + this.$route.params.id)
+        );
         this.lotteryList.map(k => {
           this.arrLottId.push(k.id);
           this.arrLottName.push(k.name);
         });
         this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.group);
         this.lottName = this.arrLottName[this.lottNameIndex];
-        this.$store.commit("LOTT_NAME",this.lottName);
+        this.$store.commit("LOTT_NAME", this.lottName);
         if (this.lottNameIndex > 5) {
           this.left = -200;
         }
       } else {
-        this.$axios.get(baseUrl + "/api/lottery/getLotteryList", {params: {type:this.$route.params.id}}).then(res => {
-            localStorage.setItem("lotteryAll_"+this.$route.params.id,JSON.stringify(res.data.data));
-            this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_"+this.$route.params.id));
+        this.$axios
+          .get(baseUrl + "/api/lottery/getLotteryList", {
+            params: { type: this.$route.params.id }
+          })
+          .then(res => {
+            localStorage.setItem(
+              "lotteryAll_" + this.$route.params.id,
+              JSON.stringify(res.data.data)
+            );
+            this.lotteryList = JSON.parse(
+              localStorage.getItem("lotteryAll_" + this.$route.params.id)
+            );
             this.lotteryList.map(k => {
               this.arrLottId.push(k.id);
               this.arrLottName.push(k.name);
             });
-            this.lottNameIndex = this.arrLottId.indexOf(this.$route.params.group);
+            this.lottNameIndex = this.arrLottId.indexOf(
+              this.$route.params.group
+            );
             this.lottName = this.arrLottName[this.lottNameIndex];
-            this.$store.commit("LOTT_NAME",this.lottName);
+            this.$store.commit("LOTT_NAME", this.lottName);
             if (this.lottNameIndex > 5) {
               this.left = -200;
             }
-          }).catch(error => {
+          })
+          .catch(error => {
             console.log(error);
           });
       }
@@ -81,10 +97,10 @@ export default {
       this.lottName = this.arrLottName[this.arrLottName.indexOf(item.name)];
       this.lottNameIndex = index;
       this.$store.state.lottName = this.lottName;
-      this.$emit('exit');
-      this.$router.push("/bet/"+this.$route.params.id+"/" + item.id);
+      this.$emit("exit");
+      this.$router.push("/bet/" + this.$route.params.id + "/" + item.id);
       this.$parent.getPlayTree(); //玩法术
-      this.$emit('geteServerTime');//获取彩種當前獎期時間
+      this.$emit("geteServerTime"); //获取彩種當前獎期時間
     },
     //导航右边点击
     lottnavright() {

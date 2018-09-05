@@ -56,13 +56,16 @@ import firmbet from "@/components/loading/firmbet.vue";
 export default {
   data() {
     return {
-      className:this.$store.state.className,
+      className: this.$store.state.className,
       orderList: null,
       zhu: this.$store.state.zhu,
       productList: [],
-      productListAddZhu:0,
-      productListAddMoney:0,
-      productListAllMoney:0,
+      productListAddZhu: 0,
+      productListAddMoney: 0,
+      productListAllMoney: 0,
+      conTemp:"",
+      zhuTemp:"",
+      betFun: [],
       pd: {
         addTitle: "单挑一骰",
         addCon: null,
@@ -72,13 +75,13 @@ export default {
         addClassName: null,
         addSeasonId: null,
         addName: "宏發快3"
-      },
+      }
     };
   },
-  computed:{
-    seasonId(){
+  computed: {
+    seasonId() {
       return this.$store.state.seasonId;
-    },
+    }
   },
   methods: {
     //我的投注
@@ -92,7 +95,7 @@ export default {
         )
         .then(res => {
           this.orderList = res.data.data.list;
-          this.$store.commit("ORDER_LIST",this.orderList);
+          this.$store.commit("ORDER_LIST", this.orderList);
         })
         .catch(error => {
           console.log("获取投注记录失败");
@@ -126,11 +129,47 @@ export default {
         this.productListAddMoney = 0;
         this.productListAllMoney = 0;
         for (let i = 0; i < this.productList.length; i++) {
-          this.productListAddZhu = this.productListAddZhu + this.productList[i].addzhu;
-          this.productListAddMoney = this.productListAddMoney + this.productList[i].addMoney;
-          this.productListAllMoney = this.productListAllMoney + this.productList[i].addzhu * this.productList[i].addMoney;
+          this.productListAddZhu =
+            this.productListAddZhu + this.productList[i].addzhu;
+          this.productListAddMoney =
+            this.productListAddMoney + this.productList[i].addMoney;
+          this.productListAllMoney =
+            this.productListAllMoney +
+            this.productList[i].addzhu * this.productList[i].addMoney;
         }
       }
+    },
+    bet(obj) {
+      let formData = new FormData();
+      formData.append("order[0].content", obj.con);
+      formData.append("order[0].betCount", obj.zhu);
+      formData.append("order[0].price", this.$store.state.spinner3);
+      formData.append("order[0].unit", 1);
+      formData.append("order[0].playId", this.$store.state.className);
+      formData.append("count", obj.zhu);
+      formData.append("traceOrders[0].price", this.$store.state.spinner3);
+      formData.append("traceOrders[0].seasonId", this.seasonId);
+      formData.append("bounsType", 0);
+      formData.append("traceWinStop", 0);
+      formData.append("isTrace", 0);
+      formData.append("lotteryId", this.$route.params.group);
+      formData.append(
+        "amount",
+        this.$store.state.spinner3 * obj.zhu
+      );
+      return this.$axios.post(
+        baseUrl + "/api/lottery/bet",
+        formData,
+        this.$store.state.config
+      );
+    },
+    spli(str) {
+      this.betFun.push(this.bet({ con: str, zhu: 1 }));
+      let con = this.conTemp.split(",");
+      con.splice(con.lastIndexOf(str), 1);
+      con = con.join(",");
+      this.conTemp = con;
+      this.zhuTemp -= 1;
     },
     //立即投注
     betGo() {
@@ -151,45 +190,44 @@ export default {
           number: 2
         });
       } else {
-        let formData = new FormData();
-        formData.append("order[0].content", this.$store.state.con);
-        formData.append("order[0].betCount", this.$store.state.zhu);
-        formData.append("order[0].price", this.$store.state.spinner3);
-        formData.append("order[0].unit", 1);
-        formData.append("order[0].playId", this.$store.state.className);
-        formData.append("count", this.$store.state.zhu);
-        formData.append("traceOrders[0].price", this.$store.state.spinner3);
-        formData.append("traceOrders[0].seasonId", this.seasonId);
-        formData.append("bounsType", 0);
-        formData.append("traceWinStop", 0);
-        formData.append("isTrace", 0);
-        formData.append("lotteryId", this.$route.params.group);
-        formData.append("amount", this.$store.state.spinner3 * this.$store.state.zhu);
-        this.$axios
-          .post(
-            baseUrl + "/api/lottery/bet",
-            formData,
-            this.$store.state.config
-          )
-          .then(res => {
-            if (res.data.message === "success") {
-              this.getbetOrderList(); //我的投注
-              this.$emit("iscreat");
-              this.$pop.show({
-                title: "温馨提示",
-                content: "恭喜您，投注成功！",
-                content1: "",
-                content2: "",
-                number: 1
-              });
-            } else {
-              this.$emit("iscreat");
-              this.$pop.show({title: "温馨提示",content: res.data.data,content1: "",content2: "",number: 1});
+        this.conTemp = this.$store.state.con;
+        this.zhuTemp = this.$store.state.zhu;
+        if (this.$store.state.con.includes("大")) {
+          this.spli("大");
+        }
+        if (this.$store.state.con.includes("小")) {
+          this.spli("小");
+        }
+        if (this.$store.state.con.includes("单")) {
+          this.spli("单");
+        }
+        if (this.$store.state.con.includes("双")) {
+          this.spli("双");
+        }
+        if (
+          this.$store.state.con.match(/\d/) ||
+          this.$store.state.con.includes("龙") ||
+          this.$store.state.con.includes("虎")
+        ) {
+          this.betFun.push(this.bet({ con: this.conTemp, zhu: this.zhuTemp }));
+        }
+        this.$axios.all([...this.betFun]).then(
+          this.$axios.spread((...res) => {
+            let showFlag = true;
+            for (let item of res) {
+              if (item.data.message !== "success") {
+                showFlag = false;
+                break;
+              }
             }
+            if (showFlag) {
+              this.getbetOrderList(); //我的投注
+              this.$pop.show({title: "温馨提示",content: "恭喜您，投注成功！",content1: "",content2: "",number: 1});
+            }
+            this.betFun = [];
+            this.$emit("iscreat");
           })
-          .catch(error => {
-            console.log("立即投注,No");
-          });
+        );
       }
     },
     //清空
@@ -218,7 +256,7 @@ export default {
       }
     }
   },
-  components:{
+  components: {
     firmbet
   }
 };

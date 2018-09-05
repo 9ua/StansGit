@@ -9,7 +9,7 @@
     </div>
     <div class="getPlayTreeBox">
       <ul>
-        <li v-for="(item,indexs) in sgroups2" :key="indexs" v-if="indexs === navTo">
+        <li v-for="(item,indexs) in sgroups2" v-if="indexs === navTo">
           <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)" v-if="lotteryId !== 'dfk3' && play.title !== '三同号'">{{play.title}}</p>
           <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)" v-if="lotteryId === 'dfk3'">{{play.title}}</p>
         </li>
@@ -81,7 +81,10 @@ export default {
       zhu5: 0,
       zhu6: 0,
       item: {},
-      indexha: 0
+      indexha: 0,
+      arrpeilva: [],
+      arrpeilvb: [],
+      arrpeilvc: []
     };
   },
   beforeDestroy() {
@@ -89,11 +92,13 @@ export default {
   },
   computed: {
     playGroups() {
-      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
+      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"));
+      // return this.$store.state.current_player_groups;
     },
     sgroups2() {
-      return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
-    },
+      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
+      return this.$store.state.sgroups2;
+    }
   },
   mounted() {
     this.isShowPlayGroups();
@@ -101,18 +106,37 @@ export default {
   methods: {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
-      if (localStorage.getItem("getPlayTree_playGroups_k3") === null) {
-        setTimeout(() => {
-          this.showhaa = false;
-          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"))[2].groups[0].players[0];
-          this.$store.state.className = this.current_player_bonus.id;
-          this.className = this.current_player_bonus.id;
-        }, 600);
-      } else {
-        this.showhaa = false;
-        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"))[2].groups[0].players[0];
-        this.$store.state.className = this.current_player_bonus.id;
-        this.className = this.current_player_bonus.id;
+      this.showhaa = false;
+      this.current_player_bonus = JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_k3")
+      )[2].groups[0].players[0];
+      this.$store.state.className = this.current_player_bonus.id;
+      this.className = this.current_player_bonus.id;
+      this.player_bonus = JSON.parse(
+        localStorage.getItem("getPlayTree_playBonus_" + this.$route.params.id)
+      );
+      let arr1 = [];
+      let arr2 = [];
+      let arrpeilv1 = this.player_bonus[3].bonusArray;
+      let arrpeilv2 = this.player_bonus[4].bonusArray;
+      for (let i in arrpeilv1) {
+        this.arrpeilva.push(arrpeilv1[i]);
+      }
+      for (let i = 0; i < this.arrpeilva.length / 2; i++) {
+        arr1.push(this.arrpeilva[i]);
+      }
+      for (let i = this.arrpeilva.length / 2; i < this.arrpeilva.length; i++) {
+        arr2.push(this.arrpeilva[i]);
+      }
+      for (let i in arrpeilv2) {
+        this.arrpeilvb.push(arrpeilv2[i]);
+      }
+      this.arrpeilvc.push(arr1);
+      this.arrpeilvc.push(arr2);
+      this.arrpeilvc.push(this.arrpeilvb);
+      let numView = this.current_player_bonus.numView;
+      for (let i = 0; i < numView.length; i++) {
+        numView[i]["lottRot"] = [...this.arrpeilvc[i]];
       }
     },
     //中间选号
@@ -836,7 +860,11 @@ export default {
       this.jn = "";
       this.$store.state.con = "";
       for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
-        for (let k = 0; k < this.current_player_bonus.numView[h].nums.length; k++) {
+        for (
+          let k = 0;
+          k < this.current_player_bonus.numView[h].nums.length;
+          k++
+        ) {
           this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }

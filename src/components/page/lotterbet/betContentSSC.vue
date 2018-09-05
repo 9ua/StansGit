@@ -52,7 +52,7 @@ export default {
       showhaa: true,
       navTo: 0,
       playNum: 0,
-      className: 'ssc_star5', //玩法ID
+      className: "ssc_star5", //玩法ID
       lotteryId: "sj1fc", //彩种id
       lottNameIndex: 3, //默认彩种
       bonusArray: [], //和值赔率
@@ -112,11 +112,15 @@ export default {
   },
   computed: {
     playGroups() {
-      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
+      return JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id)
+      );
+      // return this.$store.state.current_player_groups;
     },
     sgroups2() {
-      return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
-    },
+      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
+      return this.$store.state.sgroups2;
+    }
   },
   mounted() {
     this.isShowPlayGroups();
@@ -124,19 +128,12 @@ export default {
   methods: {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
-      if (localStorage.getItem("getPlayTree_playGroups_k3") === null) {
-        setTimeout(() => {
-          this.showhaa = false;
-          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0];
-          this.$store.state.className = this.current_player_bonus.id;
-          this.className = this.current_player_bonus.id;
-        }, 600);
-      } else {
-        this.showhaa = false;
-        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0];
-        this.$store.state.className = this.current_player_bonus.id;
-        this.className = this.current_player_bonus.id;
-      }
+      this.showhaa = false;
+      this.current_player_bonus = JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_ssc")
+      )[0].groups[0].players[0];
+      this.$store.state.className = this.current_player_bonus.id;
+      this.className = this.current_player_bonus.id;
     },
     // 中间->投注选号
     curBalls(item, index, list, indexf) {
@@ -1689,7 +1686,11 @@ export default {
       this.zhu9 = 0;
       this.zhu10 = 0;
       for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
-        for (let k = 0; k < this.current_player_bonus.numView[h].nums.length; k++) {
+        for (
+          let k = 0;
+          k < this.current_player_bonus.numView[h].nums.length;
+          k++
+        ) {
           this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }

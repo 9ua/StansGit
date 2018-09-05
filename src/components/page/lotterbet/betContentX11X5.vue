@@ -9,10 +9,10 @@
     </div>
     <div class="getPlayTreeBox">
       <ul>
-        <li v-for="(item,indexs) in playGroups" :key="indexs" v-if="indexs === navTo">
+        <li v-for="(item,indexs) in playGroups" v-if="indexs === navTo">
           <div v-for='(group,indexabc) in item.groups'>
             <span class="groupTitle">{{group.title}}</span>
-            <span class="groupTitleList" :class="{'active': current_player_bonus.id=== player.id}" v-for='(player,indexbcd) in group.players' :key='indexbcd' @click="playersBut(player,indexbcd,indexabc)">{{player.title}}</span>
+            <span class="groupTitleList" :class="{'active': current_player_bonus.id=== player.id}" v-for='(player,indexbcd) in group.players'v-if="player.id!='n11x5_star3_big'&&player.id!='n11x5_star3_small'&&player.id!='n11x5_star3_odd'&&player.id!='n11x5_star3_even'" @click="playersBut(player,indexbcd,indexabc)">{{player.title}}</span>
           </div>
         </li>
       </ul>
@@ -23,7 +23,26 @@
         <i v-show='Number(current_player_bonus.displayBonus)'>{{current_player_bonus.displayBonus | keepTwoNum}}</i>
         <i v-show='isNaN(current_player_bonus.displayBonus)'>{{displayBonus1 | keepTwoNum}}—{{displayBonus2 | keepTwoNum}}</i>倍</div>
       <div class="conterBut" :class="'conterBut'+className">
-        <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
+
+        <div class="conterButDiv" :class="className+'Box'" v-if="current_player_bonus && current_player_bonus.id === 'n11x5_star3_and'">
+          <div class="both">
+            <span class="carTitle">中三和值</span>
+            <div class="carBox">
+              <div class="cars">
+                <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in star3_and" @click="curBalls(0,indexha,item,star3_and,current_player_bonus)">
+                  <span>
+                    <i>{{item.ball}}</i>
+                  </span>
+                </p>
+              </div>
+              <!-- <div class="changes" v-if="className !== 'ssc_star2_front_group_contains' && className !== 'ssc_star2_last_group_contains' && className !== 'ssc_star3_front_and' && className !== 'ssc_star3_mid_and' && className !== 'ssc_star3_last_and' && className !== 'ssc_star2_last_and' && className !== 'ssc_star2_last_group_and' && className !== 'ssc_star2_front_group_and' && className !== 'ssc_star2_front_and' && className !== 'ssc_star3_last_group_and' && className !== 'ssc_star3_mid_group_and' && className !== 'ssc_star3_front_group_and' && className !== 'ssc_side_lhh' && className !== 'ssc_dxds' && className !== 'ssc_star3_front_group_contains' && className !== 'ssc_star3_mid_group_contains' && className !== 'ssc_star3_last_group_contains'">
+                <span v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,indexto,numViews,indexf)">{{tools.name}}</span>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' v-else>
           <div class="both">
             <span class="carTitle" :class="{'active': numViews.title === ''}">{{numViews.title}}</span>
             <div class="carBox">
@@ -53,12 +72,12 @@ export default {
       navTo: 0,
       playNum: 0,
       playNums: false,
-      className: 'n11x5_x1', //玩法ID
+      className: "n11x5_x1", //玩法ID
       lotteryId: "sh11x5", //彩种id
       lottNameIndex: 3, //默认彩种
       bonusArray: [], //和值赔率
       current_player: {}, //當前玩法
-      current_player_bonus:{}, //當前玩法
+      current_player_bonus: {}, //當前玩法
       an: "",
       bn: "",
       cn: "",
@@ -96,12 +115,24 @@ export default {
     this.iscreat();
   },
   computed: {
+    star3_and(){
+      let arr=[];
+      this.current_player_bonus.numView.forEach((item,index)=>{
+        arr.push(...item.nums)
+      })
+      console.log(arr)
+      return arr;      
+    },
     playGroups() {
-      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
+      return JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id)
+      );
+      // return this.$store.state.current_player_groups;
     },
     sgroups2() {
-      return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
-    },
+      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
+      return this.$store.state.sgroups2;
+    }
   },
   mounted() {
     this.isShowPlayGroups();
@@ -109,19 +140,12 @@ export default {
   methods: {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
-      if (localStorage.getItem("getPlayTree_playGroups_k3") === null) {
-        setTimeout(() => {
-          this.showhaa = false;
-          this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_x11x5"))[0].groups[0].players[0];
-          this.$store.state.className = this.current_player_bonus.id;
-          this.className = this.current_player_bonus.id;
-        }, 600);
-      } else {
-        this.showhaa = false;
-        this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_x11x5"))[0].groups[0].players[0];
-        this.$store.state.className = this.current_player_bonus.id;
-        this.className = this.current_player_bonus.id;
-      }
+      this.showhaa = false;
+      this.current_player_bonus = JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_x11x5")
+      )[0].groups[0].players[0];
+      this.$store.state.className = this.current_player_bonus.id;
+      this.className = this.current_player_bonus.id;
     },
     //中间->投注选号
     curBalls(indexff, indexg, num, numViews, player) {
@@ -147,7 +171,9 @@ export default {
         this.bet_boxjia(indexff, indexg, num, numViews, player);
       } else {
         this.d.splice(indexg, 1, "");
-        this.dd = this.d.filter(function(n) {return n;});
+        this.dd = this.d.filter(function(n) {
+          return n;
+        });
         this.$store.state.zhu--;
         this.$store.state.con = this.dd.join(",");
         this.$store.state.pd.addCon = this.dd.join(",");
@@ -205,27 +231,37 @@ export default {
       if (this.className === "n11x5_dwd") {
         if (indexff === 0) {
           this.ka[indexg] = num.ball;
-          this.dd = this.ka.filter(function(n) {return n;});
+          this.dd = this.ka.filter(function(n) {
+            return n;
+          });
           this.an = this.dd.join("");
         }
         if (indexff === 1) {
           this.kb[indexg] = num.ball;
-          this.dd = this.kb.filter(function(n) {return n;});
+          this.dd = this.kb.filter(function(n) {
+            return n;
+          });
           this.bn = this.dd.join("");
         }
         if (indexff === 2) {
           this.kc[indexg] = num.ball;
-          this.dd = this.kc.filter(function(n) {return n;});
+          this.dd = this.kc.filter(function(n) {
+            return n;
+          });
           this.cn = this.dd.join("");
         }
         if (indexff === 3) {
           this.kd[indexg] = num.ball;
-          this.dd = this.kd.filter(function(n) {return n;});
+          this.dd = this.kd.filter(function(n) {
+            return n;
+          });
           this.dn = this.dd.join("");
         }
         if (indexff === 4) {
           this.ke[indexg] = num.ball;
-          this.dd = this.ke.filter(function(n) {return n;});
+          this.dd = this.ke.filter(function(n) {
+            return n;
+          });
           this.en = this.dd.join("");
         }
         if (this.an === "") {
@@ -243,7 +279,16 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.con = this.an +"," +this.bn +"," +this.cn +"," +this.dn +"," +this.en;
+        this.$store.state.con =
+          this.an +
+          "," +
+          this.bn +
+          "," +
+          this.cn +
+          "," +
+          this.dn +
+          "," +
+          this.en;
         this.$store.state.pd.addCon = this.$store.state.con;
       }
       //复式 ++
@@ -265,7 +310,6 @@ export default {
         this.$store.state.pd.addCon = this.$store.state.con;
         this.$store.state.zhu = count;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
-        
       }
       //选三直选复式 ++
       if (this.className === "n11x5_star3_front") {
@@ -284,8 +328,12 @@ export default {
           this.dd = this.kc;
           this.cn = this.dd.join("");
         }
-        let count = this.getCountFront((this.an + "," + this.bn + "," + this.cn).split(","), 3);
-        this.$store.state.con = this.an + "," + this.bn + "," + this.cn + ",-" + ",-";
+        let count = this.getCountFront(
+          (this.an + "," + this.bn + "," + this.cn).split(","),
+          3
+        );
+        this.$store.state.con =
+          this.an + "," + this.bn + "," + this.cn + ",-" + ",-";
         this.$store.state.pd.addCon = this.$store.state.con;
         this.$store.state.zhu = count;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
@@ -301,11 +349,18 @@ export default {
         this.className === "n11x5_x5_dt" ||
         this.className === "n11x5_x6_dt" ||
         this.className === "n11x5_x7_dt" ||
-        this.className === "n11x5_x8_dt") {
-        if (this.className === "n11x5_x2_dt" ||this.className === "n11x5_star2_group_dt") {
+        this.className === "n11x5_x8_dt"
+      ) {
+        if (
+          this.className === "n11x5_x2_dt" ||
+          this.className === "n11x5_star2_group_dt"
+        ) {
           this.dmNum = 1;
         }
-        if (this.className === "n11x5_x3_dt" ||this.className === "n11x5_star3_group_dt") {
+        if (
+          this.className === "n11x5_x3_dt" ||
+          this.className === "n11x5_star3_group_dt"
+        ) {
           this.dmNum = 2;
         }
         if (this.className === "n11x5_x4_dt") {
@@ -325,48 +380,63 @@ export default {
         }
         if (indexff === 0) {
           this.dmArr.push(num.ball);
-          //清空所有选中的胆码
-          this.current_player_bonus.numView[0].nums.forEach((item, index) => {
-            this.current_player_bonus.numView[0].nums[index].choose = false;
-          })
-          if(this.dmArr.length > 0){
-            if(this.dmArr.length > this.dmNum){
+          if (this.dmArr.length > 0) {
+            if (this.dmArr.length > this.dmNum) {
               this.dmArr.splice(-2, 1);
+              numViews.nums.forEach((item, index) => {
+                item.choose = false;
+              });
+              this.dmArr.forEach(item => {
+                let index = item[0] == "0" ? item[1] - 1 : item - 1;
+                numViews.nums[index].choose = true;
+              });
             }
           }
-          //然后再重新选中
-          this.dmArr.forEach((item, i) => {
-            let index = item[0] == "0" ? item[1] - 1 : item - 1;
-            this.current_player_bonus.numView[0].nums[index].choose = true;
-          })
-          //胆、拖反选
-          if (this.current_player_bonus.numView[0].nums[indexg].choose === true) {
-            this.current_player_bonus.numView[1].nums[indexg].choose = false;
-            this.kb.splice(indexg, 1);
-            this.dd = this.kb;
-            this.bn = this.dd.join("");
-            this.tm = this.strToarr(this.bn).join(",");
-          } 
+          //胆拖反选
+          player.numView[1].nums.forEach(item => {
+            if (
+              player.numView[1].nums[indexg].choose === true &&
+              num.choose === true
+            ) {
+              player.numView[1].nums[indexg].choose = false;
+              this.kb.splice(indexg, 1, "");
+              this.dd = this.kb;
+              this.bn = this.dd.join("");
+              this.tm = this.strToarr(this.bn).join(",");
+            }
+          });
           this.ka = this.dmArr;
           this.dd = this.ka;
           this.an = this.dd.join("");
           this.dm = this.dd.join(",");
         }
         if (indexff === 1) {
-          //胆、拖反选
-          if (this.current_player_bonus.numView[1].nums[indexg].choose === true) {
-            this.current_player_bonus.numView[0].nums[indexg].choose = false;
-            this.ka.splice(indexg, 1);
-            this.dd = this.ka;
-            this.an = this.dd.join("");
-            this.dm = this.dd.join(",");
-          } 
+          //胆拖反选
+          player.numView[0].nums.forEach(item => {
+            if (
+              player.numView[0].nums[indexg].choose === true &&
+              num.choose === true
+            ) {
+              player.numView[0].nums[indexg].choose = false;
+              this.dmArr.splice(
+                this.dmArr.findIndex(item => item === num.ball),
+                1
+              );
+              this.ka = this.dmArr;
+              this.dd = this.ka;
+              this.an = this.dd.join("");
+              this.dm = this.dd.join(",");
+            }
+          });
           this.kb[indexg] = num.ball;
           this.dd = this.kb;
           this.bn = this.dd.join("");
           this.tm = this.strToarr(this.bn).join(",");
         }
-        let count = this.getCountDt((this.an + "," + this.bn).split(","),this.dmNum + 1);
+        let count = this.getCountDt(
+          (this.an + "," + this.bn).split(","),
+          this.dmNum + 1
+        );
         this.$store.state.con = "胆" + this.dm + ";" + this.tm;
         this.$store.state.pd.addCon = this.$store.state.con;
         this.$store.state.zhu = count;
@@ -417,7 +487,16 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        this.$store.state.con = this.an + "," + this.bn + "," + this.cn + ","+ this.dn + "," + this.dn;
+        this.$store.state.con =
+          this.an +
+          "," +
+          this.bn +
+          "," +
+          this.cn +
+          "," +
+          this.dn +
+          "," +
+          this.dn;
         this.$store.state.pd.addCon = this.$store.state.con;
       }
       //复式 --
@@ -457,8 +536,12 @@ export default {
           this.dd = this.kc;
           this.cn = this.dd.join("");
         }
-        let count = this.getCountFront((this.an + "," + this.bn + "," + this.cn).split(","), 3);
-        this.$store.state.con = this.an + "," + this.bn + "," + this.cn + ",-" + ",-";
+        let count = this.getCountFront(
+          (this.an + "," + this.bn + "," + this.cn).split(","),
+          3
+        );
+        this.$store.state.con =
+          this.an + "," + this.bn + "," + this.cn + ",-" + ",-";
         this.$store.state.pd.addCon = this.$store.state.con;
         this.$store.state.zhu = count;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
@@ -474,54 +557,30 @@ export default {
         this.className === "n11x5_x5_dt" ||
         this.className === "n11x5_x6_dt" ||
         this.className === "n11x5_x7_dt" ||
-        this.className === "n11x5_x8_dt") {
+        this.className === "n11x5_x8_dt"
+      ) {
         if (indexff === 0) {
-          this.dmArr.push(num.ball)
-          this.dmArr = this.dmArr.filter((item, index) => {
-            return item != num.ball
-          });
-          if(this.dmArr.length > 0){
-            if(this.dmArr.length > this.dmNum){
+          this.dmArr.push(num.ball);
+          if (this.dmArr.length > 0) {
+            if (this.dmArr.length > this.dmNum) {
               this.dmArr.splice(-2, 1);
             }
           }
-          //清空所有胆码选中
-          this.current_player_bonus.numView[0].nums.forEach((item, index) => {
-            this.current_player_bonus.numView[0].nums[index].choose = false;
-          })
-          //然后再重新选中
-          this.dmArr.forEach((item, i) => {
-            let index = item[0] == "0" ? item[1] - 1 : item - 1;
-            this.current_player_bonus.numView[0].nums[index].choose = true;
-          });   
-          //胆、拖反选
-          if (this.current_player_bonus.numView[0].nums[indexg].choose === true) {
-            this.current_player_bonus.numView[1].nums[indexg].choose = false;
-            this.kb.splice(indexg, 1, "");
-            this.dd = this.kb;
-            this.bn = this.dd.join("");
-            this.tm = this.strToarr(this.bn).join(",");
-          }      
           this.ka = this.dmArr;
           this.dd = this.ka;
           this.an = this.dd.join("");
           this.dm = this.dd.join(",");
         }
         if (indexff === 1) {
-          //胆、拖反选
-          if (this.current_player_bonus.numView[1].nums[indexg].choose === true) {
-            this.current_player_bonus.numView[0].nums[indexg].choose = false;
-            this.ka.splice(indexg, 1);
-            this.dd = this.ka;
-            this.an = this.dd.join("");
-            this.dm = this.dd.join(",");
-          } 
-          this.kb[indexg] = num.ball;
+          this.kb.splice(indexg, 1, "");
           this.dd = this.kb;
           this.bn = this.dd.join("");
           this.tm = this.strToarr(this.bn).join(",");
         }
-        let count = this.getCountDt((this.an + "," + this.bn).split(","),this.dmNum + 1);
+        let count = this.getCountDt(
+          (this.an + "," + this.bn).split(","),
+          this.dmNum + 1
+        );
         this.$store.state.con = "胆" + this.dm + ";" + this.tm;
         this.$store.state.pd.addCon = this.$store.state.con;
         this.$store.state.zhu = count;
@@ -582,7 +641,7 @@ export default {
         return 0;
       }
       count = this.groupSplit(tmArr, stars - 1).length;
-      return count*dmArr.length;
+      return count * dmArr.length;
     },
     //直选排列组合
     getCountFront(betContent, stars) {
@@ -684,9 +743,9 @@ export default {
       this.kc = [];
       this.kd = [];
       this.ke = [];
-      this.dm = '';
-      this.tm = '';
-      this.dmNum = '';
+      this.dm = "";
+      this.tm = "";
+      this.dmNum = "";
       this.dmArr = [];
       this.an = "";
       this.bn = "";
@@ -694,7 +753,11 @@ export default {
       this.dn = "";
       this.en = "";
       for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
-        for (let k = 0; k < this.current_player_bonus.numView[h].nums.length; k++) {
+        for (
+          let k = 0;
+          k < this.current_player_bonus.numView[h].nums.length;
+          k++
+        ) {
           this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
@@ -716,7 +779,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -725,7 +790,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {return n;});
+            this.dd = this.kb.filter(function(n) {
+              return n;
+            });
             this.bn = this.dd.join("");
           });
           this.zhu2 = 10;
@@ -734,7 +801,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kc[i] = list.ball;
-            this.dd = this.kc.filter(function(n) {return n;});
+            this.dd = this.kc.filter(function(n) {
+              return n;
+            });
             this.cn = this.dd.join("");
           });
           this.zhu3 = 10;
@@ -743,7 +812,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kd[i] = list.ball;
-            this.dd = this.kd.filter(function(n) {return n;});
+            this.dd = this.kd.filter(function(n) {
+              return n;
+            });
             this.dn = this.dd.join("");
           });
           this.zhu4 = 10;
@@ -752,7 +823,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ke[i] = list.ball;
-            this.dd = this.ke.filter(function(n) {return n;});
+            this.dd = this.ke.filter(function(n) {
+              return n;
+            });
             this.en = this.dd.join("");
           });
           this.zhu5 = 10;
@@ -890,7 +963,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join(",");
           });
           let ret = this.groupSplit(this.dd, 2);
@@ -916,7 +991,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join(",");
           });
           this.$store.state.con = this.an;
@@ -937,7 +1014,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join(",");
           });
           let ret = this.groupSplit(this.dd, 3);
@@ -962,7 +1041,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join(",");
           });
           this.$store.state.con = this.an;
@@ -980,7 +1061,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -989,7 +1072,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {return n;});
+            this.dd = this.kb.filter(function(n) {
+              return n;
+            });
             this.bn = this.dd.join("");
           });
           this.zhu2 = 10;
@@ -1010,7 +1095,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -1019,7 +1106,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {return n;});
+            this.dd = this.kb.filter(function(n) {
+              return n;
+            });
             this.bn = this.dd.join("");
           });
           this.zhu2 = 10;
@@ -1037,7 +1126,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -1046,7 +1137,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {return n;});
+            this.dd = this.kb.filter(function(n) {
+              return n;
+            });
             this.bn = this.dd.join("");
           });
           this.zhu2 = 10;
@@ -1064,7 +1157,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join("");
           });
         }
@@ -1083,7 +1178,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join("");
           });
           this.$store.state.con = this.an;
@@ -1105,7 +1202,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join("");
           });
           this.zhu1 = 10;
@@ -1125,7 +1224,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join("");
           });
         }
@@ -1133,7 +1234,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.kb[i] = list.ball;
-            this.dd = this.kb.filter(function(n) {return n;});
+            this.dd = this.kb.filter(function(n) {
+              return n;
+            });
             this.bn = this.dd.join("");
           });
         }
@@ -1162,7 +1265,9 @@ export default {
           ball.filter((list, i) => {
             list.choose = true;
             this.ka[i] = list.ball;
-            this.dd = this.ka.filter(function(n) {return n;});
+            this.dd = this.ka.filter(function(n) {
+              return n;
+            });
             this.an = this.dd.join("");
           });
         }

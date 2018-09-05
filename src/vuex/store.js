@@ -37,6 +37,7 @@ const state = {
   className:'',//玩法ID
   orderList:null,//我的投注
   getPastOpens:null,//获取开奖号码
+  sgroups2:null,
   pd: {
     addTitle: "单挑一骰",
     addCon: null,

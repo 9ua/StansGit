@@ -31,12 +31,12 @@
 </template>
 <script>
 export default {
-  computed:{
-    orderList(){
+  computed: {
+    orderList() {
       return this.$store.state.orderList;
-    },
+    }
   }
-}
+};
 </script>
 <style lang='scss' scoped>
 @import "@/assets/scss/lotterbet/lottlist.scss";

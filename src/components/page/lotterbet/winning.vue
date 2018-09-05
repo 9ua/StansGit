@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       butClass1: true,
-      butClass2: false,
+      butClass2: false
     };
   },
   methods: {
@@ -42,8 +42,9 @@ export default {
       this.butClass2 = true;
     }
   },
-  components:{
-    winMsg,winninglottery
+  components: {
+    winMsg,
+    winninglottery
   }
 };
 </script>

@@ -50,114 +50,89 @@ export default {
       sgroups2: [],
       splayers: [],
       snumView: [],
-      current_player:null,
+      current_player: null
     };
   },
-  mounted(){
+  mounted() {
     this.getPlayTree();
   },
-  beforeDestroy(){
+  beforeDestroy() {
     this.iscreat();
-  },
-  computed:{
-    current_player_groups() {
-      return this.$store.state.current_player_groups;
-    },
-    current_player_bonus(){
-      return this.$store.state.current_player_bonus;
-    },
   },
   methods: {
     //清空号码篮
-    exit(){
+    exit() {
       this.$refs.hurdles.exit();
     },
     //我的投注，投注记录
-    emitGet(){
+    emitGet() {
       this.$refs.hurdles.getbetOrderList();
     },
     //清空方法
-    iscreat(){
-      if(this.$route.params.id === 'k3'){
+    iscreat() {
+      if (this.$route.params.id === "k3") {
         this.$refs.betContentK.iscreat();
       }
-      if(this.$route.params.id === 'ssc'){
+      if (this.$route.params.id === "ssc") {
         this.$refs.betContentS.iscreat();
       }
-      if(this.$route.params.id === 'pk10'){
+      if (this.$route.params.id === "pk10") {
         this.$refs.betContentP.iscreat();
       }
-      if(this.$route.params.id === 'x11x5'){
+      if (this.$route.params.id === "x11x5") {
         this.$refs.betContentX.iscreat();
       }
     },
     //获取系统时间
-    geteServerTime(){
+    geteServerTime() {
       this.$refs.betContentTop.geteServerTime();
     },
     //玩法术
     getPlayTree() {
-      if (localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id) !== null) {
-        if(this.$route.params.id === 'k3'){
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
-          this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_"+this.$route.params.id));
-          this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
-          this.$store.commit("CURRENT_PLAYER_BONUS",this.playBonus);
-        }else{
-          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
-          this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
-        }
-        this.setupPlayTree(this.playGroups);
+      // if (localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id) !== null) {
+      if (this.$route.params.id === "k3") {
+        this.playGroups = JSON.parse(
+          localStorage.getItem(
+            "getPlayTree_playGroups_" + this.$route.params.id
+          )
+        );
+        this.playBonus = JSON.parse(
+          localStorage.getItem("getPlayTree_playBonus_" + this.$route.params.id)
+        );
+        this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
+        this.$store.commit("CURRENT_PLAYER_BONUS", this.playBonus);
       } else {
-        this.$axios.get(baseUrl +"/api/lottery/getPlayTree?lotteryId=" +this.$route.params.group).then(res => {
-          if(this.$route.params.id === 'k3'){
-            localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(res.data.data.playGroups));
-            localStorage.setItem("getPlayTree_playBonus_"+this.$route.params.id,JSON.stringify(res.data.data.playBonus));
-            this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
-            this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_"+this.$route.params.id));
-            this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
-            this.$store.commit("CURRENT_PLAYER_BONUS",this.playBonus);
-          }else{
-            localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(res.data.data.playGroups));
-            this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
-            this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
-          }
-          this.setupPlayTree(this.playGroups);
-        })
-        .catch(error => {
-          console.log("玩法术,No");
-        });
+        this.playGroups = JSON.parse(
+          localStorage.getItem(
+            "getPlayTree_playGroups_" + this.$route.params.id
+          )
+        );
+        this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
       }
+      this.setupPlayTree(this.playGroups);
+      // }
+      // else {
+      //   this.$axios.get(baseUrl +"/api/lottery/getPlayTree?lotteryId=" +this.$route.params.group).then(res => {
+      //     if(this.$route.params.id === 'k3'){
+      //       localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(res.data.data.playGroups));
+      //       localStorage.setItem("getPlayTree_playBonus_"+this.$route.params.id,JSON.stringify(res.data.data.playBonus));
+      //       this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
+      //       this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_"+this.$route.params.id));
+      //       this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
+      //       this.$store.commit("CURRENT_PLAYER_BONUS",this.playBonus);
+      //     }else{
+      //       localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(res.data.data.playGroups));
+      //       this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
+      //       this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
+      //     }
+      //     this.setupPlayTree(this.playGroups);
+      //   })
+      //   .catch(error => {
+      //     console.log("玩法术,No");
+      //   });
+      // }
     },
     setupPlayTree(playGroups) {
-      if(this.$route.params.id === 'k3'){
-        let _this = this;
-        let arr1 = [];
-        let arr2 = [];
-        let arrpeilv1 = JSON.parse(JSON.stringify(this.current_player_bonus[3].bonusArray));
-        let arrpeilv2 = JSON.parse(JSON.stringify(this.current_player_bonus[4].bonusArray));
-        for (let i in arrpeilv1) {
-          this.arrpeilva.push(arrpeilv1[i]);
-        }
-        for (let i = 0; i < this.arrpeilva.length / 2; i++) {
-          arr1.push(this.arrpeilva[i]);
-        }
-        for (let i = this.arrpeilva.length / 2;i < this.arrpeilva.length;i++) {
-          arr2.push(this.arrpeilva[i]);
-        }
-        for (let i in arrpeilv2) {
-          this.arrpeilvb.push(arrpeilv2[i]);
-        }
-        this.arrpeilvc.push(arr1);
-        this.arrpeilvc.push(arr2);
-        this.arrpeilvc.push(this.arrpeilvb);
-        let numView = this.playGroups[2].groups[0].players[0].numView;
-        for (let i = 0; i < numView.length; i++) {
-          numView[i]["lottRot"]=[...this.arrpeilvc[i]]
-        }
-        localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(this.playGroups));
-      }
-
       for (let i = 0; i < playGroups.length; i++) {
         this.splayGroups.push(playGroups[i]);
       }
@@ -169,17 +144,8 @@ export default {
           this.sgroups2.push(this.sgroups[k][j]);
         }
       }
-      localStorage.setItem("SGROUPS2_"+this.$route.params.id,JSON.stringify(this.sgroups2));
-      // for (let i = 0; i < this.sgroups2.length; i++) {
-      //   this.splayers.push(this.sgroups2[i].players);
-      // }
-      // for (let h = 0; h < this.splayers.length; h++) {
-      //   for (let i = 0; i < this.splayers[h].length; i++) {
-      //     this.snumView.push(this.splayers[h][i].numView);
-      //   }
-      // }
-      // this.displayBonus = this.splayers[0][0].displayBonus;
-    },
+      this.$store.commit("SGROUPS2", this.sgroups2);
+    }
   },
   components: {
     lottLeftNav,
@@ -194,7 +160,7 @@ export default {
     betContentS,
     betContentP,
     betContentX,
-    hurdle,
+    hurdle
   }
 };
 </script>

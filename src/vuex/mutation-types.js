@@ -19,3 +19,4 @@ export const SEASONID = 'SEASONID'//当前奖期
 export const CLASSNAME = 'CLASSNAME'//玩法ID
 export const ORDER_LIST = 'ORDER_LIST'//我的投注
 export const GET_PAST_OPENS = 'GET_PAST_OPENS'//获取开奖号码
+export const SGROUPS2 = 'SGROUPS2'

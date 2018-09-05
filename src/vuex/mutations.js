@@ -48,7 +48,9 @@ export default {
     state.getPastOpens = flag
   },
 
-
+  [SGROUPS2](state,flag) {
+    state.sgroups2 = flag
+  },
   [ORDER_LIST](state, flag){
     state.orderList = flag
   },
