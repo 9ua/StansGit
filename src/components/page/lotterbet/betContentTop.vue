@@ -1,5 +1,5 @@
 <template>
-<!-- 头部 -->
+  <!-- 头部 -->
   <div class="lott-top">
     <div class="lott-top-left">
       <img :src='"@/assets/img/lott/"+$route.params.id+".png"' alt="" />
@@ -72,17 +72,17 @@ export default {
       lotteryList: null,
       getPastOpens: null,
       getPastOpenB: null,
-      nBox: [1, 3, 5, 7, 9, 2, 4, 6, 8, 10],
+      nBox: [1, 3, 5, 7, 9, 2, 4, 6, 8, 10]
     };
   },
-  destroyed() {
+  beforeDestroy() {
     clearInterval(this.timer);
     clearTimeout(this.timer2);
   },
-  computed:{
-    lottName(){
+  computed: {
+    lottName() {
       return this.$store.state.lottName;
-    },
+    }
   },
   mounted() {
     this.geteServerTime();
@@ -101,7 +101,7 @@ export default {
             this.today = res.data.data.restSeconds;
             this.lastSeasonId = this.getCurrentSaleTime.lastSeasonId;
             this.seasonId = this.getCurrentSaleTime.seasonId;
-            this.$store.commit("SEASONID",this.seasonId);
+            this.$store.commit("SEASONID", this.seasonId);
             this.initSetTimeout(); //倒计时
             this.getPastOp(); //获取过去开奖号码10个
           }
@@ -116,7 +116,7 @@ export default {
         .then(res => {
           this.getPastOpens = res.data.data;
           this.getPastOpenB = res.data.data;
-          this.$store.commit("GET_PAST_OPENS",this.getPastOpens);
+          this.$store.commit("GET_PAST_OPENS", this.getPastOpens);
           this.n1 = this.getPastOpens[0].n1;
           this.n2 = this.getPastOpens[0].n2;
           this.n3 = this.getPastOpens[0].n3;
@@ -159,16 +159,19 @@ export default {
           this.timesUp();
         }
         if (
+          this.getPastOpenB &&
           this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
           this.today === 47
         ) {
           this.getPastOp(); //获取过去开奖号码10个
         } else if (
+          this.getPastOpenB &&
           this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
           this.today === 46
         ) {
           this.getPastOp(); //获取过去开奖号码10个
         } else if (
+          this.getPastOpenB &&
           this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
           this.today === 45
         ) {
@@ -203,7 +206,7 @@ export default {
         content2: String(Number(this.seasonId) + 1),
         number: 3
       });
-    },
+    }
   }
 };
 </script>

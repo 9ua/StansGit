@@ -3,18 +3,18 @@
   .loginFrom
     .loginLog
     .loginGo
-      p.loginGoTitle(ref='loginGoTitle') 用户登陆
+      p.loginGoTitle(ref='loginGoTitle') {{title}}
       ul.loginGoUl(v-show='!tologin')
         li
-          mu-icon.iconLeft(value='account_circle')
+          i.iconfont.icon-user1
           div
             input(type='text', v-model='validateForm.username', v-focus='',onfocus='this.select()', placeholder='请输入用户名')
         li
-          mu-icon.iconLeft(value='lock')
+          i.iconfont.icon-lock
           div
             input(:type="checked ? 'text' : 'password'", v-model='validateForm.password',onfocus='this.select()', placeholder='请输入密码码',@keyup.enter='tosubmit')
-            mu-icon.iconRight.ishwo(value='visibility', v-show='!checked', @click='checkeds')
-            mu-icon.iconRight.ishide(value='visibility_off', v-show='checked', @click='checkeds')
+            i.iconfont.icon-buxianshimima(v-show='!checked', @click='checkeds')
+            i.iconfont.icon-guanbi(v-show='checked', @click='checkeds')
         li(v-show='errorcode')
           mu-icon.iconLeft(value='account_circle')
           div
@@ -26,7 +26,7 @@
           span
             i.toRegister(@click='toRegister') 立即注册
             i
-              mu-icon.call(value='call')
+              i.iconfont.icon-lianxi
               | 联系客服
             i.color 忘记密码？
         mu-button.registerGo(color='error', @click='tosubmit') 立即登陆
@@ -40,6 +40,7 @@ import loginr from "./loginR";
 export default {
   data() {
     return {
+      title:'用户登陆',
       checked: false,
       loginReq: true,
       captchaCodeImg: "",
@@ -47,8 +48,8 @@ export default {
       errorcode: false, //判断账号密码错误次数
       tologin: false, //判断是登陆还是注册
       validateForm: {
-        username: "",
-        password: "",
+        username: "huiyuan101",
+        password: "11211121",
         captcha_code: ""
       },
       localStorageArr:[],
@@ -58,7 +59,7 @@ export default {
     //监听路由变化后
     $route(to, from, next) {
       //判断是否在登陆页面，是就清除缓存
-      if(to.fullPath === '/login' || '/login?id=ashore' || '/login?id=register'){
+      if(to.fullPath ===  '/login/ashore' || to.fullPath ===  '/login/register'){
         for (let i = 0; i < localStorage.length; i++) {
           this.localStorageArr.push(localStorage.key(i));
         }
@@ -68,12 +69,12 @@ export default {
           }
         });
       }
-      if (to.fullPath === "/login?id=ashore") {
-        this.$refs.loginGoTitle.textContent = "用户登陆";
+      if (to.fullPath === "/login/ashore") {
+        this.title = "用户登陆";
         this.tologin = false;
-      } else if (to.fullPath === "/login?id=register") {
-        this.$refs.loginGoTitle.textContent = "用户注册";
-        this.tologin = !this.tologin;
+      } else if (to.fullPath === "/login/register") {
+        this.title = "用户注册";
+        this.tologin = true;
       }
     }
   },
@@ -81,9 +82,16 @@ export default {
     this.islogin();
   },
   methods: {
-    //清除缓存
+    //清除所有缓存
     islogin() {
-      if (this.$route.path === '/login' || '/login?id=ashore' || '/login?id=register') {
+      if(this.$route.path === '/login/ashore'){
+        this.title = "用户登陆";
+        this.tologin = false;
+      }else if (this.$route.path === "/login/register") {
+        this.title = "用户注册";
+        this.tologin = !this.tologin;
+      }
+      if (this.$route.path === '/login/ashore' || this.$route.path === '/login/register') {
         for (let i = 0; i < localStorage.length; i++) {
           this.localStorageArr.push(localStorage.key(i));
         }
@@ -96,7 +104,8 @@ export default {
     },
     //立即注册
     toRegister() {
-      this.$router.push({ query: { id: "register" } });
+      this.tologin = !this.tologin;
+      this.$router.push({path:'/login/register'});
     },
     //获取验证码
     getCaptchaCode() {

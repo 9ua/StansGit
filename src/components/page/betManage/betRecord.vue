@@ -51,7 +51,7 @@
               td 
       pageNav(:allCount='allCount',:limit='limit',ref='pageNav',@pageTo='pageTo')
       .userTip.mgt15
-        p ※温馨提示：投注记录最多只保留7天。
+        p ※&nbsp;&nbsp;&nbsp;温馨提示：投注记录最多只保留7天。
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -124,6 +124,7 @@ export default {
       this.$refs.pageNav.reset(); 
       this.getTradeList();
     },
+    //今日盈亏
     getGainLost() {
       this.$axios
         .get(baseUrl + "/api/proxy/getGainLost")
@@ -139,6 +140,7 @@ export default {
           console.log("获取列表Error");
         });
     },
+    //获取投注记录
     getTradeList() {
       this.noContent = true;
       this.$axios

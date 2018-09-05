@@ -2,15 +2,15 @@
 .loginRightBox
   ul.loginRightUl
     li
-      mu-icon.iconLeft(value='info')
+      i.iconfont.icon-users
       div
         input(type='text', v-model='userinfo.inviteCode', placeholder='请输入邀请码')
     li
-      mu-icon.iconLeft(value='account_circle')
+      i.iconfont.icon-user1
       div
         input(type='text', v-model='userinfo.username', placeholder='请输入用户名')
     li
-      mu-icon.iconLeft(value='account_circle')
+      i.iconfont.icon-lock
       div
         input(type='text', v-model='userinfo.captcha_code', placeholder='请输入验证码')
         img(:src='captchaCodeImg', @click='getCaptchaCode')
@@ -51,7 +51,7 @@ export default {
       this.captchaCodeImg = baseUrl + "/code.jpg?_=" + this.newDate;
     },
     toLogin() {
-      this.$router.push({ name: "login", query: { id: "ashore" } });
+      this.$router.push("/login/ashore");
     },
     registerGo() {
       let formData = new FormData();

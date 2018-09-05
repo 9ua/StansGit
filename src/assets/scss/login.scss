@@ -49,11 +49,10 @@
       outline: none;
       height: 40px;
     }
-    & .iconLeft {
+    & i.iconfont {
       width: 8%;
       color: #999191;
-    }
-    & .iconRight {
+      font-size: 20px;
       @extend %faj;
       height: 40px;
     }

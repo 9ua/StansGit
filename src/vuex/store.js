@@ -31,14 +31,15 @@ const state = {
   money: "", //投注金额  
   zhu: 0, //注单数
   con: "", //已选号码
+  k3conTemp:[],
+  k3zhuTemp: 0,
   spinner3:0,//当前投注倍数
-  sgroups2: [],//玩法菜单
-  snumView: [],
   lottName:'',//当前彩种名
   seasonId:'',//当前奖期
-  className:'k3_star3_and',//玩法ID
+  className:'',//玩法ID
   orderList:null,//我的投注
   getPastOpens:null,//获取开奖号码
+  sgroups2:null,
   pd: {
     addTitle: "单挑一骰",
     addCon: null,
@@ -50,12 +51,6 @@ const state = {
     addName: "宏發快3"
   },
 };
-// const getters = {
-//   remarks:state => {
-//     return state.current_player_groups[2].groups[0].players[0];
-//   }
-// }
-
 export default new Vuex.Store({
   state,
   mutations,

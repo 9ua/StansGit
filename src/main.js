@@ -28,15 +28,14 @@ Vue.use(MuseUI);
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 // 登陆拦截
-
-
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    if (localStorage.getItem("loginStatus") === true) {
+    if (store.state.loginStatus) {
       next();
-    } else if (localStorage.getItem("loginStatus") === false) {
+    } else{
+
       next({
-        path: '/login',
+        path: '/login/ashore',
         query: {
           redirect: to.fullPath
         }
@@ -84,26 +83,6 @@ axios.interceptors.request.use(
     return Promise.reject(err);
   }
 );
-//http response 拦截器
-axios.interceptors.response.use(
-  response => {
-    //当返回信息为未登录或者登录失效的时候重定向为登录页面
-    if (response.data.status == "302") {
-      router.push({
-        path: "/login",
-        query: {
-          redirect: router.currentRoute.fullPath
-        } //从哪个页面跳转
-      })
-    }
-    // tryHideFullScreenLoading();
-    return response;
-  },
-  error => {
-    tryHideFullScreenLoading();
-    return Promise.reject(error)
-  }
-)
 // 超时时间
 axios.defaults.timeout = 50000
 /* eslint-disable no-new */

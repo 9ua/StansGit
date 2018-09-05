@@ -9,6 +9,7 @@ import {
   BET_GO_SHOW,//投注确认标识
   BET_NOT,//取消投注
   CURRENT_PLAYER_GROUPS,//当前玩法树
+  PLAY_BONUS, //当前玩法树
   CURRENT_PLAYER_BONUS,//当前玩法树
   SGROUPS2,//玩法菜单
   LOTT_NAME,//当前彩种名
@@ -17,6 +18,8 @@ import {
   CLASSNAME,//玩法ID
   ORDER_LIST,//我的投注
   GET_PAST_OPENS,//获取开奖号码
+  DMNUM, //胆码数组
+  DMARR, //胆码最大可选数量
 } from './mutation-types';
 
 export default {
@@ -36,13 +39,6 @@ export default {
   [CLASSNAME](state, flag) {
     state.className = flag
   },
-  //玩法菜单
-  [SGROUPS2](state, flag){
-    state.sgroups2 = flag
-  },
-  [SNUMVIEW](state, flag){
-    state.snumView = flag
-  },
   //当前彩种名
   [LOTT_NAME](state, flag){
     state.lottName = flag
@@ -52,7 +48,9 @@ export default {
     state.getPastOpens = flag
   },
 
-
+  [SGROUPS2](state,flag) {
+    state.sgroups2 = flag
+  },
   [ORDER_LIST](state, flag){
     state.orderList = flag
   },

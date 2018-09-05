@@ -12,7 +12,7 @@
         <li v-for="(item,indexs) in playGroups" :key="indexs" v-if="indexs === navTo">
           <div v-for='(group,indexabc) in item.groups' :key='indexabc'>
             <span class="groupTitle">{{group.title}}</span>
-            <span class="groupTitleList"  :class="{'active': current_player_bonus.id=== player.id}" v-for='(player,indexbcd) in group.players' :key='indexbcd' @click="playersBut(player,indexbcd)">{{player.title}}</span>
+            <span class="groupTitleList" :class="{'active': current_player_bonus.id=== player.id}" v-for='(player,indexbcd) in group.players' :key='indexbcd' @click="playersBut(player,indexbcd)">{{player.title}}</span>
           </div>
         </li>
       </ul>
@@ -107,18 +107,19 @@ export default {
       displayBonus3: ""
     };
   },
-  beforeDestroy(){
+  beforeDestroy() {
     this.iscreat();
   },
   computed: {
     playGroups() {
-      return this.$store.state.current_player_groups;
+      return JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id)
+      );
+      // return this.$store.state.current_player_groups;
     },
     sgroups2() {
+      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
       return this.$store.state.sgroups2;
-    },
-    snumView() {
-      return this.$store.state.snumView;
     }
   },
   mounted() {
@@ -126,13 +127,13 @@ export default {
   },
   methods: {
     //判断玩法术是否已经成功
-    isShowPlayGroups(){
-      setTimeout(() => {
-        if(localStorage.getItem("getPlayTree_playGroups_ssc") != null){
-          this.showhaa = false;
-          this.current_player_bonus = this.playGroups[0].groups[0].players[0];
-        }
-      }, 600);
+    isShowPlayGroups() {
+      this.showhaa = false;
+      this.current_player_bonus = JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_ssc")
+      )[0].groups[0].players[0];
+      this.$store.state.className = this.current_player_bonus.id;
+      this.className = this.current_player_bonus.id;
     },
     // 中间->投注选号
     curBalls(item, index, list, indexf) {
@@ -325,8 +326,12 @@ export default {
         if (this.className === "ssc_star4_front") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.pd.addCon = this.$store.state.con + ",-";
           this.$store.state.con = this.$store.state.con + ",-";
@@ -334,7 +339,10 @@ export default {
         if (this.className === "ssc_star3_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.pd.addCon = this.$store.state.con + ",-" + ",-";
           this.$store.state.con = this.$store.state.con + ",-" + ",-";
@@ -342,7 +350,10 @@ export default {
         if (this.className === "ssc_star3_mid") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.pd.addCon = "-," + this.$store.state.con + ",-";
           this.$store.state.con = "-," + this.$store.state.con + ",-";
@@ -350,7 +361,10 @@ export default {
         if (this.className === "ssc_star3_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.pd.addCon = "-,-," + this.$store.state.con;
           this.$store.state.con = "-,-," + this.$store.state.con;
@@ -358,15 +372,22 @@ export default {
         if (this.className === "ssc_star2_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
-          this.$store.state.pd.addCon = this.$store.state.con + ",-" + ",-" + ",-";
+          this.$store.state.pd.addCon =
+            this.$store.state.con + ",-" + ",-" + ",-";
           this.$store.state.con = this.$store.state.con + ",-" + ",-" + ",-";
         }
         if (this.className === "ssc_star2_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.pd.addCon = "-,-,-," + this.$store.state.con;
           this.$store.state.con = "-,-,-," + this.$store.state.con;
@@ -458,7 +479,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -647,7 +671,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount5(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount5(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选10 +
@@ -664,7 +690,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount10(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount10(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选20 +
@@ -681,7 +709,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount20(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount20(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选30 +
@@ -698,7 +728,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount30(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount30(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选60 +
@@ -715,7 +747,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount60(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount60(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选120 +
@@ -741,7 +775,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount4(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //前四--组选12 +
@@ -758,7 +794,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount12(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount12(
+          this.$store.state.con.split(",")
+        );
       }
       //前四--组选24 +
       if (this.className === "ssc_star4_front_group24") {
@@ -1009,33 +1047,52 @@ export default {
         if (this.className === "ssc_star4_front") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         } else if (this.className === "ssc_star3_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         } else if (this.className === "ssc_star3_mid") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         } else if (this.className === "ssc_star3_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         } else if (this.className === "ssc_star2_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         } else if (this.className === "ssc_star2_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         } else if (this.className === "ssc_star1_dwd") {
           this.$store.state.pd.addCon =
@@ -1079,7 +1136,10 @@ export default {
             this.dn +
             "," +
             this.en;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -1292,7 +1352,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount5(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount5(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选10 -
@@ -1309,7 +1371,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount10(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount10(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选20 -
@@ -1326,7 +1390,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount20(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount20(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选30 -
@@ -1343,7 +1409,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount30(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount30(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选60 -
@@ -1360,7 +1428,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount60(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount60(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选120 -
@@ -1386,7 +1456,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount4(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //前四--组选12 -
@@ -1403,7 +1475,9 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount12(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount12(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //前四--组选24 -
@@ -1516,7 +1590,7 @@ export default {
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = this.current_player_bonus.id;
       this.iscreat();
       switch (item.title) {
         case "五星":
@@ -1562,7 +1636,7 @@ export default {
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = play.id;
       this.addTitle = play.title;
       if (isNaN(this.displayBonus)) {
         let ar = [];
@@ -1611,13 +1685,13 @@ export default {
       this.zhu8 = 0;
       this.zhu9 = 0;
       this.zhu10 = 0;
-      for (let h = 0; h < this.snumView.length; h++) {
-        if (null != this.snumView[h]) {
-          for (let j = 0; j < this.snumView[h].length; j++) {
-            for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
-              this.snumView[h][j].nums[k].choose = false;
-            }
-          }
+      for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
+        for (
+          let k = 0;
+          k < this.current_player_bonus.numView[h].nums.length;
+          k++
+        ) {
+          this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
     },
@@ -1709,8 +1783,12 @@ export default {
         if (this.className === "ssc_star4_front") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -1718,7 +1796,10 @@ export default {
         if (this.className === "ssc_star3_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -1726,7 +1807,10 @@ export default {
         if (this.className === "ssc_star3_mid") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-," + this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -1734,7 +1818,10 @@ export default {
         if (this.className === "ssc_star3_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -1742,7 +1829,10 @@ export default {
         if (this.className === "ssc_star2_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -1750,13 +1840,17 @@ export default {
         if (this.className === "ssc_star2_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
         }
         if (this.className === "ssc_star1_dwd") {
-          this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+          this.$store.state.zhu =
+            this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con =
             this.an +
@@ -1782,7 +1876,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -1917,7 +2014,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount5(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount5(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选20 ,五星--组选30+
@@ -1949,7 +2048,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount20(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount20(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选60+
@@ -1978,7 +2079,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount60(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount60(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选120+
@@ -2073,13 +2176,19 @@ export default {
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
         if (this.className === "ssc_star4_front_group4") {
-          this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount4(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group12") {
-          this.$store.state.zhu = this.getzuCount12(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount12(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group24") {
-          this.$store.state.zhu = this.getzuCount24(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount24(
+            this.$store.state.con.split(",")
+          );
         }
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
@@ -2201,8 +2310,12 @@ export default {
         if (this.className === "ssc_star4_front") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2210,7 +2323,10 @@ export default {
         if (this.className === "ssc_star3_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2218,7 +2334,10 @@ export default {
         if (this.className === "ssc_star3_mid") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-," + this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2226,7 +2345,10 @@ export default {
         if (this.className === "ssc_star3_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2234,7 +2356,10 @@ export default {
         if (this.className === "ssc_star2_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2242,13 +2367,17 @@ export default {
         if (this.className === "ssc_star2_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
         }
         if (this.className === "ssc_star1_dwd") {
-          this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+          this.$store.state.zhu =
+            this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con =
             this.an +
@@ -2274,7 +2403,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -2424,7 +2556,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount5(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount5(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选20 ,五星--组选30+
@@ -2461,7 +2595,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount20(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount20(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选60+
@@ -2495,7 +2631,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount60(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount60(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选120+
@@ -2604,13 +2742,19 @@ export default {
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
         if (this.className === "ssc_star4_front_group4") {
-          this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount4(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group12") {
-          this.$store.state.zhu = this.getzuCount12(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount12(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group24") {
-          this.$store.state.zhu = this.getzuCount24(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount24(
+            this.$store.state.con.split(",")
+          );
         }
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
@@ -2735,8 +2879,12 @@ export default {
         if (this.className === "ssc_star4_front") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2744,7 +2892,10 @@ export default {
         if (this.className === "ssc_star3_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2752,7 +2903,10 @@ export default {
         if (this.className === "ssc_star3_mid") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-," + this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2760,7 +2914,10 @@ export default {
         if (this.className === "ssc_star3_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2768,7 +2925,10 @@ export default {
         if (this.className === "ssc_star2_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -2776,13 +2936,17 @@ export default {
         if (this.className === "ssc_star2_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
         }
         if (this.className === "ssc_star1_dwd") {
-          this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+          this.$store.state.zhu =
+            this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con =
             this.an +
@@ -2808,7 +2972,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -2958,7 +3125,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount5(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount5(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选20 ,五星--组选30+
@@ -2995,7 +3164,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount20(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount20(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选60+
@@ -3029,7 +3200,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount60(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount60(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选120+
@@ -3138,13 +3311,19 @@ export default {
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
         if (this.className === "ssc_star4_front_group4") {
-          this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount4(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group12") {
-          this.$store.state.zhu = this.getzuCount12(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount12(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group24") {
-          this.$store.state.zhu = this.getzuCount24(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount24(
+            this.$store.state.con.split(",")
+          );
         }
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
@@ -3269,8 +3448,12 @@ export default {
         if (this.className === "ssc_star4_front") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3278,7 +3461,10 @@ export default {
         if (this.className === "ssc_star3_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3286,7 +3472,10 @@ export default {
         if (this.className === "ssc_star3_mid") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-," + this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3294,7 +3483,10 @@ export default {
         if (this.className === "ssc_star3_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3302,7 +3494,10 @@ export default {
         if (this.className === "ssc_star2_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3310,13 +3505,17 @@ export default {
         if (this.className === "ssc_star2_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
         }
         if (this.className === "ssc_star1_dwd") {
-          this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+          this.$store.state.zhu =
+            this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con =
             this.an +
@@ -3342,7 +3541,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -3492,7 +3694,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount5(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount5(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选20 ,五星--组选30+
@@ -3529,7 +3733,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount20(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount20(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选60+
@@ -3563,7 +3769,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount60(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount60(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选120+
@@ -3672,13 +3880,19 @@ export default {
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
         if (this.className === "ssc_star4_front_group4") {
-          this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount4(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group12") {
-          this.$store.state.zhu = this.getzuCount12(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount12(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group24") {
-          this.$store.state.zhu = this.getzuCount24(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount24(
+            this.$store.state.con.split(",")
+          );
         }
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
@@ -3803,8 +4017,12 @@ export default {
         if (this.className === "ssc_star4_front") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3812,7 +4030,10 @@ export default {
         if (this.className === "ssc_star3_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3820,7 +4041,10 @@ export default {
         if (this.className === "ssc_star3_mid") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-," + this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3828,7 +4052,10 @@ export default {
         if (this.className === "ssc_star3_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3836,7 +4063,10 @@ export default {
         if (this.className === "ssc_star2_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -3844,13 +4074,17 @@ export default {
         if (this.className === "ssc_star2_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
         }
         if (this.className === "ssc_star1_dwd") {
-          this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+          this.$store.state.zhu =
+            this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con =
             this.an +
@@ -3876,7 +4110,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -4024,7 +4261,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount5(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount5(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选20 ,五星--组选30+
@@ -4059,7 +4298,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount20(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount20(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选60+
@@ -4091,7 +4332,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount60(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount60(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选120+
@@ -4200,13 +4443,19 @@ export default {
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
         if (this.className === "ssc_star4_front_group4") {
-          this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount4(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group12") {
-          this.$store.state.zhu = this.getzuCount12(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount12(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group24") {
-          this.$store.state.zhu = this.getzuCount24(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount24(
+            this.$store.state.con.split(",")
+          );
         }
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
@@ -4320,8 +4569,12 @@ export default {
         if (this.className === "ssc_star4_front") {
           this.$store.state.pd.addCon =
             this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.con = this.an + "," + this.bn + "," + this.cn + "," + this.dn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 4);
+          this.$store.state.con =
+            this.an + "," + this.bn + "," + this.cn + "," + this.dn;
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            4
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -4329,7 +4582,10 @@ export default {
         if (this.className === "ssc_star3_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -4337,7 +4593,10 @@ export default {
         if (this.className === "ssc_star3_mid") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-," + this.$store.state.con + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -4345,7 +4604,10 @@ export default {
         if (this.className === "ssc_star3_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn + "," + this.cn;
           this.$store.state.con = this.an + "," + this.bn + "," + this.cn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 3);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            3
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -4353,7 +4615,10 @@ export default {
         if (this.className === "ssc_star2_front") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = this.$store.state.con + ",-" + ",-" + ",-";
           this.$store.state.pd.addCon = this.$store.state.con;
@@ -4361,13 +4626,17 @@ export default {
         if (this.className === "ssc_star2_last") {
           this.$store.state.pd.addCon = this.an + "," + this.bn;
           this.$store.state.con = this.an + "," + this.bn;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 2);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            2
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con = "-,-,-," + this.$store.state.con;
           this.$store.state.pd.addCon = this.$store.state.con;
         }
         if (this.className === "ssc_star1_dwd") {
-          this.$store.state.zhu = this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
+          this.$store.state.zhu =
+            this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
           this.$store.state.pd.addzhu = this.$store.state.zhu;
           this.$store.state.con =
             this.an +
@@ -4393,7 +4662,10 @@ export default {
             "," +
             this.en;
           this.$store.state.pd.addCon = this.$store.state.con;
-          this.$store.state.zhu = this.getCount(this.$store.state.con.split(","), 5);
+          this.$store.state.zhu = this.getCount(
+            this.$store.state.con.split(","),
+            5
+          );
           this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
@@ -4512,7 +4784,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount5(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount5(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选20 ,五星--组选30+
@@ -4542,7 +4816,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount20(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount20(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选60+
@@ -4569,7 +4845,9 @@ export default {
         }
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
-        this.$store.state.zhu = this.getzuCount60(this.$store.state.con.split(","));
+        this.$store.state.zhu = this.getzuCount60(
+          this.$store.state.con.split(",")
+        );
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //五星--组选120+
@@ -4663,13 +4941,19 @@ export default {
         this.$store.state.con = this.an + "," + this.bn;
         this.$store.state.pd.addCon = this.$store.state.con;
         if (this.className === "ssc_star4_front_group4") {
-          this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount4(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group12") {
-          this.$store.state.zhu = this.getzuCount12(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount12(
+            this.$store.state.con.split(",")
+          );
         }
         if (this.className === "ssc_star4_front_group24") {
-          this.$store.state.zhu = this.getzuCount24(this.$store.state.con.split(","));
+          this.$store.state.zhu = this.getzuCount24(
+            this.$store.state.con.split(",")
+          );
         }
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }

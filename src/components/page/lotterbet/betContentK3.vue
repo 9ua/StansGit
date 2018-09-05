@@ -9,7 +9,7 @@
     </div>
     <div class="getPlayTreeBox">
       <ul>
-        <li v-for="(item,indexs) in sgroups2" :key="indexs" v-if="indexs === navTo">
+        <li v-for="(item,indexs) in sgroups2" v-if="indexs === navTo">
           <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)" v-if="lotteryId !== 'dfk3' && play.title !== '三同号'">{{play.title}}</p>
           <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)" v-if="lotteryId === 'dfk3'">{{play.title}}</p>
         </li>
@@ -21,18 +21,18 @@
         <i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
       <div class="conterBut" :class="'conterBut'+className">
         <div :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
-          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="lotteryId !== 'dfk3' && item.ball !== '03' && item.ball !== '18'">
+          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="$route.params.group !== 'dfk3' && item.ball !== '03' && item.ball !== '18'">
             <span v-if="className !== 'k3_star3_and'">{{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}</span>
             <span v-else>
               <i>{{item.ball}}</i>
-              <i>赔0.00</i>
+              <i>赔{{numViews.lottRot[indexha]}}</i>
             </span>
           </p>
-          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="lotteryId === 'dfk3'">
+          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="$route.params.group === 'dfk3'">
             <span v-if="className !== 'k3_star3_and'">{{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}</span>
             <span v-else>
               <i>{{item.ball}}</i>
-              <i>赔0.00</i>
+              <i>赔{{numViews.lottRot[indexha]}}</i>
             </span>
           </p>
         </div>
@@ -45,7 +45,7 @@ import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
     return {
-      showhaa:true,
+      showhaa: true,
       navTo: 2,
       playNum: 0,
       className: "k3_star3_and", //玩法ID
@@ -81,35 +81,63 @@ export default {
       zhu5: 0,
       zhu6: 0,
       item: {},
-      indexha: 0
+      indexha: 0,
+      arrpeilva: [],
+      arrpeilvb: [],
+      arrpeilvc: []
     };
   },
-  beforeDestroy(){
+  beforeDestroy() {
     this.iscreat();
   },
-  computed:{
-    playGroups(){
-      return this.$store.state.current_player_groups;
+  computed: {
+    playGroups() {
+      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"));
+      // return this.$store.state.current_player_groups;
     },
-    sgroups2(){
+    sgroups2() {
+      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
       return this.$store.state.sgroups2;
-    },
-    snumView(){
-      return this.$store.state.snumView;
-    },
+    }
   },
-  mounted(){
+  mounted() {
     this.isShowPlayGroups();
   },
   methods: {
     //判断玩法术是否已经成功
-    isShowPlayGroups(){
-      setTimeout(() => {
-        if(localStorage.getItem("getPlayTree_playGroups_k3") != null){
-          this.showhaa = false;
-          this.current_player_bonus = this.playGroups[2].groups[0].players[0];
-        }
-      }, 600);
+    isShowPlayGroups() {
+      this.showhaa = false;
+      this.current_player_bonus = JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_k3")
+      )[2].groups[0].players[0];
+      this.$store.state.className = this.current_player_bonus.id;
+      this.className = this.current_player_bonus.id;
+      this.player_bonus = JSON.parse(
+        localStorage.getItem("getPlayTree_playBonus_" + this.$route.params.id)
+      );
+      let arr1 = [];
+      let arr2 = [];
+      let arrpeilv1 = this.player_bonus[3].bonusArray;
+      let arrpeilv2 = this.player_bonus[4].bonusArray;
+      for (let i in arrpeilv1) {
+        this.arrpeilva.push(arrpeilv1[i]);
+      }
+      for (let i = 0; i < this.arrpeilva.length / 2; i++) {
+        arr1.push(this.arrpeilva[i]);
+      }
+      for (let i = this.arrpeilva.length / 2; i < this.arrpeilva.length; i++) {
+        arr2.push(this.arrpeilva[i]);
+      }
+      for (let i in arrpeilv2) {
+        this.arrpeilvb.push(arrpeilv2[i]);
+      }
+      this.arrpeilvc.push(arr1);
+      this.arrpeilvc.push(arr2);
+      this.arrpeilvc.push(this.arrpeilvb);
+      let numView = this.current_player_bonus.numView;
+      for (let i = 0; i < numView.length; i++) {
+        numView[i]["lottRot"] = [...this.arrpeilvc[i]];
+      }
     },
     //中间选号
     curBalls(item, index, numViews, indexf) {
@@ -118,7 +146,9 @@ export default {
       item.choose = !item.choose;
       if (item.choose === true) {
         this.d[index] = item.ball;
-        this.dd = this.d.filter(function(n) {return n;});
+        this.dd = this.d.filter(function(n) {
+          return n;
+        });
         this.$store.state.zhu++;
         this.$store.state.pd.addTitle = this.addTitle;
         this.$store.state.pd.addCon = this.dd.join(",");
@@ -776,7 +806,7 @@ export default {
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
-      this.$store.commit("CLASSNAME",this.className);
+      this.$store.state.className = this.current_player_bonus.id;
       this.iscreat();
       switch (item.title) {
         case "单骰":
@@ -795,13 +825,16 @@ export default {
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
-      this.$store.commit("CLASSNAME",this.className);
+      this.$store.state.className = play.id;
+      this.$store.commit("CLASSNAME", this.className);
       this.addTitle = play.title;
       this.iscreat();
     },
     //清空
     iscreat() {
       this.$store.state.zhu = 0;
+      this.$store.state.k3conTemp = [];
+      this.$store.state.k3zhuTemp = 0;
       this.zhu1 = 0;
       this.zhu2 = 0;
       this.zhu3 = 0;
@@ -828,16 +861,25 @@ export default {
       this.in = "";
       this.jn = "";
       this.$store.state.con = "";
-      for (let h = 0; h < this.snumView.length; h++) {
-        if (null != this.snumView[h]) {
-          for (let j = 0; j < this.snumView[h].length; j++) {
-            for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
-              this.snumView[h][j].nums[k].choose = false;
-            }
-          }
+      for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
+        for (
+          let k = 0;
+          k < this.current_player_bonus.numView[h].nums.length;
+          k++
+        ) {
+          this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
-    },
+      // for (let h = 0; h < this.snumView.length; h++) {
+      //   if (null != this.snumView[h]) {
+      //     for (let j = 0; j < this.snumView[h].length; j++) {
+      //       for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
+      //         this.snumView[h][j].nums[k].choose = false;
+      //       }
+      //     }
+      //   }
+      // }
+    }
   },
   filters: {
     keepTwoNum(value) {

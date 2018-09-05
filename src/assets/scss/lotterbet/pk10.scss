@@ -63,6 +63,9 @@
     font-size: 16px;
     color: #FFF;
   }
+  & .carTitle.active {
+    background: none;
+  }
   & .car {
     cursor: pointer;
     & i {

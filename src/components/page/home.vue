@@ -79,13 +79,44 @@ export default {
         { name: "重庆时时彩", lotteryId: "cqssc" },
         { name: "宏發快3", lotteryId: "dfk3" }
       ],
+      betFun:[],
+      idArr:["dfk3","sj1fc","ffpk10","f1_11x5"]
     };
   },
   mounted() {
     this.getPastOp();
     this.lotteryAll();
+    this.getPlayTree();
   },
   methods: {
+    fn(obj){
+      return this.$axios.get(baseUrl+'/api/lottery/getPlayTree?lotteryId='+obj)
+    },    
+    //玩法术
+    getPlayTree() {
+      this.idArr.forEach(item => {
+        this.betFun.push(this.fn(item))
+      });
+      this.$axios.all([...this.betFun]).then(
+        this.$axios.spread((...res) => {
+          res.forEach((item) =>{
+            if(item.data.data.lotteryId === 'dfk3'){
+              localStorage.setItem("getPlayTree_playGroups_k3",JSON.stringify(item.data.data.playGroups));
+              localStorage.setItem("getPlayTree_playBonus_k3",JSON.stringify(item.data.data.playBonus));
+            }
+            if(item.data.data.lotteryId === 'sj1fc'){
+              localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(item.data.data.playGroups));
+            }
+            if(item.data.data.lotteryId === 'ffpk10'){
+              localStorage.setItem("getPlayTree_playGroups_pk10",JSON.stringify(item.data.data.playGroups));
+            }
+            if(item.data.data.lotteryId === 'f1_11x5'){
+              localStorage.setItem("getPlayTree_playGroups_x11x5",JSON.stringify(item.data.data.playGroups));
+            }
+          })
+        })
+      )
+    },
     lotteryTo(item,index){
       this.$router.push('/bet/'+item.groupId+'/'+item.id);
     },
@@ -98,10 +129,10 @@ export default {
       this.$set(item, "toF5money", false);
     },
     login() {
-      this.$router.push({ path: "/login?id=ashore" });
+      this.$router.push({ path: "/login/ashore" });
     },
     signin() {
-      this.$router.push({ path: "/login?id=register" });
+      this.$router.push({ path: "/login/register" });
     },
     toActive() {
       this.$router.push({ path: "/activity" });
@@ -112,10 +143,14 @@ export default {
       this.getPastOp();
     },
     gotBet() {
-      if (this.lotteryId != "cqssc") {
-        this.$router.push("/lotts/k3/"+this.lotteryId);
-      } else {
-        this.$router.push("/lotts/ssc/"+this.lotteryId);
+      if(this.$store.state.loginStatus){
+        if (this.lotteryId != "cqssc") {
+          this.$router.push("/lotts/k3/"+this.lotteryId);
+        } else {
+          this.$router.push("/lotts/ssc/"+this.lotteryId);
+        }
+      }else{
+        this.$router.push("/login/ashore");
       }
     },
     //过期判断

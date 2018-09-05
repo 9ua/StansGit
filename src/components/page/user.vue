@@ -16,7 +16,7 @@ export default {
       parents: [
         {
           item: "账户管理",
-          icon: "hf-user",
+          icon: "icon-user1",
           son: [
             { name: "个人信息", to: "/user/userinfo" },
             { name: "安全中心", to: "/user/securityCenter" },
@@ -25,7 +25,7 @@ export default {
         },
         {
           item: "投注管理",
-          icon: "hf-fsrebeta",
+          icon: "icon-users",
           son: [
             { name: "投注记录", to: "/betManage/betRecord" },
             // { name: "追号记录", to: "/betManage/seekOrder" }
@@ -33,7 +33,7 @@ export default {
         },
         {
           item: "资金管理",
-          icon: "hf-i-money",
+          icon: "icon-money",
           son: [
             { name: "交易记录", to: "/user/billRecord" },
             { name: "今日盈亏", to: "/user/PLstatement" }
@@ -41,7 +41,7 @@ export default {
         },
         {
           item: "代理中心",
-          icon: "hf-users",
+          icon: "icon-user1",
           son: [
             { name: "代理说明", to: "/agent/agentIntro" },
             { name: "代理报表", to: "/agent/agentReport" },
@@ -54,7 +54,7 @@ export default {
         },
         {
           item: "消息管理",
-          icon: "hf-mail-fill",
+          icon: "icon-mail-fill",
           son: [
             { name: "站内信", to: "/user/letter" },
             { name: "网站公告", to: "/user/notice" }

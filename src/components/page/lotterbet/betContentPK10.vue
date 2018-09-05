@@ -22,7 +22,7 @@
       <div class="conterBut" :class="'conterBut'+className">
         <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
           <div class="both">
-            <span class="carTitle">{{numViews.title}}</span>
+            <span class="carTitle" :class="{'active': numViews.title === ''}">{{numViews.title}}</span>
             <div class="carBox">
               <div class="cars">
                 <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)">
@@ -109,13 +109,14 @@ export default {
   },
   computed: {
     playGroups() {
-      return this.$store.state.current_player_groups;
+      return JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id)
+      );
+      // return this.$store.state.current_player_groups;
     },
     sgroups2() {
+      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
       return this.$store.state.sgroups2;
-    },
-    snumView() {
-      return this.$store.state.snumView;
     }
   },
   mounted() {
@@ -123,13 +124,13 @@ export default {
   },
   methods: {
     //判断玩法术是否已经成功
-    isShowPlayGroups(){
-      setTimeout(() => {
-        if(localStorage.getItem("getPlayTree_playGroups_pk10") != null){
-          this.showhaa = false;
-          this.current_player_bonus = this.playGroups[0].groups[0].players[0];
-        }
-      }, 600);
+    isShowPlayGroups() {
+      this.showhaa = false;
+      this.current_player_bonus = JSON.parse(
+        localStorage.getItem("getPlayTree_playGroups_pk10")
+      )[0].groups[0].players[0];
+      this.$store.state.className = this.current_player_bonus.id;
+      this.className = this.current_player_bonus.id;
     },
     // 中间->投注选号
     curBalls(item, index, list, indexf) {
@@ -1335,7 +1336,7 @@ export default {
       this.current_player = item;
       this.current_player_bonus = item.groups[0].players[0];
       this.className = this.current_player_bonus.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = this.current_player_bonus.id;
       this.iscreat();
       switch (item.title) {
         case "两面盘":
@@ -1363,7 +1364,7 @@ export default {
       this.playNum = indexff;
       this.current_player_bonus = play;
       this.className = play.id;
-      this.$store.commit("CLASSNAME", this.className);
+      this.$store.state.className = play.id;
       this.addTitle = play.title;
       if (isNaN(this.displayBonus)) {
         let ar = [];
@@ -1412,15 +1413,24 @@ export default {
       this.zhu8 = 0;
       this.zhu9 = 0;
       this.zhu10 = 0;
-      for (let h = 0; h < this.snumView.length; h++) {
-        if (null != this.snumView[h]) {
-          for (let j = 0; j < this.snumView[h].length; j++) {
-            for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
-              this.snumView[h][j].nums[k].choose = false;
-            }
-          }
+      for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
+        for (
+          let k = 0;
+          k < this.current_player_bonus.numView[h].nums.length;
+          k++
+        ) {
+          this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
+      // for (let h = 0; h < this.snumView.length; h++) {
+      //   if (null != this.snumView[h]) {
+      //     for (let j = 0; j < this.snumView[h].length; j++) {
+      //       for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
+      //         this.snumView[h][j].nums[k].choose = false;
+      //       }
+      //     }
+      //   }
+      // }
     },
     //前二-冠亚和
     qianergyh(bets) {
