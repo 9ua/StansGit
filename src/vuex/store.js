@@ -31,6 +31,8 @@ const state = {
   money: "", //投注金额  
   zhu: 0, //注单数
   con: "", //已选号码
+  k3conTemp:[],
+  k3zhuTemp: 0,
   spinner3:0,//当前投注倍数
   lottName:'',//当前彩种名
   seasonId:'',//当前奖期

@@ -120,7 +120,6 @@ export default {
       this.current_player_bonus.numView.forEach((item,index)=>{
         arr.push(...item.nums)
       })
-      console.log(arr)
       return arr;      
     },
     playGroups() {

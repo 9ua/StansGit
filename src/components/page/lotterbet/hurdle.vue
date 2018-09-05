@@ -66,6 +66,7 @@ export default {
       conTemp:"",
       zhuTemp:"",
       betFun: [],
+      dxds:["大","小","单","双"],
       pd: {
         addTitle: "单挑一骰",
         addCon: null,
@@ -171,6 +172,25 @@ export default {
       this.conTemp = con;
       this.zhuTemp -= 1;
     },
+    splik3(arrk3) {
+      let n = 0;
+      
+      arrk3.map((a) => {
+        this.dxds.map((b) =>{
+          if(a == b){
+            n++;
+            this.$store.state.k3conTemp.push(b);
+            arrk3.splice(arrk3.indexOf(b), 1,"");
+          }
+        });
+      });
+      arrk3 = arrk3.filter(function(n) {return n;}).join(",");
+      this.$store.state.k3conTemp.filter(function(n) {return n;}).join(",");
+      this.$store.state.k3zhuTemp = n;
+      this.betFun.push(this.bet({ con: this.$store.state.k3conTemp, zhu: this.$store.state.k3zhuTemp }));
+      this.conTemp = arrk3;
+      this.zhuTemp -= n;
+    },
     //立即投注
     betGo() {
       if (this.$store.state.zhu === 0) {
@@ -192,17 +212,24 @@ export default {
       } else {
         this.conTemp = this.$store.state.con;
         this.zhuTemp = this.$store.state.zhu;
-        if (this.$store.state.con.includes("大")) {
-          this.spli("大");
-        }
-        if (this.$store.state.con.includes("小")) {
-          this.spli("小");
-        }
-        if (this.$store.state.con.includes("单")) {
-          this.spli("单");
-        }
-        if (this.$store.state.con.includes("双")) {
-          this.spli("双");
+        if(this.$store.state.className !== 'k3_star3_and'){
+          if (this.$store.state.con.includes("大")) {
+            this.spli("大");
+          }
+          if (this.$store.state.con.includes("小")) {
+            this.spli("小");
+          }
+          if (this.$store.state.con.includes("单")) {
+            this.spli("单");
+          }
+          if (this.$store.state.con.includes("双")) {
+            this.spli("双");
+          }
+        }else if(this.$store.state.className === 'k3_star3_and') {
+          if (this.$store.state.con.includes("大") || this.$store.state.con.includes("小") || this.$store.state.con.includes("单") || this.$store.state.con.includes("双")) {
+            let arrk3 = this.$store.state.con.split(",");
+            this.splik3(arrk3);
+          }
         }
         if (
           this.$store.state.con.match(/\d/) ||
@@ -216,6 +243,10 @@ export default {
             let showFlag = true;
             for (let item of res) {
               if (item.data.message !== "success") {
+                console.log("k3conTemp:",this.$store.state.k3conTemp)
+                console.log("k3zhuTemp:",this.$store.state.k3zhuTemp)
+                console.log("conTemp:",this.conTemp);
+                console.log("zhuTemp:",this.zhuTemp);
                 showFlag = false;
                 break;
               }

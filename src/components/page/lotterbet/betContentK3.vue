@@ -833,6 +833,8 @@ export default {
     //清空
     iscreat() {
       this.$store.state.zhu = 0;
+      this.$store.state.k3conTemp = [];
+      this.$store.state.k3zhuTemp = 0;
       this.zhu1 = 0;
       this.zhu2 = 0;
       this.zhu3 = 0;
