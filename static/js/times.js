@@ -1,4 +1,4 @@
- export const time = {
+ var time = {
   "dfk3": "1分钟1期",
   "hbk3": "全天78期",
   "ahk3": "全天80期",

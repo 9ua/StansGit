@@ -7,22 +7,26 @@
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <title>宏發娱乐</title>
 </head>
-
 <body>
   <div id="app"></div>
 </body>
 <!-- 禁止F12，右击 -->
 <script type="text/javascript">
-  // document.oncontextmenu = function () {
-  //   return false;
-  // };
-  // document.onkeydown = function () {
-  //   if (window.event && window.event.keyCode == 123) {
-  //     event.keyCode = 0;
-  //     event.returnValue = false;
-  //     return false;
-  //   }
-  // };
+  var body = document.querySelector("body");
+  var script = document.createElement("script");
+  script.src = "static/js/times.js?v=" + Date.now();
+  body.appendChild(script);
+  document.oncontextmenu = function () {
+    return false;
+  };
+  document.onkeydown = function () {
+    if (window.event && window.event.keyCode == 123) {
+      event.keyCode = 0;
+      event.returnValue = false;
+      return false;
+    }
+  };
+
 </script>
 
 </html>
