@@ -64,7 +64,7 @@
 import { baseUrl } from "../../assets/js/env";
 import winning from "@/components/cp/winning.vue";
 import winMsg from "@/components/cp/winMsg.vue";
-import { time } from "@/components/page/public/times.js";
+import { time } from "../../../static/js/times.js";
 export default {
   data() {
     return {

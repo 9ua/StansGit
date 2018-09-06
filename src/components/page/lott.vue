@@ -68,7 +68,7 @@
 <script>
 import { baseUrl } from "../../assets/js/env";
 import { winpool } from '../../assets/js/winning.js';
-import { time } from "@/components/page/public/times.js";
+import { time } from "../../../static/js/times.js";
 export default {
   data() {
     return {
