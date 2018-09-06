@@ -50,6 +50,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+  //游戏页面，点击浏览器后退按钮，直接返回上一次进来的页面
+  if (to.meta.allowBack) {
+    window.addEventListener('popstate', function () {
+      history.go(-store.state.historyNum);
+    });
+  }
 });
 //控制页面同时多个请求重复show loading；
 let needLoadingRequestCount = 0
@@ -84,7 +90,8 @@ axios.interceptors.request.use(
   }
 );
 // 超时时间
-axios.defaults.timeout = 50000
+axios.defaults.timeout = 50000;
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

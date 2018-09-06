@@ -36,7 +36,8 @@ export default {
       lotteryList: null,
       arrLottId: [],
       arrLottName: [],
-      lottNameIndex: 0
+      lottNameIndex: 0,
+      historyNum:0
     };
   },
   mounted() {
@@ -94,6 +95,8 @@ export default {
     },
     //导航点击
     lottListNav(item, index) {
+      this.historyNum ++;
+      this.$store.state.historyNum = this.historyNum;
       this.lottName = this.arrLottName[this.arrLottName.indexOf(item.name)];
       this.lottNameIndex = index;
       this.$store.state.lottName = this.lottName;
