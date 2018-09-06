@@ -7,7 +7,7 @@
           li(:class="{'active': index === navNum}", v-for='(nav,index) in lotteryList', :key='index', @click="lotteryTo(nav,index)") 
             img(:class="nav.toF5money ? 'totransition' : ''", :src='"@/assets/img/lott/"+nav.groupId+".png"',@mouseover="selectStyle(nav)", @mouseout="outStyle(nav)" alt='') 
             | {{nav.name}}
-            span 1分钟1期
+            span {{nav.time}}
     .homeSideCenter
       .banner
         .bannerBox
@@ -62,15 +62,16 @@
 </template>
 <script>
 import { baseUrl } from "../../assets/js/env";
-import winning from '@/components/cp/winning.vue';
-import winMsg from '@/components/cp/winMsg.vue';
+import winning from "@/components/cp/winning.vue";
+import winMsg from "@/components/cp/winMsg.vue";
+import { time } from "@/components/page/public/times.js";
 export default {
   data() {
     return {
       navNum: 0,
       toF5money: false, //刷新动画
       Globalusername: this.$store.state.Globalusername,
-      lotteryList: null,
+      lotteryList: [],
       lotteryId: "jsk3", //默认上期开奖结果（江苏快3）
       pastOpenK3: { n1: 1, n2: 2, n3: 3, seasonId: 123456 }, //上期k3开奖结果
       pastOpenSSC: { n1: 1, n2: 2, n3: 3, n4: 4, n5: 5, seasonId: 123456 }, //上期ssc开奖结果
@@ -79,8 +80,8 @@ export default {
         { name: "重庆时时彩", lotteryId: "cqssc" },
         { name: "宏發快3", lotteryId: "dfk3" }
       ],
-      betFun:[],
-      idArr:["dfk3","sj1fc","ffpk10","f1_11x5"]
+      betFun: [],
+      idArr: ["dfk3", "sj1fc", "ffpk10", "f1_11x5"],
     };
   },
   mounted() {
@@ -89,36 +90,53 @@ export default {
     this.getPlayTree();
   },
   methods: {
-    fn(obj){
-      return this.$axios.get(baseUrl+'/api/lottery/getPlayTree?lotteryId='+obj)
-    },    
+    fn(obj) {
+      return this.$axios.get(
+        baseUrl + "/api/lottery/getPlayTree?lotteryId=" + obj
+      );
+    },
     //玩法术
     getPlayTree() {
       this.idArr.forEach(item => {
-        this.betFun.push(this.fn(item))
+        this.betFun.push(this.fn(item));
       });
       this.$axios.all([...this.betFun]).then(
         this.$axios.spread((...res) => {
-          res.forEach((item) =>{
-            if(item.data.data.lotteryId === 'dfk3'){
-              localStorage.setItem("getPlayTree_playGroups_k3",JSON.stringify(item.data.data.playGroups));
-              localStorage.setItem("getPlayTree_playBonus_k3",JSON.stringify(item.data.data.playBonus));
+          res.forEach(item => {
+            if (item.data.data.lotteryId === "dfk3") {
+              localStorage.setItem(
+                "getPlayTree_playGroups_k3",
+                JSON.stringify(item.data.data.playGroups)
+              );
+              localStorage.setItem(
+                "getPlayTree_playBonus_k3",
+                JSON.stringify(item.data.data.playBonus)
+              );
             }
-            if(item.data.data.lotteryId === 'sj1fc'){
-              localStorage.setItem("getPlayTree_playGroups_ssc",JSON.stringify(item.data.data.playGroups));
+            if (item.data.data.lotteryId === "sj1fc") {
+              localStorage.setItem(
+                "getPlayTree_playGroups_ssc",
+                JSON.stringify(item.data.data.playGroups)
+              );
             }
-            if(item.data.data.lotteryId === 'ffpk10'){
-              localStorage.setItem("getPlayTree_playGroups_pk10",JSON.stringify(item.data.data.playGroups));
+            if (item.data.data.lotteryId === "ffpk10") {
+              localStorage.setItem(
+                "getPlayTree_playGroups_pk10",
+                JSON.stringify(item.data.data.playGroups)
+              );
             }
-            if(item.data.data.lotteryId === 'f1_11x5'){
-              localStorage.setItem("getPlayTree_playGroups_x11x5",JSON.stringify(item.data.data.playGroups));
+            if (item.data.data.lotteryId === "f1_11x5") {
+              localStorage.setItem(
+                "getPlayTree_playGroups_x11x5",
+                JSON.stringify(item.data.data.playGroups)
+              );
             }
-          })
+          });
         })
-      )
+      );
     },
-    lotteryTo(item,index){
-      this.$router.push('/bet/'+item.groupId+'/'+item.id);
+    lotteryTo(item, index) {
+      this.$router.push("/bet/" + item.groupId + "/" + item.id);
     },
     selectStyle(item) {
       this.$nextTick(() => {
@@ -143,13 +161,13 @@ export default {
       this.getPastOp();
     },
     gotBet() {
-      if(this.$store.state.loginStatus){
+      if (this.$store.state.loginStatus) {
         if (this.lotteryId != "cqssc") {
-          this.$router.push("/lotts/k3/"+this.lotteryId);
+          this.$router.push("/lotts/k3/" + this.lotteryId);
         } else {
-          this.$router.push("/lotts/ssc/"+this.lotteryId);
+          this.$router.push("/lotts/ssc/" + this.lotteryId);
         }
-      }else{
+      } else {
         this.$router.push("/login/ashore");
       }
     },
@@ -207,36 +225,60 @@ export default {
     // 获取彩种
     lotteryAll() {
       var now = new Date().getTime();
-      if(localStorage.getItem("lotteryAll_hot") !== null){
+      if (localStorage.getItem("lotteryAll_hot") !== null) {
         var setupTime = localStorage.getItem("data_lotteryAll_hot");
-        if(setupTime === null || now - setupTime > this.$store.state.cacheTime){
+        if (
+          setupTime === null ||
+          now - setupTime > this.$store.state.cacheTime
+        ) {
           localStorage.removeItem("lotteryAll_hot");
           localStorage.removeItem("data_lotteryAll_hot");
-          this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-            localStorage.setItem("lotteryAll_hot",JSON.stringify(res.data.data));
-            this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_hot"));
-            localStorage.setItem("data_lotteryAll_hot",now);
+          this.$axios
+            .get(baseUrl + "/api/lottery/getLotteryList")
+            .then(res => {
+              localStorage.setItem(
+                "lotteryAll_hot",
+                JSON.stringify(res.data.data)
+              );
+              this.lotteryList = JSON.parse(
+                localStorage.getItem("lotteryAll_hot")
+              );
+              localStorage.setItem("data_lotteryAll_hot", now);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        } else {
+          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_hot"));
+          for (let i = 0; i < this.lotteryList.length; i++) {
+            this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+          }
+        }
+      } else {
+        this.$axios
+          .get(baseUrl + "/api/lottery/getLotteryList")
+          .then(res => {
+            localStorage.setItem(
+              "lotteryAll_hot",
+              JSON.stringify(res.data.data)
+            );
+            this.lotteryList = JSON.parse(
+              localStorage.getItem("lotteryAll_hot")
+            );
+            localStorage.setItem("data_lotteryAll_hot", now);
+            for (let i = 0; i < this.lotteryList.length; i++) {
+              this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+            }
           })
           .catch(error => {
             console.log(error);
           });
-        }else{
-          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_hot"));
-        }
-      }else{
-        this.$axios.get(baseUrl + "/api/lottery/getLotteryList").then(res => {
-          localStorage.setItem("lotteryAll_hot",JSON.stringify(res.data.data));
-          this.lotteryList = JSON.parse(localStorage.getItem("lotteryAll_hot"));
-          localStorage.setItem("data_lotteryAll_hot",now);
-        })
-        .catch(error => {
-          console.log(error);
-        });
       }
-    },
+    }
   },
-  components:{
-    winning,winMsg
+  components: {
+    winning,
+    winMsg
   },
   filters: {
     mask(value) {

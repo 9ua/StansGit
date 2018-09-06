@@ -52,7 +52,7 @@
               <div class="Nopop"><img :src="&quot;@/assets/img/lott/&quot;+item.groupId+&quot;.png&quot;" alt="" />
                 <div>
                   <p>{{item.name}}</p>
-                  <span>1分钟1期</span>
+                  <span>{{item.time}}</span>
                 </div>
               </div>
               <div v-show="item.showPop" class="pop">
@@ -68,6 +68,7 @@
 <script>
 import { baseUrl } from "../../assets/js/env";
 import { winpool } from '../../assets/js/winning.js';
+import { time } from "@/components/page/public/times.js";
 export default {
   data() {
     return {
@@ -151,42 +152,60 @@ export default {
         case "hot":
           this.select = 'hot';
           if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
-            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
+            for (let i = 0; i < this.lotteryList.length; i++) {
+              this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+            }
           }else
           this.lotteryAll();
           break;
         case "all":
           this.select = 'all';
           if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
-            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
+            for (let i = 0; i < this.lotteryList.length; i++) {
+              this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+            }
           }else
           this.lotteryAll();
           break;
         case "k3":
           this.select = 'k3';
           if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
-            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
+            for (let i = 0; i < this.lotteryList.length; i++) {
+              this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+            }
           }else
           this.lotteryAll();
           break;
         case "ssc":
           this.select = 'ssc';
           if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
-            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
+            for (let i = 0; i < this.lotteryList.length; i++) {
+              this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+            }
           }else
           this.lotteryAll();
           break;
         case "pk10":
           this.select = 'pk10';
           if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
-            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
+            for (let i = 0; i < this.lotteryList.length; i++) {
+              this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+            }
           }else
           this.lotteryAll();
           break;
         case "x11x5":
           this.select = 'x11x5';
           if(JSON.parse(localStorage.getItem("getLotteryList_"+this.select))){
-            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select))
+            this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
+            for (let i = 0; i < this.lotteryList.length; i++) {
+              this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+            }
           }else
           this.lotteryAll();
           break;  
@@ -198,11 +217,17 @@ export default {
     lotteryAll() {
       if(localStorage.getItem("getLotteryList_"+this.select) !== null){
         this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
+        for (let i = 0; i < this.lotteryList.length; i++) {
+          this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+        }
       }else{
         this.$axios.get(baseUrl + "/api/lottery/getLotteryList",{params:{type:this.select}}).then(res => {
           this.lotteryList = res.data.data;
           localStorage.setItem( "getLotteryList_"+this.select, JSON.stringify(res.data.data));
           this.lotteryList = JSON.parse(localStorage.getItem("getLotteryList_"+this.select));
+          for (let i = 0; i < this.lotteryList.length; i++) {
+            this.lotteryList[i]["time"] = time[this.lotteryList[i].id];
+          }
         })
         .catch(error => {
           console.log(error);
