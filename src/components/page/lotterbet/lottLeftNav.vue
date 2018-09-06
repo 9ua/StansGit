@@ -40,6 +40,10 @@ export default {
       historyNum:0
     };
   },
+  beforeDestroy(){
+    this.historyNum = 0;
+    this.$store.state.historyNum = 0;
+  },
   mounted() {
     this.lotteryAll();
   },

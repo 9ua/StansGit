@@ -53,7 +53,8 @@ router.beforeEach((to, from, next) => {
   //游戏页面，点击浏览器后退按钮，直接返回上一次进来的页面
   if (to.meta.allowBack) {
     window.addEventListener('popstate', function () {
-      history.go(-store.state.historyNum);
+      // history.go(-store.state.historyNum);
+      router.push("/home")
     });
   }
 });
