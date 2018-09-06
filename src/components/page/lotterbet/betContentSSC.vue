@@ -1585,6 +1585,7 @@ export default {
     },
     //菜单选择项1
     playGroupBut(item, index) {
+      this.$emit("clearTimeInters");//清除定时器
       this.navTo = index;
       this.playNum = 0;
       this.current_player = item;

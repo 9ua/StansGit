@@ -4,10 +4,10 @@
     <div class="lottBox">
       <div class="lott-left">
         <lott-left-nav @geteServerTime='geteServerTime' @exit='exit'></lott-left-nav>
-        <bet-content-k ref="betContentK" v-if="$route.params.id === 'k3'"></bet-content-k>
-        <bet-content-s ref="betContentS" v-if="$route.params.id === 'ssc'"></bet-content-s>
-        <bet-content-p ref="betContentP" v-if="$route.params.id === 'pk10'"></bet-content-p>
-        <bet-content-x ref="betContentX" v-if="$route.params.id === 'x11x5'"></bet-content-x>
+        <bet-content-k @clearTimeInters='clearTimeInters' ref="betContentK" v-if="$route.params.id === 'k3'"></bet-content-k>
+        <bet-content-s @clearTimeInters='clearTimeInters' ref="betContentS" v-if="$route.params.id === 'ssc'"></bet-content-s>
+        <bet-content-p @clearTimeInters='clearTimeInters' ref="betContentP" v-if="$route.params.id === 'pk10'"></bet-content-p>
+        <bet-content-x @clearTimeInters='clearTimeInters' ref="betContentX" v-if="$route.params.id === 'x11x5'"></bet-content-x>
         <hurdle ref="hurdles" @iscreat='iscreat'></hurdle>
       </div>
       <div class="lott-right">
@@ -60,6 +60,10 @@ export default {
     this.iscreat();
   },
   methods: {
+    //清除定时器
+    clearTimeInters(){
+      this.$refs.betContentTop.clearTimeInter();
+    },
     //清空号码篮
     exit() {
       this.$refs.hurdles.exit();

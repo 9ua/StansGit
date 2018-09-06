@@ -76,8 +76,7 @@ export default {
     };
   },
   beforeDestroy() {
-    clearInterval(this.timer);
-    clearTimeout(this.timer2);
+    this.clearTimeInter();
   },
   computed: {
     lottName() {
@@ -88,6 +87,10 @@ export default {
     this.geteServerTime();
   },
   methods: {
+    clearTimeInter(){
+      clearInterval(this.timer);
+      clearTimeout(this.timer2);
+    },
     //获取彩種當前獎期時間
     geteServerTime() {
       clearInterval(this.timer);
