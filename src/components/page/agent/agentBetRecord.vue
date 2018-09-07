@@ -4,16 +4,16 @@
     .userTitle 投注明细
     .userMain
       .searchOpt 账户：
-        input.userInput.w90(v-model='account',@keyup.enter='getTradeList')
+        input.userInput.w90(v-model='account',@keyup.enter='goGetTradeList')
         | &nbsp;用户类型：
         ins.selectIcon
-          select.userSelect(name='f',v-model='include',@change='getTradeList')
+          select.userSelect(name='f',v-model='include',@change='goGetTradeList')
             option(value='1') 全部 
             option(value='2')  下级
             option(value='0') 自己
           em 
         | &nbsp;
-        router-link(to='',class='submitBtn',@click.native='getTradeList') 搜索
+        router-link(to='',class='submitBtn',@click.native='goGetTradeList') 搜索
       ul.searchFirst
         //- li
         //-   span 彩种：
@@ -116,14 +116,21 @@ export default {
       this.getTradeList();
     },
     changeTime(e, time, index) {
+      this.start=0;
       this.navTime = index;
       this.betweenType = time;
       this.$refs.pageNav.reset();
       this.getTradeList();
     },
     changeType(e, value, index) {
+      this.start=0;
       this.navType = index;
       this.status = value;
+      this.$refs.pageNav.reset();
+      this.getTradeList();
+    },
+    goGetTradeList(){
+      this.start=0;
       this.$refs.pageNav.reset();
       this.getTradeList();
     },

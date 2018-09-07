@@ -63,6 +63,7 @@ export default {
       this.getTradeList();
     },
     changeTime(e, value, index) {
+      this.start=0;
       this.navindex = index;
       this.dateFlag = value;
       this.$refs.pageNav.reset();

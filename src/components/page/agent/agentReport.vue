@@ -16,7 +16,7 @@
             em {{userTeam.betAmount|money}}
             span 投注金额
           li
-            em {{userTeam.winningAmount|money}}
+            em {{userTeam.winsAmount|money}}
             span 中奖金额
           li
             em {{userTeam.activityAmount|money}}

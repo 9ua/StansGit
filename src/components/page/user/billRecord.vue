@@ -91,12 +91,14 @@ export default {
       this.getTradeList();
     },
     changeTime(e, time, index) {
+      this.start=0;
       this.navTime = index;
       this.betweenType = time;
       this.$refs.pageNav.reset();   
       this.getTradeList();
     },
     changeType(e, value, index) {
+      this.start=0;
       this.navType = index;
       this.status = value;
       this.$refs.pageNav.reset();   

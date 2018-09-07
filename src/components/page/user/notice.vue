@@ -17,16 +17,16 @@
                 router-link(:to='"NoticeDetail?id="+item.id') {{item.title}}
               td {{item.createTime}}
               td 
-        //- pageNav(:list='list',:limit='limit',ref='pageNav',@pageTo='pageTo')
+        pageNav(:allCount='allCount',:limit='limit',@pageTo='pageTo')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
 import noContent from "../public/noContent";
-// import pageNav from "../public/pageNav";
+import pageNav from "../public/pageNav";
 export default {
   components: {
     noContent,
-    // pageNav
+    pageNav
   },
   data() {
     return {
@@ -35,6 +35,7 @@ export default {
       noContent: true,
       list: [],
       type: 1,
+      allCount:1,
     };
   },
   mounted() {
@@ -43,19 +44,21 @@ export default {
   methods: {
     pageTo($event) {
       this.start = this.limit * ($event - 1);
+      this.getUserNoticeList();
     },
     getUserNoticeList() {
       this.noContent = true;
-      // this.$refs.pageNav.reset();
-      this.start = 0;
       this.$axios
         .get(baseUrl + "/api/proxy/getUserNoticeList", {
           params: {
-            type: this.type
+            type: this.type,
+            start: this.start,
+            limit: this.limit
           }
         })
         .then(res => {
-          this.list = res.data.data;
+          this.list = res.data.data.list;
+          this.allCount=res.data.data.allCount;
           this.noContent = false;
         })
         .catch(error => {
