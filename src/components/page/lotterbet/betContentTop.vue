@@ -76,7 +76,17 @@ export default {
     };
   },
   beforeDestroy() {
-    this.clearTimeInter();
+    if (this.timer) {
+      for (let i = 0; i <= this.timer; i++) {
+        clearInterval(i);
+      }
+    }
+    if (this.timer2) {
+      for (let i = 0; i <= this.timer2; i++) {
+        clearTimeout(i);
+      }
+    }
+    document.removeEventListener("visibilitychange", this.listen);
   },
   computed: {
     lottName() {
@@ -87,9 +97,23 @@ export default {
     this.geteServerTime();
   },
   methods: {
+    listen() {
+      if (document.hidden === false) {
+        this.geteServerTime();
+      }
+    },
     clearTimeInter(){
-      clearInterval(this.timer);
-      clearTimeout(this.timer2);
+      if (this.timer) {
+        for (let i = 0; i <= this.timer; i++) {
+          clearInterval(i);
+        }
+      }
+      if (this.timer2) {
+        for (let i = 0; i <= this.timer2; i++) {
+          clearTimeout(i);
+        }
+      }
+      document.removeEventListener("visibilitychange", this.listen);
     },
     //获取彩種當前獎期時間
     geteServerTime() {
@@ -133,9 +157,11 @@ export default {
           this.nBox[7] = this.getPastOpens[0].n8;
           this.nBox[8] = this.getPastOpens[0].n9;
           this.nBox[9] = this.getPastOpens[0].n10;
-          if (Number(res.data.data[0].seasonId) !== Number(this.lastSeasonId)) {
+          if (this.lastSeasonId && Number(res.data.data[0].seasonId) !== Number(this.lastSeasonId)) {
             this.isshowGif = true;
-            this.reGetPastOp();
+            if (res.data.data[0].lotteryId === this.$route.params.group) {
+              this.reGetPastOp();
+            }
           } else {
             clearTimeout(this.timer2);
             this.isshowGif = false;
@@ -152,35 +178,46 @@ export default {
         this.getPastOp(); //获取过去开奖号码10个
       }, 12000);
     },
+    endCount() {
+      if (this.timer) {
+        clearInterval(this.timer);
+      }
+      if (this.timer2) {
+        clearTimeout(this.timer2);
+      }
+    },
     //倒计时
     initSetTimeout() {
-      this.timer = setInterval(() => {
-        this.today = this.today - 1;
-        this.setTimeMode(); //時間格式轉換
-        if (this.today < 1) {
-          clearInterval(this.timer);
-          this.timesUp();
-        }
-        if (
-          this.getPastOpenB &&
-          this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
-          this.today === 47
-        ) {
-          this.getPastOp(); //获取过去开奖号码10个
-        } else if (
-          this.getPastOpenB &&
-          this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
-          this.today === 46
-        ) {
-          this.getPastOp(); //获取过去开奖号码10个
-        } else if (
-          this.getPastOpenB &&
-          this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
-          this.today === 45
-        ) {
-          this.getPastOp(); //获取过去开奖号码10个
-        }
-      }, 1000);
+      this.endCount();
+      if (this.$route.params.group) {
+        this.timer = setInterval(() => {
+          this.today = this.today - 1;
+          this.setTimeMode(); //時間格式轉換
+          if (this.today < 1) {
+            this.endCount();
+            this.timesUp();
+          }
+          if (
+            this.getPastOpenB &&
+            this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
+            this.today === 47
+          ) {
+            this.getPastOp(); //获取过去开奖号码10个
+          } else if (
+            this.getPastOpenB &&
+            this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
+            this.today === 46
+          ) {
+            this.getPastOp(); //获取过去开奖号码10个
+          } else if (
+            this.getPastOpenB &&
+            this.getPastOpenB[0].seasonId !== this.lastSeasonId &&
+            this.today === 45
+          ) {
+            this.getPastOp(); //获取过去开奖号码10个
+          }
+        }, 1000);
+      }
     },
     //時間格式轉換
     setTimeMode() {

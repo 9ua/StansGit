@@ -94,7 +94,8 @@ export default new Router({
           name: 'bet',
           component: bet,
           meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            allowBack: true
           },
         },
         {

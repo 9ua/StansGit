@@ -84,7 +84,8 @@ export default {
       indexha: 0,
       arrpeilva: [],
       arrpeilvb: [],
-      arrpeilvc: []
+      arrpeilvc: [],
+      historyNum:0,
     };
   },
   beforeDestroy() {

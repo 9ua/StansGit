@@ -20,6 +20,7 @@ const state = {
   userInfo: null, //用户信息
   imgPath: null, //头像地址
   cacheTime:3600000,//缓存1个小时
+  historyNum:0,
   k3:'dfk3',
   ssc:'sj1fc',
   pk10:'ffpk10',
