@@ -112,13 +112,9 @@ export default {
   },
   computed: {
     playGroups() {
-      return JSON.parse(
-        localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id)
-      );
-      // return this.$store.state.current_player_groups;
+      return this.$store.state.current_player_groups;
     },
     sgroups2() {
-      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
       return this.$store.state.sgroups2;
     }
   },
@@ -129,9 +125,7 @@ export default {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
       this.showhaa = false;
-      this.current_player_bonus = JSON.parse(
-        localStorage.getItem("getPlayTree_playGroups_ssc")
-      )[0].groups[0].players[0];
+      this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0];
       this.$store.state.className = this.current_player_bonus.id;
       this.className = this.current_player_bonus.id;
     },
@@ -1583,7 +1577,7 @@ export default {
     },
     //菜单选择项1
     playGroupBut(item, index) {
-      this.$emit("clearTimeInters");//清除定时器
+      // this.$emit("clearTimeInters");//清除定时器
       this.navTo = index;
       this.playNum = 0;
       this.current_player = item;
@@ -1637,6 +1631,7 @@ export default {
       this.className = play.id;
       this.$store.state.className = play.id;
       this.addTitle = play.title;
+      this.displayBonus = play.displayBonus;
       if (isNaN(this.displayBonus)) {
         let ar = [];
         ar = this.displayBonus.split("-");
@@ -1685,11 +1680,7 @@ export default {
       this.zhu9 = 0;
       this.zhu10 = 0;
       for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
-        for (
-          let k = 0;
-          k < this.current_player_bonus.numView[h].nums.length;
-          k++
-        ) {
+        for (let k = 0;k < this.current_player_bonus.numView[h].nums.length;k++) {
           this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
@@ -2200,7 +2191,7 @@ export default {
             this.dd = this.ka.filter(function(n) {
               return n;
             });
-            this.an = this.dd.join("");
+            this.an = this.dd.join(",");
           });
         }
         this.$store.state.con = this.an;
@@ -2768,7 +2759,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
@@ -3337,7 +3328,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
@@ -3906,7 +3897,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
@@ -4469,7 +4460,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }

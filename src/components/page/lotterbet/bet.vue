@@ -106,9 +106,7 @@ export default {
         this.$store.commit("CURRENT_PLAYER_BONUS", this.playBonus);
       } else {
         this.playGroups = JSON.parse(
-          localStorage.getItem(
-            "getPlayTree_playGroups_" + this.$route.params.id
-          )
+          localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id)
         );
         this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
       }

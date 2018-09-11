@@ -93,11 +93,9 @@ export default {
   },
   computed: {
     playGroups() {
-      // return JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"));
       return this.$store.state.current_player_groups;
     },
     sgroups2() {
-      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
       return this.$store.state.sgroups2;
     }
   },
@@ -776,7 +774,7 @@ export default {
     },
     //菜单选择项1
     playGroupBut(item, index) {
-      this.$emit("clearTimeInters"); //清除定时器
+      // this.$emit("clearTimeInters"); //清除定时器
       this.navTo = index;
       this.playNum = 0;
       this.current_player = item;
