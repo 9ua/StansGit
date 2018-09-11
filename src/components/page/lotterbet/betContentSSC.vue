@@ -775,9 +775,7 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount4(
-          this.$store.state.con.split(",")
-        );
+        this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //前四--组选12 +
@@ -1652,7 +1650,7 @@ export default {
     iscreat() {
       this.$store.state.zhu = 0;
       this.$store.state.pd = {};
-      this.$store.state.spinner3 = 0;
+      // this.$store.state.spinner3 = 0;
       this.$store.state.con = "";
       this.d = [];
       this.dd = [];

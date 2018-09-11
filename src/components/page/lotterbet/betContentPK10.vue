@@ -1380,7 +1380,7 @@ export default {
     iscreat() {
       this.$store.state.zhu = 0;
       this.$store.state.pd = {};
-      this.$store.state.spinner3 = 0;
+      // this.$store.state.spinner3 = 0;
       this.$store.state.con = "";
       this.d = [];
       this.dd = [];

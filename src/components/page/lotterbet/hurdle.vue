@@ -221,7 +221,7 @@ export default {
       } else {
         this.conTemp = this.$store.state.con;
         this.zhuTemp = this.$store.state.zhu;
-        if (this.$store.state.className !== "k3_star3_and") {
+        if (this.$store.state.className !== "k3_star3_and" && this.$store.state.className !== "ssc_dxds") {
           if (this.$store.state.con.includes("大")) {
             this.spli("大");
           }
@@ -234,12 +234,12 @@ export default {
           if (this.$store.state.con.includes("双")) {
             this.spli("双");
           }
-        } else if (this.$store.state.className === "k3_star3_and") {
+        } else if (this.$store.state.className === "k3_star3_and" && this.$store.state.className !== "ssc_dxds") {
           if (
             this.$store.state.con.includes("大") ||
             this.$store.state.con.includes("小") ||
             this.$store.state.con.includes("单") ||
-            this.$store.state.con.includes("双")
+            this.$store.state.con.includes("双") 
           ) {
             let arrk3 = this.$store.state.con.split(",");
             this.splik3(arrk3);
@@ -248,7 +248,12 @@ export default {
         if (
           this.$store.state.con.match(/\d/) ||
           this.$store.state.con.includes("龙") ||
-          this.$store.state.con.includes("虎")
+          this.$store.state.con.includes("虎") ||
+          this.$store.state.con.includes("和") ||
+          this.$store.state.con.includes("大单") ||
+          this.$store.state.con.includes("小单") ||
+          this.$store.state.con.includes("大双") ||
+          this.$store.state.con.includes("小双")
         ) {
           this.betFun.push(this.bet({ con: this.conTemp, zhu: this.zhuTemp }));
         }
