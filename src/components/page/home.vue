@@ -224,8 +224,39 @@ export default {
     },
     //获取过去开奖号码1个
     getPastOp() {
-      if (this.isExperid()) {
-        this.$axios
+      // if (this.isExperid()) {
+      //   this.$axios
+      //     .get(
+      //       baseUrl +
+      //         "/api/lottery/getPastOpen?lotteryId=" +
+      //         this.lotteryId +
+      //         "&count=1"
+      //     )
+      //     .then(res => {
+      //       let storage = res.data.data[0];
+      //       storage.lastTime = Date.parse(new Date()) / 1000;
+      //       localStorage.setItem(this.lotteryId, JSON.stringify(storage));
+      //       if (this.lotteryId != "cqssc") {
+      //         this.pastOpenK3 = res.data.data[0];
+      //         this.lotteryId = this.pastOpenK3.lotteryId;
+      //       } else {
+      //         this.pastOpenSSC = res.data.data[0];
+      //         this.lotteryId = this.pastOpenSSC.lotteryId;
+      //       }
+      //     })
+      //     .catch(error => {
+      //       console.log("获取过去开奖号码No");
+      //     });
+      // } else {
+      //   let item = JSON.parse(localStorage.getItem(this.lotteryId));
+      //   if (this.lotteryId != "cqssc") {
+      //     this.pastOpenK3 = item;
+      //   } else {
+      //     this.pastOpenSSC = item;
+      //   }
+      // }
+      this.$loader.show();
+      this.$axios
           .get(
             baseUrl +
               "/api/lottery/getPastOpen?lotteryId=" +
@@ -233,9 +264,7 @@ export default {
               "&count=1"
           )
           .then(res => {
-            let storage = res.data.data[0];
-            storage.lastTime = Date.parse(new Date()) / 1000;
-            localStorage.setItem(this.lotteryId, JSON.stringify(storage));
+            this.$loader.hide();
             if (this.lotteryId != "cqssc") {
               this.pastOpenK3 = res.data.data[0];
               this.lotteryId = this.pastOpenK3.lotteryId;
@@ -245,16 +274,9 @@ export default {
             }
           })
           .catch(error => {
-            console.log("获取过去开奖号码No");
+            this.$loader.hide();
+            console.log(error);
           });
-      } else {
-        let item = JSON.parse(localStorage.getItem(this.lotteryId));
-        if (this.lotteryId != "cqssc") {
-          this.pastOpenK3 = item;
-        } else {
-          this.pastOpenSSC = item;
-        }
-      }
     },
     // 获取彩种
     lotteryAll() {
