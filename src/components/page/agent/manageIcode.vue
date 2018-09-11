@@ -158,7 +158,7 @@ export default {
   },
   filters: {
     createUrl(value) {
-      return "http://" + location.hostname + "/registered?code=" + value;
+      return "http://" + location.host + "/login/register?code=" + value;
     }
   }
 };

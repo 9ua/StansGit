@@ -53,9 +53,23 @@
         & a:hover {
           color: #FE7A12;
         }
-      }
-      & li:hover {
-        color: #FE7A12;
+        & .showMoney{
+          border: 1px dotted #6b6b6b;
+          display: inline-block;
+          box-sizing: border-box;
+          line-height: 18px;
+          padding: 0 3px;
+        }
+        & .getMoney i{
+          font-size: 14px;
+        }
+        & .getMoney .totransition{
+          display: inline-block;
+          -webkit-transition: All 5s linear;
+          transition: All 5s linear;
+          -webkit-transform: rotate(3600deg);
+          transform: rotate(3600deg);
+        }
       }
     }
   }

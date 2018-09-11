@@ -31,7 +31,7 @@
               td {{item.seasonId}}
               td {{item.changeTime}}
               td {{item.lotteryName}}
-                p 玩法{{item.playName}}             
+                p {{item.playName||"充提"}}             
               td {{item.changeAmount}}                
               td {{item.balance}}                          
               td {{item.accountChangeTypeName}}

@@ -17,13 +17,13 @@
           span Service experience
         .footer-middle-content
           .footer-middle-content1
-            p 昨日充值平均时间
+            p 昨日充值到账平均时间
             el-progress(:text-inside='false', :stroke-width='20', :percentage='a', color='#ED635D', :show-text='false')
             p
               b 0'58
               | 秒
           .footer-middle-content2
-            p 昨日充值平均时间
+            p 昨日提现导致平均时间
             el-progress(:text-inside='false', :stroke-width='20', :percentage='b', color='#409EFF', :show-text='false')
             p
               b 2'02

@@ -46,10 +46,11 @@
           span 宏發云保障玩家资金绝对安全，欢迎监督举报；
 </template>
 <script>
+import md5 from "js-md5";
 import { baseUrl } from "../../../assets/js/env";
 export default {
   data() {
-    return { 
+    return {
       bankUserId: "",
       myAmount: "",
       amount: "",
@@ -88,58 +89,58 @@ export default {
           this.$loader.hide();
           console.log("获取列表Error");
         });
-    }
-  },
-  submit() {
-    if (this.amount === "") {
-      this.$message.error({
-        message: "请输入金额！",
-        center: true,
-        showClose: true
-      });
-    } else if (
-      this.amount > this.moneyDepositMax ||
-      this.amount < this.moneyDepositMin
-    ) {
-      this.$message.error({
-        message:
-          "提现金额必须大于" +
-          this.moneyDepositMin +
-          "小于" +
-          this.moneyDepositMax,
-        center: true,
-        showClose: true
-      });
-    } else {
-      this.$loader.show();
-      let formData = new FormData();
-      formData.append("amount", this.amount);
-      formData.append("bankUserId", this.bankUserId);
-      formData.append("securityCode", md5(this.securityCode));
-      formData.append("withdrawType", this.$route.query.id);
-      this.$axios
-        .post(this.$store.state.url + "api/proxy/setWithdraw", formData)
-        .then(res => {
-          this.$loader.hide();
-          if (res.data.code === 1) {
-            this.$pop.show({
-              title: "提现成功",
-              content: "请耐心等待款项到账",
-              number: 1
-            });
-            this.$router.go(-1);
-          } else {
-            this.$pop.show({
-              title: "提现失败",
-              content: res.data.message,
-              number: 1
-            });
-          }
-        })
-        .catch(error => {
-          this.$loader.hide();
-          console.log("setWithdrawNo");
+    },
+    submit() {
+      if (this.amount === "") {
+        this.$message.error({
+          message: "请输入金额！",
+          center: true,
+          showClose: true
         });
+      } else if (
+        this.amount > this.moneyDepositMax ||
+        this.amount < this.moneyDepositMin
+      ) {
+        this.$message.error({
+          message:
+            "提现金额必须大于" +
+            this.moneyDepositMin +
+            "小于" +
+            this.moneyDepositMax,
+          center: true,
+          showClose: true
+        });
+      } else {
+        this.$loader.show();
+        let formData = new FormData();
+        formData.append("amount", this.amount);
+        formData.append("bankUserId", this.bankUserId);
+        formData.append("securityCode", md5(this.securityCode));
+        formData.append("withdrawType", this.$route.query.id);
+        this.$axios
+          .post(baseUrl + "/api/proxy/setWithdraw", formData)
+          .then(res => {
+            this.$loader.hide();
+            if (res.data.code === 1) {
+              this.$pop.show({
+                title: "提现成功",
+                content: "请耐心等待款项到账",
+                number: 1
+              });
+              this.$router.go(-1);
+            } else {
+              this.$pop.show({
+                title: "提现失败",
+                content: res.data.message,
+                number: 1
+              });
+            }
+          })
+          .catch(error => {
+            this.$loader.hide();
+            console.log("setWithdrawNo");
+          });
+      }
     }
   }
 };

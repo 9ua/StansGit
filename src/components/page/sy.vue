@@ -32,9 +32,16 @@
                 </div>
               </div>
             </router-link>
-            <router-link to="" tag="li">
-              <a href="javascript:;">余额：{{$store.state.balance}}</a>
-            </router-link>
+            <li>余额：
+              <span class="GetMoney getMoney" v-if="refresh">
+                <em>{{$store.state.balance}}</em>
+                <i class="icon iconfont icon-shuaxin" :class="{totransition:clickFlag}" @click.stop="getBalance"></i>
+                <i @click.stop="changReferesh">隐藏</i>
+              </span>
+              <span class="ShowMoney showMoney" v-else @click.stop="changReferesh">已隐藏
+                <i>显示</i>
+              </span>
+            </li>
             <router-link to="" tag="li" @mouseover.native='HoverShowContent=true' @mouseout.native="HoverShowContent=false">
               <a href="javascript:;">充值
                 <i class='iconfont icon-down1' style='font-size:14px'></i>
@@ -90,15 +97,17 @@ export default {
   data() {
     return {
       img: 0,
-      active:-1,
-      HoverShowContent:false,
-      HoverShowAccount:false,
-      acountlists:[
+      active: -1,
+      refresh:false,
+      clickFlag:false,
+      HoverShowContent: false,
+      HoverShowAccount: false,
+      acountlists: [
         { title: "投注记录", path: "/betManage/betRecord" },
         { title: "交易记录", path: "/user/billRecord" },
         { title: "个人信息", path: "/user/userinfo" },
         { title: "安全中心", path: "/user/securityCenter" },
-        { title: "代理中心", path: "/agent/agentReport" },
+        { title: "代理中心", path: "/agent/agentReport" }
       ],
       navs: [
         { title: "首页", path: "/home" },
@@ -108,7 +117,7 @@ export default {
         { title: "帮助指南", path: "/helpcenter" }
       ],
       paywaylist: [],
-      localStorageArr:[],
+      localStorageArr: []
     };
   },
   mounted() {
@@ -116,8 +125,24 @@ export default {
     this.getRechargeWayList();
   },
   methods: {
-    setClass(v){
-      this.active=v;
+    changReferesh(){
+      this.refresh=!this.refresh;
+    },
+    getBalance(){
+      this.clickFlag=true;
+      this.$axios
+          .get(baseUrl + "/api/userCenter/getBalance")
+          .then(res => {
+            this.clickFlag=false;
+            this.$store.state.balance=res.data.data.balance;
+          })
+          .catch(error => {
+            this.clickFlag=false;            
+            console.log(error)
+          });
+    },
+    setClass(v) {
+      this.active = v;
     },
     ...mapMutations(["OUT_LOGIN"]),
     //获取用户信息
@@ -127,9 +152,7 @@ export default {
         this.$store.state.img = topUserData.image;
       } else {
         this.$axios
-          .get(
-            baseUrl + "/api/userCenter/getTopUserData",
-          )
+          .get(baseUrl + "/api/userCenter/getTopUserData")
           .then(res => {
             this.$store.state.img = res.data.data.image;
             localStorage.setItem("topUserData", JSON.stringify(res.data.data));
@@ -144,27 +167,26 @@ export default {
         let paywaylist = JSON.parse(localStorage.getItem("paywaylist"));
         this.paywaylist = paywaylist;
       } else {
-        if(this.$store.state.loginStatus){
+        if (this.$store.state.loginStatus) {
           this.$axios
-          .get(baseUrl + "/api/proxy/getRechargeWayList")
-          .then(res => {
-            this.paywaylist = res.data.data;
-            localStorage.setItem("paywaylist", JSON.stringify(res.data.data));
-          })
-          .catch(error => {
-            console.log("Error");
-          });
+            .get(baseUrl + "/api/proxy/getRechargeWayList")
+            .then(res => {
+              this.paywaylist = res.data.data;
+              localStorage.setItem("paywaylist", JSON.stringify(res.data.data));
+            })
+            .catch(error => {
+              console.log("Error");
+            });
         }
-        
       }
     },
     logOut() {
-      for(let i=0;i<localStorage.length;i++){
+      for (let i = 0; i < localStorage.length; i++) {
         this.localStorageArr.push(localStorage.key(i));
       }
-      this.localStorageArr.map((key) =>{
-        if(key !== 'username'){
-          localStorage.removeItem(key)
+      this.localStorageArr.map(key => {
+        if (key !== "username") {
+          localStorage.removeItem(key);
         }
       });
       this.$axios
@@ -174,7 +196,7 @@ export default {
             this.$store.state.loginStatus = false;
             localStorage.setItem("loginStatus", false);
             // localStorage.clear();
-            this.$router.push('/login/ashore');
+            this.$router.push("/login/ashore");
           }
         })
         .catch(error => {
