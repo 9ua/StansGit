@@ -33,7 +33,6 @@ router.beforeEach((to, from, next) => {
     if (store.state.loginStatus) {
       next();
     } else{
-
       next({
         path: '/login/ashore',
         query: {
@@ -53,9 +52,10 @@ router.beforeEach((to, from, next) => {
   //游戏页面，点击浏览器后退按钮，直接返回上一次进来的页面
   if (to.meta.allowBack) {
     window.addEventListener('popstate', function () {
-      // history.go(-store.state.historyNum);
       router.push("/home")
     });
+  } else {
+    next();
   }
 });
 //控制页面同时多个请求重复show loading；
@@ -87,13 +87,20 @@ axios.interceptors.request.use(
     return config;
   },
   error => {
-    return Promise.reject(err);
+    return Promise.reject(error);
   }
 );
 axios.interceptors.response.use(data => { // 响应成功关闭loading
-  if (data.data.status === 302) {
-    router.push('/login/ashore');
-    this.$store.state.loginStatus = false;
+  if (data.data.status === 302 && data.data.content == '您已在别处登录,请勿重复登录,如果不是您本人操作.请尽快修改密码') {
+    Vue.prototype.$pop.show({
+      error: '',
+      title: '温馨提示',
+      content: data.data.content,
+      content1: '',
+      content2: '',
+      number: 302
+    });
+    store.state.loginStatus = false;
   }
   if (data.data.pup === true) {
     if (data.data.data.message && data.data.data.message !== "参数错误") {

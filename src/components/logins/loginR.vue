@@ -47,6 +47,7 @@ export default {
   methods: {
     ...mapMutations(["RECORD_USERINFO"]),
     getCaptchaCode() {
+      this.userinfo.inviteCode = this.$route.query.code;
       this.newDate = new Date().getTime();
       this.captchaCodeImg = baseUrl + "/code.jpg?_=" + this.newDate;
     },
@@ -96,6 +97,8 @@ export default {
                       "loginStatus",
                       this.$store.state.loginStatus
                     );
+                    this.$store.state.Globalusername = this.userinfo.username;
+                    localStorage.setItem("username", this.$store.state.Globalusername);
                     this.$router.push({ name: "sy" });
                     this.RECORD_USERINFO(this.userinfo);
                   }

@@ -153,6 +153,9 @@ export default new Router({
           name: 'user',
           redirect: "/user/userinfo",
           component: user,
+          meta:{
+            requiresAuth: true
+          },
           children: [{
               path: '/user/userinfo',
               component: userinfo,

@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     //清除所有缓存
-    islogin() {
+    islogin() {      
       if(this.$route.path === '/login/ashore'){
         this.title = "用户登陆";
         this.tologin = false;
@@ -96,9 +96,9 @@ export default {
           this.localStorageArr.push(localStorage.key(i));
         }
         this.localStorageArr.map(key => {
-          if (key !== "username") {
+          // if (key !== "username" ||  key !== 'loginStatus') {
             localStorage.removeItem(key);
-          }
+          // }
         });
       }
     },

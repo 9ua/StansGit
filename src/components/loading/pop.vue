@@ -11,6 +11,17 @@
       </li>
       <li class="button"><button class="logoAffirm" @click="openSimple = false">确认</button></li>
     </ul>
+    <ul class="loginSuccess num1" v-if="number =='302'">
+      <li class="title">
+        <span></span>
+        <p>{{title}}</p>
+        <span><i class="el-icon-circle-close-outline transition"></i></span>
+      </li>
+      <li class="content">
+        <p><i class="el-icon-warning"></i>{{content}}</p>
+      </li>
+      <li class="button"><button class="logoAffirm" @click='windowOpen'>确认</button></li>
+    </ul>
     <!-- 3秒后自动关闭 -->
     <ul class="loginSuccess num2" v-if="number =='2'">
       <li class="content">{{content}}</li>
@@ -63,6 +74,9 @@ export default {
     this.three();
   },
   methods: {
+    windowOpen(){
+      window.location.href = "http://localhost:8899/login/ashore";
+    },
     clearBox(){
       this.$pop.hide();
       clearTimeout(this.hides);
@@ -96,7 +110,7 @@ export default {
   background-color:rgba(0,0,0,.4);
   & ul{
     min-width: 300px;
-    max-width: 500px;
+    max-width: 350px;
     background: #FFF;
     border-radius: 4px;
     @extend %flex;
@@ -134,6 +148,7 @@ export default {
       @extend %faj;
       font-size: 14px;
       min-height: 118px;
+      padding:0px 16px;
       & i{
         color: rgb(175,58,49);
         font-size: 32px;

@@ -17,7 +17,7 @@
         ul.tab
           li(:class="{'active': index === navNum}", v-for='(nav,index) in listnav', :key='index', @click='navTo($event,index,nav)') {{nav.name}}
         .autoTabContent
-          ul.contentK3(v-if='lotteryId==="jsk3"||lotteryId==="dfk3"')
+          ul.contentK3(v-if='lotteryId==="jsk3" || lotteryId==="dfk3"')
             li
               img(:src='"@/assets/img/lott/k3n"+pastOpenK3.n1+".png"' , alt='')
               span +
@@ -85,8 +85,8 @@ export default {
       arrpeilva: [],
       arrpeilvb: [],
       arrpeilvc: [],
-      player_bonus:[],
-      playGroups:[]
+      player_bonus: [],
+      playGroups: []
     };
   },
   mounted() {
@@ -108,62 +108,98 @@ export default {
       this.$axios.all([...this.betFun]).then(
         this.$axios.spread((...res) => {
           res.forEach(item => {
-            if (item.data.data.lotteryId === "dfk3") {
-              localStorage.setItem("getPlayTree_playGroups_k3",JSON.stringify(item.data.data.playGroups));
-              localStorage.setItem("getPlayTree_playBonus_k3",JSON.stringify(item.data.data.playBonus));
-              this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_k3"));
-              this.player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_k3"));
-              let arr1 = [];
-              let arr2 = [];
-              let arrpeilv1 = this.player_bonus[3].bonusArray;
-              let arrpeilv2 = this.player_bonus[4].bonusArray;
-              for (let i in arrpeilv1) {
-                this.arrpeilva.push(arrpeilv1[i]);
-              }
-              for (let i = 0; i < this.arrpeilva.length / 2; i++) {
-                arr1.push(this.arrpeilva[i]);
-              }
-              for (let i = this.arrpeilva.length / 2; i < this.arrpeilva.length; i++) {
-                arr2.push(this.arrpeilva[i]);
-              }
-              for (let i in arrpeilv2) {
-                this.arrpeilvb.push(arrpeilv2[i]);
-              }
-              this.arrpeilvc.push(arr1);
-              this.arrpeilvc.push(arr2);
-              this.arrpeilvc.push(this.arrpeilvb);
-              for (let i = 0; i < this.playGroups.length; i++) {
-                for (let j = 0; j < this.playGroups[i].groups.length; j++) {
-                  for (let k = 0; k < this.playGroups[i].groups[j].players.length; k++) {
-                    for (let l = 0; l < this.playGroups[i].groups[j].players[0].numView.length; l++) {
-                      for (let m = 0; m < this.playGroups[i].groups[j].players[0].numView[l].nums.length; m++) {
-                        if(i === 2){
-                          this.playGroups[2].groups[j].players[0].numView[l].nums[m]["lottRot"] = this.arrpeilvc[l][m];
+            if (item.data.status !== 302) {
+              if (item.data.data.lotteryId === "dfk3") {
+                localStorage.setItem(
+                  "getPlayTree_playGroups_k3",
+                  JSON.stringify(item.data.data.playGroups)
+                );
+                localStorage.setItem(
+                  "getPlayTree_playBonus_k3",
+                  JSON.stringify(item.data.data.playBonus)
+                );
+                this.playGroups = JSON.parse(
+                  localStorage.getItem("getPlayTree_playGroups_k3")
+                );
+                this.player_bonus = JSON.parse(
+                  localStorage.getItem("getPlayTree_playBonus_k3")
+                );
+                let arr1 = [];
+                let arr2 = [];
+                let arrpeilv1 = this.player_bonus[3].bonusArray;
+                let arrpeilv2 = this.player_bonus[4].bonusArray;
+                for (let i in arrpeilv1) {
+                  this.arrpeilva.push(arrpeilv1[i]);
+                }
+                for (let i = 0; i < this.arrpeilva.length / 2; i++) {
+                  arr1.push(this.arrpeilva[i]);
+                }
+                for (
+                  let i = this.arrpeilva.length / 2;
+                  i < this.arrpeilva.length;
+                  i++
+                ) {
+                  arr2.push(this.arrpeilva[i]);
+                }
+                for (let i in arrpeilv2) {
+                  this.arrpeilvb.push(arrpeilv2[i]);
+                }
+                this.arrpeilvc.push(arr1);
+                this.arrpeilvc.push(arr2);
+                this.arrpeilvc.push(this.arrpeilvb);
+                for (let i = 0; i < this.playGroups.length; i++) {
+                  for (let j = 0; j < this.playGroups[i].groups.length; j++) {
+                    for (
+                      let k = 0;
+                      k < this.playGroups[i].groups[j].players.length;
+                      k++
+                    ) {
+                      for (
+                        let l = 0;
+                        l <
+                        this.playGroups[i].groups[j].players[0].numView.length;
+                        l++
+                      ) {
+                        for (
+                          let m = 0;
+                          m <
+                          this.playGroups[i].groups[j].players[0].numView[l]
+                            .nums.length;
+                          m++
+                        ) {
+                          if (i === 2) {
+                            this.playGroups[2].groups[j].players[0].numView[
+                              l
+                            ].nums[m]["lottRot"] = this.arrpeilvc[l][m];
+                          }
                         }
                       }
-                    }                    
+                    }
                   }
                 }
+                localStorage.setItem(
+                  "getPlayTree_playGroups_k3",
+                  JSON.stringify(this.playGroups)
+                );
               }
-              localStorage.setItem("getPlayTree_playGroups_k3",JSON.stringify(this.playGroups));
-            }
-            if (item.data.data.lotteryId === "sj1fc") {
-              localStorage.setItem(
-                "getPlayTree_playGroups_ssc",
-                JSON.stringify(item.data.data.playGroups)
-              );
-            }
-            if (item.data.data.lotteryId === "ffpk10") {
-              localStorage.setItem(
-                "getPlayTree_playGroups_pk10",
-                JSON.stringify(item.data.data.playGroups)
-              );
-            }
-            if (item.data.data.lotteryId === "f1_11x5") {
-              localStorage.setItem(
-                "getPlayTree_playGroups_x11x5",
-                JSON.stringify(item.data.data.playGroups)
-              );
+              if (item.data.data.lotteryId === "sj1fc") {
+                localStorage.setItem(
+                  "getPlayTree_playGroups_ssc",
+                  JSON.stringify(item.data.data.playGroups)
+                );
+              }
+              if (item.data.data.lotteryId === "ffpk10") {
+                localStorage.setItem(
+                  "getPlayTree_playGroups_pk10",
+                  JSON.stringify(item.data.data.playGroups)
+                );
+              }
+              if (item.data.data.lotteryId === "f1_11x5") {
+                localStorage.setItem(
+                  "getPlayTree_playGroups_x11x5",
+                  JSON.stringify(item.data.data.playGroups)
+                );
+              }
             }
           });
         })
@@ -224,59 +260,28 @@ export default {
     },
     //获取过去开奖号码1个
     getPastOp() {
-      // if (this.isExperid()) {
-      //   this.$axios
-      //     .get(
-      //       baseUrl +
-      //         "/api/lottery/getPastOpen?lotteryId=" +
-      //         this.lotteryId +
-      //         "&count=1"
-      //     )
-      //     .then(res => {
-      //       let storage = res.data.data[0];
-      //       storage.lastTime = Date.parse(new Date()) / 1000;
-      //       localStorage.setItem(this.lotteryId, JSON.stringify(storage));
-      //       if (this.lotteryId != "cqssc") {
-      //         this.pastOpenK3 = res.data.data[0];
-      //         this.lotteryId = this.pastOpenK3.lotteryId;
-      //       } else {
-      //         this.pastOpenSSC = res.data.data[0];
-      //         this.lotteryId = this.pastOpenSSC.lotteryId;
-      //       }
-      //     })
-      //     .catch(error => {
-      //       console.log("获取过去开奖号码No");
-      //     });
-      // } else {
-      //   let item = JSON.parse(localStorage.getItem(this.lotteryId));
-      //   if (this.lotteryId != "cqssc") {
-      //     this.pastOpenK3 = item;
-      //   } else {
-      //     this.pastOpenSSC = item;
-      //   }
-      // }
-      this.$loader.show();
+      // this.$loader.show();
       this.$axios
-          .get(
-            baseUrl +
-              "/api/lottery/getPastOpen?lotteryId=" +
-              this.lotteryId +
-              "&count=1"
-          )
-          .then(res => {
-            this.$loader.hide();
-            if (this.lotteryId != "cqssc") {
-              this.pastOpenK3 = res.data.data[0];
-              this.lotteryId = this.pastOpenK3.lotteryId;
-            } else {
-              this.pastOpenSSC = res.data.data[0];
-              this.lotteryId = this.pastOpenSSC.lotteryId;
-            }
-          })
-          .catch(error => {
-            this.$loader.hide();
-            console.log(error);
-          });
+        .get(
+          baseUrl +
+            "/api/lottery/getPastOpen?lotteryId=" +
+            this.lotteryId +
+            "&count=1"
+        )
+        .then(res => {
+          // this.$loader.hide();
+          if (this.lotteryId != "cqssc") {
+            this.pastOpenK3 = res.data.data[0];
+            this.lotteryId = this.pastOpenK3.lotteryId;
+          } else {
+            this.pastOpenSSC = res.data.data[0];
+            this.lotteryId = this.pastOpenSSC.lotteryId;
+          }
+        })
+        .catch(error => {
+          // this.$loader.hide();
+          console.log(error);
+        });
     },
     // 获取彩种
     lotteryAll() {
