@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     //清除定时器
-    clearTimeInters(){
+    clearTimeInters() {
       this.$refs.betContentTop.clearTimeInter();
     },
     //清空号码篮
@@ -93,7 +93,6 @@ export default {
     },
     //玩法术
     getPlayTree() {
-      // if (localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id) !== null) {
       if (this.$route.params.id === "k3") {
         this.playGroups = JSON.parse(
           localStorage.getItem(
@@ -107,34 +106,11 @@ export default {
         this.$store.commit("CURRENT_PLAYER_BONUS", this.playBonus);
       } else {
         this.playGroups = JSON.parse(
-          localStorage.getItem(
-            "getPlayTree_playGroups_" + this.$route.params.id
-          )
+          localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id)
         );
         this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
       }
       this.setupPlayTree(this.playGroups);
-      // }
-      // else {
-      //   this.$axios.get(baseUrl +"/api/lottery/getPlayTree?lotteryId=" +this.$route.params.group).then(res => {
-      //     if(this.$route.params.id === 'k3'){
-      //       localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(res.data.data.playGroups));
-      //       localStorage.setItem("getPlayTree_playBonus_"+this.$route.params.id,JSON.stringify(res.data.data.playBonus));
-      //       this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
-      //       this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_"+this.$route.params.id));
-      //       this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
-      //       this.$store.commit("CURRENT_PLAYER_BONUS",this.playBonus);
-      //     }else{
-      //       localStorage.setItem("getPlayTree_playGroups_"+this.$route.params.id,JSON.stringify(res.data.data.playGroups));
-      //       this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+this.$route.params.id));
-      //       this.$store.commit("CURRENT_PLAYER_GROUPS",this.playGroups);
-      //     }
-      //     this.setupPlayTree(this.playGroups);
-      //   })
-      //   .catch(error => {
-      //     console.log("玩法术,No");
-      //   });
-      // }
     },
     setupPlayTree(playGroups) {
       for (let i = 0; i < playGroups.length; i++) {

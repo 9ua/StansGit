@@ -112,13 +112,9 @@ export default {
   },
   computed: {
     playGroups() {
-      return JSON.parse(
-        localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id)
-      );
-      // return this.$store.state.current_player_groups;
+      return this.$store.state.current_player_groups;
     },
     sgroups2() {
-      // return JSON.parse(localStorage.getItem("SGROUPS2_"+this.$route.params.id));
       return this.$store.state.sgroups2;
     }
   },
@@ -129,9 +125,7 @@ export default {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
       this.showhaa = false;
-      this.current_player_bonus = JSON.parse(
-        localStorage.getItem("getPlayTree_playGroups_ssc")
-      )[0].groups[0].players[0];
+      this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0];
       this.$store.state.className = this.current_player_bonus.id;
       this.className = this.current_player_bonus.id;
     },
@@ -754,7 +748,8 @@ export default {
       }
       //五星--组选120 +
       if (this.className === "ssc_star5_group120") {
-        this.dd = this.d.filter(function(n) {
+        this.ka[indexg] = num.ball;
+        this.dd = this.ka.filter(function(n) {
           return n;
         });
         let lengths = this.dd.length;
@@ -775,9 +770,7 @@ export default {
         }
         this.$store.state.pd.addCon = this.an + "," + this.bn;
         this.$store.state.con = this.an + "," + this.bn;
-        this.$store.state.zhu = this.getzuCount4(
-          this.$store.state.con.split(",")
-        );
+        this.$store.state.zhu = this.getzuCount4(this.$store.state.con.split(","));
         this.$store.state.pd.addzhu = this.$store.state.zhu;
       }
       //前四--组选12 +
@@ -1435,7 +1428,8 @@ export default {
       }
       //五星--组选120 -
       if (this.className === "ssc_star5_group120") {
-        this.dd = this.d.filter(function(n) {
+        this.ka.splice(indexg, 1, "");
+        this.dd = this.ka.filter(function(n) {
           return n;
         });
         let lengths = this.dd.length;
@@ -1585,7 +1579,7 @@ export default {
     },
     //菜单选择项1
     playGroupBut(item, index) {
-      this.$emit("clearTimeInters");//清除定时器
+      // this.$emit("clearTimeInters");//清除定时器
       this.navTo = index;
       this.playNum = 0;
       this.current_player = item;
@@ -1639,6 +1633,7 @@ export default {
       this.className = play.id;
       this.$store.state.className = play.id;
       this.addTitle = play.title;
+      this.displayBonus = play.displayBonus;
       if (isNaN(this.displayBonus)) {
         let ar = [];
         ar = this.displayBonus.split("-");
@@ -1652,7 +1647,7 @@ export default {
     iscreat() {
       this.$store.state.zhu = 0;
       this.$store.state.pd = {};
-      this.$store.state.spinner3 = 0;
+      // this.$store.state.spinner3 = 0;
       this.$store.state.con = "";
       this.d = [];
       this.dd = [];
@@ -1687,11 +1682,7 @@ export default {
       this.zhu9 = 0;
       this.zhu10 = 0;
       for (let h = 0; h < this.current_player_bonus.numView.length; h++) {
-        for (
-          let k = 0;
-          k < this.current_player_bonus.numView[h].nums.length;
-          k++
-        ) {
+        for (let k = 0;k < this.current_player_bonus.numView[h].nums.length;k++) {
           this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
@@ -2094,10 +2085,10 @@ export default {
             this.dd = this.ka.filter(function(n) {
               return n;
             });
-            this.an = this.dd.join("");
+            this.an = this.dd.join(",");
           });
         }
-        this.$store.state.con = this.an + "," + this.bn;
+        this.$store.state.con = this.an;
         this.$store.state.pd.addCon = this.$store.state.con;
         let lengths = this.dd.length;
         this.$store.state.zhu = this.getCount120(lengths);
@@ -2130,7 +2121,11 @@ export default {
         this.className === "ssc_star4_last_none1" ||
         this.className === "ssc_star3_front_none1" ||
         this.className === "ssc_star3_mid_none1" ||
-        this.className === "ssc_star3_last_none1"
+        this.className === "ssc_star3_last_none1" ||
+        this.className === "ssc_star5_other1" ||
+        this.className === "ssc_star5_other2" ||
+        this.className === "ssc_star5_other3" ||
+        this.className === "ssc_star5_other4"
       ) {
         if (indexf === 0) {
           ball.filter((list, i) => {
@@ -2139,7 +2134,7 @@ export default {
             this.dd = this.ka.filter(function(n) {
               return n;
             });
-            this.an = this.dd.join("");
+            this.an = this.dd.join(",");
           });
           this.zhu1 = 10;
         }
@@ -2202,7 +2197,7 @@ export default {
             this.dd = this.ka.filter(function(n) {
               return n;
             });
-            this.an = this.dd.join("");
+            this.an = this.dd.join(",");
           });
         }
         this.$store.state.con = this.an;
@@ -2648,11 +2643,11 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
-        this.$store.state.con = this.an + "," + this.bn;
+        this.$store.state.con = this.an;
         this.$store.state.pd.addCon = this.$store.state.con;
         let lengths = this.dd.length;
         this.$store.state.zhu = this.getCount120(lengths);
@@ -2688,7 +2683,11 @@ export default {
         this.className === "ssc_star4_last_none1" ||
         this.className === "ssc_star3_front_none1" ||
         this.className === "ssc_star3_mid_none1" ||
-        this.className === "ssc_star3_last_none1"
+        this.className === "ssc_star3_last_none1" ||
+        this.className === "ssc_star5_other1" ||
+        this.className === "ssc_star5_other2" ||
+        this.className === "ssc_star5_other3" ||
+        this.className === "ssc_star5_other4"
       ) {
         let len = Math.ceil(ball.length / 2);
         if (indexf === 0) {
@@ -2699,7 +2698,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
           this.zhu1 = 5;
@@ -2770,7 +2769,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
@@ -3217,11 +3216,11 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
-        this.$store.state.con = this.an + "," + this.bn;
+        this.$store.state.con = this.an;
         this.$store.state.pd.addCon = this.$store.state.con;
         let lengths = this.dd.length;
         this.$store.state.zhu = this.getCount120(lengths);
@@ -3257,7 +3256,11 @@ export default {
         this.className === "ssc_star4_last_none1" ||
         this.className === "ssc_star3_front_none1" ||
         this.className === "ssc_star3_mid_none1" ||
-        this.className === "ssc_star3_last_none1"
+        this.className === "ssc_star3_last_none1" ||
+        this.className === "ssc_star5_other1" ||
+        this.className === "ssc_star5_other2" ||
+        this.className === "ssc_star5_other3" ||
+        this.className === "ssc_star5_other4"
       ) {
         let len = Math.ceil(ball.length / 2);
         if (indexf === 0) {
@@ -3268,7 +3271,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
           this.zhu1 = 5;
@@ -3339,7 +3342,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
@@ -3786,11 +3789,11 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
-        this.$store.state.con = this.an + "," + this.bn;
+        this.$store.state.con = this.an;
         this.$store.state.pd.addCon = this.$store.state.con;
         let lengths = this.dd.length;
         this.$store.state.zhu = this.getCount120(lengths);
@@ -3826,7 +3829,11 @@ export default {
         this.className === "ssc_star4_last_none1" ||
         this.className === "ssc_star3_front_none1" ||
         this.className === "ssc_star3_mid_none1" ||
-        this.className === "ssc_star3_last_none1"
+        this.className === "ssc_star3_last_none1" || 
+        this.className === "ssc_star5_other1" ||
+        this.className === "ssc_star5_other2" ||
+        this.className === "ssc_star5_other3" ||
+        this.className === "ssc_star5_other4"
       ) {
         let len = Math.ceil(ball.length / 2);
         if (indexf === 0) {
@@ -3837,7 +3844,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
           this.zhu1 = 5;
@@ -3908,7 +3915,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
@@ -4349,11 +4356,11 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
-        this.$store.state.con = this.an + "," + this.bn;
+        this.$store.state.con = this.an;
         this.$store.state.pd.addCon = this.$store.state.con;
         let lengths = this.dd.length;
         this.$store.state.zhu = this.getCount120(lengths);
@@ -4389,7 +4396,11 @@ export default {
         this.className === "ssc_star4_last_none1" ||
         this.className === "ssc_star3_front_none1" ||
         this.className === "ssc_star3_mid_none1" ||
-        this.className === "ssc_star3_last_none1"
+        this.className === "ssc_star3_last_none1" || 
+        this.className === "ssc_star5_other1" ||
+        this.className === "ssc_star5_other2" ||
+        this.className === "ssc_star5_other3" ||
+        this.className === "ssc_star5_other4"
       ) {
         let len = Math.ceil(ball.length / 2);
         if (indexf === 0) {
@@ -4400,7 +4411,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
           this.zhu1 = 5;
@@ -4471,7 +4482,7 @@ export default {
               this.dd = this.ka.filter(function(n) {
                 return n;
               });
-              this.an = this.dd.join("");
+              this.an = this.dd.join(",");
             }
           });
         }
@@ -4890,13 +4901,18 @@ export default {
         }
       }
       //一码不定位,前五，后五，前四，后四，前三，后三
+      //四季发财，三星报喜，好事成双，一帆风顺
       if (
         this.className === "ssc_star5_none1" ||
         this.className === "ssc_star4_front_none1" ||
         this.className === "ssc_star4_last_none1" ||
         this.className === "ssc_star3_front_none1" ||
         this.className === "ssc_star3_mid_none1" ||
-        this.className === "ssc_star3_last_none1"
+        this.className === "ssc_star3_last_none1" ||
+        this.className === "ssc_star5_other1" ||
+        this.className === "ssc_star5_other2" ||
+        this.className === "ssc_star5_other3" ||
+        this.className === "ssc_star5_other4"
       ) {
         if (indexf === 0) {
           ball.filter((list, i) => {
@@ -4905,7 +4921,7 @@ export default {
             this.dd = this.ka.filter(function(n) {
               return n;
             });
-            this.an = this.dd.join("");
+            this.an = this.dd.join(",");
           });
           this.$store.state.con = this.an;
           this.$store.state.pd.addCon = this.$store.state.con;

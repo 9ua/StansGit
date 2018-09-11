@@ -91,7 +91,7 @@ export default {
       formData.append("order[0].playId", obj.addClassName);
       formData.append("count", obj.zhu);
       formData.append("traceOrders[0].price", obj.addMoney);
-      formData.append("traceOrders[0].seasonId", obj.addSeasonId);
+      formData.append("traceOrders[0].seasonId", this.$store.state.seasonId);
       formData.append("bounsType", 0);
       formData.append("traceWinStop", 0);
       formData.append("isTrace", 0);
@@ -165,7 +165,7 @@ export default {
       this.productLists.map(item => {
         this.conTemp = item.addCon;
         this.zhuTemp = item.addzhu;
-        if (item.addClassName !== "k3_star3_and") {
+        if (item.addClassName !== "k3_star3_and" && this.$store.state.className !== "ssc_dxds") {
           if (item.addCon.includes("大")) {
             this.spli("大", item);
           }
@@ -178,7 +178,7 @@ export default {
           if (item.addCon.includes("双")) {
             this.spli("双", item);
           }
-        } else if (item.addClassName === "k3_star3_and") {
+        } else if (item.addClassName === "k3_star3_and" && this.$store.state.className !== "ssc_dxds") {
           if (
             item.addCon.includes("大") ||
             item.addCon.includes("小") ||
@@ -192,7 +192,12 @@ export default {
         if (
           item.addCon.match(/\d/) ||
           item.addCon.includes("龙") ||
-          item.addCon.includes("虎")
+          item.addCon.includes("虎") ||
+          item.addCon.includes("和") ||
+          item.addCon.includes("大单") ||
+          item.addCon.includes("小单") ||
+          item.addCon.includes("大双") ||
+          item.addCon.includes("小双")
         ) {
           this.betFun.push(
             this.bet({

@@ -679,7 +679,7 @@ export default {
     },
     //菜单选择项1
     playGroupBut(item, index) {
-      this.$emit("clearTimeInters");//清除定时器
+      // this.$emit("clearTimeInters");//清除定时器
       this.playNum = 0;
       this.navTo = index;
       this.current_player = item;
@@ -721,6 +721,7 @@ export default {
       this.className = play.id;
       this.$store.state.className = play.id;
       this.addTitle = play.fullTitle;
+      this.displayBonus = play.displayBonus;
       if (isNaN(this.displayBonus)) {
         let ar = [];
         ar = this.displayBonus.split("-");
@@ -734,7 +735,7 @@ export default {
     iscreat() {
       this.$store.state.zhu = 0;
       this.$store.state.pd = {};
-      this.$store.state.spinner3 = 0;
+      // this.$store.state.spinner3 = 0;
       this.$store.state.con = "";
       this.d = [];
       this.dd = [];

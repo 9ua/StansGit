@@ -1331,7 +1331,7 @@ export default {
     },
     //菜单选择项1
     playGroupBut(item, index) {
-      this.$emit("clearTimeInters");//清除定时器
+      // this.$emit("clearTimeInters");//清除定时器
       this.navTo = index;
       this.playNum = 0;
       this.current_player = item;
@@ -1367,6 +1367,7 @@ export default {
       this.className = play.id;
       this.$store.state.className = play.id;
       this.addTitle = play.title;
+      this.displayBonus = play.displayBonus;
       if (isNaN(this.displayBonus)) {
         let ar = [];
         ar = this.displayBonus.split("-");
@@ -1380,7 +1381,7 @@ export default {
     iscreat() {
       this.$store.state.zhu = 0;
       this.$store.state.pd = {};
-      this.$store.state.spinner3 = 0;
+      // this.$store.state.spinner3 = 0;
       this.$store.state.con = "";
       this.d = [];
       this.dd = [];
@@ -1903,7 +1904,7 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        ththis.$store.stateis.zhu =
+        this.$store.state.zhu =
           this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
@@ -2544,7 +2545,7 @@ export default {
             this.$store.state.con.split(","),
             5
           );
-          this.$store.state.pd.addzhu = ththis.$store.stateis.zhu;
+          this.$store.state.pd.addzhu = this.$store.state.zhu;
         }
       }
     },
@@ -2636,7 +2637,7 @@ export default {
         if (this.en === "") {
           this.en = "-";
         }
-        ththis.$store.stateis.zhu =
+        this.$store.state.zhu =
           this.zhu1 + this.zhu2 + this.zhu3 + this.zhu4 + this.zhu5;
         this.$store.state.pd.addzhu = this.$store.state.zhu;
         this.$store.state.con =
