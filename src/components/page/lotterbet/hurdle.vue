@@ -47,7 +47,7 @@
       </p>
       <button @click="affirmBetGo">确认投注</button>
     </div>
-    <firmbet ref="firmbet" :productLists="productList" :pds="pd" :content="String(this.seasonId)"></firmbet>
+    <firmbet ref="firmbet" :productLists="productList" :pds="pd" :content="String(this.seasonId)-0"></firmbet>
   </div>
 </template>
 <script>
