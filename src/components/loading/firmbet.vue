@@ -83,6 +83,18 @@ export default {
       // console.log("productLists:",this.productLists)
     },
     bet(obj) {
+      if (this.$route.params.id == "k3") {
+        if (
+          obj.con.includes("大") ||
+          obj.con.includes("小") ||
+          obj.con.includes("单") ||
+          obj.con.includes("双")
+        ) {
+          obj.addClassName = "k3_star3_big_odd";
+        } else {
+          obj.addClassName = "k3_star3_and";
+        }
+      }
       let formData = new FormData();
       formData.append("order[0].content", obj.con);
       formData.append("order[0].betCount", obj.zhu);
