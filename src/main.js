@@ -8,21 +8,28 @@ import VueAxios from 'vue-axios'
 import store from './vuex/store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
-import theme from 'muse-ui/lib/theme'
 import md5 from 'js-md5'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import YDUI from 'vue-ydui'
-import 'vue-ydui/dist/ydui.px.css'
+import {
+  Slider,
+  SliderItem
+} from 'vue-ydui/dist/lib.px/slider'
+import {
+  Spinner
+} from 'vue-ydui/dist/lib.px/spinner'
+import 'vue-ydui/dist/ydui.base.css'
 import GeminiScrollbar from 'vue-gemini-scrollbar'
 import Loading from "./components/loading/index"
 import popTo from "./components/loading/pop"
 import './assets/iconfont/iconfont.css'
 
+Vue.component(Spinner.name, Spinner);
+Vue.component(Slider.name, Slider);
+Vue.component(SliderItem.name, SliderItem);
 Vue.use(popTo);
 Vue.use(Loading);
 Vue.use(GeminiScrollbar)
-Vue.use(YDUI);
 Vue.use(ElementUI);
 Vue.use(MuseUI);
 Vue.config.productionTip = false;
@@ -32,7 +39,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     if (store.state.loginStatus) {
       next();
-    } else{
+    } else {
       next({
         path: '/login/ashore',
         query: {
@@ -104,10 +111,24 @@ axios.interceptors.response.use(data => { // 响应成功关闭loading
   }
   if (data.data.pup === true) {
     if (data.data.data.message && data.data.data.message !== "参数错误") {
-      Vue.prototype.$pop.show({error:'',title:'温馨提示',content:data.data.data.message,content1:'',content2:'',number:1});
+      Vue.prototype.$pop.show({
+        error: '',
+        title: '温馨提示',
+        content: data.data.data.message,
+        content1: '',
+        content2: '',
+        number: 1
+      });
     } else {
       if (data.data.data !== "参数错误") {
-        Vue.prototype.$pop.show({error:'',title:'温馨提示',content:data.data.data,content1:'',content2:'',number:1});
+        Vue.prototype.$pop.show({
+          error: '',
+          title: '温馨提示',
+          content: data.data.data,
+          content1: '',
+          content2: '',
+          number: 1
+        });
       }
     }
   }
