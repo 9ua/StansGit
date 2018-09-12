@@ -141,6 +141,18 @@ export default {
       }
     },
     bet(obj) {
+      if (this.$route.params.id == "k3") {
+        if (
+          obj.con.includes("大") ||
+          obj.con.includes("小") ||
+          obj.con.includes("单") ||
+          obj.con.includes("双")
+        ) {
+          this.$store.state.className = "k3_star3_big_odd";
+        } else {
+          this.$store.state.className = "k3_star3_and";
+        }
+      }
       let formData = new FormData();
       formData.append("order[0].content", obj.con);
       formData.append("order[0].betCount", obj.zhu);
@@ -221,7 +233,10 @@ export default {
       } else {
         this.conTemp = this.$store.state.con;
         this.zhuTemp = this.$store.state.zhu;
-        if (this.$store.state.className !== "k3_star3_and" && this.$store.state.className !== "ssc_dxds") {
+        if (
+          this.$store.state.className !== "k3_star3_and" &&
+          this.$store.state.className !== "ssc_dxds"
+        ) {
           if (this.$store.state.con.includes("大")) {
             this.spli("大");
           }
@@ -234,12 +249,15 @@ export default {
           if (this.$store.state.con.includes("双")) {
             this.spli("双");
           }
-        } else if (this.$store.state.className === "k3_star3_and" && this.$store.state.className !== "ssc_dxds") {
+        } else if (
+          this.$store.state.className === "k3_star3_and" &&
+          this.$store.state.className !== "ssc_dxds"
+        ) {
           if (
             this.$store.state.con.includes("大") ||
             this.$store.state.con.includes("小") ||
             this.$store.state.con.includes("单") ||
-            this.$store.state.con.includes("双") 
+            this.$store.state.con.includes("双")
           ) {
             let arrk3 = this.$store.state.con.split(",");
             this.splik3(arrk3);

@@ -316,8 +316,10 @@ export default {
         > div {
           width: 350px;
           height: 210px;
+          overflow: hidden;
+          overflow-y: scroll;
           border: 1px solid #ddd;
-          padding: 10px 0px 0px 10px;
+          padding: 10px 0px 10px 10px;
           > ul {
             & li {
               @extend %flex;
