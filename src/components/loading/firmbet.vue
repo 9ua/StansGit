@@ -91,7 +91,7 @@ export default {
           obj.con.includes("双")
         ) {
           obj.addClassName = "k3_star3_big_odd";
-        } else {
+        } else if(this.$store.state.className =='k3_star3_and') {
           obj.addClassName = "k3_star3_and";
         }
       }
