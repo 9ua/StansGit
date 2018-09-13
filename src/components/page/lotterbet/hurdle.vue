@@ -148,17 +148,21 @@ export default {
           obj.con.includes("单") ||
           obj.con.includes("双")
         ) {
-          this.$store.state.className = "k3_star3_big_odd";
+          obj.className = "k3_star3_big_odd";
         } else if(this.$store.state.className =='k3_star3_and') {
-          this.$store.state.className = "k3_star3_and";
+          obj.className = "k3_star3_and";
+        }else{
+          obj.className = this.$store.state.className;
         }
+      }else{
+        obj.className = this.$store.state.className;
       }
       let formData = new FormData();
       formData.append("order[0].content", obj.con);
       formData.append("order[0].betCount", obj.zhu);
       formData.append("order[0].price", this.$store.state.spinner3);
       formData.append("order[0].unit", 1);
-      formData.append("order[0].playId", this.$store.state.className);
+      formData.append("order[0].playId", obj.className);
       formData.append("count", obj.zhu);
       formData.append("traceOrders[0].price", this.$store.state.spinner3);
       formData.append("traceOrders[0].seasonId", this.seasonId);
@@ -273,7 +277,7 @@ export default {
           this.$store.state.con.includes("大双") ||
           this.$store.state.con.includes("小双")
         ) {
-          this.betFun.push(this.bet({ con: this.conTemp, zhu: this.zhuTemp }));
+          this.betFun.push(this.bet({ con: this.conTemp, zhu: this.zhuTemp}));
         }
         this.$axios.all([...this.betFun]).then(
           this.$axios.spread((...res) => {

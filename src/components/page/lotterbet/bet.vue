@@ -15,7 +15,7 @@
         <today-lottery-s @emitGet="emitGet" v-if="$route.params.id === 'ssc'"></today-lottery-s>
         <today-lottery-p @emitGet="emitGet" v-if="$route.params.id === 'pk10'"></today-lottery-p>
         <today-lottery-x @emitGet="emitGet" v-if="$route.params.id === 'x11x5'"></today-lottery-x>
-        <beting></beting>
+        <beting @emitGet="emitGet"></beting>
         <winning></winning>
       </div>
     </div>

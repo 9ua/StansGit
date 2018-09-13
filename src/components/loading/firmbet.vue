@@ -91,7 +91,7 @@ export default {
           obj.con.includes("双")
         ) {
           obj.addClassName = "k3_star3_big_odd";
-        } else if(this.$store.state.className =='k3_star3_and') {
+        } else if (this.$store.state.className == "k3_star3_and") {
           obj.addClassName = "k3_star3_and";
         }
       }
@@ -168,7 +168,7 @@ export default {
       this.zhuTemp -= n;
       this.$store.state.k3conTemp = [];
     },
-    //立即投注
+    //确认投注
     betGo() {
       let addMoney = 0;
       let addzhu = 0;
@@ -177,7 +177,10 @@ export default {
       this.productLists.map(item => {
         this.conTemp = item.addCon;
         this.zhuTemp = item.addzhu;
-        if (item.addClassName !== "k3_star3_and" && this.$store.state.className !== "ssc_dxds") {
+        if (
+          item.addClassName !== "k3_star3_and" &&
+          this.$store.state.className !== "ssc_dxds"
+        ) {
           if (item.addCon.includes("大")) {
             this.spli("大", item);
           }
@@ -190,7 +193,10 @@ export default {
           if (item.addCon.includes("双")) {
             this.spli("双", item);
           }
-        } else if (item.addClassName === "k3_star3_and" && this.$store.state.className !== "ssc_dxds") {
+        } else if (
+          item.addClassName === "k3_star3_and" &&
+          this.$store.state.className !== "ssc_dxds"
+        ) {
           if (
             item.addCon.includes("大") ||
             item.addCon.includes("小") ||
