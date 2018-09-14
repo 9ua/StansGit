@@ -31,6 +31,8 @@
             i.color 忘记密码？
         mu-button.registerGo(color='error', @click='tosubmit') 立即登陆
       loginr(v-show='tologin')
+  .winning-right
+  .winning-right2
 </template>
 <script>
 import md5 from "js-md5";
