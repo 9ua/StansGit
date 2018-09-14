@@ -3,7 +3,7 @@
   bet-content-top(@emitget='emitGet', ref='betContentTop')
   .lottBox
     .lott-left
-      lott-left-nav(@geteservertime='geteServerTime', @exit='exit')
+      lott-left-nav(@exit='exit')
       bet-content-k(@cleartimeinters='clearTimeInters', ref='betContentK', v-if="$route.params.id === 'k3'")
       bet-content-s(@cleartimeinters='clearTimeInters', ref='betContentS', v-if="$route.params.id === 'ssc'")
       bet-content-p(@cleartimeinters='clearTimeInters', ref='betContentP', v-if="$route.params.id === 'pk10'")

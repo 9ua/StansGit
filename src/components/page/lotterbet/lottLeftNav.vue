@@ -99,7 +99,7 @@ export default {
       this.$emit("exit");
       this.$router.push("/bet/" + this.$route.params.id + "/" + item.id);
       this.$parent.getPlayTree(); //玩法术
-      this.$emit("geteServerTime"); //获取彩種當前獎期時間
+      this.$parent.geteServerTime(); //获取彩種當前獎期時間
     },
     //导航右边点击
     lottnavright() {
