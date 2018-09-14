@@ -36,7 +36,7 @@ export default {
       this.item = item;
     },
     getbetOrderList() {
-      this.$emit("emitGet"); //我的投注
+      this.$emit("emitget"); //我的投注
     }
   },
   computed: {

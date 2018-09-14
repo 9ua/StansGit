@@ -164,7 +164,7 @@ export default {
           } else {
             clearTimeout(this.timer2);
             this.isshowGif = false;
-            this.$emit("emitGet"); //我的投注
+            this.$emit("emitget"); //我的投注
           }
         })
         .catch(error => {

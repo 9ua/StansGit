@@ -38,7 +38,7 @@ div(style='padding:0px 14px;')
       span 总金额：{{productListAllMoney}}, 
       span 账户余额：{{$store.state.balance}}
     button(@click='affirmBetGo') 确认投注
-  firmbet(ref='firmbet', :productlists='productList', :pds='pd', :content='String(this.seasonId)-0')
+  firmbet(ref='firmbet', :pds='pd', :content='String(this.seasonId)-0')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
