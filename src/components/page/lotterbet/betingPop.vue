@@ -78,7 +78,7 @@
         <div class="dialogBtn">
           <button class="btn closeBtn" @click="showpop">关闭</button>
           <button class="btn repealOrder" v-if="items.seasonId === $store.state.seasonId" @click="cancel(items.id,items.lotteryId)">撤单</button>
-          <button class="btn againBtn" @click="betGos">再次投注</button>
+          <button class="btn againBtn" @click="betGos(items)">再次投注</button>
         </div>
       </div>
     </div>
@@ -98,18 +98,27 @@ export default {
     //关闭弹窗
     showpop() {
       this.$parent.showbetPop();
-      console.log(this.items);
     },
     //撤单
-    cancel(a,b) {
+    cancel(a, b) {
       let formData = new FormData();
       formData.append("lotteryId", b);
       formData.append("ids", a);
       this.$axios
-        .post(baseUrl + "/api/lottery/cancel", formData, this.$store.state.config)
+        .post(
+          baseUrl + "/api/lottery/cancel",
+          formData,
+          this.$store.state.config
+        )
         .then(res => {
-          this.$pop.show({title: "温馨提示",content: res.data.data,content1: "",content2: "",number: 1});
-          this.$parent.showbetPop();//关闭弹窗
+          this.$pop.show({
+            title: "温馨提示",
+            content: res.data.data,
+            content1: "",
+            content2: "",
+            number: 1
+          });
+          this.$parent.showbetPop(); //关闭弹窗
           this.$parent.getbetOrderList(); //我的投注
         })
         .catch(error => {
@@ -118,8 +127,32 @@ export default {
         });
     },
     //再次投注
-    betGos(){
-
+    betGos(k) {
+      let formData = new FormData();
+      formData.append("order[0].content", k.content);
+      formData.append("order[0].betCount", k.betCount);
+      formData.append("order[0].price", k.price);
+      formData.append("order[0].unit", 1);
+      formData.append("order[0].playId", k.playerId);
+      formData.append("count", k.betCount);
+      formData.append("traceOrders[0].price", k.amount);
+      formData.append("traceOrders[0].seasonId", this.$store.state.seasonId);
+      formData.append("bounsType", 0);
+      formData.append("traceWinStop", 0);
+      formData.append("isTrace", 0);
+      formData.append("lotteryId", k.lotteryId);
+      formData.append("amount", k.betCount * k.price);
+      this.$axios.post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config).then(res => {
+        if (res.data.message === "success") {
+          this.$parent.showbetPop(); //关闭弹窗
+          this.$parent.getbetOrderList(); //我的投注
+          this.$pop.show({title: "温馨提示",content: "恭喜您，投注成功！",content1: "",content2: "",number: 1});
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        this.$pop.show({title: "温馨提示",content: "投注失败,请检查您的网络！",content1: "",content2: "",number: 1});
+      });
     }
   }
 };

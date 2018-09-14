@@ -81,7 +81,8 @@ export default {
         { name: "宏發快3", lotteryId: "dfk3" }
       ],
       betFun: [],
-      idArr: ["dfk3", "sj1fc", "ffpk10", "f1_11x5"],
+      idArr: ["dfk3","gsk3","shk3","hbk3","jsk3","bjk3","jlk3","gsuk3"],//所有快3
+      idArrs: ["sj1fc","xjssc","cqssc", "ffpk10","pk10", "f1_11x5","sh11x5","ah11x5"],//非快3
       arrpeilva: [],
       arrpeilvb: [],
       arrpeilvc: [],
@@ -96,114 +97,81 @@ export default {
   },
   methods: {
     fn(obj) {
-      return this.$axios.get(
-        baseUrl + "/api/lottery/getPlayTree?lotteryId=" + obj
-      );
+      return this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId=" + obj);
+    },
+    beilv(item,xxk3){
+      localStorage.setItem("getPlayTree_playGroups_gsk3",JSON.stringify(item.data.data.playGroups));
+      localStorage.setItem("getPlayTree_playBonus_gsk3",JSON.stringify(item.data.data.playBonus));
+      this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+xxk3));
+      this.player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_"+xxk3));
+      let arr1 = [];
+      let arr2 = [];
+      let arrpeilv1 = this.player_bonus[3].bonusArray;
+      let arrpeilv2 = this.player_bonus[4].bonusArray;
+      for (let i in arrpeilv1) {
+        this.arrpeilva.push(arrpeilv1[i]);
+      }
+      for (let i = 0; i < this.arrpeilva.length / 2; i++) {
+        arr1.push(this.arrpeilva[i]);
+      }
+      for (
+        let i = this.arrpeilva.length / 2;
+        i < this.arrpeilva.length;
+        i++
+      ) {
+        arr2.push(this.arrpeilva[i]);
+      }
+      for (let i in arrpeilv2) {
+        this.arrpeilvb.push(arrpeilv2[i]);
+      }
+      this.arrpeilvc.push(arr1);
+      this.arrpeilvc.push(arr2);
+      this.arrpeilvc.push(this.arrpeilvb);
+      for (let i = 0; i < this.playGroups.length; i++) {
+        for (let j = 0; j < this.playGroups[i].groups.length; j++) {
+          for (let k = 0;k < this.playGroups[i].groups[j].players.length;k++) {
+            for (let l = 0;l <this.playGroups[i].groups[j].players[0].numView.length;l++) {
+              for (let m = 0;m <this.playGroups[i].groups[j].players[0].numView[l].nums.length;m++) {
+                if (i === 2) {
+                  this.playGroups[2].groups[j].players[0].numView[l].nums[m]["lottRot"] = this.arrpeilvc[l][m];
+                }
+              }
+            }
+          }
+        }
+      }
+      localStorage.setItem("getPlayTree_playGroups_"+xxk3,JSON.stringify(this.playGroups));
     },
     //玩法术
     getPlayTree() {
-      this.idArr.forEach(item => {
-        this.betFun.push(this.fn(item));
-      });
-      this.$axios.all([...this.betFun]).then(
-        this.$axios.spread((...res) => {
-          res.forEach(item => {
-            if (item.data.status !== 302) {
-              if (item.data.data.lotteryId === "dfk3") {
-                localStorage.setItem(
-                  "getPlayTree_playGroups_k3",
-                  JSON.stringify(item.data.data.playGroups)
-                );
-                localStorage.setItem(
-                  "getPlayTree_playBonus_k3",
-                  JSON.stringify(item.data.data.playBonus)
-                );
-                this.playGroups = JSON.parse(
-                  localStorage.getItem("getPlayTree_playGroups_k3")
-                );
-                this.player_bonus = JSON.parse(
-                  localStorage.getItem("getPlayTree_playBonus_k3")
-                );
-                let arr1 = [];
-                let arr2 = [];
-                let arrpeilv1 = this.player_bonus[3].bonusArray;
-                let arrpeilv2 = this.player_bonus[4].bonusArray;
-                for (let i in arrpeilv1) {
-                  this.arrpeilva.push(arrpeilv1[i]);
-                }
-                for (let i = 0; i < this.arrpeilva.length / 2; i++) {
-                  arr1.push(this.arrpeilva[i]);
-                }
-                for (
-                  let i = this.arrpeilva.length / 2;
-                  i < this.arrpeilva.length;
-                  i++
-                ) {
-                  arr2.push(this.arrpeilva[i]);
-                }
-                for (let i in arrpeilv2) {
-                  this.arrpeilvb.push(arrpeilv2[i]);
-                }
-                this.arrpeilvc.push(arr1);
-                this.arrpeilvc.push(arr2);
-                this.arrpeilvc.push(this.arrpeilvb);
-                for (let i = 0; i < this.playGroups.length; i++) {
-                  for (let j = 0; j < this.playGroups[i].groups.length; j++) {
-                    for (
-                      let k = 0;
-                      k < this.playGroups[i].groups[j].players.length;
-                      k++
-                    ) {
-                      for (
-                        let l = 0;
-                        l <
-                        this.playGroups[i].groups[j].players[0].numView.length;
-                        l++
-                      ) {
-                        for (
-                          let m = 0;
-                          m <
-                          this.playGroups[i].groups[j].players[0].numView[l]
-                            .nums.length;
-                          m++
-                        ) {
-                          if (i === 2) {
-                            this.playGroups[2].groups[j].players[0].numView[
-                              l
-                            ].nums[m]["lottRot"] = this.arrpeilvc[l][m];
-                          }
-                        }
-                      }
-                    }
+      if(localStorage.getItem("getPlayTree_playGroups_dfk3") == null){
+        this.idArr.forEach(item => {
+          this.betFun.push(this.fn(item));
+        });
+        this.idArrs.forEach(item => {
+          this.betFun.push(this.fn(item));
+        });
+        this.$axios.all([...this.betFun]).then(
+          this.$axios.spread((...res) => {
+            res.forEach(item => {
+              if (item.data.status !== 302) {
+                this.idArr.forEach(k => {
+                  if (item.data.data.lotteryId === k){
+                    localStorage.setItem("getPlayTree_playGroups_"+k,JSON.stringify(item.data.data.playGroups));
+                    localStorage.setItem("getPlayTree_playBonus_"+k,JSON.stringify(item.data.data.playBonus));
+                    this.beilv(item,k)
                   }
-                }
-                localStorage.setItem(
-                  "getPlayTree_playGroups_k3",
-                  JSON.stringify(this.playGroups)
-                );
+                });
+                this.idArrs.forEach(k => {
+                  if (item.data.data.lotteryId === k){
+                    localStorage.setItem("getPlayTree_playGroups_"+k,JSON.stringify(item.data.data.playGroups));
+                  }
+                });
               }
-              if (item.data.data.lotteryId === "sj1fc") {
-                localStorage.setItem(
-                  "getPlayTree_playGroups_ssc",
-                  JSON.stringify(item.data.data.playGroups)
-                );
-              }
-              if (item.data.data.lotteryId === "ffpk10") {
-                localStorage.setItem(
-                  "getPlayTree_playGroups_pk10",
-                  JSON.stringify(item.data.data.playGroups)
-                );
-              }
-              if (item.data.data.lotteryId === "f1_11x5") {
-                localStorage.setItem(
-                  "getPlayTree_playGroups_x11x5",
-                  JSON.stringify(item.data.data.playGroups)
-                );
-              }
-            }
-          });
-        })
-      );
+            });
+          })
+        );
+      }
     },
     lotteryTo(item, index) {
       this.$router.push("/bet/" + item.groupId + "/" + item.id);

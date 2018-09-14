@@ -48,8 +48,8 @@ export default {
       errorcode: false, //判断账号密码错误次数
       tologin: false, //判断是登陆还是注册
       validateForm: {
-        username: "",
-        password: "",
+        username: "huiyuan101",
+        password: "11211121",
         captcha_code: ""
       },
       localStorageArr:[],

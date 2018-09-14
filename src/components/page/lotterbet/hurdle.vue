@@ -149,12 +149,12 @@ export default {
           obj.con.includes("双")
         ) {
           obj.className = "k3_star3_big_odd";
-        } else if(this.$store.state.className =='k3_star3_and') {
+        } else if (this.$store.state.className == "k3_star3_and") {
           obj.className = "k3_star3_and";
-        }else{
+        } else {
           obj.className = this.$store.state.className;
         }
-      }else{
+      } else {
         obj.className = this.$store.state.className;
       }
       let formData = new FormData();
@@ -277,7 +277,7 @@ export default {
           this.$store.state.con.includes("大双") ||
           this.$store.state.con.includes("小双")
         ) {
-          this.betFun.push(this.bet({ con: this.conTemp, zhu: this.zhuTemp}));
+          this.betFun.push(this.bet({ con: this.conTemp, zhu: this.zhuTemp }));
         }
         this.$axios.all([...this.betFun]).then(
           this.$axios.spread((...res) => {

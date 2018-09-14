@@ -112,20 +112,26 @@ export default {
   },
   computed: {
     playGroups() {
-      return this.$store.state.current_player_groups;
+      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.group));
     },
     sgroups2() {
       return this.$store.state.sgroups2;
     }
   },
   mounted() {
-    this.isShowPlayGroups();
+    if(localStorage.getItem("getPlayTree_playGroups_"+ this.$route.params.group) !== null){
+      this.isShowPlayGroups();
+    }else{
+      setTimeout(() => {
+        this.isShowPlayGroups();
+      }, 600);
+    }
   },
   methods: {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
       this.showhaa = false;
-      this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_ssc"))[0].groups[0].players[0];
+      this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+ this.$route.params.group))[0].groups[0].players[0];
       this.$store.state.className = this.current_player_bonus.id;
       this.className = this.current_player_bonus.id;
     },
