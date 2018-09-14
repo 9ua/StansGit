@@ -299,18 +299,15 @@
       & ul {
         & li {
           @extend %flex;
-
           & p {
             @extend %faj;
             height: 38px;
             padding: 0px 20px;
             cursor: pointer;
           }
-
           & p.active {
             color: red;
           }
-
           & .aaaa.active {
             color: red;
           }
@@ -820,24 +817,30 @@ p.lott-right-top5-title,
     position: relative;
     padding: 21px 30px;
     overflow: hidden;
-    & .detailHeaderTitle{
+
+    & .detailHeaderTitle {
       font-size: 16px;
       font-weight: 700;
     }
+
     & .headerDetail {
       float: left;
       width: 300px;
-      & p{
+
+      & p {
         margin-top: 15px;
         font-size: 12px;
       }
     }
+
     & .detailNumBox {
       float: left;
-      & span{
+
+      & span {
         padding-left: 25px;
         color: #6b96ea;
       }
+
       & .detailNumTextArea {
         width: 340px;
         height: 95px;
@@ -856,24 +859,29 @@ p.lott-right-top5-title,
   & .detailBody {
     max-height: 330px;
     overflow-x: hidden;
-    & table{
+
+    & table {
       width: 100%;
       border-collapse: collapse;
       border-spacing: 0;
-      & th{
+
+      & th {
         background-color: #ddd0cd;
         font-weight: 400;
         text-align: center;
         line-height: 40px;
       }
+
       & th:nth-child(even) {
         background-color: #d4c6c3;
       }
-      & td{
+
+      & td {
         background-color: #e2dcda;
         text-align: center;
         line-height: 40px;
       }
+
       & td:nth-child(even) {
         background-color: #dad4d1;
       }
@@ -882,6 +890,7 @@ p.lott-right-top5-title,
 
   & .dialogBtn {
     text-align: center;
+
     & .btn {
       margin-top: 24px;
       margin-right: 10px;
@@ -891,11 +900,13 @@ p.lott-right-top5-title,
       border-radius: 15px;
       width: 100px;
     }
+
     & .btn.repealOrder {
       background-color: #5999ab;
       background-image: -webkit-linear-gradient(top, #5999ab 0, #43656f 100%);
       background-image: linear-gradient(top, #5999ab 0, #43656f 100%);
     }
+
     & .btn.againBtn {
       background-color: #ec8939;
       background-image: -webkit-linear-gradient(top, #ec8939 0, #915d32 100%);

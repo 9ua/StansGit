@@ -1,25 +1,21 @@
-<template>
-  <div class="bet">
-    <bet-content-top @emitGet="emitGet" ref="betContentTop"></bet-content-top>
-    <div class="lottBox">
-      <div class="lott-left">
-        <lott-left-nav @geteServerTime='geteServerTime' @exit='exit'></lott-left-nav>
-        <bet-content-k @clearTimeInters='clearTimeInters' ref="betContentK" v-if="$route.params.id === 'k3'"></bet-content-k>
-        <bet-content-s @clearTimeInters='clearTimeInters' ref="betContentS" v-if="$route.params.id === 'ssc'"></bet-content-s>
-        <bet-content-p @clearTimeInters='clearTimeInters' ref="betContentP" v-if="$route.params.id === 'pk10'"></bet-content-p>
-        <bet-content-x @clearTimeInters='clearTimeInters' ref="betContentX" v-if="$route.params.id === 'x11x5'"></bet-content-x>
-        <hurdle ref="hurdles" @iscreat='iscreat'></hurdle>
-      </div>
-      <div class="lott-right">
-        <today-lottery-k @emitGet="emitGet" v-if='$route.params.id === "k3"'></today-lottery-k>
-        <today-lottery-s @emitGet="emitGet" v-if="$route.params.id === 'ssc'"></today-lottery-s>
-        <today-lottery-p @emitGet="emitGet" v-if="$route.params.id === 'pk10'"></today-lottery-p>
-        <today-lottery-x @emitGet="emitGet" v-if="$route.params.id === 'x11x5'"></today-lottery-x>
-        <beting @emitGet="emitGet"></beting>
-        <winning></winning>
-      </div>
-    </div>
-  </div>
+<template lang='jade'>
+.bet
+  bet-content-top(@emitget='emitGet', ref='betContentTop')
+  .lottBox
+    .lott-left
+      lott-left-nav(@geteservertime='geteServerTime', @exit='exit')
+      bet-content-k(@cleartimeinters='clearTimeInters', ref='betContentK', v-if="$route.params.id === 'k3'")
+      bet-content-s(@cleartimeinters='clearTimeInters', ref='betContentS', v-if="$route.params.id === 'ssc'")
+      bet-content-p(@cleartimeinters='clearTimeInters', ref='betContentP', v-if="$route.params.id === 'pk10'")
+      bet-content-x(@cleartimeinters='clearTimeInters', ref='betContentX', v-if="$route.params.id === 'x11x5'")
+      hurdle(ref='hurdles', @iscreat='iscreat')
+    .lott-right
+      today-lottery-k(@emitget='emitGet', v-if='$route.params.id === "k3"')
+      today-lottery-s(@emitget='emitGet', v-if="$route.params.id === 'ssc'")
+      today-lottery-p(@emitget='emitGet', v-if="$route.params.id === 'pk10'")
+      today-lottery-x(@emitget='emitGet', v-if="$route.params.id === 'x11x5'")
+      beting(@emitget='emitGet')
+      winning
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -51,12 +47,7 @@ export default {
       splayers: [],
       snumView: [],
       current_player: null,
-
-      arrpeilva: [],
-      arrpeilvb: [],
-      arrpeilvc: [],
       player_bonus: [],
-      // playGroups: []
     };
   },
   mounted() {
@@ -120,32 +111,10 @@ export default {
             localStorage.setItem("getPlayTree_playGroups_"+ this.$route.params.group,JSON.stringify(res.data.data.playGroups));
             this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
           }
-          // if(this.$route.params.id == 'k3'){
-          //   this.$refs.betContentK.isShowPlayGroups();
-          // }
-          // if(this.$route.params.id == 'ssc'){
-          //   this.$refs.betContentS.isShowPlayGroups();
-          // }
-          // if(this.$route.params.id == 'pk10'){
-          //   this.$refs.betContentP.isShowPlayGroups();
-          // }
-          // if(this.$route.params.id == 'x11x5'){
-          //   this.$refs.betContentX.isShowPlayGroups();
-          // }
         }).catch(error =>{
           console.log(error);
         });
       }
-      // if (this.$route.params.id === "k3") {
-      //   this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id));
-      //   this.playBonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_" + this.$route.params.id));
-      //   this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
-      //   this.$store.commit("CURRENT_PLAYER_BONUS", this.playBonus);
-      // } else {
-      //   this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id));
-      //   this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
-      // }
-      // this.setupPlayTree(this.playGroups);
     },
     setupPlayTree(playGroups) {
       let arr1 = [];

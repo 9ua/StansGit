@@ -1,45 +1,34 @@
-<template>
-  <!-- 选号模块PK10 -->
-  <div>
-    <div v-if="showhaa"></div>
-    <div v-else class="getPlayTree">
-      <ul>
-        <li :class="{'active': index === navTo}" v-for="(item,index) in playGroups" :key="index" @click="playGroupBut(item,index)">{{item.title}}</li>
-      </ul>
-    </div>
-    <div class="getPlayTreeBox">
-      <ul>
-        <li v-for="(item,indexs) in sgroups2" :key="indexs" v-if="indexs === navTo">
-          <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)">{{play.title}}</p>
-        </li>
-      </ul>
-    </div>
-    <div class="conterButBox">
-      <div class="conterButTitle">
-        <i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金
-        <i v-show='Number(current_player_bonus.displayBonus)'>{{current_player_bonus.displayBonus | keepTwoNum}}</i>
-        <i v-show='isNaN(current_player_bonus.displayBonus)'>{{displayBonus1 | keepTwoNum}}—{{displayBonus2 | keepTwoNum}}</i>倍</div>
-      <div class="conterBut" :class="'conterBut'+className">
-        <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
-          <div class="both">
-            <span class="carTitle" :class="{'active': numViews.title === ''}">{{numViews.title}}</span>
-            <div class="carBox">
-              <div class="cars">
-                <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)">
-                  <i>{{item.ball}}</i>
-                  <b></b>
-                </p>
-              </div>
-              <div class="changes" v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'">
-                <span v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,indexto,numViews,indexf)">{{tools.name}}</span>
-              </div>
-            </div>
-            <!-- <tool class="changes" :item="numViews"  v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'"></tool> -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang='jade'>
+<!-- 选号模块PK10 -->
+div
+  div(v-if='showhaa')
+  .getPlayTree(v-else='')
+    ul
+      li(:class="{'active': index === navTo}", v-for='(item,index) in playGroups', :key='index', @click='playGroupBut(item,index)') {{item.title}}
+  .getPlayTreeBox
+    ul
+      li(v-for='(item,indexs) in playGroups', v-if='indexs === navTo')
+        div(v-for='(group,indexabc) in item.groups')
+          span.groupTitle {{group.title}}
+          span.groupTitleList(:class="{'active': current_player_bonus.id=== player.id}", v-for='(player,indexbcd) in group.players', v-if="player.id!='n11x5_star3_big'&&player.id!='n11x5_star3_small'&&player.id!='n11x5_star3_odd'&&player.id!='n11x5_star3_even'", @click='playersBut(player,indexbcd,indexabc)') {{player.title}}
+  .conterButBox
+    .conterButTitle
+      i.el-icon-info
+      | {{current_player_bonus.remark}}。单注最高奖金
+      i(v-show='Number(current_player_bonus.displayBonus)') {{current_player_bonus.displayBonus | keepTwoNum}}
+      i(v-show='isNaN(current_player_bonus.displayBonus)') {{displayBonus1 | keepTwoNum}}—{{displayBonus2 | keepTwoNum}}
+      | 倍
+    .conterBut(:class="'conterBut'+className")
+      .conterButDiv(:class="className+'Box'", v-for='(numViews, indexf) in current_player_bonus.numView', :key='indexf')
+        .both
+          span.carTitle(:class="{'active': numViews.title === ''}") {{numViews.title}}
+          .carBox
+            .cars
+              p.car(:class="[item.choose ? 'active' : '',className]", v-for='(item,indexha) in numViews.nums', :key='indexha', @click='curBalls(item,indexha,numViews,indexf)')
+                i {{item.ball}}
+                b
+            .changes(v-if="className !== 'pk10_side_lh' && className !== 'pk10_side_gy_and' && className !== 'pk10_side_ds'")
+              span(v-for='(tools,indexto) in ballTools', :key='indexto', @click='toolsCur(tools,indexto,numViews,indexf)') {{tools.name}}
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -109,16 +98,26 @@ export default {
   },
   computed: {
     playGroups() {
-      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.group));
+      return JSON.parse(
+        localStorage.getItem(
+          "getPlayTree_playGroups_" + this.$route.params.group
+        )
+      );
     },
     sgroups2() {
+      console.log(this.$store.state.sgroups2);
+      
       return this.$store.state.sgroups2;
     }
   },
   mounted() {
-    if(localStorage.getItem("getPlayTree_playGroups_"+ this.$route.params.group) !== null){
+    if (
+      localStorage.getItem(
+        "getPlayTree_playGroups_" + this.$route.params.group
+      ) !== null
+    ) {
       this.isShowPlayGroups();
-    }else{
+    } else {
       setTimeout(() => {
         this.isShowPlayGroups();
       }, 600);
@@ -128,9 +127,7 @@ export default {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
       this.showhaa = false;
-      this.current_player_bonus = JSON.parse(
-        localStorage.getItem("getPlayTree_playGroups_"+ this.$route.params.group)
-      )[0].groups[0].players[0];
+      this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.group))[0].groups[0].players[0];
       this.$store.state.className = this.current_player_bonus.id;
       this.className = this.current_player_bonus.id;
     },
@@ -1383,7 +1380,6 @@ export default {
     iscreat() {
       this.$store.state.zhu = 0;
       this.$store.state.pd = {};
-      // this.$store.state.spinner3 = 0;
       this.$store.state.con = "";
       this.d = [];
       this.dd = [];
@@ -1426,15 +1422,6 @@ export default {
           this.current_player_bonus.numView[h].nums[k].choose = false;
         }
       }
-      // for (let h = 0; h < this.snumView.length; h++) {
-      //   if (null != this.snumView[h]) {
-      //     for (let j = 0; j < this.snumView[h].length; j++) {
-      //       for (let k = 0; k < this.snumView[h][j].nums.length; k++) {
-      //         this.snumView[h][j].nums[k].choose = false;
-      //       }
-      //     }
-      //   }
-      // }
     },
     //前二-冠亚和
     qianergyh(bets) {

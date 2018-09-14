@@ -1,23 +1,17 @@
-<template>
-  <!-- 中奖信息、昨日盈利榜 -->
-  <div>
-    <div class="lott-right-top5">
-      <button :class="butClass1 ? 'active' : ''" @click="butClass1C">中奖信息</button>
-      <button :class="butClass2 ? 'active' : ''" @click="butClass2C">昨日盈利榜</button>
-    </div>
-    <div class="lott-right-top6" v-show="butClass1">
-      <p class="lott-right-top6-title">
-        <span class="lott-right-top6-span1">中奖信息实时更新</span>
-      </p>
-      <win-msg></win-msg>
-    </div>
-    <div class="lott-right-top7" v-show="butClass2">
-      <p class="lott-right-top6-title">
-        <span class="lott-right-top6-span1">昨日累计盈利排行榜</span>
-      </p>
-      <winninglottery></winninglottery>
-    </div>
-  </div>
+<template lang='jade'>
+<!-- 中奖信息、昨日盈利榜 -->
+div
+  .lott-right-top5
+    button(:class="butClass1 ? 'active' : ''", @click='butClass1C') 中奖信息
+    button(:class="butClass2 ? 'active' : ''", @click='butClass2C') 昨日盈利榜
+  .lott-right-top6(v-show='butClass1')
+    p.lott-right-top6-title
+      span.lott-right-top6-span1 中奖信息实时更新
+    win-msg
+  .lott-right-top7(v-show='butClass2')
+    p.lott-right-top6-title
+      span.lott-right-top6-span1 昨日累计盈利排行榜
+    winninglottery
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";

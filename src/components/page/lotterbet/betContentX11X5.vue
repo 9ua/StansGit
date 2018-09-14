@@ -1,67 +1,48 @@
-<template>
-  <!-- 选号模块11x5 -->
-  <div>
-    <div v-if="showhaa"></div>
-    <div class="getPlayTree">
-      <ul>
-        <li :class="{'active': index === navTo}" v-for="(item,index) in playGroups" :key="index" @click="playGroupBut(item,index)">{{item.title}}</li>
-      </ul>
-    </div>
-    <div class="getPlayTreeBox">
-      <ul>
-        <li v-for="(item,indexs) in playGroups" v-if="indexs === navTo">
-          <div v-for='(group,indexabc) in item.groups'>
-            <span class="groupTitle">{{group.title}}</span>
-            <span class="groupTitleList" :class="{'active': current_player_bonus.id=== player.id}" v-for='(player,indexbcd) in group.players'v-if="player.id!='n11x5_star3_big'&&player.id!='n11x5_star3_small'&&player.id!='n11x5_star3_odd'&&player.id!='n11x5_star3_even'" @click="playersBut(player,indexbcd,indexabc)">{{player.title}}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="conterButBox">
-      <div class="conterButTitle">
-        <i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金
-        <i v-show='Number(current_player_bonus.displayBonus)'>{{current_player_bonus.displayBonus | keepTwoNum}}</i>
-        <i v-show='isNaN(current_player_bonus.displayBonus)'>{{displayBonus1 | keepTwoNum}}—{{displayBonus2 | keepTwoNum}}</i>倍</div>
-      <div class="conterBut" :class="'conterBut'+className">
-
-        <div class="conterButDiv" :class="className+'Box'" v-if="current_player_bonus && current_player_bonus.id === 'n11x5_star3_and'">
-          <div class="both">
-            <span class="carTitle">中三和值</span>
-            <div class="carBox">
-              <div class="cars">
-                <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in star3_and" @click="curBalls(0,indexha,item,star3_and,current_player_bonus)">
-                  <span>
-                    <i>{{item.ball}}</i>
-                  </span>
-                </p>
+<template lang='jade'>
+<!-- 选号模块11x5 -->
+div
+  div(v-if='showhaa')
+  .getPlayTree
+    ul
+      li(:class="{'active': index === navTo}", v-for='(item,index) in playGroups', :key='index', @click='playGroupBut(item,index)') {{item.title}}
+  .getPlayTreeBox
+    ul
+      li(v-for='(item,indexs) in playGroups', v-if='indexs === navTo')
+        div(v-for='(group,indexabc) in item.groups')
+          span.groupTitle {{group.title}}
+          span.groupTitleList(:class="{'active': current_player_bonus.id=== player.id}", v-for='(player,indexbcd) in group.players', v-if="player.id!='n11x5_star3_big'&&player.id!='n11x5_star3_small'&&player.id!='n11x5_star3_odd'&&player.id!='n11x5_star3_even'", @click='playersBut(player,indexbcd,indexabc)') {{player.title}}
+  .conterButBox
+    .conterButTitle
+      i.el-icon-info
+      | {{current_player_bonus.remark}}。单注最高奖金
+      i(v-show='Number(current_player_bonus.displayBonus)') {{current_player_bonus.displayBonus | keepTwoNum}}
+      i(v-show='isNaN(current_player_bonus.displayBonus)') {{displayBonus1 | keepTwoNum}}—{{displayBonus2 | keepTwoNum}}
+      | 倍
+    .conterBut(:class="'conterBut'+className")
+      .conterButDiv(:class="className+'Box'", v-if="current_player_bonus && current_player_bonus.id === 'n11x5_star3_and'")
+        .both
+          span.carTitle 中三和值
+          .carBox
+            .cars
+              p.car(:class="[item.choose ? 'active' : '',className]", v-for='(item,indexha) in star3_and', @click='curBalls(0,indexha,item,star3_and,current_player_bonus)')
+                span
+                  i {{item.ball}}
+            //
+              <div class="changes" v-if="className !== 'ssc_star2_front_group_contains' && className !== 'ssc_star2_last_group_contains' && className !== 'ssc_star3_front_and' && className !== 'ssc_star3_mid_and' && className !== 'ssc_star3_last_and' && className !== 'ssc_star2_last_and' && className !== 'ssc_star2_last_group_and' && className !== 'ssc_star2_front_group_and' && className !== 'ssc_star2_front_and' && className !== 'ssc_star3_last_group_and' && className !== 'ssc_star3_mid_group_and' && className !== 'ssc_star3_front_group_and' && className !== 'ssc_side_lhh' && className !== 'ssc_dxds' && className !== 'ssc_star3_front_group_contains' && className !== 'ssc_star3_mid_group_contains' && className !== 'ssc_star3_last_group_contains'">
+              <span v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,indexto,numViews,indexf)">{{tools.name}}</span>
               </div>
-              <!-- <div class="changes" v-if="className !== 'ssc_star2_front_group_contains' && className !== 'ssc_star2_last_group_contains' && className !== 'ssc_star3_front_and' && className !== 'ssc_star3_mid_and' && className !== 'ssc_star3_last_and' && className !== 'ssc_star2_last_and' && className !== 'ssc_star2_last_group_and' && className !== 'ssc_star2_front_group_and' && className !== 'ssc_star2_front_and' && className !== 'ssc_star3_last_group_and' && className !== 'ssc_star3_mid_group_and' && className !== 'ssc_star3_front_group_and' && className !== 'ssc_side_lhh' && className !== 'ssc_dxds' && className !== 'ssc_star3_front_group_contains' && className !== 'ssc_star3_mid_group_contains' && className !== 'ssc_star3_last_group_contains'">
-                <span v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,indexto,numViews,indexf)">{{tools.name}}</span>
-              </div> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="conterButDiv" :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' v-else>
-          <div class="both">
-            <span class="carTitle" :class="{'active': numViews.title === ''}">{{numViews.title}}</span>
-            <div class="carBox">
-              <div class="cars">
-                <p class="car" :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(indexf,indexha,item,numViews,current_player_bonus)">
-                  <span>
-                    <i>{{item.ball}}</i>
-                  </span>
-                </p>
+      .conterButDiv(:class="className+'Box'", v-for='(numViews, indexf) in current_player_bonus.numView', v-else='')
+        .both
+          span.carTitle(:class="{'active': numViews.title === ''}") {{numViews.title}}
+          .carBox
+            .cars
+              p.car(:class="[item.choose ? 'active' : '',className]", v-for='(item,indexha) in numViews.nums', :key='indexha', @click='curBalls(indexf,indexha,item,numViews,current_player_bonus)')
+                span
+                  i {{item.ball}}
+            //
+              <div class="changes" v-if="className !== 'ssc_star2_front_group_contains' && className !== 'ssc_star2_last_group_contains' && className !== 'ssc_star3_front_and' && className !== 'ssc_star3_mid_and' && className !== 'ssc_star3_last_and' && className !== 'ssc_star2_last_and' && className !== 'ssc_star2_last_group_and' && className !== 'ssc_star2_front_group_and' && className !== 'ssc_star2_front_and' && className !== 'ssc_star3_last_group_and' && className !== 'ssc_star3_mid_group_and' && className !== 'ssc_star3_front_group_and' && className !== 'ssc_side_lhh' && className !== 'ssc_dxds' && className !== 'ssc_star3_front_group_contains' && className !== 'ssc_star3_mid_group_contains' && className !== 'ssc_star3_last_group_contains'">
+              <span v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,indexto,numViews,indexf)">{{tools.name}}</span>
               </div>
-              <!-- <div class="changes" v-if="className !== 'ssc_star2_front_group_contains' && className !== 'ssc_star2_last_group_contains' && className !== 'ssc_star3_front_and' && className !== 'ssc_star3_mid_and' && className !== 'ssc_star3_last_and' && className !== 'ssc_star2_last_and' && className !== 'ssc_star2_last_group_and' && className !== 'ssc_star2_front_group_and' && className !== 'ssc_star2_front_and' && className !== 'ssc_star3_last_group_and' && className !== 'ssc_star3_mid_group_and' && className !== 'ssc_star3_front_group_and' && className !== 'ssc_side_lhh' && className !== 'ssc_dxds' && className !== 'ssc_star3_front_group_contains' && className !== 'ssc_star3_mid_group_contains' && className !== 'ssc_star3_last_group_contains'">
-                <span v-for="(tools,indexto) in ballTools" :key="indexto" @click="toolsCur(tools,indexto,numViews,indexf)">{{tools.name}}</span>
-              </div> -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -115,24 +96,29 @@ export default {
     this.iscreat();
   },
   computed: {
-    star3_and(){
-      let arr=[];
-      this.current_player_bonus.numView.forEach((item,index)=>{
-        arr.push(...item.nums)
-      })
-      return arr;      
+    star3_and() {
+      let arr = [];
+      this.current_player_bonus.numView.forEach((item, index) => {
+        arr.push(...item.nums);
+      });
+      return arr;
     },
     playGroups() {
-      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.group));
+      return JSON.parse(
+        localStorage.getItem(
+          "getPlayTree_playGroups_" + this.$route.params.group
+        )
+      );
     },
-    sgroups2() {
-      return this.$store.state.sgroups2;
-    }
   },
   mounted() {
-    if(localStorage.getItem("getPlayTree_playGroups_"+ this.$route.params.group) !== null){
+    if (
+      localStorage.getItem(
+        "getPlayTree_playGroups_" + this.$route.params.group
+      ) !== null
+    ) {
       this.isShowPlayGroups();
-    }else{
+    } else {
       setTimeout(() => {
         this.isShowPlayGroups();
       }, 600);
@@ -143,7 +129,9 @@ export default {
     isShowPlayGroups() {
       this.showhaa = false;
       this.current_player_bonus = JSON.parse(
-        localStorage.getItem("getPlayTree_playGroups_"+ this.$route.params.group)
+        localStorage.getItem(
+          "getPlayTree_playGroups_" + this.$route.params.group
+        )
       )[0].groups[0].players[0];
       this.$store.state.className = this.current_player_bonus.id;
       this.className = this.current_player_bonus.id;
@@ -158,7 +146,9 @@ export default {
       num.choose = !num.choose;
       if (num.choose === true) {
         this.d[indexg] = num.ball;
-        this.dd = this.d.filter(function(n) {return n;});
+        this.dd = this.d.filter(function(n) {
+          return n;
+        });
         this.$store.state.zhu++;
         this.$store.state.pd.addTitle = this.addTitle;
         this.$store.state.pd.addCon = this.dd.join(",");

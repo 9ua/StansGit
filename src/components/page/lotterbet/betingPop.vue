@@ -1,88 +1,62 @@
-<template>
-  <div class="betingbox">
-    <div class="betingPop">
-      <p class="title">
-        <span>详情</span>
-        <i class="iconfont icon-cuo transition" @click="showpop"></i>
-      </p>
-      <div class="layui-layer-content">
-        <div class="detailHeaderBox">
-          <h3 class="detailHeaderTitle">{{items.lotteryName}}</h3>
-          <div class="headerDetail">
-            <p>
-              <span>期号：</span>
-              <span id="delSeasonId">{{items.seasonId}}</span>
-            </p>
-            <p>
-              <span>投注时间：</span>
-              <span id="delCreateTime">{{items.createTime}}</span>
-            </p>
-            <p>
-              <span>投注总金额：</span>
-              <span id="delAmounts">￥{{items.amount}}</span>
-            </p>
-            <p>
-              <span>方案编号：</span>
-              <span id="number">{{items.id}}</span>
-            </p>
-          </div>
-          <div class="detailNumBox">
-            <span>投注内容：</span>
-            <div class="detailNumTextArea">
-              <div id="delContent" style="word-break: break-all;">{{items.content}}</div>
-            </div>
-          </div>
-        </div>
-        <div class="detailBody">
-          <table class="detailTable">
-            <tbody>
-              <tr class="listHeader">
-                <th width="120">玩法</th>
-                <th width="50">注数</th>
-                <th width="50">倍数</th>
-                <th width="100">投注金额</th>
-                <th width="50">模式</th>
-                <th width="180">开奖号码</th>
-                <th width="50">备注</th>
-                <th width="120">奖金</th>
-              </tr>
-              <tr class="listDetail" id="betRecond">
-                <td>
-                  <span id="delPlayName">{{items.playName}}</span>
-                </td>
-                <td>
-                  <span id="delBetCount">{{items.betCount}}</span>
-                </td>
-                <td>
-                  <span id="delPrice">{{items.price}}</span>
-                </td>
-                <td>
-                  <span class="fontColorTheme" id="delAmount">￥{{items.amount}}</span>
-                </td>
-                <td>
-                  <span id="delUnit">元</span>
-                </td>
-                <td>
-                  <span id="delOpenNum">{{items.openNum}}</span>
-                </td>
-                <td>
-                  <span id="delBonusType">高奖</span>
-                </td>
-                <td>
-                  <span class="fontColorTheme" id="delWin">{{items.statusName == '已中奖' ? "￥"+items.win : items.statusName}}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="dialogBtn">
-          <button class="btn closeBtn" @click="showpop">关闭</button>
-          <button class="btn repealOrder" v-if="items.seasonId === $store.state.seasonId" @click="cancel(items.id,items.lotteryId)">撤单</button>
-          <button class="btn againBtn" @click="betGos(items)">再次投注</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang='jade'>
+.betingbox
+  .betingPop
+    p.title
+      span 详情
+      i.iconfont.icon-cuo.transition(@click='showpop')
+    .layui-layer-content
+      .detailHeaderBox
+        h3.detailHeaderTitle {{items.lotteryName}}
+        .headerDetail
+          p
+            span 期号：
+            span#delSeasonId {{items.seasonId}}
+          p
+            span 投注时间：
+            span#delCreateTime {{items.createTime}}
+          p
+            span 投注总金额：
+            span#delAmounts ￥{{items.amount}}
+          p
+            span 方案编号：
+            span#number {{items.id}}
+        .detailNumBox
+          span 投注内容：
+          .detailNumTextArea
+            #delContent(style='word-break: break-all;') {{items.content}}
+      .detailBody
+        table.detailTable
+          tbody
+            tr.listHeader
+              th(width='120') 玩法
+              th(width='50') 注数
+              th(width='50') 倍数
+              th(width='100') 投注金额
+              th(width='50') 模式
+              th(width='180') 开奖号码
+              th(width='50') 备注
+              th(width='120') 奖金
+            tr#betRecond.listDetail
+              td
+                span#delPlayName {{items.playName}}
+              td
+                span#delBetCount {{items.betCount}}
+              td
+                span#delPrice {{items.price}}
+              td
+                span#delAmount.fontColorTheme ￥{{items.amount}}
+              td
+                span#delUnit 元
+              td
+                span#delOpenNum {{items.openNum}}
+              td
+                span#delBonusType 高奖
+              td
+                span#delWin.fontColorTheme {{items.statusName == '已中奖' ? "￥"+items.win : items.statusName}}
+      .dialogBtn
+        button.btn.closeBtn(@click='showpop') 关闭
+        button.btn.repealOrder(v-if='items.seasonId === $store.state.seasonId', @click='cancel(items.id,items.lotteryId)') 撤单
+        button.btn.againBtn(@click='betGos(items)') 再次投注
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -142,17 +116,31 @@ export default {
       formData.append("isTrace", 0);
       formData.append("lotteryId", k.lotteryId);
       formData.append("amount", k.betCount * k.price);
-      this.$axios.post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config).then(res => {
-        if (res.data.message === "success") {
-          this.$parent.showbetPop(); //关闭弹窗
-          this.$parent.getbetOrderList(); //我的投注
-          this.$pop.show({title: "温馨提示",content: "恭喜您，投注成功！",content1: "",content2: "",number: 1});
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        this.$pop.show({title: "温馨提示",content: "投注失败,请检查您的网络！",content1: "",content2: "",number: 1});
-      });
+      this.$axios
+        .post(baseUrl + "/api/lottery/bet", formData, this.$store.state.config)
+        .then(res => {
+          if (res.data.message === "success") {
+            this.$parent.showbetPop(); //关闭弹窗
+            this.$parent.getbetOrderList(); //我的投注
+            this.$pop.show({
+              title: "温馨提示",
+              content: "恭喜您，投注成功！",
+              content1: "",
+              content2: "",
+              number: 1
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.$pop.show({
+            title: "温馨提示",
+            content: "投注失败,请检查您的网络！",
+            content1: "",
+            content2: "",
+            number: 1
+          });
+        });
     }
   }
 };

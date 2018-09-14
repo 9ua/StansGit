@@ -1,15 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import bet from '@/components/page/lotterbet/bet.vue'
+import lott from '@/components/page/lott.vue'
+import activity from '@/components/page/activity.vue'
+import appdown from '@/components/page/appdown.vue'
+import helpcenter from '@/components/page/helpcenter.vue'
 const sy = r => require.ensure([], () => r(require('@/components/page/sy.vue')), 'sy')
 const home = r => require.ensure([], () => r(require('@/components/page/home.vue')), 'home')
-const lott = r => require.ensure([], () => r(require('@/components/page/lott.vue')), 'lott')
-const bet = r => require.ensure([], () => r(require('@/components/page/lotterbet/bet.vue')), 'bet')
+// const lott = r => require.ensure([], () => r(require('@/components/page/lott.vue')), 'lott')
+// const bet = r => require.ensure([], () => r(require('@/components/page/lotterbet/bet.vue')), 'bet')
 const k3 = r => require.ensure([], () => r(require('@/components/page/lotts/k3.vue')), 'lott')
 const ssc = r => require.ensure([], () => r(require('@/components/page/lotts/ssc.vue')), 'lott')
 const pk10 = r => require.ensure([], () => r(require('@/components/page/lotts/pk10.vue')), 'lott')
-const activity = r => require.ensure([], () => r(require('@/components/page/activity.vue')), 'activity')
-const appdown = r => require.ensure([], () => r(require('@/components/page/appdown.vue')), 'appdown')
-const helpcenter = r => require.ensure([], () => r(require('@/components/page/helpcenter.vue')), 'helpcenter')
+// const activity = r => require.ensure([], () => r(require('@/components/page/activity.vue')), 'activity')
+// const appdown = r => require.ensure([], () => r(require('@/components/page/appdown.vue')), 'appdown')
+// const helpcenter = r => require.ensure([], () => r(require('@/components/page/helpcenter.vue')), 'helpcenter')
 const login = r => require.ensure([], () => r(require('@/components/logins/login.vue')), 'login')
 const user = r => require.ensure([], () => r(require('@/components/page/user.vue')), 'user')
 const userinfo = r => require.ensure([], () => r(require('@/components/page/user/userinfo.vue')), 'userinfo')

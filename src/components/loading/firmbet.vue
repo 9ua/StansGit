@@ -1,41 +1,31 @@
-<template>
-  <div class="firmbet" v-show="toshwo">
-    <ul class="num4">
-      <li class="title">
-        <span></span>
-        <p>温馨提示</p>
-        <span @click="isshow">
-          <i class="el-icon-circle-close-outline transition"></i>
-        </span>
-      </li>
-      <li class="betConfirmBox">
-        <div>
-          <p class="hint">请核准您的投注信息</p>
-          <p class="headline">
-            <span>彩种：{{addName}}</span>
-            <span>期号：{{content}}</span>
-          </p>
-          <div class="addBox">
-            <span class="addHead">详情：</span>
-            <div>
-              <ul>
-                <li v-for="(item,index) in productLists" :key="index">
-                  <span class="addtitle">【{{item.addTitle}}】</span>
-                  <p class="addCon">{{item.addCon}}</p>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <p class="payment">付款总金额：
-            <i>{{money}} </i> 元</p>
-          <p class="user">付款账号：{{username}}</p>
-        </div>
-      </li>
-      <li class="dialogBtn">
-        <button @click="betGo">确认投注</button>
-      </li>
-    </ul>
-  </div>
+<template lang='jade'>
+.firmbet(v-show='toshwo')
+  ul.num4
+    li.title
+      span
+      p 温馨提示
+      span(@click='isshow')
+        i.el-icon-circle-close-outline.transition
+    li.betConfirmBox
+      div
+        p.hint 请核准您的投注信息
+        p.headline
+          span 彩种：{{addName}}
+          span 期号：{{content}}
+        .addBox
+          span.addHead 详情：
+          div
+            ul
+              li(v-for='(item,index) in productLists', :key='index')
+                span.addtitle 【{{item.addTitle}}】
+                p.addCon {{item.addCon}}
+        p.payment
+          | 付款总金额：
+          i {{money}} 
+          |  元
+        p.user 付款账号：{{username}}
+    li.dialogBtn
+      button(@click='betGo') 确认投注
 </template>
 <script>
 import { baseUrl } from "@/assets/js/env";
@@ -80,7 +70,6 @@ export default {
       }
       this.money = money;
       this.addName = addName;
-      // console.log("productLists:",this.productLists)
     },
     bet(obj) {
       if (this.$route.params.id == "k3") {

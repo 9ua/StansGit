@@ -1,44 +1,33 @@
-<template>
-  <!-- 选号模块k3 -->
-  <div>
-    <div v-if="showhaa"></div>
-    <div v-else class="getPlayTree">
-      <ul>
-        <li :class="{'active': index === navTo}" v-for="(item,index) in playGroups" :key="index" @click="playGroupBut(item,index)">{{item.title}}</li>
-      </ul>
-    </div>
-    <div class="getPlayTreeBox">
-      <ul>
-        <li v-for="(item,indexs) in sgroups2" v-if="indexs === navTo">
-          <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)" v-if="lotteryId !== 'dfk3' && play.title !== '三同号'">{{play.title}}</p>
-          <p :class="{'active': indexff === playNum}" v-for="(play,indexff) in item.players" :key="indexff" @click="playersBut(play,indexff)" v-if="lotteryId === 'dfk3'">{{play.title}}</p>
-        </li>
-      </ul>
-    </div>
-    <div class="conterButBox">
-      <div class="conterButTitle">
-        <i class="el-icon-info"></i>{{current_player_bonus.remark}}。单注最高奖金
-        <i>{{current_player_bonus.displayBonus | keepTwoNum}}</i>倍</div>
-      <div class="conterBut" :class="'conterBut'+className">
-        <div :class="className+'Box'" v-for='(numViews, indexf) in current_player_bonus.numView' :key='indexf'>
-          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="$route.params.group !== 'dfk3' && item.ball !== '03' && item.ball !== '18'">
-            <span v-if="className !== 'k3_star3_and'">{{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}</span>
-            <span v-else>
-              <i>{{item.ball}}</i>
-              <i>赔{{item.lottRot}}</i>
-            </span>
-          </p>
-          <p :class="[item.choose ? 'active' : '',className]" v-for="(item,indexha) in numViews.nums" :key="indexha" @click="curBalls(item,indexha,numViews,indexf)" v-if="$route.params.group === 'dfk3'">
-            <span v-if="className !== 'k3_star3_and'">{{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}</span>
-            <span v-else>
-              <i>{{item.ball}}</i>
-              <i>赔{{item.lottRot}}</i>
-            </span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang='jade'>
+<!-- 选号模块k3 -->
+div
+  div(v-if='showhaa')
+  .getPlayTree(v-else='')
+    ul
+      li(:class="{'active': index === navTo}", v-for='(item,index) in playGroups', :key='index', @click='playGroupBut(item,index)') {{item.title}}
+  .getPlayTreeBox
+    ul
+      li(v-for='(item,indexs) in sgroups2', v-if='indexs === navTo')
+        p(:class="{'active': indexff === playNum}", v-for='(play,indexff) in item.players', :key='indexff', @click='playersBut(play,indexff)', v-if="lotteryId !== 'dfk3' && play.title !== '三同号'") {{play.title}}
+        p(:class="{'active': indexff === playNum}", v-for='(play,indexff) in item.players', :key='indexff', @click='playersBut(play,indexff)', v-if="lotteryId === 'dfk3'") {{play.title}}
+  .conterButBox
+    .conterButTitle
+      i.el-icon-info
+      | {{current_player_bonus.remark}}。单注最高奖金
+      i {{current_player_bonus.displayBonus | keepTwoNum}}
+      | 倍
+    .conterBut(:class="'conterBut'+className")
+      div(:class="className+'Box'", v-for='(numViews, indexf) in current_player_bonus.numView', :key='indexf')
+        p(:class="[item.choose ? 'active' : '',className]", v-for='(item,indexha) in numViews.nums', :key='indexha', @click='curBalls(item,indexha,numViews,indexf)', v-if="$route.params.group !== 'dfk3' && item.ball !== '03' && item.ball !== '18'")
+          span(v-if="className !== 'k3_star3_and'") {{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}
+          span(v-else='')
+            i {{item.ball}}
+            i 赔{{item.lottRot}}
+        p(:class="[item.choose ? 'active' : '',className]", v-for='(item,indexha) in numViews.nums', :key='indexha', @click='curBalls(item,indexha,numViews,indexf)', v-if="$route.params.group === 'dfk3'")
+          span(v-if="className !== 'k3_star3_and'") {{className === 'k3_star2_same' && indexha === 5 ? item.ball : ''}}
+          span(v-else='')
+            i {{item.ball}}
+            i 赔{{item.lottRot}}
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -93,16 +82,24 @@ export default {
   },
   computed: {
     playGroups() {
-      return JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.group));
+      return JSON.parse(
+        localStorage.getItem(
+          "getPlayTree_playGroups_" + this.$route.params.group
+        )
+      );
     },
     sgroups2() {
       return this.$store.state.sgroups2;
     }
   },
   mounted() {
-    if(localStorage.getItem("getPlayTree_playGroups_"+ this.$route.params.group) !== null){
+    if (
+      localStorage.getItem(
+        "getPlayTree_playGroups_" + this.$route.params.group
+      ) !== null
+    ) {
       this.isShowPlayGroups();
-    }else{
+    } else {
       setTimeout(() => {
         this.isShowPlayGroups();
       }, 600);
@@ -112,7 +109,11 @@ export default {
     //判断玩法术是否已经成功
     isShowPlayGroups() {
       this.showhaa = false;
-      this.current_player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playGroups_"+ this.$route.params.group))[2].groups[0].players[0];
+      this.current_player_bonus = JSON.parse(
+        localStorage.getItem(
+          "getPlayTree_playGroups_" + this.$route.params.group
+        )
+      )[2].groups[0].players[0];
       this.$store.state.className = this.current_player_bonus.id;
       this.className = this.current_player_bonus.id;
     },
