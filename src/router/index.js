@@ -81,7 +81,7 @@ export default new Router({
           name: 'home',
           component: home,
           meta: {
-            title: "宏發娱乐-首页",
+            title: "宏發娱乐-专业的彩票投注平台！",
             requiresAuth: false
           }
         },
