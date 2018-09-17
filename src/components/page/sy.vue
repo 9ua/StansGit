@@ -15,6 +15,8 @@
           router-link(to='/user', tag='li')
             img(:src='"@/assets/img/heads/"+this.$store.state.img+".jpg"', alt='')
             span {{this.$store.state.Globalusername}}
+          router-link(to='/user/notice', tag='li', @mouseover.native='HoverShowLetter=true', @mouseout.native='HoverShowLetter=false')
+            span.letter(:class='HoverShowLetter ? "active" : ""') {{count}}
           router-link(to='', tag='li', @mouseover.native='HoverShowAccount=true', @mouseout.native='HoverShowAccount=false')
             a(href='javascript:;')
               | 我的账户
@@ -75,6 +77,7 @@ export default {
       clickFlag:false,
       HoverShowContent: false,
       HoverShowAccount: false,
+      HoverShowLetter: false,
       acountlists: [
         { title: "投注记录", path: "/betManage/betRecord" },
         { title: "交易记录", path: "/user/billRecord" },
@@ -90,12 +93,14 @@ export default {
         { title: "帮助指南", path: "/helpcenter" }
       ],
       paywaylist: [],
-      localStorageArr: []
+      localStorageArr: [],
+      count:0
     };
   },
   mounted() {
-    this.getTopUserData();
     this.getRechargeWayList();
+    this.getTopUserData();
+    this.getNoReadNoticeStatus();
   },
   methods: {
     changReferesh(){
@@ -124,15 +129,13 @@ export default {
         let topUserData = JSON.parse(localStorage.getItem("topUserData"));
         this.$store.state.img = topUserData.image;
       } else {
-        this.$axios
-          .get(baseUrl + "/api/userCenter/getTopUserData")
-          .then(res => {
-            this.$store.state.img = res.data.data.image;
-            localStorage.setItem("topUserData", JSON.stringify(res.data.data));
-          })
-          .catch(error => {
-            this.$store.state.img = 0;
-          });
+        this.$axios.get(baseUrl + "/api/userCenter/getTopUserData").then(res => {
+          this.$store.state.img = res.data.data.image;
+          localStorage.setItem("topUserData", JSON.stringify(res.data.data));
+        })
+        .catch(error => {
+          this.$store.state.img = 0;
+        });
       }
     },
     getRechargeWayList() {
@@ -175,7 +178,19 @@ export default {
         .catch(error => {
           console.log("logOutNo");
         });
-    }
+    },
+    //判断是否有未读消息
+    getNoReadNoticeStatus() {
+      this.$axios.get(baseUrl + "/api/proxy/getNoReadNoticeStatus").then(res => {
+        //状态
+        this.isNotice = res.data.data.flag;
+        //条数
+        this.count = res.data.data.count;
+      })
+      .catch(error => {
+        console.log("获取彩種ratio ERROR");
+      });
+    },
   },
   components: {
     footerBar

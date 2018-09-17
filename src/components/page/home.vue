@@ -144,7 +144,7 @@ export default {
     },
     //玩法术
     getPlayTree() {
-      if(localStorage.getItem("getPlayTree_playGroups_dfk3") == null){
+      if(this.$store.state.loginStatus && localStorage.getItem("getPlayTree_playGroups_dfk3") == null){
         this.idArr.forEach(item => {
           this.betFun.push(this.fn(item));
         });

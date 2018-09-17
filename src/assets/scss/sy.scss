@@ -70,6 +70,20 @@
           -webkit-transform: rotate(3600deg);
           transform: rotate(3600deg);
         }
+        & .letter{
+          width: 24px;
+          height: 24px;
+          line-height: 24px;
+          font-size: 14px;
+          border-radius: 4px;
+          display: inline-block;
+          background: #af3a31;
+          color: #fff;
+          text-align:center;
+        }
+        & .letter.active {
+          background: #ED635D;
+        }
       }
     }
   }
