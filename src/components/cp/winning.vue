@@ -1,28 +1,22 @@
-<template>
-  <!-- 昨日盈利榜 -->
-  <div class="winning">
-    <div class="yestDayIncom">
-      <h3>昨日盈利榜</h3>
-      <div class="yestDayIncomItem">
-        <ul>
-          <li v-for="(item,index) in winList" :key="index" v-if="index &lt; num">
-            <div class="champion"> <img :src='"@/assets/img/heads/"+item.img+".jpg"' alt="" />
-              <p>
-                <span>账户昵称 ：
-                  <i class="nickname">{{item.account | mask}}</i>
-                </span>
-                <span>昨日盈利 ：
-                  <i class="gain">{{item.bonus}} </i>
-                  <i>元</i>
-                </span>
-              </p>
-            </div>
-            <p class="index">{{index+1}}</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<template lang='jade'>
+<!-- 昨日盈利榜 -->
+.winning
+  .yestDayIncom
+    h3 昨日盈利榜
+    .yestDayIncomItem
+      ul
+        li(v-for='(item,index) in winList', :key='index', v-if='index < num')
+          .champion
+            img(:src='"@/assets/img/heads/"+item.img+".jpg"', alt='')
+            p
+              span
+                | 账户昵称 ：
+                i.nickname {{item.account | mask}}
+              span
+                | 昨日盈利 ：
+                i.gain {{item.bonus}} 
+                i 元
+          p.index {{index+1}}  
 </template>
 <script>
 import { baseUrl } from "../../assets/js/env";

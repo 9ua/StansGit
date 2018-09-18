@@ -1,24 +1,18 @@
-<template>
-  <!-- 中奖信息 -->
-  <ul class="lott-right-top6-ul">
-    <li :class="{anim:animate==true}" v-for="(item,index) in winpool" :key="index">
-      <img :src="item.paths" alt="" />
-      <div class="rightBox">
-        <p>
-          <span>{{item.name | mask}} </span>
-          <span> &nbsp;在{{item.lotterylist}}</span>
-        </p>
-        <p>
-          <span>喜中：</span>
-          <span>￥
-            <i>{{item.money | keepTwoNum}}</i>
-          </span>
-        </p>
-      </div>
-    </li>
-  </ul>
+<template lang='jade'>
+<!-- 中奖信息 -->
+ul.lott-right-top6-ul
+  li(:class='{anim:animate==true}', v-for='(item,index) in winpool', :key='index')
+    img(:src='item.paths', alt='')
+    .rightBox
+      p
+        span {{item.name | mask}} 
+        span   在{{item.lotterylist}}
+      p
+        span 喜中：
+        span
+          | ￥
+          i {{item.money | keepTwoNum}}
 </template>
-
 <script>
 import { winpool } from '../../assets/js/winning.js';
 export default {

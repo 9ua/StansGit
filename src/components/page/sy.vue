@@ -1,92 +1,67 @@
-<template>
-  <div class="sy">
-    <header>
-      <div class="header-box">
-        <div class="header-top">
-          <p>Hi,欢迎来到宏發娛樂！</p>
-          <ul class="header-top-nologin" v-show="!$store.state.loginStatus">
-            <router-link to="/login/ashore" tag="li">
-              <a href="javascript:;">亲，请登陆</a>
-            </router-link>
-            <router-link to="/login/register" tag="li">
-              <a href="javascript:;">用户注册</a>
-            </router-link>
-            <router-link to="" tag="li">
-              <a href="javascript:;">在线客服</a>
-            </router-link>
-          </ul>
-          <ul class="header-top-login" v-show="$store.state.loginStatus">
-            <router-link to="/user" tag="li"><img :src='"@/assets/img/heads/"+this.$store.state.img+".jpg"' alt="" />
-              <span>{{this.$store.state.Globalusername}}</span>
-            </router-link>
-            <router-link to="" tag="li" @mouseover.native='HoverShowAccount=true' @mouseout.native="HoverShowAccount=false">
-              <a href="javascript:;">我的账户
-                <i class='iconfont icon-down1' style='font-size:14px'></i>
-              </a>
-              <div class="accountList HoverShowContent" v-if='HoverShowAccount'>
-                <i></i>
-                <div>
-                  <router-link :to='item.path' v-for="(item,index) in acountlists" :key="index">
-                    {{item.title}}
-                  </router-link>
-                </div>
-              </div>
-            </router-link>
-            <li>余额：
-              <span class="GetMoney getMoney" v-if="refresh">
-                <em>{{$store.state.balance}}</em>
-                <i class="icon iconfont icon-shuaxin" :class="{totransition:clickFlag}" @click.stop="getBalance"></i>
-                <i @click.stop="changReferesh">隐藏</i>
-              </span>
-              <span class="ShowMoney showMoney" v-else @click.stop="changReferesh">已隐藏
-                <i>显示</i>
-              </span>
-            </li>
-            <router-link to="" tag="li" @mouseover.native='HoverShowContent=true' @mouseout.native="HoverShowContent=false">
-              <a href="javascript:;">充值
-                <i class='iconfont icon-down1' style='font-size:14px'></i>
-              </a>
-              <div class="accountList HoverShowContent" v-if='HoverShowContent'>
-                <i></i>
-                <div>
-                  <router-link :to='"/money/charge?id="+item.id+"&alias="+item.alias' v-for="(item,index) in paywaylist" :key="index">
-                    {{item.alias}}
-                  </router-link>
-                </div>
-              </div>
-            </router-link>
-            <router-link to="/money/withdraw" tag="li">
-              <a href="javascript:;">提现</a>
-            </router-link>
-            <li @click="logOut">
-              <a href="javascript:;">退出</a>
-            </li>
-            <router-link to="" tag="li">
-              <a href="javascript:;">在线客服</a>
-            </router-link>
-          </ul>
-        </div>
-      </div>
-    </header>
-    <div class="content-box">
-      <div class="navs-box">
-        <div class="navs">
-          <div class="login">
-            <router-link to="/home"><img src="../../assets/img/home/logo.png" alt="" /></router-link>
-          </div>
-          <ul>
-            <router-link :class='{active:index===active}' :to="nav.path" tag="li" v-for="(nav,index) in navs" :key="index">{{nav.title}}</router-link>
-          </ul>
-        </div>
-      </div>
-      <div class="content">
-        <div class="center">
-          <router-view></router-view>
-        </div>
-      </div>
-    </div>
-    <footer-bar></footer-bar>
-  </div>
+<template lang='jade'>
+.sy
+  header
+    .header-box
+      .header-top
+        p Hi,欢迎来到宏發娛樂！
+        ul.header-top-nologin(v-show='!$store.state.loginStatus')
+          router-link(to='/login/ashore', tag='li')
+            a(href='javascript:;') 亲，请登陆
+          router-link(to='/login/register', tag='li')
+            a(href='javascript:;') 用户注册
+          router-link(to='', tag='li')
+            a(href='javascript:;') 在线客服
+        ul.header-top-login(v-show='$store.state.loginStatus')
+          router-link(to='/user', tag='li')
+            img(:src='"@/assets/img/heads/"+this.$store.state.img+".jpg"', alt='')
+            span {{this.$store.state.Globalusername}}
+          router-link(to='/user/notice', tag='li', @mouseover.native='HoverShowLetter=true', @mouseout.native='HoverShowLetter=false')
+            span.letter(:class='HoverShowLetter ? "active" : ""') {{count}}
+          router-link(to='', tag='li', @mouseover.native='HoverShowAccount=true', @mouseout.native='HoverShowAccount=false')
+            a(href='javascript:;')
+              | 我的账户
+              i.iconfont.icon-down1(style='font-size:14px')
+            .accountList.HoverShowContent(v-if='HoverShowAccount')
+              i
+              div
+                router-link(:to='item.path', v-for='(item,index) in acountlists', :key='index')
+                  | {{item.title}}
+          li
+            | 余额：
+            span.GetMoney.getMoney(v-if='refresh')
+              em {{$store.state.balance}}
+              i.icon.iconfont.icon-shuaxin(:class='{totransition:clickFlag}', @click.stop='getBalance')
+              i(@click.stop='changReferesh') 隐藏
+            span.ShowMoney.showMoney(v-else='', @click.stop='changReferesh')
+              | 已隐藏
+              i 显示
+          router-link(to='', tag='li', @mouseover.native='HoverShowContent=true', @mouseout.native='HoverShowContent=false')
+            a(href='javascript:;')
+              | 充值
+              i.iconfont.icon-down1(style='font-size:14px')
+            .accountList.HoverShowContent(v-if='HoverShowContent')
+              i
+              div
+                router-link(:to='"/money/charge?id="+item.id+"&alias="+item.alias', v-for='(item,index) in paywaylist', :key='index')
+                  | {{item.alias}}
+          router-link(to='/money/withdraw', tag='li')
+            a(href='javascript:;') 提现
+          li(@click='logOut')
+            a(href='javascript:;') 退出
+          router-link(to='', tag='li')
+            a(href='javascript:;') 在线客服
+  .content-box
+    .navs-box
+      .navs
+        .login
+          router-link(to='/home')
+            img(src='../../assets/img/home/logo.png', alt='')
+        ul
+          router-link(:class='{active:index===active}', :to='nav.path', tag='li', v-for='(nav,index) in navs', :key='index') {{nav.title}}
+    .content
+      .center
+        router-view
+  footer-bar
 </template>
 <script>
 import { baseUrl } from "../../assets/js/env";
@@ -102,6 +77,7 @@ export default {
       clickFlag:false,
       HoverShowContent: false,
       HoverShowAccount: false,
+      HoverShowLetter: false,
       acountlists: [
         { title: "投注记录", path: "/betManage/betRecord" },
         { title: "交易记录", path: "/user/billRecord" },
@@ -117,12 +93,14 @@ export default {
         { title: "帮助指南", path: "/helpcenter" }
       ],
       paywaylist: [],
-      localStorageArr: []
+      localStorageArr: [],
+      count:0
     };
   },
   mounted() {
-    this.getTopUserData();
     this.getRechargeWayList();
+    this.getTopUserData();
+    this.getNoReadNoticeStatus();
   },
   methods: {
     changReferesh(){
@@ -151,15 +129,13 @@ export default {
         let topUserData = JSON.parse(localStorage.getItem("topUserData"));
         this.$store.state.img = topUserData.image;
       } else {
-        this.$axios
-          .get(baseUrl + "/api/userCenter/getTopUserData")
-          .then(res => {
-            this.$store.state.img = res.data.data.image;
-            localStorage.setItem("topUserData", JSON.stringify(res.data.data));
-          })
-          .catch(error => {
-            this.$store.state.img = 0;
-          });
+        this.$axios.get(baseUrl + "/api/userCenter/getTopUserData").then(res => {
+          this.$store.state.img = res.data.data.image;
+          localStorage.setItem("topUserData", JSON.stringify(res.data.data));
+        })
+        .catch(error => {
+          this.$store.state.img = 0;
+        });
       }
     },
     getRechargeWayList() {
@@ -202,7 +178,19 @@ export default {
         .catch(error => {
           console.log("logOutNo");
         });
-    }
+    },
+    //判断是否有未读消息
+    getNoReadNoticeStatus() {
+      this.$axios.get(baseUrl + "/api/proxy/getNoReadNoticeStatus").then(res => {
+        //状态
+        this.isNotice = res.data.data.flag;
+        //条数
+        this.count = res.data.data.count;
+      })
+      .catch(error => {
+        console.log("获取彩種ratio ERROR");
+      });
+    },
   },
   components: {
     footerBar

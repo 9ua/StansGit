@@ -1,19 +1,14 @@
-<template>
-    <div class="loader layermbox layermbox2 layermshow">
-        <div class="laymshade"></div>
-        <div class="layermmain">
-            <div class="section">
-                <div class="layermchild  layermanim">
-                    <div class="layermcont">
-                        <i></i>
-                        <i class="laymloadtwo"></i>
-                        <i></i>
-                        <div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<template lang='jade'>
+.loader.layermbox.layermbox2.layermshow
+  .laymshade
+  .layermmain
+    .section
+      .layermchild.layermanim
+        .layermcont
+          i
+          i.laymloadtwo
+          i
+          div
 </template>
 <style lang="scss" scoped>
 @import "@/assets/scss/loader.scss";

@@ -1,54 +1,44 @@
-<template>
-  <!-- 号码篮 -->
-  <div style="padding:0px 14px;">
-    <div class="zhu">
-      <p>您选择了
-        <i>{{$store.state.zhu}}</i> 注</p>
-      <div class="butBox">
-        <div class="numSum">
-          <span class="trim">投注金额</span>
-          <yd-spinner v-model="$store.state.spinner3" min="0"></yd-spinner>
-        </div>
-        <button class="add" @click="addNum">添加号码篮</button>
-        <button @click="betGo">立即投注</button>
-      </div>
-    </div>
-    <div class="hurdle">
-      <ul class="hurdleTitle">
-        <li>玩法</li>
-        <li>号码</li>
-        <li>模式</li>
-        <li>注数</li>
-        <li>倍数</li>
-        <li>金额</li>
-        <li @click="exit">清空</li>
-      </ul>
-      <div class="addListBox">
-        <ul class="addList" ref="addList" v-for="(item,index) in productList" :key="index" v-if="item.addCon !== null">
-          <li>【{{item.addTitle}}】</li>
-          <li>
-            <span>{{item.addCon}}</span>
-          </li>
-          <li>{{item.addPattern}}</li>
-          <li>{{item.addzhu}}</li>
-          <li>{{item.addMoney}}</li>
-          <li>￥{{item.addzhu*item.addMoney}}</li>
-          <li @click="deleList(item,index)">
-            <i class="el-icon-close"></i>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="affirm">
-      <p>
-        <span>总注数：{{productListAddZhu}}, </span>
-        <span>总金额：{{productListAllMoney}}, </span>
-        <span>账户余额：{{$store.state.balance}}</span>
-      </p>
-      <button @click="affirmBetGo">确认投注</button>
-    </div>
-    <firmbet ref="firmbet" :productLists="productList" :pds="pd" :content="String(this.seasonId)-0"></firmbet>
-  </div>
+<template lang='jade'>
+<!-- 号码篮 -->
+div(style='padding:0px 14px;')
+  .zhu
+    p
+      | 您选择了
+      i {{$store.state.zhu}}
+      |  注
+    .butBox
+      .numSum
+        span.trim 投注金额
+        yd-spinner(v-model='$store.state.spinner3', min='0')
+      button.add(@click='addNum') 添加号码篮
+      button(@click='betGo') 立即投注
+  .hurdle
+    ul.hurdleTitle
+      li 玩法
+      li 号码
+      li 模式
+      li 注数
+      li 倍数
+      li 金额
+      li(@click='exit') 清空
+    .addListBox
+      ul.addList(ref='addList', v-for='(item,index) in productList', :key='index', v-if='item.addCon !== null')
+        li 【{{item.addTitle}}】
+        li
+          span {{item.addCon}}
+        li {{item.addPattern}}
+        li {{item.addzhu}}
+        li {{item.addMoney}}
+        li ￥{{item.addzhu*item.addMoney}}
+        li(@click='deleList(item,index)')
+          i.el-icon-close
+  .affirm
+    p
+      span 总注数：{{productListAddZhu}}, 
+      span 总金额：{{productListAllMoney}}, 
+      span 账户余额：{{$store.state.balance}}
+    button(@click='affirmBetGo') 确认投注
+  firmbet(ref='firmbet', :pds='pd', :content='String(this.seasonId)-0')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -148,17 +138,21 @@ export default {
           obj.con.includes("单") ||
           obj.con.includes("双")
         ) {
-          this.$store.state.className = "k3_star3_big_odd";
+          obj.className = "k3_star3_big_odd";
+        } else if (this.$store.state.className == "k3_star3_and") {
+          obj.className = "k3_star3_and";
         } else {
-          this.$store.state.className = "k3_star3_and";
+          obj.className = this.$store.state.className;
         }
+      } else {
+        obj.className = this.$store.state.className;
       }
       let formData = new FormData();
       formData.append("order[0].content", obj.con);
       formData.append("order[0].betCount", obj.zhu);
       formData.append("order[0].price", this.$store.state.spinner3);
       formData.append("order[0].unit", 1);
-      formData.append("order[0].playId", this.$store.state.className);
+      formData.append("order[0].playId", obj.className);
       formData.append("count", obj.zhu);
       formData.append("traceOrders[0].price", this.$store.state.spinner3);
       formData.append("traceOrders[0].seasonId", this.seasonId);

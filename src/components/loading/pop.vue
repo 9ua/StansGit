@@ -1,46 +1,47 @@
-<template>
-  <div class="pop" v-show="openSimple" @click="clearBox">
-    <ul class="loginSuccess num1" v-if="number =='1'">
-      <li class="title">
-        <span></span>
-        <p>{{title}}</p>
-        <span><i class="el-icon-circle-close-outline transition"></i></span>
-      </li>
-      <li class="content">
-        <p><i class="el-icon-warning"></i>{{content}}</p>
-      </li>
-      <li class="button"><button class="logoAffirm" @click="openSimple = false">确认</button></li>
-    </ul>
-    <ul class="loginSuccess num1" v-if="number =='302'">
-      <li class="title">
-        <span></span>
-        <p>{{title}}</p>
-        <span><i class="el-icon-circle-close-outline transition"></i></span>
-      </li>
-      <li class="content">
-        <p><i class="el-icon-warning"></i>{{content}}</p>
-      </li>
-      <li class="button"><button class="logoAffirm" @click='windowOpen'>确认</button></li>
-    </ul>
-    <!-- 3秒后自动关闭 -->
-    <ul class="loginSuccess num2" v-if="number =='2'">
-      <li class="content">{{content}}</li>
-    </ul>
-    <!-- 时间到弹窗 -->
-    <ul class="loginSuccess num3" v-if="number =='3'">
-      <li class="title">
-        <span></span>
-        <p>{{title}}</p>
-        <span><i class="el-icon-circle-close-outline transition"></i></span>
-      </li>
-      <li class="content">
-        <p>{{content1}}期已截止</p>
-        <p>当前期号<b>{{content2}}</b></p>
-        <p>投注时请注意期号!</p>
-      </li>
-      <li class="button"><button class="logoAffirm" @click="openSimple = false">确认</button></li>
-    </ul>
-  </div>
+<template lang='jade'>
+.pop(v-show='openSimple', @click='clearBox')
+  ul.loginSuccess.num1(v-if="number =='1'")
+    li.title
+      span
+      p {{title}}
+      span
+        i.el-icon-circle-close-outline.transition
+    li.content
+      p
+        i.el-icon-warning
+        | {{content}}
+    li.button
+      button.logoAffirm(@click='openSimple = false') 确认
+  ul.loginSuccess.num1(v-if="number =='302'")
+    li.title
+      span
+      p {{title}}
+      span
+        i.el-icon-circle-close-outline.transition
+    li.content
+      p
+        i.el-icon-warning
+        | {{content}}
+    li.button
+      button.logoAffirm(@click='windowOpen') 确认
+  // 3秒后自动关闭
+  ul.loginSuccess.num2(v-if="number =='2'")
+    li.content {{content}}
+  // 时间到弹窗
+  ul.loginSuccess.num3(v-if="number =='3'")
+    li.title
+      span
+      p {{title}}
+      span
+        i.el-icon-circle-close-outline.transition
+    li.content
+      p {{content1}}期已截止
+      p
+        | 当前期号
+        b {{content2}}
+      p 投注时请注意期号!
+    li.button
+      button.logoAffirm(@click='openSimple = false') 确认
 </template>
 <script>
 export default {

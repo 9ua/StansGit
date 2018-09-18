@@ -1,22 +1,18 @@
-<template>
-  <!-- 游戏中昨日盈利榜 -->
-  <ul class="lott-right-top7-ul">
-    <li v-for="(item,index) in winList" :key="index">
-      <div class="champion">
-        <img :src='"@/assets/img/heads/"+item.img+".jpg"' alt="" />
-        <p>
-          <span>账号昵称 ：
-            <i class="nickname">{{item.account | mask}}</i>
-          </span>
-          <span>昨日盈利 ：
-            <i class="gain">{{item.bonus}}</i>
-            <i>元</i>
-          </span>
-        </p>
-      </div>
-      <p class="index">{{index+1}}</p>
-    </li>
-  </ul>
+<template lang='jade'>
+<!-- 游戏中昨日盈利榜 -->
+ul.lott-right-top7-ul
+  li(v-for='(item,index) in winList', :key='index')
+    .champion
+      img(:src='"@/assets/img/heads/"+item.img+".jpg"', alt='')
+      p
+        span
+          | 账号昵称 ：
+          i.nickname {{item.account | mask}}
+        span
+          | 昨日盈利 ：
+          i.gain {{item.bonus}}
+          i 元
+    p.index {{index+1}}
 </template>
 <script>
 export default {

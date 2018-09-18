@@ -1,28 +1,20 @@
-<template>
-  <div class="activity">
-    <div class="activityBox">
-      <ul>
-        <li v-for='(actives,index) in activitys' :key='index'>
-          <div class="activity-content" @click="activi($event,actives,index)">
-            <img :src="'https://mtxflower.com'+actives.icon" alt="">
-            <div>
-              <h1>{{actives.title}}</h1>
-              <p>
-                <span>活动时间：{{actives.endTime}}</span>
-                <span>{{actives.status === 0 ? '进行中' : '结束'}}</span>
-              </p>
-              <button>查看详情
-                <i :class="activesremarks ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"></i>
-              </button>
-            </div>
-          </div>
-          <div class="activity-content-show" v-if="index == num">
-            <p v-html="actives.remark" v-show="activesremarks"></p>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
+<template lang='jade'>
+.activity
+  .activityBox
+    ul
+      li(v-for='(actives,index) in activitys', :key='index')
+        .activity-content(@click='activi($event,actives,index)')
+          img(:src="'https://mtxflower.com'+actives.icon", alt='')
+          div
+            h1 {{actives.title}}
+            p
+              span 活动时间：{{actives.endTime}}
+              span {{actives.status === 0 ? '进行中' : '结束'}}
+            button
+              | 查看详情
+              i(:class="activesremarks ? 'el-icon-caret-bottom' : 'el-icon-caret-top'")
+        .activity-content-show(v-if='index == num')
+          p(v-html='actives.remark', v-show='activesremarks')
 </template>
 <script>
 import { baseUrl } from "../../assets/js/env";

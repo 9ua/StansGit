@@ -108,3 +108,36 @@
     }
   }
 }
+
+
+.getPlayTreeBox {
+  & ul {
+    & li {
+      @extend %fdc;
+
+      & div {
+        @extend %flex,
+        %aitems,
+        %fdr;
+        height: 33px;
+        & .groupTitleList {
+          @extend %faj;
+          width: 86px;
+          height: 30px;
+          padding: 0px 0px;
+          cursor: pointer;
+        }
+
+        & .groupTitleList.active {
+          height: 30px;
+          color: red;
+        }
+
+        & .groupTitle {
+          width: 60px;
+          color: red;
+        }
+      }
+    }
+  }
+}

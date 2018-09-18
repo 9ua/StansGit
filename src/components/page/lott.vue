@@ -1,69 +1,45 @@
-<template>
-  <div class="lott">
-    <div class="lottBox">
-      <div class="lotteBox-top">
-        <div class="lotteBox-top-banner">
-          <yd-slider autoplay="1800">
-            <yd-slider-item v-for="item in 2" :key="item">
-              <a href="http://www.ydcss.com">
-                <img :src='"@/assets/img/home/banner"+item+".png"'>
-              </a>
-            </yd-slider-item>
-          </yd-slider>
-        </div>
-        <div class="lotteBox-top-right">
-          <div style="height: 240px;">
-            <p class="title">风云榜</p>
-            <div class="nwwest-roll">
-              <ul>
-                <li :class="{anim:animate==true}" v-for="(item,index) in winpool" :key="index">
-                  <img :src='item.paths' alt="">
-                  <div class="right-box">
-                    <p>
-                      <span>{{item.name | capitalize}}</span>
-                      <span>在 {{item.lotterylist}}</span>
-                    </p>
-                    <p>
-                      <span>喜中:</span>
-                      <span>￥
-                        <i>{{item.money | keepTwoNum}}</i>
-                      </span>
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="lotteryLine fix">
-        <i></i>
-        <em></em>
-      </div>
-      <div class="lotteList">
-        <div class="lotteList-top">
-          <ul>
-            <li :class="{'active': index === navNum}" v-for="(nav,index) in listnav" :key="index" @click="navTo($event,index,nav)">{{nav.name}}</li>
-          </ul>
-        </div>
-        <div class="lotteList-bott">
-          <ul>
-            <li v-for="(item,index) in lotteryList" :key="index" @mouseover="selectStyle(item)" @mouseout="outStyle(item)">
-              <div class="Nopop"><img :src="&quot;@/assets/img/lott/&quot;+item.groupId+&quot;.png&quot;" alt="" />
-                <div>
-                  <p>{{item.name}}</p>
-                  <span>{{item.time}}</span>
-                </div>
-              </div>
-              <div v-show="item.showPop" class="pop">
-                <span @click="toLottery(item)">立即投注</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang='jade'>
+.lott
+  .lottBox
+    .lotteBox-top
+      .lotteBox-top-banner
+        yd-slider(autoplay='1800')
+          yd-slider-item(v-for='item in 2', :key='item')
+            a(href='http://www.ydcss.com')
+              img(:src='"@/assets/img/home/banner"+item+".png"')
+      .lotteBox-top-right
+        div(style='height: 240px;')
+          p.title 风云榜
+          .nwwest-roll
+            ul
+              li(:class='{anim:animate==true}', v-for='(item,index) in winpool', :key='index')
+                img(:src='item.paths', alt='')
+                .right-box
+                  p
+                    span {{item.name | capitalize}}
+                    span 在 {{item.lotterylist}}
+                  p
+                    span 喜中:
+                    span
+                      | ￥
+                      i {{item.money | keepTwoNum}}
+    .lotteryLine.fix
+      i
+      em
+    .lotteList
+      .lotteList-top
+        ul
+          li(:class="{'active': index === navNum}", v-for='(nav,index) in listnav', :key='index', @click='navTo($event,index,nav)') {{nav.name}}
+      .lotteList-bott
+        ul
+          li(v-for='(item,index) in lotteryList', :key='index', @mouseover='selectStyle(item)', @mouseout='outStyle(item)')
+            .Nopop
+              img(:src='"@/assets/img/lott/"+item.groupId+".png"', alt='')
+              div
+                p {{item.name}}
+                span {{item.time}}
+            .pop(v-show='item.showPop')
+              span(@click='toLottery(item)') 立即投注
 </template>
 <script>
 import { baseUrl } from "../../assets/js/env";

@@ -1,6 +1,8 @@
 @import '@/assets/minix/main.scss';
+
 .lott {
   margin: 15px 0px;
+
   & .lott-center {
     width: 1000px;
     margin: 0 auto;
@@ -15,13 +17,16 @@
   padding: 20px 0px;
   margin: 14px;
   @extend %flex;
+
   & .lott-top-left {
     @extend %faj;
     width: 272px;
+
     & img {
       width: 66px;
       height: 66px;
     }
+
     & span {
       color: #404040;
       font-weight: 700;
@@ -29,75 +34,93 @@
       margin-left: 10px;
     }
   }
+
   & .lott-top-middle {
     border: 1px solid rgba(190, 71, 81, .3);
     border-top: 0px solid rgba(190, 71, 81, .3);
     border-bottom: 0px solid rgba(190, 71, 81, .3);
+
     & p {
       @extend %faj;
       font-size: 14px;
+
       & span {
         color: red;
       }
     }
+
     & div {
       @extend %faj;
       font-size: 36px;
       font-weight: 700;
     }
   }
+
   & .lott-top-middle.k3,
   & .lott-top-middle.ssc {
     width: 300px;
   }
+
   & .lott-top-middle.pk10 {
     width: 260px;
   }
+
   & .lott-top-right.k3 {
     width: 400px;
+
     & p {
       @extend %faj;
       font-size: 14px;
+
       & span {
         color: red;
       }
     }
+
     & div {
       @extend %faj;
       font-size: 36px;
       font-weight: 700;
       height: 70px;
     }
+
     & .showGif {
       @extend %faj;
       font-size: 20px;
       font-weight: 400;
       height: 70px;
+
       & span {
         @include lottSt("open_num.gif", 61px, 71px);
       }
     }
   }
+
   & .lott-top-right.ssc {
     width: 400px;
+
     & p {
       @extend %faj;
       font-size: 14px;
+
       & span {
         color: red;
       }
     }
+
     & div {
       @extend %faj;
       font-size: 36px;
       font-weight: 700;
       height: 70px;
     }
+
     & .showName {
       @extend %faj;
       font-size: 20px;
       font-weight: 400;
       height: 70px;
+
       & span {
         @extend %flex,
         %jcontent;
@@ -106,30 +129,37 @@
         color: #a12836;
       }
     }
+
     & .showGif {
       @extend %faj;
       font-size: 20px;
       font-weight: 400;
       height: 70px;
+
       & span {
         @include lottBg("ballOpening.gif", 42px, 48px);
       }
     }
   }
+
   & .lott-top-right.pk10 {
     width: 440px;
+
     & p {
       @extend %faj;
       font-size: 14px;
+
       & span {
         color: red;
       }
     }
+
     & .showName {
       @extend %faj;
       font-size: 20px;
       font-weight: 400;
       height: 70px;
+
       & span {
         @extend %flex,
         %jcontent;
@@ -138,11 +168,13 @@
         color: #a12836;
       }
     }
+
     & .showGif {
       @extend %faj;
       font-size: 20px;
       font-weight: 400;
       height: 70px;
+
       & span {
         @include lottBg("ballOpening.gif", 42px, 48px);
       }
@@ -154,15 +186,18 @@
   @extend %flex;
   margin-top: 10px;
   border-top: 1px solid #ddd;
+
   .lott-left {
     width: 740px;
     min-height: 500px;
+
     & .lott-left-nav {
       @extend %flex,
       %aitems,
       %sbetween;
       height: 39px;
       border-bottom: 1px solid #ddd;
+
       & button {
         @extend %faj;
         border: none;
@@ -170,29 +205,35 @@
         height: 38px;
         background: linear-gradient(#fff 2%, #ececec);
         cursor: pointer;
+
         & span {
           @extend %faj;
           border: 1px solid #666;
           border-radius: 50%;
           width: 18px;
           height: 18px;
+
           & i {
             font-size: 14px;
             color: #666;
           }
         }
       }
+
       & button:nth-child(1) {
         border-right: 1px solid #ddd;
       }
+
       & button:nth-child(3) {
         border-left: 1px solid #ddd;
       }
+
       & .lott-left-navBox {
         width: 89.6%;
         height: 38px;
         overflow: hidden;
         position: relative;
+
         & ul {
           @extend %flex,
           %aitems;
@@ -200,6 +241,7 @@
           height: 38px;
           width: auto;
           transition: 1.2s;
+
           & li {
             @extend %faj;
             height: 38px;
@@ -208,6 +250,7 @@
             border-right: 1px solid #ddd;
             cursor: pointer;
           }
+
           & li.active {
             background: #f37036;
             color: #FFF;
@@ -215,24 +258,29 @@
         }
       }
     }
+
     & .getPlayTree {
       @extend %flex,
       %aitems;
       background: #f2f4f7;
       border-bottom: 1px solid #ddd;
+
       & ul {
         @extend %flex,
         %fr;
         padding-left: 14px;
+
         & li {
           @extend %faj;
           height: 38px;
           padding: 0px 20px;
           cursor: pointer;
         }
+
         & li:hover {
           color: red;
         }
+
         & li.active {
           height: 41px;
           color: red;
@@ -240,12 +288,14 @@
         }
       }
     }
+
     & .getPlayTreeBox {
       @extend %flex,
       %aitems;
       min-height: 38px;
       background: #E6E6E6;
       padding-left: 14px;
+
       & ul {
         & li {
           @extend %flex;
@@ -264,17 +314,22 @@
         }
       }
     }
+
     & .conterButBox {
       padding: 14px 14px;
+
       & .conterButTitle {
         margin-bottom: 16px;
+
         & i {
           color: red;
         }
+
         & i:nth-child(1) {
           margin-right: 6px;
         }
       }
+
       & .conterBut {
         background: url(../../../assets/img/lott/betBg.png);
         border-radius: 10px;
@@ -282,10 +337,12 @@
       }
     }
   }
+
   .lott-right {
     width: 258px;
     min-height: 500px;
     border-left: 1px solid #ddd;
+
     & .lott-right-top1,
     .lott-right-top3 {
       @extend %flex;
@@ -293,6 +350,7 @@
       @extend %sbetween;
       height: 38px;
       padding: 0px 8px;
+
       & button {
         @extend %flex;
         @extend %aitems;
@@ -305,13 +363,16 @@
         padding: 0 10px;
         cursor: pointer;
       }
+
       & p {
         @extend %flex;
         color: #555;
+
         & i {
           @extend %flex;
           padding: 0px 6px;
         }
+
         & span:hover,
         a:hover {
           color: #ff9600;
@@ -319,8 +380,10 @@
         }
       }
     }
+
     & .lott-right-top2,
     .lott-right-top4 {
+
       & p.lott-right-top2-title,
       p.lott-right-top4-title {
         @extend %flex;
@@ -329,16 +392,20 @@
         height: 28px;
         font-size: 12px;
         background: #f2f4f7;
+
         & span {
           @extend %faj;
         }
       }
+
       & ul {
         & li {
           @extend %flex,
           %aitems;
           height: 26px;
           border-bottom: 1px dashed #ebebeb;
+          cursor: pointer;
+
           & span {
             border-right: 1px dotted #ebebeb;
           }
@@ -353,21 +420,25 @@
   %fdc;
   font-size: 16px;
   margin-top: 24px;
+
   & p {
     @extend %faj;
     width: 100%;
     padding: 0px 0px 20px;
+
     & i {
       color: #f37036;
       margin: 0px 6px;
     }
   }
+
   & .butBox {
     @extend %flex,
     %aitems;
     justify-content: flex-end;
     width: 100%;
     height: 40px;
+
     & button {
       font-size: 20px;
       width: 150px;
@@ -380,22 +451,27 @@
       cursor: pointer;
       margin-left: 14px;
     }
+
     & button.add {
       background: #5f52a0;
     }
+
     & .numSum {
       @extend %flex,
       %aitems;
       width: 224px;
       height: 40px;
+
       & .trim {
         margin-right: 10px;
       }
+
       & .yd-spinner {
         width: 150px !important;
         height: 30px !important;
         border-radius: 15px !important;
         background: #ece2e2 !important;
+
         & a {
           width: 30px !important;
           height: 30px !important;
@@ -411,20 +487,25 @@
   min-height: 160px;
   border: 1px solid #ddd;
   margin-top: 20px;
+
   & .hurdleTitle {
     @extend %flex,
     %aitems;
     background: #e8eaef;
+
     & li {
       @extend %faj;
       height: 30px;
     }
+
     & li:nth-child(1) {
       width: 102px;
     }
+
     & li:nth-child(2) {
       width: 270px;
     }
+
     & li:nth-child(3),
     li:nth-child(4),
     li:nth-child(5),
@@ -432,30 +513,37 @@
     li:nth-child(7) {
       width: 64px;
     }
+
     & li:nth-child(7) {
       cursor: pointer;
       color: #f37036;
     }
   }
+
   & .addListBox {
     min-height: 130px;
     max-height: 390px;
     overflow: scroll;
     overflow-x: hidden;
   }
+
   & .addList {
     @extend %flex,
     %aitems;
+
     & li {
       @extend %faj;
       height: 30px;
     }
+
     & li:nth-child(1) {
       width: 114px;
     }
+
     & li:nth-child(2) {
       width: 270px;
       cursor: pointer;
+
       & span {
         flex-grow: 1;
         white-space: nowrap;
@@ -463,6 +551,7 @@
         text-overflow: ellipsis;
       }
     }
+
     & li:nth-child(3),
     li:nth-child(4),
     li:nth-child(5),
@@ -470,6 +559,7 @@
     li:nth-child(7) {
       width: 64px;
     }
+
     & li:nth-child(7) {
       color: #f37036;
       font-size: 16px;
@@ -483,13 +573,16 @@
   %sbetween;
   margin-top: 10px;
   height: 40px;
+
   & p {
     @extend %faj;
     font-size: 14px;
+
     & span {
       margin-right: 6px;
     }
   }
+
   & button {
     font-size: 20px;
     width: 150px;
@@ -532,6 +625,7 @@
 .lott-right-top2-span2 {
   @extend %faj;
   width: 50px;
+
   & i {
     margin: 0px 2px;
     color: #ff9600;
@@ -541,6 +635,7 @@
 .lott-right-top2-span2.ssc {
   @extend %faj;
   width: 80px;
+
   & i {
     margin: 0px 2px;
     color: #ff9600;
@@ -551,6 +646,7 @@
   @extend %faj;
   width: 128px;
   overflow: hidden;
+
   & i {
     margin: 0px 2px;
     color: #ff9600;
@@ -575,6 +671,7 @@
 .lott-right-top2-span4 {
   @extend %faj;
   width: 66px;
+
   & i {
     @extend %faj;
     margin: 0px 6px;
@@ -583,9 +680,11 @@
     border-radius: 4px;
     color: #FFF;
   }
+
   & .yellow {
     background: #ff9600;
   }
+
   & .blue {
     background: #5691d7;
   }
@@ -604,6 +703,7 @@
 .lott-right-top4-span3 {
   @extend %faj;
   width: 74.5px;
+
   & i {
     color: red;
   }
@@ -612,6 +712,7 @@
 .lott-right-top4-span3.status {
   @extend %faj;
   width: 74.5px;
+
   & i {
     color: #666;
   }
@@ -622,6 +723,7 @@
   @extend %aitems;
   height: 38px;
   padding: 0px 8px;
+
   & button {
     @extend %flex;
     @extend %aitems;
@@ -635,6 +737,7 @@
     cursor: pointer;
     margin-right: 10px;
   }
+
   & button.active {
     background: #455467;
     color: #FFF;
@@ -648,7 +751,166 @@ p.lott-right-top5-title,
   height: 28px;
   font-size: 12px;
   background: #f2f4f7;
+
   & span {
     @extend %faj;
+  }
+}
+
+.betingbox {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: rgba(64, 64, 64, .3);
+}
+
+.betingPop {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 960px;
+  height: 425px;
+  margin-left: -480px;
+  margin-top: -212px;
+  border-radius: 4px;
+  overflow: hidden;
+
+  & .title {
+    width: 100%;
+    height: 46px;
+    line-height: 46px;
+    background: rgb(175, 58, 49);
+
+    & span {
+      color: #fff;
+      font-size: 16px;
+      margin-left: 12px;
+      float: left;
+    }
+
+    & i {
+      float: right;
+      margin-right: 12px;
+      font-size: 30px;
+      color: #fff;
+      height: 30px;
+      line-height: 30px;
+      margin-top: 8px;
+    }
+
+    & i.transition:hover {
+      transition: All 4s ease-in-out;
+      transform: rotate(3600deg);
+    }
+  }
+}
+
+.layui-layer-content {
+  height: 379px;
+  padding: 15px 30px 32px;
+  background-image: -webkit-linear-gradient(bottom, #c7c0bd 0, #f9f3f3 100%);
+  background-image: linear-gradient(bottom, #c7c0bd 0, #f9f3f3 100%);
+
+  & .detailHeaderBox {
+    position: relative;
+    padding: 21px 30px;
+    overflow: hidden;
+
+    & .detailHeaderTitle {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    & .headerDetail {
+      float: left;
+      width: 300px;
+
+      & p {
+        margin-top: 15px;
+        font-size: 12px;
+      }
+    }
+
+    & .detailNumBox {
+      float: left;
+
+      & span {
+        padding-left: 25px;
+        color: #6b96ea;
+      }
+
+      & .detailNumTextArea {
+        width: 340px;
+        height: 95px;
+        resize: none;
+        padding: 10px;
+        outline: 0;
+        display: block;
+        margin-top: 10px;
+        background-color: #d3cdcb;
+        border-radius: 4px;
+        overflow: auto;
+      }
+    }
+  }
+
+  & .detailBody {
+    max-height: 330px;
+    overflow-x: hidden;
+
+    & table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+
+      & th {
+        background-color: #ddd0cd;
+        font-weight: 400;
+        text-align: center;
+        line-height: 40px;
+      }
+
+      & th:nth-child(even) {
+        background-color: #d4c6c3;
+      }
+
+      & td {
+        background-color: #e2dcda;
+        text-align: center;
+        line-height: 40px;
+      }
+
+      & td:nth-child(even) {
+        background-color: #dad4d1;
+      }
+    }
+  }
+
+  & .dialogBtn {
+    text-align: center;
+
+    & .btn {
+      margin-top: 24px;
+      margin-right: 10px;
+      height: 30px;
+      background-color: #EC511E;
+      color: #fff;
+      border-radius: 15px;
+      width: 100px;
+    }
+
+    & .btn.repealOrder {
+      background-color: #5999ab;
+      background-image: -webkit-linear-gradient(top, #5999ab 0, #43656f 100%);
+      background-image: linear-gradient(top, #5999ab 0, #43656f 100%);
+    }
+
+    & .btn.againBtn {
+      background-color: #ec8939;
+      background-image: -webkit-linear-gradient(top, #ec8939 0, #915d32 100%);
+      background-image: linear-gradient(top, #ec8939 0, #915d32 100%);
+    }
   }
 }

@@ -63,6 +63,11 @@ export default {
       ]
     };
   },
+  methods:{
+    getNoReadNoticeStatus(){
+      this.$parent.getNoReadNoticeStatus();
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

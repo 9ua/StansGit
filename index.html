@@ -18,9 +18,9 @@
   var script = document.createElement("script");
   script.src = "/static/js/times.js?v=" + Date.now();
   body.appendChild(script);
-  document.oncontextmenu = function () {
-    return false;
-  };
+  // document.oncontextmenu = function () {
+  //   return false;
+  // };
   document.onkeydown = function () {
     if (window.event && window.event.keyCode == 123) {
       event.keyCode = 0;

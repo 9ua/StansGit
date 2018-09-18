@@ -1,25 +1,21 @@
-<template>
-  <div class="bet">
-    <bet-content-top @emitGet="emitGet" ref="betContentTop"></bet-content-top>
-    <div class="lottBox">
-      <div class="lott-left">
-        <lott-left-nav @geteServerTime='geteServerTime' @exit='exit'></lott-left-nav>
-        <bet-content-k @clearTimeInters='clearTimeInters' ref="betContentK" v-if="$route.params.id === 'k3'"></bet-content-k>
-        <bet-content-s @clearTimeInters='clearTimeInters' ref="betContentS" v-if="$route.params.id === 'ssc'"></bet-content-s>
-        <bet-content-p @clearTimeInters='clearTimeInters' ref="betContentP" v-if="$route.params.id === 'pk10'"></bet-content-p>
-        <bet-content-x @clearTimeInters='clearTimeInters' ref="betContentX" v-if="$route.params.id === 'x11x5'"></bet-content-x>
-        <hurdle ref="hurdles" @iscreat='iscreat'></hurdle>
-      </div>
-      <div class="lott-right">
-        <today-lottery-k @emitGet="emitGet" v-if='$route.params.id === "k3"'></today-lottery-k>
-        <today-lottery-s @emitGet="emitGet" v-if="$route.params.id === 'ssc'"></today-lottery-s>
-        <today-lottery-p @emitGet="emitGet" v-if="$route.params.id === 'pk10'"></today-lottery-p>
-        <today-lottery-x @emitGet="emitGet" v-if="$route.params.id === 'x11x5'"></today-lottery-x>
-        <beting></beting>
-        <winning></winning>
-      </div>
-    </div>
-  </div>
+<template lang='jade'>
+.bet
+  bet-content-top(@emitget='emitGet', ref='betContentTop')
+  .lottBox
+    .lott-left
+      lott-left-nav(@exit='exit')
+      bet-content-k(@cleartimeinters='clearTimeInters', ref='betContentK', v-if="$route.params.id === 'k3'")
+      bet-content-s(@cleartimeinters='clearTimeInters', ref='betContentS', v-if="$route.params.id === 'ssc'")
+      bet-content-p(@cleartimeinters='clearTimeInters', ref='betContentP', v-if="$route.params.id === 'pk10'")
+      bet-content-x(@cleartimeinters='clearTimeInters', ref='betContentX', v-if="$route.params.id === 'x11x5'")
+      hurdle(ref='hurdles', @iscreat='iscreat')
+    .lott-right
+      today-lottery-k(@emitget='emitGet', v-if='$route.params.id === "k3"')
+      today-lottery-s(@emitget='emitGet', v-if="$route.params.id === 'ssc'")
+      today-lottery-p(@emitget='emitGet', v-if="$route.params.id === 'pk10'")
+      today-lottery-x(@emitget='emitGet', v-if="$route.params.id === 'x11x5'")
+      beting(@emitget='emitGet')
+      winning
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -50,7 +46,8 @@ export default {
       sgroups2: [],
       splayers: [],
       snumView: [],
-      current_player: null
+      current_player: null,
+      player_bonus: [],
     };
   },
   mounted() {
@@ -93,26 +90,70 @@ export default {
     },
     //玩法术
     getPlayTree() {
-      if (this.$route.params.id === "k3") {
-        this.playGroups = JSON.parse(
-          localStorage.getItem(
-            "getPlayTree_playGroups_" + this.$route.params.id
-          )
-        );
-        this.playBonus = JSON.parse(
-          localStorage.getItem("getPlayTree_playBonus_" + this.$route.params.id)
-        );
-        this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
-        this.$store.commit("CURRENT_PLAYER_BONUS", this.playBonus);
-      } else {
-        this.playGroups = JSON.parse(
-          localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.id)
-        );
-        this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
+      if(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.group) !== null){
+        if(this.$route.params.id === 'k3'){
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.group));
+          this.player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_" + this.$route.params.group));
+          this.setupPlayTree(this.playGroups);
+        }else{
+          this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.group));
+        }
+      }else{
+        this.$axios.get(baseUrl + "/api/lottery/getPlayTree?lotteryId="+this.$route.params.group).then(res =>{
+          if(this.$route.params.id === 'k3'){
+            localStorage.setItem("getPlayTree_playGroups_"+ this.$route.params.group,JSON.stringify(res.data.data.playGroups));
+            localStorage.setItem("getPlayTree_playBonus_"+ this.$route.params.group,JSON.stringify(res.data.data.playBonus));
+            this.playGroups = JSON.parse(localStorage.getItem("getPlayTree_playGroups_" + this.$route.params.group));
+            this.player_bonus = JSON.parse(localStorage.getItem("getPlayTree_playBonus_" + this.$route.params.group));
+            this.$store.commit("CURRENT_PLAYER_BONUS", this.playBonus);
+            this.setupPlayTree(this.playGroups);
+          }else{
+            localStorage.setItem("getPlayTree_playGroups_"+ this.$route.params.group,JSON.stringify(res.data.data.playGroups));
+            this.$store.commit("CURRENT_PLAYER_GROUPS", this.playGroups);
+          }
+        }).catch(error =>{
+          console.log(error);
+        });
       }
-      this.setupPlayTree(this.playGroups);
     },
     setupPlayTree(playGroups) {
+      let arr1 = [];
+      let arr2 = [];
+      let arrpeilv1 = this.player_bonus[3].bonusArray;
+      let arrpeilv2 = this.player_bonus[4].bonusArray;
+      for (let i in arrpeilv1) {
+        this.arrpeilva.push(arrpeilv1[i]);
+      }
+      for (let i = 0; i < this.arrpeilva.length / 2; i++) {
+        arr1.push(this.arrpeilva[i]);
+      }
+      for (
+        let i = this.arrpeilva.length / 2;
+        i < this.arrpeilva.length;
+        i++
+      ) {
+        arr2.push(this.arrpeilva[i]);
+      }
+      for (let i in arrpeilv2) {
+        this.arrpeilvb.push(arrpeilv2[i]);
+      }
+      this.arrpeilvc.push(arr1);
+      this.arrpeilvc.push(arr2);
+      this.arrpeilvc.push(this.arrpeilvb);
+      for (let i = 0; i < this.playGroups.length; i++) {
+        for (let j = 0; j < this.playGroups[i].groups.length; j++) {
+          for (let k = 0;k < this.playGroups[i].groups[j].players.length;k++) {
+            for (let l = 0;l <this.playGroups[i].groups[j].players[0].numView.length;l++) {
+              for (let m = 0;m <this.playGroups[i].groups[j].players[0].numView[l].nums.length;m++) {
+                if (i === 2) {
+                  this.playGroups[2].groups[j].players[0].numView[l].nums[m]["lottRot"] = this.arrpeilvc[l][m];
+                }
+              }
+            }
+          }
+        }
+      }
+      localStorage.setItem("getPlayTree_playGroups_"+ this.$route.params.group,JSON.stringify(this.playGroups));
       for (let i = 0; i < playGroups.length; i++) {
         this.splayGroups.push(playGroups[i]);
       }

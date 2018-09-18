@@ -1,24 +1,16 @@
-<template>
-  <!-- 我的投注 -->
-  <div>
-    <div class="lott-left-nav">
-      <button @click="lottnavleft">
-        <span>
-          <i class="el-icon-caret-left"></i>
-        </span>
-      </button>
-      <div class="lott-left-navBox" ref="lottnavbox">
-        <ul ref="lottnavUl" :style="{transform: 'translateX(' + left + 'px)'}">
-          <li ref="lottnavLi" :class="{'active':index === lottNameIndex}" v-for="(item,index) in lotteryList" :key="index" @click="lottListNav(item,index)">{{item.name}}</li>
-        </ul>
-      </div>
-      <button @click="lottnavright">
-        <span>
-          <i class="el-icon-caret-right"></i>
-        </span>
-      </button>
-    </div>
-  </div>
+<template lang='jade'>
+<!-- 我的投注 -->
+div
+  .lott-left-nav
+    button(@click='lottnavleft')
+      span
+        i.el-icon-caret-left
+    .lott-left-navBox(ref='lottnavbox')
+      ul(ref='lottnavUl', :style="{transform: 'translateX(' + left + 'px)'}")
+        li(ref='lottnavLi', :class="{'active':index === lottNameIndex}", v-for='(item,index) in lotteryList', :key='index', @click='lottListNav(item,index)') {{item.name}}
+    button(@click='lottnavright')
+      span
+        i.el-icon-caret-right
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -37,10 +29,10 @@ export default {
       arrLottId: [],
       arrLottName: [],
       lottNameIndex: 0,
-      historyNum:0
+      historyNum: 0
     };
   },
-  beforeDestroy(){
+  beforeDestroy() {
     this.historyNum = 0;
     this.$store.state.historyNum = 0;
   },
@@ -99,7 +91,7 @@ export default {
     },
     //导航点击
     lottListNav(item, index) {
-      this.historyNum ++;
+      this.historyNum++;
       this.$store.state.historyNum = this.historyNum;
       this.lottName = this.arrLottName[this.arrLottName.indexOf(item.name)];
       this.lottNameIndex = index;
@@ -107,7 +99,7 @@ export default {
       this.$emit("exit");
       this.$router.push("/bet/" + this.$route.params.id + "/" + item.id);
       this.$parent.getPlayTree(); //玩法术
-      this.$emit("geteServerTime"); //获取彩種當前獎期時間
+      this.$parent.geteServerTime(); //获取彩種當前獎期時間
     },
     //导航右边点击
     lottnavright() {

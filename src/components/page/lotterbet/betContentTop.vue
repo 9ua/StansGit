@@ -1,57 +1,53 @@
-<template>
-  <!-- 头部 -->
-  <div class="lott-top">
-    <div class="lott-top-left">
-      <img :src='"@/assets/img/lott/"+$route.params.id+".png"' alt="" />
-      <span>{{lottName}}</span>
-    </div>
-    <div class="lott-top-middle k3">
-      <p>第
-        <span>{{seasonId}}</span>期 剩余投注时间</p>
-      <div>{{countDown}}</div>
-    </div>
-    <div class="lott-top-right k3" v-if="$route.params.id === 'k3'">
-      <p>第
-        <span>{{lastSeasonId}}</span>期 开奖结果</p>
-      <div class="showGif" v-show="isshowGif">
-        <span v-for="(item,index) in 3"></span>
-      </div>
-      <div class="showName" v-show="!isshowGif">
-        <img :src='"@/assets/img/lott/k3n"+n1+".jpg"' alt="">
-        <img :src='"@/assets/img/lott/k3n"+n2+".jpg"' alt="">
-        <img :src='"@/assets/img/lott/k3n"+n3+".jpg"' alt=""> </div>
-    </div>
-    <div class="lott-top-right ssc" v-if="$route.params.id === 'ssc'">
-      <p>第
-        <span>{{lastSeasonId}}</span>期 开奖结果</p>
-      <div class="showName" v-show="!isshowGif">
-        <span v-for="(item,index) in nBox" v-if="index < 5">{{item}}</span>
-      </div>
-      <div class="showGif" v-show="isshowGif">
-        <span v-for="(item,index) in 5"></span>
-      </div>
-    </div>
-    <div class="lott-top-right pk10" v-if="$route.params.id === 'pk10'">
-      <p>第
-        <span>{{lastSeasonId}}</span>期 开奖结果</p>
-      <div class="showName" v-show="!isshowGif">
-        <span v-for="(item,index) in nBox">{{item}}</span>
-      </div>
-      <div class="showGif" v-show="isshowGif">
-        <span v-for="(item,index) in 10"></span>
-      </div>
-    </div>
-    <div class="lott-top-right ssc" v-if="$route.params.id === 'x11x5'">
-      <p>第
-        <span>{{lastSeasonId}}</span>期 开奖结果</p>
-      <div class="showName" v-show="!isshowGif">
-        <span v-for="(item,index) in nBox" v-if="index < 5">{{item &lt; 10 ? "0"+item : item}}</span>
-      </div>
-      <div class="showGif" v-show="isshowGif">
-        <span v-for="(item,index) in 5"></span>
-      </div>
-    </div>
-  </div>
+<template lang='jade'>
+<!-- 头部 -->
+.lott-top
+  .lott-top-left
+    img(:src='"@/assets/img/lott/"+$route.params.id+".png"', alt='')
+    span {{lottName}}
+  .lott-top-middle.k3
+    p
+      | 第
+      span {{seasonId}}
+      | 期 剩余投注时间
+    div {{countDown}}
+  .lott-top-right.k3(v-if="$route.params.id === 'k3'")
+    p
+      | 第
+      span {{lastSeasonId}}
+      | 期 开奖结果
+    .showGif(v-show='isshowGif')
+      span(v-for='(item,index) in 3')
+    .showName(v-show='!isshowGif')
+      img(:src='"@/assets/img/lott/k3n"+n1+".jpg"', alt='')
+      img(:src='"@/assets/img/lott/k3n"+n2+".jpg"', alt='')
+      img(:src='"@/assets/img/lott/k3n"+n3+".jpg"', alt='')
+  .lott-top-right.ssc(v-if="$route.params.id === 'ssc'")
+    p
+      | 第
+      span {{lastSeasonId}}
+      | 期 开奖结果
+    .showName(v-show='!isshowGif')
+      span(v-for='(item,index) in nBox', v-if='index < 5') {{item}}
+    .showGif(v-show='isshowGif')
+      span(v-for='(item,index) in 5')
+  .lott-top-right.pk10(v-if="$route.params.id === 'pk10'")
+    p
+      | 第
+      span {{lastSeasonId}}
+      | 期 开奖结果
+    .showName(v-show='!isshowGif')
+      span(v-for='(item,index) in nBox') {{item}}
+    .showGif(v-show='isshowGif')
+      span(v-for='(item,index) in 10')
+  .lott-top-right.ssc(v-if="$route.params.id === 'x11x5'")
+    p
+      | 第
+      span {{lastSeasonId}}
+      | 期 开奖结果
+    .showName(v-show='!isshowGif')
+      span(v-for='(item,index) in nBox', v-if='index < 5') {{item < 10 ? "0"+item : item}}
+    .showGif(v-show='isshowGif')
+      span(v-for='(item,index) in 5')
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -102,7 +98,7 @@ export default {
         this.geteServerTime();
       }
     },
-    clearTimeInter(){
+    clearTimeInter() {
       if (this.timer) {
         for (let i = 0; i <= this.timer; i++) {
           clearInterval(i);
@@ -157,7 +153,10 @@ export default {
           this.nBox[7] = this.getPastOpens[0].n8;
           this.nBox[8] = this.getPastOpens[0].n9;
           this.nBox[9] = this.getPastOpens[0].n10;
-          if (this.lastSeasonId && Number(res.data.data[0].seasonId) !== Number(this.lastSeasonId)) {
+          if (
+            this.lastSeasonId &&
+            Number(res.data.data[0].seasonId) !== Number(this.lastSeasonId)
+          ) {
             this.isshowGif = true;
             if (res.data.data[0].lotteryId === this.$route.params.group) {
               this.reGetPastOp();
@@ -165,7 +164,7 @@ export default {
           } else {
             clearTimeout(this.timer2);
             this.isshowGif = false;
-            this.$emit("emitGet"); //我的投注
+            this.$emit("emitget"); //我的投注
           }
         })
         .catch(error => {
