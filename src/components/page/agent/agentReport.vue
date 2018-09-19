@@ -41,8 +41,8 @@
             em {{userTeam.lowerCount|addR}}
             span 下级人数
           li
-            em {{userTeam.teamAmount|money}}
-            span 团队余额
+            em {{userTeam.teamCount}}
+            span 团队人数
         ul.plMore
           li
             em {{userTeam.rechargeAmount|money}}
@@ -54,6 +54,8 @@
             em {{userTeam.agentRebateAmount|money}}
             span 代理返点
           li
+            em {{userTeam.teamAmount|money}}
+            span 团队余额
           li
         .userTip
           p
