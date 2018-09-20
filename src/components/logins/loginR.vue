@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       captchaCodeImg: "",
-      newDate: null, //时间戳
+      newDate: null, 
       userinfo: {
         inviteCode: "",
         username: "",
