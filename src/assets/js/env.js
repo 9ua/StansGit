@@ -12,7 +12,7 @@ let baseUrl = '';
 //test & prod
 if (process.env.NODE_ENV === 'production') {
   if (location.hostname === 'qt.edu0370.com')
-    baseUrl = 'http://' + location.hostname.replace('m.', '') + '/';
+    baseUrl = 'http://www.edu0370.com/';
   else
     baseUrl = 'https://' + location.hostname.replace('m.', '') + '/';
   if (location.hostname === '10.25.8.171')
