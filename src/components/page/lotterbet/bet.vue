@@ -16,6 +16,7 @@
       today-lottery-x(@emitget='emitGet', v-if="$route.params.id === 'x11x5'")
       beting(@emitget='emitGet')
       winning
+  detailpop    
 </template>
 <script>
 import { baseUrl } from "../../../assets/js/env";
@@ -32,6 +33,7 @@ import betContentS from "./betContentSSC.vue"; //选号模块
 import betContentP from "./betContentPK10.vue"; //选号模块
 import betContentX from "./betContentX11X5.vue"; //选号模块
 import hurdle from "./hurdle.vue"; //号码
+import detailpop from './detailpop.vue';//中奖通知
 export default {
   data() {
     return {
@@ -181,7 +183,8 @@ export default {
     betContentS,
     betContentP,
     betContentX,
-    hurdle
+    hurdle,
+    detailpop
   }
 };
 </script>
